@@ -246,6 +246,8 @@
 
   .jump{ color:var(--topo); cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
   .jump:hover{ color:var(--arith); }
+  button.jump,button.tip{ background:none; border:0; padding:0; font:inherit; }
+  button.tip{ color:inherit; }
 
   /* tooltips: hover or keyboard focus */
   .tt{ border-bottom:1px dotted #999; cursor:help; position:relative; }
@@ -322,7 +324,7 @@
     <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. That taming does not propagate up the tower (higher floors ramify at ∞), which is why the convention — unramified outside S ∪ {∞} — must be stated; it is spelled out in visible text just below. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
     <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry)</button>
     <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2 — p ≡ 1 (mod 4) tames ∞ for the resolvent Q(√p) only, not higher (the quartic subfield of Q(ζ₁₃) is already imaginary). So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ (Morishita, Knots and Primes, ch. 9–12).</div>
-    <div class="small-note">And one more entry, from this app's running example (<span class="jump" onclick="gotoTab('zeta')">Zeta tab</span>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — the same number on both sides.</div>
+    <div class="small-note">And one more entry, from this app's running example (<button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — the same number on both sides.</div>
 
     <div class="coda">
       <div class="lede">One thread, told twice.</div>
@@ -426,7 +428,7 @@
         </div>
         <div id="borro3dWrap" style="display:none;">
           <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
-          <div class="small-note">Drag to rotate. <span class="tip" id="fsTooltip">Why ellipses, not circles?</span></div>
+          <div class="small-note">Drag or arrow keys to rotate. <button type="button" class="tip" id="fsTooltip" aria-expanded="false" aria-controls="fsExplain">Why ellipses, not circles?</button></div>
           <div class="small-note" id="fsExplain" style="display:none;">By a theorem of Freedman–Skora, the Borromean rings cannot be realized by three round circles in space — these are genuine ellipses (semi-axes a=2, b=1.1), one in each coordinate plane.</div>
         </div>
         <div id="topoTripleSteps"></div>
@@ -471,7 +473,7 @@
         <canvas id="b4Canvas" width="420" height="430"></canvas>
         <div class="small-note" id="b4LkNote"></div>
         <div class="controls">
-          <select id="deleteSelect" class="ctrl">
+          <select id="deleteSelect" class="ctrl" aria-label="component to delete">
             <option value="1">delete K1</option>
             <option value="2">delete K2</option>
             <option value="3">delete K3</option>
@@ -531,7 +533,7 @@
         <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every Euler factor of its zeta is a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
         <table class="symbolic" id="dedekindFactors"></table>
         <div class="controls">
-          <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100">
+          <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100" aria-label="summation limit N">
           <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">N = 2000</span>
         </div>
         <div class="euler-vals" aria-live="polite">
@@ -539,7 +541,7 @@
           <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
           <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
         </div>
-        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><span class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</span>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor.</div>
+        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor.</div>
       </div>
     </div>
     <div class="caption-strip">The same √5 on both sides: the knot's monodromy stretches by φ², and φ is the fundamental unit of the field — the eigenvalue of the flow is the unit of the arithmetic. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
@@ -582,7 +584,7 @@
 
     <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">The ladder, live: Frobenius as a matrix</div>
     <div style="max-width:840px;margin:0 auto;">
-      <p style="font-size:.92rem;color:var(--muted);">For the pair (13, 61) of the Triples tab, every odd prime q ∤ 13·61 gets an actual matrix ρ(Frob<sub>q</sub>) ∈ N₃(F₂): the superdiagonal entries are its two Legendre symbols (0 for +1, 1 for −1), and the corner is its splitting in the Rédei field k₁₃,₆₁ — <b>defined only when the superdiagonal vanishes</b>, because only then is the corner independent of the choices (<span class="tt" data-tip="Frobenius is only well-defined up to conjugation. Conjugating a unitriangular matrix can change the corner entry by multiples of the superdiagonal entries — so the corner is pinned down exactly when those vanish. This is the algebraic face of 'the next invariant is defined because the previous level vanished.'">why?</span>). Everything below is computed live: two Euler-criterion symbols, and — when both vanish — Tonelli–Shanks for √13 mod q and the Legendre symbol of α = 23 + 6√13 mod q. <b>The definedness domain, precisely:</b> the corner — the splitting of q in the <i>fixed</i> field k₁₃,₆₁ — is defined for every odd unramified q once the superdiagonal vanishes, whatever q is mod 4. The <span class="jump" onclick="gotoTab('triples')">Rédei symbol</span> [13, 61, q] is the same number when moreover q ≡ 1 (mod 4): that extra congruence buys the symbol its symmetry and reciprocity — what makes it a triple <i>linking</i> number, matching μ̄ — not the definedness of the corner. So the Rédei-symbol routine rejects q ≡ 3 (mod 4) while this matrix does not; the self-tests pin both behaviors at q = 107, by design.</p>
+      <p style="font-size:.92rem;color:var(--muted);">For the pair (13, 61) of the Triples tab, every odd prime q ∤ 13·61 gets an actual matrix ρ(Frob<sub>q</sub>) ∈ N₃(F₂): the superdiagonal entries are its two Legendre symbols (0 for +1, 1 for −1), and the corner is its splitting in the Rédei field k₁₃,₆₁ — <b>defined only when the superdiagonal vanishes</b>, because only then is the corner independent of the choices (<span class="tt" data-tip="Frobenius is only well-defined up to conjugation. Conjugating a unitriangular matrix can change the corner entry by multiples of the superdiagonal entries — so the corner is pinned down exactly when those vanish. This is the algebraic face of 'the next invariant is defined because the previous level vanished.'">why?</span>). Everything below is computed live: two Euler-criterion symbols, and — when both vanish — Tonelli–Shanks for √13 mod q and the Legendre symbol of α = 23 + 6√13 mod q. <b>The definedness domain, precisely:</b> the corner — the splitting of q in the <i>fixed</i> field k₁₃,₆₁ — is defined for every odd unramified q once the superdiagonal vanishes, whatever q is mod 4. The <button type="button" class="jump" onclick="gotoTab('triples')">Rédei symbol</button> [13, 61, q] is the same number when moreover q ≡ 1 (mod 4): that extra congruence buys the symbol its symmetry and reciprocity — what makes it a triple <i>linking</i> number, matching μ̄ — not the definedness of the corner. So the Rédei-symbol routine rejects q ≡ 3 (mod 4) while this matrix does not; the self-tests pin both behaviors at q = 107, by design.</p>
       <div class="calc-row">
         <button class="ctrl" id="frobPreset107">q = 107</button>
         <button class="ctrl" id="frobPreset937">q = 937</button>
@@ -1465,9 +1467,11 @@ document.getElementById("borro3dToggle").addEventListener("click", () => {
   wrap.style.display = showing ? "none" : "block";
   if (!showing && !borro3dState) initBorro3D();
 });
-document.getElementById("fsTooltip").addEventListener("click", () => {
+document.getElementById("fsTooltip").addEventListener("click", e => {
   const el = document.getElementById("fsExplain");
-  el.style.display = el.style.display === "none" ? "block" : "none";
+  const show = el.style.display === "none";
+  el.style.display = show ? "block" : "none";
+  e.currentTarget.setAttribute("aria-expanded", String(show));
 });
 
 function initBorro3D() {
@@ -1508,6 +1512,15 @@ function initBorro3D() {
     group.add(new THREE.Line(geom, mat));
   });
 
+  container.tabIndex = 0;
+  container.setAttribute("aria-label", "3D Borromean rings; drag, or focus and press arrow keys, to rotate");
+  container.addEventListener("keydown", e => {
+    const d = { ArrowLeft: [0, -1], ArrowRight: [0, 1], ArrowUp: [-1, 0], ArrowDown: [1, 0] }[e.key];
+    if (!d) return;
+    e.preventDefault();
+    group.rotation.x += d[0] * 0.15;
+    group.rotation.y += d[1] * 0.15;
+  });
   let dragging = false, lastX = 0, lastY = 0;
   renderer.domElement.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
   window.addEventListener("mouseup", () => dragging = false);
@@ -2327,7 +2340,7 @@ function renderFrobenius(q) {
       : `. (q ≡ 3 mod 4: the splitting datum is well-defined for any odd unramified q, but the symmetric Rédei symbol — the triple <i>linking</i> reading — asks for q ≡ 1 mod 4; see the domain note above.)`;
     text = `(13/${q}) = (61/${q}) = +1, and α = 23 + 6·√13 ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>square</b> mod ${q}: q = ${q} splits completely in the degree-8 field k₁₃,₆₁. Frobenius is the <b>identity matrix</b>${tail}`;
   } else {
-    const tail = q === 937n ? `This is exactly <span class="jump" onclick="gotoTab('triples')">the Triples tab's [13, 61, 937] = −1</span>, now wearing its matrix.`
+    const tail = q === 937n ? `This is exactly <button type="button" class="jump" onclick="gotoTab('triples')">the Triples tab's [13, 61, 937] = −1</button>, now wearing its matrix.`
       : q % 4n === 1n ? `q = ${q} is linked to the pair only at the triple level — a Borromean partner: [13, 61, ${q}] = −1.`
       : `q = ${q} does not split completely in k₁₃,₆₁ — an honest fact about a fixed field. (q ≡ 3 mod 4: outside the domain of the symmetric Rédei symbol, so no Borromean/μ̄ reading is asserted; see the domain note above.)`;
     text = `(13/${q}) = (61/${q}) = +1 — pairwise invisible — but α ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>non-square</b> mod ${q}: the corner lights up. ${tail}`;
@@ -2700,6 +2713,21 @@ function runSelfTests() {
     return ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
       && document.querySelector(".euler-vals").getAttribute("aria-live") === "polite"
       && ga("pairsWarn", "role") === "alert" && ga("frobWarn", "role") === "alert";
+  });
+  t("DOM R3-A5: jump links and the ellipse toggle are real buttons (fsTooltip syncs aria-expanded); select and slider carry accessible names; 3D note offers arrow keys", () => {
+    const jumps = [...document.querySelectorAll(".jump")];
+    if (jumps.length < 3 || !jumps.every(el => el.tagName === "BUTTON" && el.type === "button")) return false;
+    const fs = document.getElementById("fsTooltip");
+    if (fs.tagName !== "BUTTON" || ga("fsTooltip", "aria-controls") !== "fsExplain") return false;
+    const was = ga("fsTooltip", "aria-expanded");
+    fs.click();
+    const toggled = ga("fsTooltip", "aria-expanded") !== was
+      && (document.getElementById("fsExplain").style.display === "block") === (was === "false");
+    fs.click();
+    return toggled && ga("fsTooltip", "aria-expanded") === was
+      && (ga("deleteSelect", "aria-label") || "").length > 0
+      && ga("dedekindN", "aria-label") === "summation limit N"
+      && document.querySelector("#borro3dWrap .small-note").textContent.includes("arrow keys");
   });
 
   const list = document.getElementById("testList");

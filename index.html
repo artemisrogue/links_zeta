@@ -2270,7 +2270,7 @@ function initLadder() {
   const n3cells = {
     "0,1": { text: "χ₁", cls: "diag1", tip: "Pairwise level: lk(K1,K2) mod 2 / the Legendre symbol (p1/p2)." },
     "1,2": { text: "χ₂", cls: "diag1", tip: "Pairwise level: lk(K2,K3) mod 2 / the Legendre symbol (p2/p3)." },
-    "0,2": { text: "r", cls: "corner", tip: "Triple level: splitting in the Rédei field — defined exactly when both χ vanish, any odd unramified q. If also q ≡ 1 (mod 4) it is the symmetric Rédei symbol, mirror of μ̄(123) — the live panel's two-tier domain." },
+    "0,2": { text: "r", cls: "corner", tip: "Splitting in the Rédei field; defined when both χ vanish. For q ≡ 1 mod 4 it is the Rédei symbol, mirror of μ̄(123)." },
   };
   document.getElementById("matN3").replaceWith(withId(buildMat(3, n3cells), "matN3"));
 

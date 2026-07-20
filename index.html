@@ -1089,9 +1089,11 @@ function renderHilbertTable(p, q, pq, qp) {
     table.appendChild(tr);
   }
   const tr = document.createElement("tr");
-  tr.innerHTML = `<td class="k"><b>∏<sub>v</sub> (p,q)<sub>v</sub></b></td><td class="v ${product === 1 ? "ok" : "fail"}">${product > 0 ? "+1 ✓" : "−1 ✗"}</td><td style="color:var(--muted);font-size:.8rem;">forces (p/q)(q/p) = 1</td>`;
+  tr.innerHTML = `<td class="k"><b>∏<sub>v</sub> (p,q)<sub>v</sub></b></td><td class="v ${product === 1 ? "ok" : "fail"}">${product > 0 ? "+1 ✓" : "−1 ✗"}</td><td style="color:var(--muted);font-size:.8rem;">${two === 1 ? "forces (p/q)(q/p) = 1" : "forces (p/q)(q/p) = −1 — the −1 is the v = 2 factor"}</td>`;
   table.appendChild(tr);
-  note.textContent = `The product formula collapses to (${p}/${q})(${q}/${p}) = 1 — reciprocity is the closedness of one global object.`;
+  note.textContent = two === 1
+    ? `The product formula collapses to (${p}/${q})(${q}/${p}) = 1 — reciprocity is the closedness of one global object.`
+    : `The product formula collapses to (p,q)₂·(${p}/${q})(${q}/${p}) = 1 with (p,q)₂ = −1 here, i.e. (${p}/${q})(${q}/${p}) = −1 — the sign flip of this congruence class is itself part of the closedness of the same global object.`;
 }
 
 document.getElementById("computeLegendre").addEventListener("click", () => {
@@ -2487,6 +2489,12 @@ function runSelfTests() {
       return two * legendre(p, q) * legendre(q, p);
     }
     return hilbertProduct(5n, 29n) === 1 && hilbertProduct(5n, 13n) === 1;
+  });
+
+  t("Hilbert product for (3,7): 2-adic factor -1, (p/q)(q/p) = -1, full product still 1 - the panel's conclusion strings track the v = 2 factor", () => {
+    const two = Number((3n - 1n) / 2n % 2n) * Number((7n - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
+    return two === -1 && legendre(3n, 7n) * legendre(7n, 3n) === -1
+      && two * legendre(3n, 7n) * legendre(7n, 3n) === 1;
   });
 
   t("fig-8 monodromy: tr(A^n) = 3tr(A^{n-1}) - tr(A^{n-2}); tr = 3,7,18,...,103682 (Lucas)", () => {

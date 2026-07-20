@@ -676,7 +676,7 @@ function bigGcd(a, b) {
   return a;
 }
 
-// [p1,p2,q] via alpha = x + y*sqrt(p1); certificate must be Redei-NORMALIZED (gcd 1, y even, x-y = 1 mod 4): scaling by k multiplies the value by (k/q).
+// [p1,p2,q]; certificate must be Redei-NORMALIZED (gcd 1, y even, x-y = 1 mod 4): scaling by k multiplies the value by (k/q).
 function redeiSymbol(p1, p2, q, x, y, z) {
   if (z === undefined) z = 1n;
   const identity = x * x - p1 * y * y - p2 * z * z;
@@ -763,7 +763,7 @@ function angleOnCircle(circle, pt) {
   return Math.atan2((pt.y - circle.cy) / (circle.sy || 1), (pt.x - circle.cx) / (circle.sx || 1));
 }
 
-// Arrowhead at p along dir — the SAME direction every signed count uses.
+// arrowhead at p along dir — the SAME dir every signed count uses.
 function drawOrientationArrow(ctx, p, dir, color) {
   const len = Math.hypot(dir.x, dir.y) || 1;
   const ux = dir.x / len, uy = dir.y / len;
@@ -853,7 +853,7 @@ function expandDeltaBor() {
   return polyMul(polyMul(f1, f2), f3);
 }
 
-// .tt terms: tab stop + button semantics; re-run after dynamic renders.
+// .tt terms: tab stop + button semantics; re-run after renders.
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
     el.setAttribute("tabindex", "0");
@@ -867,7 +867,7 @@ window.gotoTab = function (name) {
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
-// Pin: click/Enter/Space; close: outside click, re-toggle, Escape; tip mirrors into #ttReadout.
+// pin: click/Enter/Space; close: outside/re-toggle/Escape; tip mirrors into #ttReadout.
 function ttAnnounce(t) {
   document.getElementById("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
@@ -875,7 +875,7 @@ function ttAnnounce(t) {
 function ttSet(t, open) {
   t.classList.toggle("tt-open", open);
   t.setAttribute("aria-expanded", String(open));
-  // near the top, pinned tips open downward
+  // near top, pinned tips open downward
   t.classList.toggle("tt-below", open && t.getBoundingClientRect().top < 340);
   if (open) ttAnnounce(t);
 }
@@ -897,7 +897,7 @@ document.addEventListener("keydown", e => {
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
 
-// ARIA tablist wiring (buttons stay in the Tab order)
+// ARIA tablist wiring (buttons stay in Tab order)
 document.querySelector("nav.tabs").setAttribute("role", "tablist");
 document.querySelectorAll(".tab-btn").forEach(btn => {
   const n = btn.dataset.tab;
@@ -1388,7 +1388,7 @@ function borroComputeLk() {
   return out; // {"12":0,"13":0,"23":0} expected
 }
 
-// Magnus expansion of the longitude [x1,x2] of K3 — Milnor's computation of mu(123).
+// Magnus expansion of the longitude [x1,x2] of K3 — Milnor's mu(123).
 function computeMagnusLongitude12() {
   const X1 = mgGen(1), X2 = mgGen(2);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 };
@@ -1585,7 +1585,7 @@ function renderTripleSteps() {
 }
 
 function renderTripleHasse() {
-  // Diamond lattice: Q < Q(√13), Q(√61) < Q(√13,√61) < k_{13,61}.
+  // Diamond: Q < Q(√13), Q(√61) < Q(√13,√61) < k_{13,61}.
   const svg = document.getElementById("tripleHasse");
   svg.innerHTML = `
 <g font-size="12" text-anchor="middle">
@@ -1660,7 +1660,7 @@ function b4wSampleLine(p0, p1, n, out) {
   }
 }
 
-// Path (["C",x0,y0,c1x,c1y,c2x,c2y,x1,y1] / ["L",x0,y0,x1,y1]) -> closed polyline, projected.
+// ["C",8 coords] / ["L",x0,y0,x1,y1] -> closed polyline, projected.
 function b4wPathToPoly(segs) {
   const pt = (s, i) => ({ x: s[i], y: s[i + 1] });
   const pts = [pt(segs[0], 1)];
@@ -1875,7 +1875,7 @@ const B4W_DELETE_TEXT = {
   B: "Cut K4 (blue): the red–blue frame is broken and the remaining three separate.",
 };
 
-const B4W_HOME_TEXT = document.getElementById("b4WordNote").textContent; // captured so Restore cannot drift from the static note
+const B4W_HOME_TEXT = document.getElementById("b4WordNote").textContent; // pins the static note
 document.getElementById("deleteBtn").addEventListener("click", () => {
   b4wDeleted = B4W_SELMAP[document.getElementById("deleteSelect").value];
   document.getElementById("b4WordNote").textContent =
@@ -1901,7 +1901,7 @@ function renderMagnus() {
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
 
-// θ = (a+b√5) + (c+d√5)√101. X² − 101Z² = α does NOT determine θ (exploits rejected in self-tests).
+// θ = (a+b√5) + (c+d√5)√101. X² − 101Z² = α does NOT determine θ.
 function quadThetaEmbeddings(a, b, c, d) {
   const s5 = Math.sqrt(5), s101 = Math.sqrt(101), out = [];
   for (const e5 of [1, -1]) for (const e101 of [1, -1])
@@ -2586,11 +2586,15 @@ function runSelfTests() {
   });
 
   // R3 DOM assertions: rendered text pinned per amendment 3
-  t("DOM: b4WordNote quantifies over K1..K3 only, glosses the collapse as algebraic shadow, credits triviality to the model, and handles K4 separately; Restore reuses this exact text", () => {
-    const s = document.getElementById("b4WordNote").textContent;
-    return s.includes("Delete K₁, K₂, or K₃") && s.includes("algebraic shadow") && s.includes("Milnor data vanish")
-      && s.includes("model's construction") && s.includes("no x₄ to set")
-      && !s.includes("Delete ANY component") && B4W_HOME_TEXT === s;
+  t("DOM: b4WordNote home text quantifies over K1..K3 only, glosses collapse as algebraic shadow, credits the model, handles K4 separately (state-robust); Restore exercised live", () => {
+    const s = B4W_HOME_TEXT;
+    if (!(s.includes("Delete K₁, K₂, or K₃") && s.includes("algebraic shadow") && s.includes("Milnor data vanish")
+      && s.includes("model's construction") && s.includes("no x₄ to set") && !s.includes("Delete ANY component"))) return false;
+    const was = b4wDeleted;
+    document.getElementById("restoreBtn").click();
+    const ok = b4wDeleted === null && document.getElementById("b4WordNote").textContent === s;
+    if (was) document.getElementById("deleteBtn").click();
+    return ok;
   });
   t("DOM: orbit-product face states its sufficient hypothesis (Anosov, closed torus, positive eigenvalues), tooltip carries the -A counterexample", () => {
     const f = [...document.querySelectorAll("#tab-zeta .zeta-face .fname")].find(e => e.textContent.includes("Product over periodic orbits"));

@@ -1957,7 +1957,7 @@ function renderQuadSteps() {
   steps.push({
     head: "2b. Triple Rédei symbols — all vanish (+1): the triple level is trivial",
     body: tripleResults.map(t => `${t.label} = ${t.value > 0 ? "+1" : "−1"}`).join(" &nbsp; ")
-      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Note the first two entries: [5, 8081, 101] and [5, 101, 8081] are the <i>same three primes in different orders</i>, computed through two entirely different Rédei elements (α = 241+100√5 versus 11+2√5) — and they agree. That is <span class="tt" data-tip="Rédei's symbol is invariant under all permutations of its three entries — the arithmetic mirror of μ̄'s symmetry properties. Proved by Rédei (1939); the computation here exhibits one instance live.">Rédei reciprocity</span>, witnessed live.</div>`
+      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Note the first two entries: [5, 8081, 101] and [5, 101, 8081] are the <i>same three primes in different orders</i>, computed through two entirely different Rédei elements (α = 241+100√5 versus 11+2√5) — and they agree. That is <span class="tt" data-tip="Rédei's symbol is invariant under all permutations of its three entries — the arithmetic mirror of μ̄'s symmetry properties. Stated by Rédei (1939), but his symmetry argument is regarded as incomplete; the first complete proofs are modern (Corsman 2007; Stevenhagen), and mod 2 it also follows from Morishita's μ̄-identification (2004), the Triples tab's citation. The computation here exhibits one transposition instance live, not all of S₃.">Rédei reciprocity</span>, witnessed live.</div>`
   });
 
   const thetaX = 25n, c5 = 2n, c101 = 2n;
@@ -2609,6 +2609,13 @@ function runSelfTests() {
   });
 
   // R3 DOM assertions: rendered text pinned per amendment 3
+  t("DOM: Redei reciprocity tooltip (rendered in #quadSteps) hedges the 1939 provenance and scopes the live evidence to one transposition", () => {
+    return [...document.querySelectorAll("#quadSteps [data-tip]")].some(el => {
+      const s = el.getAttribute("data-tip");
+      return s.includes("Stated by Rédei (1939)") && s.includes("Corsman 2007") && s.includes("Stevenhagen")
+        && s.includes("Morishita") && s.includes("one transposition instance");
+    });
+  });
   t("DOM: Main Conjecture attribution carries the parity hypothesis (Mazur-Wiles odd l; l = 2 by Greither)", () => {
     const demo = [...document.querySelectorAll("#tab-zeta .poly-demo")].find(d => d.textContent.includes("Iwasawa Main Conjecture"));
     if (!demo || !demo.textContent.includes("Mazur–Wiles; ℓ = 2 by Greither")) return false;

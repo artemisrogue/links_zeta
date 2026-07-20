@@ -2082,7 +2082,7 @@ function renderQuadTower() {
    acting on H1 of its fiber (a once-punctured torus). Three faces:
      S(t) = exp( Σ tr(Aⁿ) tⁿ/n )            — sum over iterates
      E(t) = det(I − tA)⁻¹ = (1−3t+t²)⁻¹      — product over eigenvalues
-     Z(t) = exp( Σ Fix(hⁿ) tⁿ/n ) = ∏_γ (1−t^{|γ|})^{−o_γ}  — orbits (on T²)
+     Z(t) = exp( Σ Fix(hⁿ) tⁿ/n ) = ∏_d (1−t^d)^{−o_d}  — periods d (on T²)
    with Fix(hⁿ) = |det(Aⁿ−I)| = tr(Aⁿ) − 2, and orbit counts o_d obtained by
    Möbius inversion. Everything below is computed, nothing is quoted.       */
 
@@ -2164,7 +2164,7 @@ function renderLefschetz() {
   ];
   const rows2 = [
     ["exp( Σ Fix(hⁿ)·tⁿ/n )", fixFace],
-    ["∏_γ (1 − t^{|γ|})^{−o_γ}", orbFace],
+    ["∏_d (1 − t^d)^{−o_d}", orbFace],
   ];
   const fmt = a => a.map(x => Math.round(x)).join(", ");
   const eq1 = sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6);
@@ -2180,7 +2180,7 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues: the two faces of ζ_h (the coefficients are F₂, F₄, F₆, …)</span><br>
       ${rows2[0][0]} = ${fmt(fixFace)}<br>${rows2[1][0]} = ${fmt(orbFace)}
        &nbsp;<span class="${eq2 ? "ok" : "fail"}">${eq2 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta</span><br>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta (this product runs over periods d, with o_d the table's primitive-orbit count; grouping the orbit-indexed face-3 product ∏_γ by period |γ| = d gives exactly one factor (1 − t^d)^{−o_d} per period)</span><br>
       (1−t)²·(H₁ face) = ${fmt(cross)}
        &nbsp;<span class="${eq3 ? "ok" : "fail"}">${eq3 ? "✓ equals the orbit face" : "✗"}</span>
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;

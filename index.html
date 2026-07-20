@@ -1904,6 +1904,24 @@ function renderMagnus() {
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
 
+// θ-certificates for the quadruple level: θ = (a + b√5) + (c + d√5)·√101.
+// The defining identity X² − 101Z² = α (X = a+b√5, Z = c+d√5) does NOT determine θ:
+// other integral solutions pass it yet certify the opposite verdict — see the rejected
+// θ′ exploit in the self-tests. Amano's independence theorem makes [p1,p2,p3,p4] a
+// function of the four primes only when K = compositum(√θ) is Galois over Q with group
+// N₄(F₂) and ramified exactly at {p1,p2,p3}. Live-computable necessary pieces: the
+// identity, and total positivity of θ (= K unramified at ∞); the rest is cited.
+function quadThetaEmbeddings(a, b, c, d) {
+  const s5 = Math.sqrt(5), s101 = Math.sqrt(101), out = [];
+  for (const e5 of [1, -1]) for (const e101 of [1, -1])
+    out.push((a + b * e5 * s5) + (c + d * e5 * s5) * e101 * s101);
+  return out;
+}
+function quadThetaTotallyPositive(a, b, c, d) { return quadThetaEmbeddings(a, b, c, d).every(v => v > 0); }
+function quadThetaIdentity(a, b, c, d) { // residuals against α = 241 + 100√5, exact BigInt
+  return [a * a + 5n * b * b - 101n * (c * c + 5n * d * d) - 241n, 2n * a * b - 202n * c * d - 100n];
+}
+
 function renderQuadSteps() {
   const container = document.getElementById("quadSteps");
   container.innerHTML = "";
@@ -1947,10 +1965,13 @@ function renderQuadSteps() {
   const sqrt5Coef = 2n * thetaX * c5;
   const ratCheck = ratPart - alphaX;
   const sqrt5Check = sqrt5Coef - alphaY;
+  const thetaEmb = quadThetaEmbeddings(25, 2, 2, 0);
+  const thetaPos = thetaEmb.every(v => v > 0);
   steps.push({
-    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. Its defining identity is the Rédei equation run one level higher, and it exists because the triple symbols all vanished.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5], where α = 241 + 100√5 is the Rédei element of (5, 8081) from step 2`,
+    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. The identity below does NOT pin θ down by itself: other integral solutions of X² − 101Z² = α pass it and certify the opposite verdict (one is exhibited and rejected in the self-tests). By Amano's independence theorem the bracket is a function of the four primes exactly when K = compositum(√θ) is Galois over Q with group N₄(F₂) and ramified only at 5, 8081, 101 — in particular unramified at ∞ (θ totally positive: checked live below) and at 2 (Amano's 2-adic normalization: cited, not computed — the same standard as the Wirtinger presentation on the Triples tab).">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5], where α = 241 + 100√5 is the Rédei element of (5, 8081) from step 2 (identity + positivity checks)`,
     body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
       + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
+      + `<br>totally positive (K unramified at ∞): embeddings ≈ {${thetaEmb.map(v => v.toFixed(2)).join(", ")}} <span class="${thetaPos ? "ok" : "fail"}">${thetaPos ? "all > 0 ✓" : "NOT totally positive ✗"}</span>`
   });
 
   const roots5 = tonelliShanks(5n, 449n);
@@ -1981,7 +2002,7 @@ function renderQuadSteps() {
 
   const allNeg = conjLegs.every(l => l === -1);
   const banner = document.getElementById("quadBanner");
-  banner.innerHTML = `<b>[5, 8081, 101, 449] = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
+  banner.innerHTML = `<b><span class="tt" data-tip="Typesetting a 4-ary bracket asserts the value depends on the four primes alone, not on the certificate θ. That is Amano's independence theorem, valid under the conditions stated and checked in step 3 — the defining identity alone would not justify this notation (see the rejected θ′ exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
 
   renderMagnus();
   renderQuadTower();
@@ -2409,6 +2430,17 @@ function runSelfTests() {
     const sortedVals = [...vals].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
     const sortedExp = [...expected].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
     return arrEq(sortedVals, sortedExp) && vals.every(v => legendre(v, 449n) === -1);
+  });
+
+  t("theta-certificate dependence closed: theta' = 494+225sqrt5+(50+22sqrt5)sqrt101 satisfies the same defining identity, but its four conjugates mod 449 are all squares (it would certify the OPPOSITE verdict) — rejected: not totally positive", () => {
+    const [r, s] = quadThetaIdentity(494n, 225n, 50n, 22n);
+    if (r !== 0n || s !== 0n) return false;                        // passes the displayed identity
+    if (quadThetaTotallyPositive(494, 225, 50, 22)) return false;  // fails the positivity check
+    if (!quadThetaTotallyPositive(25, 2, 2, 0)) return false;      // the real theta passes it
+    const conj = [];
+    for (const r5 of [118n, 331n]) for (const r101 of [185n, 264n])
+      conj.push((((494n + 225n * r5) + (50n + 22n * r5) * r101) % 449n + 449n) % 449n);
+    return conj.every(v => legendre(v, 449n) === 1);               // all squares: verdict flipped
   });
 
   t("Magnus: coeff X1X2X3 === 1, X2X1X3 === -1", () => {

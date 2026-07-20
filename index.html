@@ -1004,7 +1004,11 @@ function renderLegendreTable(p, q) {
     warn.textContent = p === q ? "p and q must be distinct primes."
       : (p === 2n || q === 2n) ? "p and q must be odd — the prime 2 needs its own local analysis (it is the ramification the mod-4 convention tames)."
       : "Enter two distinct odd primes — Euler's criterion presumes an odd prime modulus.";
-    if (p === 2n || q === 2n) { table.innerHTML = ""; banner.textContent = ""; renderHilbertTable(p, q, null, null); return; }
+    // Every hypothesis just failed, so nothing below may be computed or typeset:
+    // Euler's criterion with a composite modulus is meaningless, and the splits/inert
+    // banner and Hilbert product rows are statements whose defining conditions are gone.
+    renderHilbertTable(p, q, null, null);
+    return;
   } else if (isOneMod4(p) && isOneMod4(q)) {
     warn.style.color = "var(--muted)";
     warn.textContent = "Both ≡ 1 (mod 4): the papers' orientability convention — the 2-adic factor is +1 and (p/q) = (q/p) on the nose.";

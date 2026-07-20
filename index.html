@@ -577,7 +577,7 @@
 
     <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">The ladder, live: Frobenius as a matrix</div>
     <div style="max-width:840px;margin:0 auto;">
-      <p style="font-size:.92rem;color:var(--muted);">For the pair (13, 61) of the Triples tab, every odd prime q ∤ 13·61 gets an actual matrix ρ(Frob<sub>q</sub>) ∈ N₃(F₂): the superdiagonal entries are its two Legendre symbols (0 for +1, 1 for −1), and the corner is its splitting in the Rédei field k₁₃,₆₁ — <b>defined only when the superdiagonal vanishes</b>, because only then is the corner independent of the choices (<span class="tt" data-tip="Frobenius is only well-defined up to conjugation. Conjugating a unitriangular matrix can change the corner entry by multiples of the superdiagonal entries — so the corner is pinned down exactly when those vanish. This is the algebraic face of 'the next invariant is defined because the previous level vanished.'">why?</span>). Everything below is computed live: two Euler-criterion symbols, and — when both vanish — Tonelli–Shanks for √13 mod q and the Legendre symbol of α = 23 + 6√13 mod q.</p>
+      <p style="font-size:.92rem;color:var(--muted);">For the pair (13, 61) of the Triples tab, every odd prime q ∤ 13·61 gets an actual matrix ρ(Frob<sub>q</sub>) ∈ N₃(F₂): the superdiagonal entries are its two Legendre symbols (0 for +1, 1 for −1), and the corner is its splitting in the Rédei field k₁₃,₆₁ — <b>defined only when the superdiagonal vanishes</b>, because only then is the corner independent of the choices (<span class="tt" data-tip="Frobenius is only well-defined up to conjugation. Conjugating a unitriangular matrix can change the corner entry by multiples of the superdiagonal entries — so the corner is pinned down exactly when those vanish. This is the algebraic face of 'the next invariant is defined because the previous level vanished.'">why?</span>). Everything below is computed live: two Euler-criterion symbols, and — when both vanish — Tonelli–Shanks for √13 mod q and the Legendre symbol of α = 23 + 6√13 mod q. <b>The definedness domain, precisely:</b> the corner — the splitting of q in the <i>fixed</i> field k₁₃,₆₁ — is defined for every odd unramified q once the superdiagonal vanishes, whatever q is mod 4. The <span class="jump" onclick="gotoTab('triples')">Rédei symbol</span> [13, 61, q] is the same number when moreover q ≡ 1 (mod 4): that extra congruence buys the symbol its symmetry and reciprocity — what makes it a triple <i>linking</i> number, matching μ̄ — not the definedness of the corner. So the Rédei-symbol routine rejects q ≡ 3 (mod 4) while this matrix does not; the self-tests pin both behaviors at q = 107, by design.</p>
       <div class="calc-row">
         <button class="ctrl" id="frobPreset107">q = 107</button>
         <button class="ctrl" id="frobPreset937">q = 937</button>
@@ -2356,9 +2356,15 @@ function renderFrobenius(q) {
   if (f.r === null) {
     text = `(13/${q}) = ${f.chi1 ? "−1" : "+1"}, (61/${q}) = ${f.chi2 ? "−1" : "+1"}: the pairwise level is already nonzero — q = ${q} is "linked" with ${f.chi1 && f.chi2 ? "both 13 and 61" : f.chi1 ? "13" : "61"}. The corner is <b>not an invariant</b> here (hover the ∗): the ladder stops at the first nonvanishing level.`;
   } else if (f.r === 0) {
-    text = `(13/${q}) = (61/${q}) = +1, and α = 23 + 6·√13 ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>square</b> mod ${q}: q = ${q} splits completely in the degree-8 field k₁₃,₆₁. Frobenius is the <b>identity matrix</b> — q is completely unlinked from the pair, through the triple level.`;
+    const tail = q % 4n === 1n
+      ? ` — q is completely unlinked from the pair, through the triple level: the Rédei symbol [13, 61, ${q}] = +1.`
+      : `. (q ≡ 3 mod 4: the splitting datum is well-defined for any odd unramified q, but the symmetric Rédei symbol — the triple <i>linking</i> reading — asks for q ≡ 1 mod 4; see the domain note above.)`;
+    text = `(13/${q}) = (61/${q}) = +1, and α = 23 + 6·√13 ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>square</b> mod ${q}: q = ${q} splits completely in the degree-8 field k₁₃,₆₁. Frobenius is the <b>identity matrix</b>${tail}`;
   } else {
-    text = `(13/${q}) = (61/${q}) = +1 — pairwise invisible — but α ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>non-square</b> mod ${q}: the corner lights up. ${q === 937n ? `This is exactly <span class="jump" onclick="gotoTab('triples')">the Triples tab's [13, 61, 937] = −1</span>, now wearing its matrix.` : "q = " + q + " is linked to the pair only at the triple level — a Borromean partner."}`;
+    const tail = q === 937n ? `This is exactly <span class="jump" onclick="gotoTab('triples')">the Triples tab's [13, 61, 937] = −1</span>, now wearing its matrix.`
+      : q % 4n === 1n ? `q = ${q} is linked to the pair only at the triple level — a Borromean partner: [13, 61, ${q}] = −1.`
+      : `q = ${q} does not split completely in k₁₃,₆₁ — an honest fact about a fixed field. (q ≡ 3 mod 4: outside the domain of the symmetric Rédei symbol, so no Borromean/μ̄ reading is asserted; see the domain note above.)`;
+    text = `(13/${q}) = (61/${q}) = +1 — pairwise invisible — but α ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>non-square</b> mod ${q}: the corner lights up. ${tail}`;
   }
   exp.innerHTML = `<div class="step" style="margin:0;">${text}</div>`;
   ttFocusable();
@@ -2538,6 +2544,13 @@ function runSelfTests() {
   t("Frobenius matrix: rho(Frob_107) is the identity (splits completely in k_{13,61})", () => {
     const f = frobeniusMatrix1361(107n);
     return !f.err && f.chi1 === 0 && f.chi2 === 0 && f.r === 0;
+  });
+
+  t("two-tier domain by design: corner of rho(Frob_107) is a defined splitting datum (107 = 3 mod 4), while the symmetric Redei SYMBOL [13,61,107] is rejected by the mod-4 check", () => {
+    const f = frobeniusMatrix1361(107n);
+    let threw = false;
+    try { redeiSymbol(13n, 61n, 107n, 23n, 6n, 1n); } catch (e) { threw = /mod 4/.test(e.message); }
+    return !f.err && f.r === 0 && threw && 107n % 4n === 3n;
   });
 
   t("Frobenius matrix: corner undefined when superdiagonal nonzero (q=5: chi=(1,0); q=17: chi=(0,1))", () => {

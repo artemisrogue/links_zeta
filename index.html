@@ -710,7 +710,7 @@ function isPrimeSmall(n) { // trial division, fine for teaching-scale inputs
 }
 
 // Strict input parsing: plain decimal integers only (rejects "1e5", "1.5", "-7"),
-// capped at 9 digits so trial division stays instantaneous.
+// capped at 9 digits (fast trial division).
 function parseIntegerInput(raw) {
   raw = String(raw).trim();
   if (!/^[0-9]{1,9}$/.test(raw)) return null;
@@ -2270,7 +2270,7 @@ function initLadder() {
   const n3cells = {
     "0,1": { text: "χ₁", cls: "diag1", tip: "Pairwise level: lk(K1,K2) mod 2 / the Legendre symbol (p1/p2)." },
     "1,2": { text: "χ₂", cls: "diag1", tip: "Pairwise level: lk(K2,K3) mod 2 / the Legendre symbol (p2/p3)." },
-    "0,2": { text: "r", cls: "corner", tip: "Splitting in the Rédei field; defined when both χ vanish. For q ≡ 1 mod 4 it is the Rédei symbol, mirror of μ̄(123)." },
+    "0,2": { text: "r", cls: "corner", tip: "Splitting in the Rédei field; defined when both χ vanish. If q ≡ 1 mod 4: the Rédei symbol ↔ μ̄(123)." },
   };
   document.getElementById("matN3").replaceWith(withId(buildMat(3, n3cells), "matN3"));
 

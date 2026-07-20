@@ -1985,6 +1985,7 @@ function renderQuadSteps() {
     body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
       + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
       + `<br>totally positive (K unramified at ∞): embeddings ≈ {${thetaEmb.map(v => v.toFixed(2)).join(", ")}} <span class="${thetaPos ? "ok" : "fail"}">${thetaPos ? "all > 0 ✓" : "NOT totally positive ✗"}</span>`
+      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Why check positivity? The identity alone does not pin θ down: other solutions of X² − 101Z² = α pass it yet certify the <i>opposite</i> verdict — exhibited and rejected in the self-tests. Total positivity (with Amano's 2-adic normalization, cited not computed) excludes them; that is what makes the bracket below a function of the four primes alone (Amano's independence theorem).</div>`
   });
 
   const roots5 = tonelliShanks(5n, 449n);
@@ -2672,6 +2673,10 @@ function runSelfTests() {
     return s.includes("unramified outside S ∪ {∞}") && s.includes("eᵢ = v_ℓ(pᵢ − 1)")
       && s.includes("Z/4 × Z/4") && s.includes("Z/4 × Z/2")
       && q.includes("gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4)");
+  });
+  t("DOM R3-N2: quad step 3 says visibly why positivity is checked (identity does not pin theta down; other solutions certify the opposite verdict; Amano independence)", () => {
+    const q = document.getElementById("quadSteps").textContent;
+    return q.includes("does not pin θ down") && q.includes("opposite") && q.includes("Amano's independence theorem");
   });
 
   const list = document.getElementById("testList");

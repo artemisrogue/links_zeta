@@ -1914,13 +1914,10 @@ function renderMagnus() {
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
 
-// θ-certificates for the quadruple level: θ = (a + b√5) + (c + d√5)·√101.
-// The defining identity X² − 101Z² = α (X = a+b√5, Z = c+d√5) does NOT determine θ:
-// other integral solutions pass it yet certify the opposite verdict — see the rejected
-// θ′ exploit in the self-tests. Amano's independence theorem makes [p1,p2,p3,p4] a
-// function of the four primes only when K = compositum(√θ) is Galois over Q with group
-// N₄(F₂) and ramified exactly at {p1,p2,p3}. Live-computable necessary pieces: the
-// identity, and total positivity of θ (= K unramified at ∞); the rest is cited.
+// θ-certificates, θ = (a + b√5) + (c + d√5)·√101. The identity X² − 101Z² = α does
+// NOT determine θ (see the rejected exploits in the self-tests); Amano's theorem needs
+// K Galois/Q with group N₄(F₂), ramified only at {p1,p2,p3}. Live-checkable pieces:
+// the identity, and total positivity (= unramified at ∞); the rest is cited.
 function quadThetaEmbeddings(a, b, c, d) {
   const s5 = Math.sqrt(5), s101 = Math.sqrt(101), out = [];
   for (const e5 of [1, -1]) for (const e101 of [1, -1])
@@ -1978,7 +1975,7 @@ function renderQuadSteps() {
   const thetaEmb = quadThetaEmbeddings(25, 2, 2, 0);
   const thetaPos = thetaEmb.every(v => v > 0);
   steps.push({
-    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. The identity below does NOT pin θ down by itself: other integral solutions of X² − 101Z² = α pass it and certify the opposite verdict (one is exhibited and rejected in the self-tests). By Amano's independence theorem the bracket is a function of the four primes exactly when K = compositum(√θ) is Galois over Q with group N₄(F₂) and ramified only at 5, 8081, 101 — in particular unramified at ∞ (θ totally positive: checked live below) and at 2 (Amano's 2-adic normalization: cited, not computed — the same standard as the Wirtinger presentation on the Triples tab). The failure mechanism, explicitly: two solutions differ by a norm-1 factor η = ξ/ξ̄ (Hilbert 90), which replaces K(√θ) by the twist K(√(N(ξ)·θ)) — certificate-scaling exactly as in redeiSymbol, one ring up. ξ = 10 + √101 has N(ξ) = −1: it sends θ to θ″ = −(10+√101)²·θ, totally negative, generating the imaginary ∞-ramified twist K(√−θ) — and mod 449 the exploit is invisible, since (−1/449) = +1. Positivity catches it; self-tested.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5], where α = 241 + 100√5 is the Rédei element of (5, 8081) from step 2 (identity + positivity checks)`,
+    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element of Z[√5], one ring up, whose square root generates K over the compositum of the two Rédei fields. The identity below does NOT pin θ down: other solutions of X² − 101Z² = α pass it yet certify the opposite verdict (exhibited and rejected in the self-tests). Amano's independence theorem makes the bracket a function of the four primes exactly when K = compositum(√θ) is Galois over Q with group N₄(F₂), ramified only at 5, 8081, 101 — so unramified at ∞ (θ totally positive: checked live below) and at 2 (Amano's 2-adic normalization: cited, not computed — the Triples tab's Wirtinger standard). Mechanism: solutions differ by norm-1 factors η = ξ/ξ̄ (Hilbert 90), twisting K(√θ) to K(√(N(ξ)θ)) — redeiSymbol's certificate-scaling, one ring up; ξ = 10+√101 (norm −1) gives θ″ = −(10+√101)²·θ, totally negative — an imaginary, ∞-ramified K(√−θ) — invisible mod 449 since (−1/449) = +1. Positivity catches both exploits; self-tested.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5], where α = 241 + 100√5 is the Rédei element of (5, 8081) from step 2 (identity + positivity checks)`,
     body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
       + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
       + `<br>totally positive (K unramified at ∞): embeddings ≈ {${thetaEmb.map(v => v.toFixed(2)).join(", ")}} <span class="${thetaPos ? "ok" : "fail"}">${thetaPos ? "all > 0 ✓" : "NOT totally positive ✗"}</span>`
@@ -2012,7 +2009,7 @@ function renderQuadSteps() {
 
   const allNeg = conjLegs.every(l => l === -1);
   const banner = document.getElementById("quadBanner");
-  banner.innerHTML = `<b><span class="tt" data-tip="Typesetting a 4-ary bracket asserts the value depends on the four primes alone, not on the certificate θ. That is Amano's independence theorem, valid under the conditions stated and checked in step 3 — the defining identity alone would not justify this notation (see the rejected θ′ exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
+  banner.innerHTML = `<b><span class="tt" data-tip="The 4-ary notation asserts the value depends on the four primes alone, not on θ: that is Amano's independence theorem, under the step-3 conditions — the identity alone would not justify it (see the rejected exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
 
   renderMagnus();
   renderQuadTower();
@@ -2448,22 +2445,22 @@ function runSelfTests() {
     return arrEq(sortedVals, sortedExp) && vals.every(v => legendre(v, 449n) === -1);
   });
 
-  t("theta-certificate dependence closed: theta' = 494+225sqrt5+(50+22sqrt5)sqrt101 satisfies the same defining identity, but its four conjugates mod 449 are all squares (it would certify the OPPOSITE verdict) — rejected: not totally positive", () => {
+  t("theta' = 494+225sqrt5+(50+22sqrt5)sqrt101: same defining identity, all four conjugates mod 449 square (OPPOSITE verdict) - rejected: not totally positive", () => {
     const [r, s] = quadThetaIdentity(494n, 225n, 50n, 22n);
-    if (r !== 0n || s !== 0n) return false;                        // passes the displayed identity
-    if (quadThetaTotallyPositive(494, 225, 50, 22)) return false;  // fails the positivity check
-    if (!quadThetaTotallyPositive(25, 2, 2, 0)) return false;      // the real theta passes it
+    if (r !== 0n || s !== 0n) return false;                        // passes the identity
+    if (quadThetaTotallyPositive(494, 225, 50, 22)) return false;  // fails positivity
+    if (!quadThetaTotallyPositive(25, 2, 2, 0)) return false;      // real theta passes
     const conj = [];
     for (const r5 of [118n, 331n]) for (const r101 of [185n, 264n])
       conj.push((((494n + 225n * r5) + (50n + 22n * r5) * r101) % 449n + 449n) % 449n);
     return conj.every(v => legendre(v, 449n) === 1);               // all squares: verdict flipped
   });
 
-  t("unit-twist exploit closed: theta'' = -(10+sqrt101)^2*theta satisfies the identity and is mod-449 INVISIBLE ((-1/449) = +1, all four symbols still -1) but is totally negative - its K(sqrt(theta'')) is imaginary, ramified at infinity; positivity rejects it", () => {
+  t("theta'' = -(10+sqrt101)^2*theta: same identity, mod-449 INVISIBLE ((-1/449) = +1, symbols all -1), totally negative (imaginary field, ramified at infinity) - positivity rejects it", () => {
     const [r, s] = quadThetaIdentity(-9065n, -402n, -902n, -40n);
-    if (r !== 0n || s !== 0n) return false;                             // passes the identity
-    if (!quadThetaEmbeddings(-9065, -402, -902, -40).every(v => v < 0)) return false; // totally negative
-    if (quadThetaTotallyPositive(-9065, -402, -902, -40)) return false; // hence rejected
+    if (r !== 0n || s !== 0n) return false;
+    if (!quadThetaEmbeddings(-9065, -402, -902, -40).every(v => v < 0)) return false;
+    if (quadThetaTotallyPositive(-9065, -402, -902, -40)) return false;
     const conj = [];
     for (const r5 of [118n, 331n]) for (const r101 of [185n, 264n])
       conj.push((((-9065n - 402n * r5) + (-902n - 40n * r5) * r101) % 449n + 449n) % 449n);

@@ -1,0 +1,2534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knots &amp; Primes — Both Sides of the Mirror</title>
+<style>
+  :root{
+    --topo:#1b6ca8;
+    --topo-bg:#eaf3fa;
+    --arith:#c0392b;
+    --arith-bg:#fbecea;
+    --ink:#1c1c1c;
+    --muted:#666;
+    --paper:#fbfaf7;
+    --line:#d9d4c8;
+    --good:#1e7e34;
+    --bad:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.45;
+  }
+  header{
+    padding:22px 28px 10px;
+    border-bottom:2px solid var(--ink);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.55rem;
+    font-weight:600;
+    letter-spacing:.2px;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:.95rem;
+    font-style:italic;
+  }
+  nav.tabs{
+    display:flex;
+    gap:2px;
+    padding:0 24px;
+    background:#efece3;
+    border-bottom:2px solid var(--ink);
+    flex-wrap:wrap;
+  }
+  nav.tabs button{
+    font-family:inherit;
+    font-size:1rem;
+    padding:11px 18px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    color:var(--muted);
+  }
+  nav.tabs button:hover{ color:var(--ink); }
+  nav.tabs button.active{
+    color:var(--ink);
+    border-bottom:3px solid var(--ink);
+    font-weight:600;
+    background:var(--paper);
+  }
+  main{ padding:22px 28px 60px; max-width:1180px; margin:0 auto; }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; animation:fade .25s ease; }
+  @keyframes fade{ from{opacity:0} to{opacity:1} }
+
+  .twocol{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    align-items:stretch;
+  }
+  @media (max-width:820px){ .twocol{ grid-template-columns:1fr; } }
+
+  .col{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 18px 20px;
+    background:#fff;
+  }
+  .col.topo{ border-left:6px solid var(--topo); }
+  .col.arith{ border-left:6px solid var(--arith); }
+  .col h2{
+    margin:0 0 4px;
+    font-size:1.05rem;
+    letter-spacing:.3px;
+    text-transform:uppercase;
+  }
+  .col.topo h2{ color:var(--topo); }
+  .col.arith h2{ color:var(--arith); }
+  .col .sub{ color:var(--muted); font-size:.85rem; margin-bottom:12px; }
+
+  .caption-strip{
+    margin-top:18px;
+    padding:12px 18px;
+    background:#efece3;
+    border-radius:6px;
+    font-style:italic;
+    text-align:center;
+    border:1px dashed var(--line);
+  }
+
+  .section-head{
+    margin:26px 0 12px;
+    font-size:1.05rem;
+    font-weight:600;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+  }
+
+  canvas{ display:block; margin:0 auto; background:#fdfdfb; border:1px solid var(--line); border-radius:4px; max-width:100%; }
+
+  .controls{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; justify-content:center; align-items:center; }
+  button.ctrl{
+    font-family:inherit;
+    font-size:.85rem;
+    padding:7px 13px;
+    border-radius:5px;
+    border:1px solid var(--line);
+    background:#fff;
+    cursor:pointer;
+  }
+  button.ctrl:hover{ background:#f2f0e8; }
+  button.ctrl.primary{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .col.topo button.ctrl.primary{ background:var(--topo); border-color:var(--topo); }
+  .col.arith button.ctrl.primary{ background:var(--arith); border-color:var(--arith); }
+
+  .state-label{ text-align:center; font-size:1rem; font-weight:600; margin:6px 0; min-height:1.3em; }
+  .state-label.topo{ color:var(--topo); }
+
+  .calc-row{ display:flex; align-items:center; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:8px; }
+  .calc-row label{ font-size:.85rem; color:var(--muted); }
+  .calc-row input{
+    width:80px; font-family:inherit; font-size:.95rem;
+    padding:5px 7px; border:1px solid var(--line); border-radius:4px;
+  }
+  .warn{ color:var(--bad); font-size:.8rem; text-align:center; min-height:1.2em; }
+
+  table.symbolic{ width:100%; border-collapse:collapse; margin:10px 0; font-size:.92rem; }
+  table.symbolic td, table.symbolic th{ padding:4px 8px; border-bottom:1px solid #eee; text-align:left; }
+  table.symbolic td.k{ color:var(--muted); width:45%; }
+  table.symbolic td.v{ font-weight:600; font-family:"Cambria Math",Cambria,serif; }
+
+  .step{ margin:10px 0 14px; padding:10px 12px; background:#fafaf6; border:1px solid var(--line); border-radius:5px; font-size:.92rem; }
+  .step .head{ font-weight:600; margin-bottom:4px; }
+  .step .eq{ font-family:"Cambria Math",Cambria,serif; }
+  .ok{ color:var(--good); font-weight:700; }
+  .fail{ color:var(--bad); font-weight:700; }
+
+  .banner{
+    margin-top:14px; padding:12px 16px; border-radius:6px;
+    background:var(--arith-bg); border:1px solid var(--arith);
+    text-align:center; font-size:1.05rem;
+  }
+  .banner b{ color:var(--arith); }
+  .banner.topo{ background:var(--topo-bg); border-color:var(--topo); }
+  .banner.topo b{ color:var(--topo); }
+
+  svg text{ font-family:inherit; }
+  .hasse-box{ fill:#fff; stroke:var(--ink); stroke-width:1.2; }
+  .hasse-label{ font-size:12px; }
+
+  .magnus-box{
+    font-family:"Cambria Math",Cambria,serif; font-size:1.05rem;
+    text-align:center; padding:14px; background:#fafaf6; border:1px solid var(--line); border-radius:6px; margin:12px 0;
+  }
+  .magnus-box .hi{ color:var(--topo); font-weight:700; background:var(--topo-bg); padding:1px 5px; border-radius:3px; }
+
+  .honest{ font-size:.85rem; color:var(--muted); font-style:italic; margin-top:10px; text-align:center; }
+
+  /* Dictionary table */
+  table.dict{ width:100%; border-collapse:collapse; margin:16px 0; }
+  table.dict th{
+    padding:10px 14px; font-size:1rem; text-transform:uppercase; letter-spacing:.5px;
+    border-bottom:2px solid var(--ink); text-align:left;
+  }
+  table.dict th.t{ color:var(--topo); }
+  table.dict th.a{ color:var(--arith); }
+  table.dict td{
+    padding:9px 14px; border-bottom:1px solid var(--line); font-size:.95rem;
+    font-family:"Cambria Math",Cambria,serif;
+    transition:background .2s;
+  }
+  table.dict tr:hover td{ background:#f6f3ea; }
+  table.dict td.t{ color:var(--topo); }
+  table.dict td.a{ color:var(--arith); }
+  .coda{
+    margin-top:22px; padding:16px 22px; background:#fff; border:1px solid var(--line);
+    border-radius:6px; font-size:.98rem;
+  }
+  .coda .lede{ font-weight:600; font-style:italic; }
+
+  /* Ladder matrices */
+  .matrices{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; margin:20px 0; }
+  .matrix-card{ text-align:center; }
+  .matrix-card h3{ margin:0 0 6px; font-size:.9rem; color:var(--ink); }
+  .matrix-card .order{ font-size:.75rem; color:var(--muted); margin-bottom:6px; }
+  table.mat{ border-collapse:collapse; margin:0 auto; }
+  table.mat td{
+    width:38px; height:38px; text-align:center; vertical-align:middle;
+    border:1px solid var(--ink); font-size:.85rem; font-family:"Cambria Math",Cambria,serif;
+    transition:background .4s;
+  }
+  table.mat td.diag1{ color:var(--topo); font-weight:700; }
+  table.mat td.diag2{ color:var(--arith); font-weight:700; }
+  table.mat td.corner{ font-weight:700; }
+  table.mat td.lit{ background:#fff6cc; }
+  .arrow-btn{ font-size:1.6rem; cursor:pointer; user-select:none; color:var(--muted); border:none; background:none; }
+  .arrow-btn:hover{ color:var(--ink); }
+  .ladder-note{ text-align:center; min-height:2.4em; color:var(--muted); font-size:.9rem; margin-top:6px; }
+
+  /* Zeta tab */
+  .zeta-face{ padding:12px 14px; margin:8px 0; background:#fafaf6; border:1px solid var(--line); border-radius:5px; }
+  .zeta-face .fname{ font-weight:600; font-size:.85rem; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); }
+  .zeta-face .feq{ font-family:"Cambria Math",Cambria,serif; font-size:1rem; margin-top:3px; }
+  .euler-vals{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; font-family:"Cambria Math",Cambria,serif; margin-top:8px; }
+  .euler-vals div{ text-align:center; }
+  .euler-vals .lbl{ font-size:.75rem; color:var(--muted); font-family:inherit; }
+  .euler-vals .num{ font-size:1.1rem; font-weight:600; }
+  input[type=range]{ width:220px; }
+
+  .poly-demo{ margin-top:10px; padding:12px; background:#fafaf6; border:1px solid var(--line); border-radius:5px; font-size:.92rem; }
+  .poly-demo .eq{ font-family:"Cambria Math",Cambria,serif; }
+  .coef-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-top:8px; }
+  .coef-cell{ text-align:center; padding:6px 4px; border:1px solid var(--line); border-radius:4px; background:#fff; font-family:"Cambria Math",Cambria,serif; font-size:.85rem; }
+  .coef-cell.zero{ color:#bbb; }
+  .coef-cell.top{ background:var(--topo-bg); border-color:var(--topo); color:var(--topo); font-weight:700; }
+
+  footer{ border-top:2px solid var(--ink); padding:16px 28px 30px; }
+  #testsPanel{ max-width:1180px; margin:10px auto 0; display:none; }
+  #testsPanel.open{ display:block; }
+  #testList{ list-style:none; padding:0; margin:8px 0 0; font-family:Menlo,Consolas,monospace; font-size:.82rem; }
+  #testList li{ padding:3px 0; border-bottom:1px solid #eee; }
+  #testList li.pass{ color:var(--good); }
+  #testList li.fail{ color:var(--bad); font-weight:700; }
+  .tip{ cursor:help; border-bottom:1px dotted var(--muted); }
+
+  .small-note{ font-size:.8rem; color:var(--muted); text-align:center; margin-top:4px; }
+
+  .jump{ color:var(--topo); cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+  .jump:hover{ color:var(--arith); }
+
+  /* tooltips: hover or keyboard focus */
+  .tt{ border-bottom:1px dotted #999; cursor:help; position:relative; }
+  .tt:hover::after, .tt:focus::after, .tt.tt-open::after{
+    content:attr(data-tip);
+    position:absolute; left:50%; transform:translateX(-50%);
+    bottom:calc(100% + 7px);
+    width:250px; background:#2b2b25; color:#f5f2e8;
+    font-size:.78rem; font-style:normal; font-weight:normal;
+    padding:8px 11px; border-radius:5px; z-index:50;
+    line-height:1.4; text-align:left; white-space:normal;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    pointer-events:none;
+    box-shadow:0 2px 8px rgba(0,0,0,.25);
+  }
+  .tt:hover::before, .tt:focus::before, .tt.tt-open::before{
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    bottom:calc(100% + 1px); border:6px solid transparent; border-top-color:#2b2b25; z-index:50;
+  }
+  .tt.tt-left:hover::after, .tt.tt-left:focus::after, .tt.tt-left.tt-open::after{ left:0; transform:none; }
+  .tt.tt-right:hover::after, .tt.tt-right:focus::after, .tt.tt-right.tt-open::after{ left:auto; right:0; transform:none; }
+  .why-box{
+    margin-top:10px; font-size:.88rem; padding:10px 14px;
+    border-left:3px solid var(--line); background:#fafaf6; display:none;
+  }
+  .why-box.open{ display:block; }
+  .why-toggle{ font-size:.8rem; color:var(--muted); cursor:pointer; text-decoration:underline dotted; background:none; border:none; font-family:inherit; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Knots &amp; Primes</h1>
+  <p>Linking, triple linking, and zeta functions — on both sides of the mirror. A teaching companion to the papers.</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="dict">Dictionary</button>
+  <button class="tab-btn" data-tab="pairs">Pairs</button>
+  <button class="tab-btn" data-tab="triples">Triples</button>
+  <button class="tab-btn" data-tab="quads">Quadruples</button>
+  <button class="tab-btn" data-tab="zeta">Zeta</button>
+  <button class="tab-btn" data-tab="ladder">Ladder</button>
+</nav>
+
+<main>
+
+  <!-- ===================== DICTIONARY ===================== -->
+  <section id="tab-dict" class="tab-panel active">
+    <p style="max-width:820px;">Knot theory and number theory run on parallel tracks: <span style="color:var(--topo);font-weight:600;">primes behave like knots</span>, <span style="color:var(--arith);font-weight:600;">quadratic residues like linking numbers</span>, and zeta functions arise on both sides by the same sum-into-product mechanism. One story — intersection counts, what happens when they vanish, and the zeta functions that record it all — told simultaneously in both languages, using the smallest genuine examples throughout: the Hopf link and the pair (5, 29); the Borromean rings and the triple (13, 61, 937).</p>
+
+    <table class="dict">
+      <tr><th class="t">Topology</th><th class="a">Arithmetic</th></tr>
+      <tr><td class="t">link L = K₁ ∪ ⋯ ∪ K_r ⊂ <span class="tt" data-tip="The 3-sphere: ordinary 3-space plus one point at infinity — the standard closed home for knots and links.">S³</span></td><td class="a">set of primes S = {p₁, …, p_r} ⊂ <span class="tt" data-tip="The 'space of all primes': in Grothendieck's geometry Z becomes a space whose points are the primes. Why knots, precisely? Each point Spec F_p is a circle in disguise — its Galois group Ẑ is exactly the profinite fundamental group of S¹ — and Spec Z behaves 3-dimensionally (étale cohomological dimension 3, by Artin–Verdier duality). A circle inside a 3-space is a knot (Mazur's observation).">Spec Z</span>, each ≡ 1 (mod 4)</td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it. Every knot bounds one (Seifert's algorithm), but never uniquely.">Seifert surface</span> Σᵢ, ∂Σᵢ = Kᵢ</td><td class="a"><span class="tt" data-tip="Q(√p): the smallest field 'spanning' the prime p. Because p ≡ 1 (mod 4) its discriminant is exactly p, so it is ramified (branched) at p and nowhere else — touching only its own prime, as a Seifert surface touches only its own knot.">quadratic resolvent</span> kᵢ = Q(√pᵢ), ramified only at pᵢ</td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="A point where the curve K₂ passes through the spanning surface Σ₁, counted with a sign given by orientation.">puncture point</span>, K₂ ∩ Σ₁</td><td class="a">non-split prime, <span class="tt" data-tip="The Frobenius element: the canonical symmetry of a field attached to each unramified prime — the arithmetic analogue of the monodromy loop a meridian traces around a knot. Trivial Frobenius = split = no puncture.">Frob<sub>p₂</sub></span> in Gal(k₁/Q)</td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The signed number of times K₂ punctures a surface spanning K₁. Independent of the chosen surface, and symmetric in the two knots.">linking number</span> lk(K₁, K₂) ∈ Z</td><td class="a"><span class="tt" data-tip="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: p₁^((p₂−1)/2) mod p₂. It is a mod-2 linking number.">Legendre symbol</span> (p₁/p₂) ∈ {±1}</td></tr>
+      <tr><td class="t">symmetry of lk</td><td class="a"><span class="tt" data-tip="Gauss's theorem: for odd primes p, q ≡ 1 (mod 4), (p/q) = (q/p). In this story it is the statement that the two ends of one global object must agree.">quadratic reciprocity</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="The characteristic power series of the Galois group of the maximal unramified abelian tower over the rank-r tower of ℓ-adic extensions of Q unramified outside S — Iwasawa theory's exact counterpart of the Alexander polynomial, also defined up to a unit.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the cover — a combinatorial 'zeta function' of the space. Milnor–Turaev: it equals ∆_L up to units.">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes literally play the role of periodic orbits of Spec(O_K): both index the factors of an Euler product. Artin–Mazur named the dynamical zeta function after this analogy.">prime ideals</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers. χ(Frob_p) plays the role of an eigenvalue: characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.">characters</span> of the Galois group</td></tr>
+    </table>
+
+    <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ — it plays the role of orientability. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
+    <div class="small-note">And one more entry, from this app's running example (<span class="jump" onclick="gotoTab('zeta')">Zeta tab</span>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — in this example, the eigenvalue of the flow and the unit of the field are the same number.</div>
+
+    <div class="coda">
+      <div class="lede">One thread, told twice.</div>
+      An intersection count (linking number / Legendre symbol), symmetric because its two values are the two ends of a single global object (an arc / an adèlic product). When the count vanishes everywhere, the intersection object closes up (a closed curve / the Rédei extension) and its interaction with the third participant becomes the triple invariant (μ̄(123) / [p₁,p₂,p₃]) — well defined exactly because the lower level vanished. And a polynomial (∆<sub>L</sub> / f<sub>S</sub>) records the hierarchy as its surviving low-order coefficients, while being — by Milnor–Turaev and the Main Conjecture respectively — the zeta function of the relevant cover: a sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters.
+    </div>
+    <div class="caption-strip">Walk the tabs left to right: each level's invariant is defined because the previous level vanished.</div>
+  </section>
+
+  <!-- ===================== PAIRS ===================== -->
+  <section id="tab-pairs" class="tab-panel">
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">lk(K₁,K₂) = signed count of punctures of K₂ through a <span class="tt tt-left" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it. The count does not depend on which surface you pick: two choices glue into a closed surface, which K₂ meets 0 times algebraically.">Seifert surface</span> Σ₁ spanning K₁. Arrowheads mark the orientations — the same parametrization every signed count in this app uses.</div>
+        <canvas id="pairsCanvas" width="420" height="300"></canvas>
+        <div class="state-label topo" id="pairsStateLabel">lk = 0</div>
+        <div class="controls">
+          <button class="ctrl primary" id="pairsToggleBtn">Toggle: Unlinked ⇄ Hopf link</button>
+          <button class="ctrl" id="pairsLiftBtn">Lift apart</button>
+        </div>
+        <div class="small-note" id="pairsLiftNote">&nbsp;</div>
+        <button class="why-toggle" data-why="whySeifert">Why is lk independent of the choice of surface?</button>
+        <div class="why-box" id="whySeifert">Two choices of Seifert surface glue along K₁ into a closed surface, against which the disjoint curve K₂ has algebraic intersection number 0 — so both puncture counts agree.</div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">"Does p₂ puncture k₁ = Q(√p₁)?" becomes "what does <span class="tt" data-tip="The canonical symmetry of k₁ attached to the unramified prime p₂ — the arithmetic analogue of the loop a meridian traces around a knot. Frob(√p₁) = +√p₁ means p₂ splits (no puncture); −√p₁ means inert (one puncture).">Frobenius</span> do?" — (p₁/p₂) := Frob<sub>p₂</sub>(√p₁)/√p₁.</div>
+        <div class="calc-row">
+          <button class="ctrl" id="preset529">(5, 29)</button>
+          <button class="ctrl" id="preset513">(5, 13)</button>
+        </div>
+        <div class="calc-row">
+          <label>p = <input type="number" id="pInput" value="5"></label>
+          <label>q = <input type="number" id="qInput" value="29"></label>
+          <button class="ctrl primary" id="computeLegendre">Compute</button>
+        </div>
+        <div class="warn" id="pairsWarn">&nbsp;</div>
+        <table class="symbolic" id="legendreTable"></table>
+        <div class="banner" id="pairsBanner"></div>
+        <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
+        <div class="why-box" id="whyMod2">lk ∈ Z but (p₁/p₂) ∈ {±1}: a curve can wind any number of times around a surface, while a degree-2 extension admits only one nontrivial Frobenius. The Legendre symbol is a mod-2 linking number.</div>
+      </div>
+    </div>
+
+    <div class="section-head">Symmetry: one proposition, two proofs, one mechanism</div>
+    <p style="font-size:.92rem; color:var(--muted); max-width:840px;">lk(K₁,K₂) = lk(K₂,K₁), and (p₁/p₂) = (p₂/p₁). Both proofs are instances of a single principle: <i>a global object's local contributions must cancel.</i> The two quantities being compared appear as the two ends of one connected global object — an arc, or an <span class="tt" data-tip="The product of Hilbert symbols taken over every completion of Q at once — all the primes together with ∞. The product formula says this global product is always 1: no local contribution can escape.">adèlic product</span> — and the global object's closedness forces the ends to agree.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>The arc</h2>
+        <div class="sub" id="arcCaption"></div>
+        <canvas id="arcCanvas" width="420" height="260"></canvas>
+        <div class="small-note" id="arcNote"></div>
+      </div>
+      <div class="col arith">
+        <h2>The product formula</h2>
+        <div class="sub">The <span class="tt" data-tip="(a,b)_v = +1 exactly when z² = ax² + by² has a nonzero solution over Q_v — a purely local solvability test at the place v.">Hilbert symbol</span> (a,b)<sub>v</sub> ∈ {±1} at each <span class="tt" data-tip="A completion of Q: one for each prime p (the p-adic numbers Q_p) and one for ∞ (the reals). 'Local' means: seen through one completion at a time.">place</span> v of Q satisfies ∏<sub>v</sub> (a,b)<sub>v</sub> = 1 — the arithmetic "no boundary to escape to."</div>
+        <table class="symbolic" id="hilbertTable"></table>
+        <div class="small-note" id="hilbertNote"></div>
+      </div>
+    </div>
+
+    <p style="font-size:.95rem; max-width:840px; margin:22px auto 6px; text-align:center;"><b>The two proofs are the same proof — entry by entry:</b></p>
+    <table class="dict" style="max-width:900px; margin:0 auto 8px;">
+      <tr><th class="t">the arc (topology)</th><th class="a">the product formula (arithmetic)</th></tr>
+      <tr><td class="t">the global object: the compact 1-manifold Σ₁ ∩ Σ₂</td><td class="a">the global object: the family of local symbols (p,q)<sub>v</sub> over all places v</td></tr>
+      <tr><td class="t">interior points of the segment — contribute nothing</td><td class="a">places v ∉ {p, q} — each factor is +1 (including v = 2 and v = ∞, trivial because p ≡ q ≡ 1 mod 4 and both are positive: the orientability normalizations)</td></tr>
+      <tr><td class="t">the end on K₁, where K₁ pierces Σ₂ — counted by lk(K₂,K₁)</td><td class="a">the surviving factor at v = p: (p,q)<sub>p</sub> = (q/p)</td></tr>
+      <tr><td class="t">the end on K₂, where K₂ pierces Σ₁ — counted by lk(K₁,K₂)</td><td class="a">the surviving factor at v = q: (p,q)<sub>q</sub> = (p/q)</td></tr>
+      <tr><td class="t">closedness: the signed boundary of a compact oriented 1-manifold is 0</td><td class="a">closedness: ∏<sub>v</sub> (p,q)<sub>v</sub> = 1</td></tr>
+      <tr><td class="t">⇒ the two ends agree: lk(K₁,K₂) = lk(K₂,K₁)</td><td class="a">⇒ the two factors cancel: (p/q) = (q/p)</td></tr>
+    </table>
+
+    <div class="section-head">What the polynomials say at this stage</div>
+    <div class="twocol">
+      <div class="col topo">
+        <div class="poly-demo"><span class="eq">∆<sub>Hopf</sub>(t₁,t₂) ≐ 1</span> — a <span class="tt" data-tip="An invertible element ±t₁^a·t₂^b. Alexander polynomials are only defined up to units, so '≐ 1' means: carries no information at all.">unit</span>, as trivial as a polynomial can be. For the <span class="tt" data-tip="Two circles in disjoint balls — separable by a sphere. Splitness is stronger than being unlinked crossing-by-crossing.">split unlink</span>, ∆ ≐ 0: the classical splitness test. Once lk is known, there is nothing further of low order to report.</div>
+      </div>
+      <div class="col arith">
+        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the ℓ-adic cover, viewed as a module over power series in the deck transformations — the arithmetic H₁ of the infinite cover.">Iwasawa module</span> carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
+      </div>
+    </div>
+
+    <div class="caption-strip">An intersection count: how many times does one object puncture the other's spanning surface / field.</div>
+  </section>
+
+  <!-- ===================== TRIPLES ===================== -->
+  <section id="tab-triples" class="tab-panel">
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">The <span class="tt tt-left" data-tip="Three rings, no two of which are linked, that nonetheless cannot be pulled apart. Named for the Borromeo family crest; the standard first example of higher-order linking.">Borromean rings</span>: at both crossings between any pair, the same circle is consistently on top — but the "on top" relations chain cyclically (K1 &gt; K2 &gt; K3 &gt; K1), with no consistent global resolution.</div>
+        <canvas id="borroCanvas" width="420" height="340"></canvas>
+        <div class="controls">
+          <label style="font-size:.85rem;color:var(--muted);">Isolate:
+            <select id="isolateSelect" class="ctrl">
+              <option value="none">all three</option>
+              <option value="1">fade K1</option>
+              <option value="2">fade K2</option>
+              <option value="3">fade K3</option>
+            </select>
+          </label>
+          <button class="ctrl" id="borro3dToggle">Toggle 3D view (ellipses)</button>
+        </div>
+        <div id="borro3dWrap" style="display:none;">
+          <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
+          <div class="small-note">Drag to rotate. <span class="tip" id="fsTooltip">Why ellipses, not circles?</span></div>
+          <div class="small-note" id="fsExplain" style="display:none;">By a theorem of Freedman–Skora, the Borromean rings cannot be realized by three round circles in space — these are genuine ellipses (semi-axes a=2, b=1.1), one in each coordinate plane.</div>
+        </div>
+        <div id="topoTripleSteps"></div>
+        <div class="banner topo" id="topoTripleBanner"></div>
+        <div class="caption-strip" style="margin-top:10px;">each pair unlinked; the triple inseparable; μ̄(123) = ±1.</div>
+        <button class="why-toggle" data-why="whyMu">How is μ̄(123) defined? (intersect first, then count)</button>
+        <div class="why-box" id="whyMu">Because every pairwise lk = 0, each Seifert surface Σᵢ can be chosen disjoint from the other two components (punctures come in cancelling pairs; tube them away). Then Σ₁ ∩ Σ₂ has no boundary at all — it survives as a <b>closed curve</b> — and its intersection with Σ₃, rather than its boundary, becomes the well-defined count: μ̄(123) = Σ sign(p) over p ∈ (Σ₁∩Σ₂) ∩ Σ₃, independent of all choices (Milnor) — because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.</div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1). Rédei's theorem: it is a degree-8 dihedral extension ramified only at p₁, p₂, independent of the solution chosen.">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
+        <div id="tripleSteps"></div>
+        <div class="banner" id="tripleBanner"></div>
+        <svg id="tripleHasse" width="100%" height="190" viewBox="0 0 420 190"></svg>
+      </div>
+    </div>
+
+    <div class="section-head">What the polynomials say now</div>
+    <div class="twocol">
+      <div class="col topo">
+        <div class="poly-demo">
+          <div class="eq">∆<sub>Bor</sub>(t₁,t₂,t₃) = (t₁−1)(t₂−1)(t₃−1)</div>
+          <div style="margin-top:6px;">Substituting t<sub>i</sub> = 1 + x<sub>i</sub> and expanding live:</div>
+          <div class="coef-grid" id="deltaBorGrid"></div>
+          <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point.</div>
+        </div>
+      </div>
+      <div class="col arith">
+        <div class="poly-demo">The Rédei symbol is the triple <span class="tt" data-tip="A higher-order product in cohomology, defined only when the ordinary products vanish — and then only up to the ambiguity those vanishings leave. Its topological ancestor detects exactly the Borromean phenomenon.">Massey product</span> ⟨χ₁, χ₂, χ₃⟩ in Galois cohomology, defined precisely because the pairwise <span class="tt" data-tip="The basic multiplication in cohomology. For the Galois characters attached to p and q, the cup product χ_p ∪ χ_q vanishes exactly when (p/q) = +1 — vanishing cup products are the arithmetic 'pairwise unlinked'.">cup products</span> (Legendre symbols) vanish first — and it is the coefficient the Iwasawa polynomial f<sub>S</sub> reports once every lower-order term is likewise forced to vanish. The two sides say the same sentence: <i>when the cheap invariants vanish, the polynomial's leading surviving coefficient is the triple invariant.</i></div>
+      </div>
+    </div>
+
+    <div class="caption-strip">Vanishing is not emptiness — it is what makes the next invariant well defined.</div>
+  </section>
+
+  <!-- ===================== QUADRUPLES ===================== -->
+  <section id="tab-quads" class="tab-panel">
+    <p style="font-size:.9rem;color:var(--muted);max-width:840px;">The papers stop at triples; the ladder does not. The same argument runs one more level: when the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">The standard four-component <span class="tt tt-left" data-tip="A link that is genuinely inseparable, yet becomes completely trivial the moment ANY single component is deleted. The Borromean rings are the 3-component case. The 'rubber-band' Brunnian links work by looping each component around the next as the commutator aba⁻¹b⁻¹ — visible here in how the yellow loop clasps the green one.">Brunnian</span> link (Wikipedia's Brunnian-4loops figure, by AnonMoos, public domain), redrawn from its exact path data — every crossing gap sits at a computed intersection, with the over/under pattern extracted from the original's layer structure.</div>
+        <canvas id="b4Canvas" width="420" height="430"></canvas>
+        <div class="small-note" id="b4LkNote"></div>
+        <div class="controls">
+          <select id="deleteSelect" class="ctrl">
+            <option value="1">delete K1</option>
+            <option value="2">delete K2</option>
+            <option value="3">delete K3</option>
+            <option value="4">delete K4</option>
+          </select>
+          <button class="ctrl primary" id="deleteBtn">Delete ring</button>
+          <button class="ctrl" id="restoreBtn">Restore all</button>
+        </div>
+        <div class="small-note" id="b4WordNote" style="min-height:2.6em;">Delete ANY component and the word collapses to 1: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.</div>
+        <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
+        <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">Amano's quadruple (5, 8081, 101, 449), computed live.</div>
+        <div id="quadSteps"></div>
+        <div class="banner" id="quadBanner"></div>
+        <svg id="quadTower" width="100%" height="340" viewBox="0 0 420 335"></svg>
+        <div class="small-note">Only the fields that carry the invariant are drawn — a degree-64 field has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played one tab back); θ lives in their compositum, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>.</div>
+      </div>
+    </div>
+    <div class="caption-strip">When the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</div>
+  </section>
+
+  <!-- ===================== ZETA ===================== -->
+  <section id="tab-zeta" class="tab-panel">
+    <p style="max-width:840px;">Everything above is packaged by a zeta function on each side, and the packaging is the same: <b>a sum, resummed as a product, in two different ways.</b> Primes are the periodic orbits of Spec(O<sub>K</sub>) — it was the Euler product, routed through Weil's zeta function of a variety over a finite field, that Artin and Mazur imitated when they named the dynamical zeta function — and characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.</p>
+    <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The live demos below instantiate <b>both</b> columns in the smallest genuine examples of this app's dictionary: the monodromy of the figure-eight knot on the left, and K = Q(√5) — the quadratic resolvent that opened the Pairs tab — on the right. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Lefschetz zeta of a <span class="tt tt-left" data-tip="For a fibered link the complement fibers over the circle: F is the fiber surface, and h is the twist you accumulate going once around the link — the monodromy.">monodromy</span> h : F → F</h2>
+        <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Following the papers' convention, L(hⁿ) here denotes tr(hⁿ∗ on H₁) — the interesting part of the full alternating fixed-point count Σ(−1)ⁱ tr(hⁿ∗ on Hᵢ), which for a fiber surface differs from it only by the constant H₀-term.">L(hⁿ)</span>·tⁿ/n )</div></div>
+        <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on H₁(F;Q)</div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
+        <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston): stretches along one foliation, contracts along another. Its periodic points are isolated, which is what makes the orbit product converge factor by factor.">pseudo-Anosov</span>)</div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹</div></div>
+        <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, Milnor's theorem identifies all three with the Alexander polynomial: ζ<sub>h</sub> ≐ ∆<sub>K</sub>⁻¹, with ∆<sub>K</sub>(t) = det(tI − h∗) the characteristic polynomial of the same eigenvalues.</div>
+      </div>
+      <div class="col arith">
+        <h2>Dedekind zeta of a number field K</h2>
+        <div class="zeta-face"><div class="fname">Sum over ideals</div><div class="feq">ζ<sub>K</sub>(s) = Σ<sub>a</sub> <span class="tt" data-tip="N(a) = the number of residues modulo the ideal a. For a prime p of Z this is just p.">N(a)</span>⁻ˢ</div></div>
+        <div class="zeta-face"><div class="fname"><span class="tt" data-tip="Unique factorization of ideals is the exchange rate: grouping the sum over all ideals by prime factorization turns it into a product over primes alone — exactly as grouping orbits by primitive period turns the iterate sum into the orbit product.">Euler product</span> over primes</div><div class="feq">ζ<sub>K</sub>(s) = ∏<sub>p</sub> (1 − Np⁻ˢ)⁻¹</div></div>
+        <div class="zeta-face"><div class="fname">Product over characters (Gal(K/Q) abelian)</div><div class="feq">ζ<sub>K</sub>(s) = ∏<sub>χ</sub> <span class="tt" data-tip="The Dirichlet L-function of the character χ: same shape as ζ but with χ(Frob_p) inserted in each Euler factor — the arithmetic (1 − λt)⁻¹.">L(s, χ)</span></div></div>
+        <div class="small-note">For K = Q(√p₁, √p₂), the character product is four Dirichlet L-functions, and the nontrivial ones encode exactly the Legendre symbols of the Pairs tab.</div>
+      </div>
+    </div>
+
+    <div class="section-head">The mechanism, live — in the objects of this story</div>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>The zeta of an actual monodromy: the figure-eight knot</h2>
+        <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. All three faces of ζ_h are computed below and shown to agree, coefficient by coefficient.</div>
+        <table class="symbolic" id="lefschetzTable"></table>
+        <div class="step" id="lefschetzFaces"></div>
+        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t), the Alexander polynomial of the figure-eight knot — its zeta function <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix acting on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, which is all the zeta faces use, is identical. Bonus arithmetic inside the topology: the traces are the even-indexed Lucas numbers L₂ₙ, the zeta coefficients the even-indexed Fibonacci numbers F₂ₙ. The orbit-face check verifies the exponential–product identity <i>plus</i> the integrality of the Möbius counts — whole-number orbit counts are precisely the statement that iterates organize into closed orbits.</div>
+      </div>
+      <div class="col arith">
+        <h2>The zeta of an actual arithmetic link: ζ of Q(√5)</h2>
+        <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every Euler factor of its zeta is a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
+        <table class="symbolic" id="dedekindFactors"></table>
+        <div class="controls">
+          <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100">
+          <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">N = 2000</span>
+        </div>
+        <div class="euler-vals">
+          <div><div class="lbl">Σ<sub>N(𝔞)≤N</sub> N(𝔞)⁻² (sum over ideals)</div><div class="num" id="dedekindIdeal">—</div></div>
+          <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
+          <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
+        </div>
+        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) for this quadratic extension, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><span class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</span>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor.</div>
+      </div>
+    </div>
+    <div class="caption-strip">The same √5 on both sides: the knot's monodromy stretches by φ², and φ is the fundamental unit of the field — the eigenvalue of the flow is the unit of the arithmetic. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
+
+    <div class="section-head">The polynomials close both loops</div>
+    <div class="twocol">
+      <div class="col topo">
+        <div class="poly-demo"><b>Milnor–Turaev:</b> the <span class="tt tt-left" data-tip="An alternating product of determinants from the chain complex of the infinite cover — a 'sum over the cover' reorganized multiplicatively, which is exactly what a zeta function is.">Milnor–Reidemeister torsion</span> of the Z<sup>r</sup>-cover satisfies τ<sub>L</sub> ≐ ∆<sub>L</sub> — the Alexander polynomial <i>is</i> the zeta function of the link exterior. Concretely τ<sub>Hopf</sub> ≐ 1 and τ<sub>Bor</sub> ≐ (t₁−1)(t₂−1)(t₃−1), with μ̄(123) its leading Taylor coefficient at (1,1,1).</div>
+      </div>
+      <div class="col arith">
+        <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the annihilator of the Iwasawa module — the arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial.">characteristic ideal</span> generated by f<sub>S</sub> is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — an analytically-built object equal (up to units) to the algebraically built Iwasawa polynomial. Proven by Mazur–Wiles over Q.">p-adic L-function</span>, f<sub>S</sub> ≐ L<sub>p</sub> — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
+      </div>
+    </div>
+    <div class="caption-strip">A sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters.</div>
+  </section>
+
+  <!-- ===================== LADDER ===================== -->
+  <section id="tab-ladder" class="tab-panel">
+    <h2 style="text-align:center;">The unipotent ladder</h2>
+    <p style="max-width:840px;margin:0 auto 10px;font-size:.92rem;color:var(--muted);text-align:center;">Each level of linking lives in a <span class="tt" data-tip="Upper triangular with 1s on the diagonal. Over F₂ (the field with two elements) the n×n unipotent group has order 2^(n(n−1)/2): 2, 8, 64 for n = 2, 3, 4.">unipotent</span> matrix group over F₂. The <span style="color:var(--topo);font-weight:600;">superdiagonal</span> carries the characters (pairwise level); each deeper diagonal is defined only when everything above it vanishes.</p>
+    <div class="matrices">
+      <div class="matrix-card">
+        <h3><span style="color:var(--topo);">N₂(F₂)</span> ≅ Z/2</h3>
+        <div class="order">order 2</div>
+        <table class="mat" id="matN2"></table>
+      </div>
+      <button class="arrow-btn" data-arrow="0">➜</button>
+      <div class="matrix-card">
+        <h3><span style="color:var(--topo);">N₃(F₂)</span> ≅ D₄</h3>
+        <div class="order">order 8</div>
+        <table class="mat" id="matN3"></table>
+      </div>
+      <button class="arrow-btn" data-arrow="1">➜</button>
+      <div class="matrix-card">
+        <h3>N₄(F₂)</h3>
+        <div class="order">order 64</div>
+        <table class="mat" id="matN4"></table>
+      </div>
+    </div>
+    <div class="ladder-note" id="ladderNote">Click an arrow to see what the previous level's vanishing makes available.</div>
+
+    <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">The ladder, live: Frobenius as a matrix</div>
+    <div style="max-width:840px;margin:0 auto;">
+      <p style="font-size:.92rem;color:var(--muted);">For the pair (13, 61) of the Triples tab, every odd prime q ∤ 13·61 gets an actual matrix ρ(Frob<sub>q</sub>) ∈ N₃(F₂): the superdiagonal entries are its two Legendre symbols (0 for +1, 1 for −1), and the corner is its splitting in the Rédei field k₁₃,₆₁ — <b>defined only when the superdiagonal vanishes</b>, because only then is the corner independent of the choices (<span class="tt" data-tip="Frobenius is only well-defined up to conjugation. Conjugating a unitriangular matrix can change the corner entry by multiples of the superdiagonal entries — so the corner is pinned down exactly when those vanish. This is the algebraic face of 'the next invariant is defined because the previous level vanished.'">why?</span>). Everything below is computed live: two Euler-criterion symbols, and — when both vanish — Tonelli–Shanks for √13 mod q and the Legendre symbol of α = 23 + 6√13 mod q.</p>
+      <div class="calc-row">
+        <button class="ctrl" id="frobPreset107">q = 107</button>
+        <button class="ctrl" id="frobPreset937">q = 937</button>
+        <button class="ctrl" id="frobPreset5">q = 5</button>
+        <button class="ctrl" id="frobPreset17">q = 17</button>
+        <label>q = <input type="number" id="frobInput" value="107"></label>
+        <button class="ctrl primary" id="frobCompute">Compute ρ(Frob_q)</button>
+      </div>
+      <div class="warn" id="frobWarn">&nbsp;</div>
+      <div style="display:flex;justify-content:center;gap:24px;align-items:center;flex-wrap:wrap;">
+        <table class="mat" id="frobMatrix"></table>
+        <div id="frobExplain" style="max-width:420px;font-size:.88rem;"></div>
+      </div>
+    </div>
+
+    <div class="caption-strip">Gal(k₁₃,₆₁/Q) ≅ D₄ ⊂ N₃(F₂); Gal(K/Q) ≅ N₄(F₂) for Amano's quadruple. The ladder is the mirror, group by group.</div>
+  </section>
+
+</main>
+
+<footer>
+  <button class="ctrl primary" id="runTestsBtn">Run self-tests</button>
+  <div id="testsPanel">
+    <ul id="testList"></ul>
+  </div>
+</footer>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   NUMBER THEORY UTILITIES (shared)
+   ========================================================================= */
+
+function powmod(a, e, m) {
+  a = ((a % m) + m) % m;
+  let result = 1n;
+  while (e > 0n) {
+    if (e & 1n) result = (result * a) % m;
+    a = (a * a) % m;
+    e >>= 1n;
+  }
+  return result;
+}
+
+// Euler's criterion. Returns +1, -1, or 0.
+function legendre(a, p) {
+  a = ((a % p) + p) % p;
+  if (a === 0n) return 0;
+  const r = powmod(a, (p - 1n) / 2n, p);
+  if (r === 1n) return 1;
+  if (r === p - 1n) return -1;
+  throw new Error(`legendre(${a},${p}): p not an odd prime`);
+}
+
+// General Tonelli–Shanks. Returns the two roots [r, p-r] sorted ascending.
+function tonelliShanks(n, p) {
+  n = ((n % p) + p) % p;
+  if (n === 0n) return [0n, 0n];
+  if (legendre(n, p) !== 1) throw new Error(`${n} is not a QR mod ${p}`);
+  if (p % 4n === 3n) {
+    const r = powmod(n, (p + 1n) / 4n, p);
+    return sortRoots(r, p);
+  }
+  let q = p - 1n, s = 0n;
+  while (q % 2n === 0n) { q /= 2n; s += 1n; }
+  let z = 2n;
+  while (legendre(z, p) !== -1) z += 1n;
+  let m = s;
+  let c = powmod(z, q, p);
+  let t = powmod(n, q, p);
+  let r = powmod(n, (q + 1n) / 2n, p);
+  while (true) {
+    if (t === 1n) return sortRoots(r, p);
+    let i = 0n, temp = t;
+    while (temp !== 1n) { temp = (temp * temp) % p; i += 1n; }
+    let bexp = 1n;
+    for (let k = 0n; k < m - i - 1n; k++) bexp *= 2n;
+    const b = powmod(c, bexp, p);
+    m = i;
+    c = (b * b) % p;
+    t = (t * b * b) % p;
+    r = (r * b) % p;
+  }
+}
+function sortRoots(r, p) {
+  const other = ((p - r) % p + p) % p;
+  return [r, other].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
+// Rédei symbol [p1,p2,q] certified by x + y*sqrt(p1), with x^2 - p1*y^2 - p2*z^2 = 0.
+function redeiSymbol(p1, p2, q, x, y, z) {
+  if (z === undefined) z = 1n;
+  const identity = x * x - p1 * y * y - p2 * z * z;
+  if (identity !== 0n) throw new Error(`Rédei identity fails: residual ${identity}`);
+  if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
+  if (legendre(p2, q) !== 1) throw new Error(`(${p2}/${q}) != 1`);
+  const roots = tonelliShanks(p1, q);
+  const vals = roots.map(r => ((x + y * r) % q + q) % q);
+  const legs = vals.map(v => legendre(v, q));
+  if (legs[0] !== legs[1]) throw new Error(`conjugates disagree: ${legs}`);
+  return { roots, vals, value: legs[0], identity };
+}
+
+function isPrimeSmall(n) { // trial division, fine for teaching-scale inputs
+  if (n < 2n) return false;
+  if (n % 2n === 0n) return n === 2n;
+  for (let d = 3n; d * d <= n; d += 2n) if (n % d === 0n) return false;
+  return true;
+}
+
+// Strict input parsing: plain decimal integers only (rejects "1e5", "1.5", "-7"),
+// capped at 9 digits so trial division stays instantaneous.
+function parseIntegerInput(raw) {
+  raw = String(raw).trim();
+  if (!/^[0-9]{1,9}$/.test(raw)) return null;
+  return BigInt(raw);
+}
+
+/* =========================================================================
+   GEOMETRY UTILITIES (2D link diagrams)
+   ========================================================================= */
+
+function circleIntersections(c1, c2) {
+  const dx = c2.cx - c1.cx, dy = c2.cy - c1.cy;
+  const d = Math.hypot(dx, dy);
+  if (d === 0 || d > c1.r + c2.r || d < Math.abs(c1.r - c2.r)) return [];
+  const a = (c1.r * c1.r - c2.r * c2.r + d * d) / (2 * d);
+  const h2 = c1.r * c1.r - a * a;
+  if (h2 < 0) return [];
+  const h = Math.sqrt(Math.max(0, h2));
+  const xm = c1.cx + (a * dx) / d, ym = c1.cy + (a * dy) / d;
+  const rx = -dy * (h / d), ry = dx * (h / d);
+  return [{ x: xm + rx, y: ym + ry }, { x: xm - rx, y: ym - ry }];
+}
+
+function angDist(a, b) {
+  let d = Math.abs(a - b) % (2 * Math.PI);
+  return Math.min(d, 2 * Math.PI - d);
+}
+
+function drawCircleWithGaps(ctx, circle, underAngles, opts) {
+  opts = opts || {};
+  const steps = 900;
+  const gapW = opts.gapWidth || 0.10;
+  const color = opts.color || "#1b6ca8";
+  const width = opts.lineWidth || 4.5;
+  const alpha = opts.alpha === undefined ? 1 : opts.alpha;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  let drawing = false;
+  for (let i = 0; i <= steps; i++) {
+    const theta = (i / steps) * 2 * Math.PI + (circle.phase || 0);
+    const isGap = underAngles.some(a => angDist(theta, a) < gapW);
+    const x = circle.cx + circle.r * Math.cos(theta) * (circle.sx || 1);
+    const y = circle.cy + circle.r * Math.sin(theta) * (circle.sy || 1);
+    if (isGap) {
+      drawing = false;
+    } else {
+      if (!drawing) { ctx.moveTo(x, y); drawing = true; }
+      else ctx.lineTo(x, y);
+    }
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+function angleOnCircle(circle, pt) {
+  return Math.atan2((pt.y - circle.cy) / (circle.sy || 1), (pt.x - circle.cx) / (circle.sx || 1));
+}
+
+// Orientation arrowhead at point p along direction dir — the SAME parametrization
+// direction every signed-crossing computation in this file uses.
+function drawOrientationArrow(ctx, p, dir, color) {
+  const len = Math.hypot(dir.x, dir.y) || 1;
+  const ux = dir.x / len, uy = dir.y / len;
+  const nx = -uy, ny = ux;
+  ctx.save();
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(p.x + 7 * ux, p.y + 7 * uy);
+  ctx.lineTo(p.x - 5 * ux + 4.5 * nx, p.y - 5 * uy + 4.5 * ny);
+  ctx.lineTo(p.x - 5 * ux - 4.5 * nx, p.y - 5 * uy - 4.5 * ny);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+// For circles parametrized CCW as (cx + r cos t, cy + r sin t): arrow at angle theta.
+function circleArrow(ctx, circle, theta, color) {
+  const p = { x: circle.cx + circle.r * Math.cos(theta), y: circle.cy + circle.r * Math.sin(theta) };
+  drawOrientationArrow(ctx, p, { x: -Math.sin(theta), y: Math.cos(theta) }, color);
+}
+
+/* =========================================================================
+   MAGNUS EXPANSION (noncommutative truncated power series)
+   ========================================================================= */
+
+const MAGNUS_MAXDEG = 5;
+function mgAdd(series, word, coeff) {
+  if (word.length > MAGNUS_MAXDEG) return;
+  const k = word.join(",");
+  series[k] = (series[k] || 0) + coeff;
+  if (Math.abs(series[k]) < 1e-9) delete series[k];
+}
+function mgMul(A, B) {
+  const R = {};
+  for (const ka in A) {
+    const wa = ka === "" ? [] : ka.split(",").map(Number);
+    for (const kb in B) {
+      const wb = kb === "" ? [] : kb.split(",").map(Number);
+      const w = wa.concat(wb);
+      if (w.length > MAGNUS_MAXDEG) continue;
+      mgAdd(R, w, A[ka] * B[kb]);
+    }
+  }
+  return R;
+}
+function mgOne() { return { "": 1 }; }
+function mgGen(i) { const s = {}; s[String(i)] = 1; return s; }
+function mgInvOnePlusU(u) {
+  let result = mgOne();
+  let term = mgOne();
+  for (let k = 1; k <= MAGNUS_MAXDEG; k++) {
+    const negU = {};
+    for (const key in u) negU[key] = -u[key];
+    term = mgMul(term, negU);
+    for (const key in term) mgAdd(result, key === "" ? [] : key.split(",").map(Number), term[key]);
+  }
+  return result;
+}
+function mgCommutator(A, Ainv, B, Binv) { return mgMul(mgMul(A, B), mgMul(Ainv, Binv)); }
+
+function computeMagnusTripleCommutator() {
+  const X1 = mgGen(1), X2 = mgGen(2), X3 = mgGen(3);
+  const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 }, M3 = { "": 1, ...X3 };
+  const M1inv = mgInvOnePlusU(X1), M2inv = mgInvOnePlusU(X2), M3inv = mgInvOnePlusU(X3);
+  const C12 = mgCommutator(M1, M1inv, M2, M2inv);
+  const u12 = { ...C12 }; delete u12[""];
+  const C12inv = mgInvOnePlusU(u12);
+  return mgCommutator(C12, C12inv, M3, M3inv);
+}
+
+/* =========================================================================
+   COMMUTATIVE POLYNOMIAL EXPANSION: Delta_Bor(1+x1,1+x2,1+x3)
+   ========================================================================= */
+
+// polynomials in x1,x2,x3 with exponent-vector keys "e1,e2,e3"
+function polyMul(A, B) {
+  const R = {};
+  for (const ka in A) {
+    const ea = ka.split(",").map(Number);
+    for (const kb in B) {
+      const eb = kb.split(",").map(Number);
+      const e = [ea[0] + eb[0], ea[1] + eb[1], ea[2] + eb[2]];
+      const k = e.join(",");
+      R[k] = (R[k] || 0) + A[ka] * B[kb];
+      if (R[k] === 0) delete R[k];
+    }
+  }
+  return R;
+}
+function expandDeltaBor() {
+  // (t1-1)(t2-1)(t3-1) with ti = 1+xi  =>  x1 * x2 * x3
+  const f1 = { "1,0,0": 1 }; // (1+x1) - 1 = x1
+  const f2 = { "0,1,0": 1 };
+  const f3 = { "0,0,1": 1 };
+  return polyMul(polyMul(f1, f2), f3);
+}
+
+/* =========================================================================
+   TOOLTIP FOCUSABILITY (keyboard / touch support)
+   ========================================================================= */
+
+// Tooltips show on hover OR focus; give every term a tab stop so keyboard
+// and touch users can reach them. Called again after any dynamic render.
+function ttFocusable(root) {
+  (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => el.setAttribute("tabindex", "0"));
+}
+
+// Cross-tab jump links (used by .jump spans in static and generated HTML).
+window.gotoTab = function (name) {
+  const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
+  if (btn) { btn.click(); window.scrollTo(0, 0); }
+};
+
+// Click/tap pins a tooltip open (hover isn't available on touch devices);
+// clicking elsewhere, or the same term again, closes it.
+document.addEventListener("click", e => {
+  const t = e.target.closest(".tt");
+  document.querySelectorAll(".tt.tt-open").forEach(el => { if (el !== t) el.classList.remove("tt-open"); });
+  if (t) t.classList.toggle("tt-open");
+});
+
+/* =========================================================================
+   TAB SWITCHING
+   ========================================================================= */
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+// why-boxes
+document.querySelectorAll(".why-toggle").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById(btn.dataset.why).classList.toggle("open");
+  });
+});
+
+/* =========================================================================
+   TAB — PAIRS
+   ========================================================================= */
+
+const pairsState = { linked: false, liftOffset: 0, liftAnim: null };
+const pairsCanvas = document.getElementById("pairsCanvas");
+const pctx = pairsCanvas.getContext("2d");
+
+function pairsCircles(offsetB) {
+  return {
+    A: { cx: 175, cy: 150, r: 85 },
+    B: { cx: 245 + (offsetB || 0), cy: 150, r: 85 }
+  };
+}
+
+function renderPairs() {
+  const off = pairsState.liftOffset || 0;
+  const { A, B } = pairsCircles(off);
+  pctx.clearRect(0, 0, pairsCanvas.width, pairsCanvas.height);
+
+  const pts = circleIntersections(A, B);
+  let underA = [], underB = [];
+  if (pts.length === 2) {
+    const aAngles = pts.map(p => angleOnCircle(A, p));
+    const bAngles = pts.map(p => angleOnCircle(B, p));
+    if (!pairsState.linked) {
+      underB = bAngles;                       // A always on top
+    } else {
+      underB = [bAngles[0]];                  // alternating
+      underA = [aAngles[1]];
+    }
+  }
+  drawCircleWithGaps(pctx, A, underA, { color: "#1b6ca8" });
+  drawCircleWithGaps(pctx, B, underB, { color: "#2e8b57" });
+
+  pctx.fillStyle = "#1b6ca8";
+  pctx.font = "13px Georgia";
+  pctx.fillText("K1", A.cx - 6, A.cy - A.r - 8);
+  pctx.fillStyle = "#2e8b57";
+  pctx.fillText("K2", B.cx - 6, B.cy - B.r - 8);
+  circleArrow(pctx, A, Math.PI, "#1b6ca8");
+  circleArrow(pctx, B, 0, "#2e8b57");
+}
+
+function updatePairsLabels() {
+  document.getElementById("pairsStateLabel").textContent = pairsState.linked ? "lk = ±1  (Hopf link)" : "lk = 0  (unlinked)";
+}
+
+document.getElementById("pairsToggleBtn").addEventListener("click", () => {
+  pairsState.linked = !pairsState.linked;
+  pairsState.liftOffset = 0;
+  document.getElementById("pairsLiftNote").textContent = " ";
+  updatePairsLabels();
+  renderPairs();
+  renderArcFigure();   // keep the symmetry figure in step even if rAF is throttled
+});
+
+document.getElementById("pairsLiftBtn").addEventListener("click", () => {
+  if (pairsState.liftAnim) cancelAnimationFrame(pairsState.liftAnim);
+  const note = document.getElementById("pairsLiftNote");
+  const start = performance.now();
+  const duration = 900;
+  function step(now) {
+    const t = Math.min(1, (now - start) / duration);
+    if (!pairsState.linked) {
+      pairsState.liftOffset = 140 * t;
+      note.textContent = t >= 1 ? "Separated — the circles were never entangled." : "";
+    } else {
+      const bounce = t < 0.55 ? (t / 0.55) : 1 - (t - 0.55) / 0.45;
+      pairsState.liftOffset = 55 * Math.max(0, bounce);
+      note.textContent = t >= 1 ? "Bounced back — a genuine crossing survives every isotopy." : "";
+    }
+    renderPairs();
+    if (t < 1) pairsState.liftAnim = requestAnimationFrame(step);
+  }
+  pairsState.liftAnim = requestAnimationFrame(step);
+});
+
+// ----- Legendre calculator + Hilbert product formula -----
+function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
+
+function renderLegendreTable(p, q) {
+  const warn = document.getElementById("pairsWarn");
+  const table = document.getElementById("legendreTable");
+  const banner = document.getElementById("pairsBanner");
+  table.innerHTML = "";
+  banner.textContent = "";
+  banner.className = "banner";
+  // Contextual exposition instead of a bare warning: what the mod-4 classes mean.
+  if (!isPrimeSmall(p) || !isPrimeSmall(q) || p === q || p === 2n || q === 2n) {
+    warn.style.color = "var(--bad)";
+    warn.textContent = p === q ? "p and q must be distinct primes."
+      : (p === 2n || q === 2n) ? "p and q must be odd — the prime 2 needs its own local analysis (it is the ramification the mod-4 convention tames)."
+      : "Enter two distinct odd primes — Euler's criterion presumes an odd prime modulus.";
+    if (p === 2n || q === 2n) { table.innerHTML = ""; banner.textContent = ""; renderHilbertTable(p, q, null, null); return; }
+  } else if (isOneMod4(p) && isOneMod4(q)) {
+    warn.style.color = "var(--muted)";
+    warn.textContent = "Both ≡ 1 (mod 4): the papers' orientability convention — the 2-adic factor is +1 and (p/q) = (q/p) on the nose.";
+  } else if (isOneMod4(p) || isOneMod4(q)) {
+    warn.style.color = "var(--muted)";
+    warn.textContent = "One of the pair is ≡ 3 (mod 4) — outside the papers' convention, but since the other is ≡ 1 (mod 4) the 2-adic Hilbert factor is still +1, so reciprocity still reads (p/q) = (q/p).";
+  } else {
+    warn.style.color = "var(--muted)";
+    warn.textContent = "Both ≡ 3 (mod 4): reciprocity flips sign, (p/q) = −(q/p) — the −1 is exactly the 2-adic factor in the product formula below. The ≡ 1 (mod 4) convention is what removes it: the arithmetic analogue of orientability.";
+  }
+  let pq, qp, err = null;
+  try { pq = legendre(p, q); } catch (e) { err = e.message; }
+  try { qp = legendre(q, p); } catch (e) { err = e.message; }
+  if (err) {
+    table.innerHTML = `<tr><td colspan="2" class="fail">${err}</td></tr>`;
+    renderHilbertTable(p, q, null, null);
+    return;
+  }
+  const bothThree = !isOneMod4(p) && !isOneMod4(q);
+  const rows = [
+    [`(p / q) via <span class="tt tt-left" data-tip="a^((p−1)/2) mod p is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function.">Euler's criterion</span>`, `(${p} / ${q}) = ${pq > 0 ? "+1" : pq < 0 ? "−1" : "0"}`],
+    ["(q / p)", `(${q} / ${p}) = ${qp > 0 ? "+1" : qp < 0 ? "−1" : "0"}`],
+    ["reciprocity", bothThree
+      ? (pq === -qp ? '<span class="ok">(p/q) = −(q/p) ✓ (both ≡ 3 mod 4: the sign is the 2-adic factor)</span>' : '<span class="fail">(p/q) ≠ −(q/p) ?!</span>')
+      : (pq === qp ? '<span class="ok">(p/q) = (q/p) ✓</span>' : '<span class="fail">(p/q) ≠ (q/p) ?!</span>')],
+  ];
+  for (const [k, v] of rows) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td>`;
+    table.appendChild(tr);
+  }
+  if (pq === 1) {
+    banner.classList.add("topo");
+    banner.innerHTML = `<b>+1</b> — ${q} <span class="tt" data-tip="The prime ${q} factors into two distinct primes in the ring of integers of Q(√${p}): Frobenius is trivial, the curve misses the surface — no puncture.">splits</span> in Q(√${p}): unlinked.`;
+  } else if (pq === -1) {
+    banner.innerHTML = `<b>−1</b> — ${q} is <span class="tt" data-tip="The prime ${q} stays prime in Q(√${p}): Frobenius is the flip √${p} ↦ −√${p} — one puncture, the mod-2 shadow of lk = ±1.">inert</span> in Q(√${p}): the Hopf pair.`;
+  } else {
+    banner.innerHTML = `<b>0</b> — ${q} <span class="tt" data-tip="The prime divides the discriminant: it 'branches' in the field, like a singular point of the covering. Excluded by the p ≡ 1 (mod 4), p ≠ q convention.">ramifies</span> in Q(√${p}).`;
+  }
+  renderHilbertTable(p, q, pq, qp);
+  ttFocusable();
+}
+
+function renderHilbertTable(p, q, pq, qp) {
+  const table = document.getElementById("hilbertTable");
+  const note = document.getElementById("hilbertNote");
+  table.innerHTML = "";
+  if (pq === null || pq === undefined || qp === null || qp === undefined) {
+    note.textContent = "Enter valid primes on the Arithmetic panel above.";
+    return;
+  }
+  const two = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
+  const rows = [
+    ["v = ∞", "+1", "both p, q > 0"],
+    ["v = 2", two > 0 ? "+1" : "−1", `(−1)<sup>((p−1)/2)·((q−1)/2)</sup>`],
+    ["v ∉ {2, p, q, ∞}", "+1", "both are local units"],
+    [`v = ${p}`, qp > 0 ? "+1" : "−1", `(${q}/${p}) — the symbol (q/p)`],
+    [`v = ${q}`, pq > 0 ? "+1" : "−1", `(${p}/${q}) — the symbol (p/q)`],
+  ];
+  const product = two * pq * qp;
+  for (const [k, v, why] of rows) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td><td style="color:var(--muted);font-size:.8rem;">${why}</td>`;
+    table.appendChild(tr);
+  }
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td class="k"><b>∏<sub>v</sub> (p,q)<sub>v</sub></b></td><td class="v ${product === 1 ? "ok" : "fail"}">${product > 0 ? "+1 ✓" : "−1 ✗"}</td><td style="color:var(--muted);font-size:.8rem;">forces (p/q)(q/p) = 1</td>`;
+  table.appendChild(tr);
+  note.textContent = `The product formula collapses to (${p}/${q})(${q}/${p}) = 1 — reciprocity is the closedness of one global object.`;
+}
+
+document.getElementById("computeLegendre").addEventListener("click", () => {
+  const p = parseIntegerInput(document.getElementById("pInput").value);
+  const q = parseIntegerInput(document.getElementById("qInput").value);
+  if (p === null || q === null) {
+    const warn = document.getElementById("pairsWarn");
+    warn.style.color = "var(--bad)";
+    warn.textContent = "Enter plain decimal integers (no exponents or fractions), at most 9 digits.";
+    return;
+  }
+  renderLegendreTable(p, q);
+});
+function setPairsTopology(linked) {
+  pairsState.linked = linked;
+  pairsState.liftOffset = 0;
+  document.getElementById("pairsLiftNote").textContent = " ";
+  updatePairsLabels();
+  renderPairs();
+  renderArcFigure();
+}
+document.getElementById("preset529").addEventListener("click", () => {
+  document.getElementById("pInput").value = 5; document.getElementById("qInput").value = 29;
+  renderLegendreTable(5n, 29n);
+  setPairsTopology(false);   // +1: the unlinked pair — sync the topology panel
+});
+document.getElementById("preset513").addEventListener("click", () => {
+  document.getElementById("pInput").value = 5; document.getElementById("qInput").value = 13;
+  renderLegendreTable(5n, 13n);
+  setPairsTopology(true);    // −1: the Hopf pair
+});
+
+// ----- the arc figure (Figure 2 of the papers), with a traveling pulse -----
+const arcCanvas = document.getElementById("arcCanvas");
+const actx = arcCanvas.getContext("2d");
+let arcPulseT = 0;
+let lastArcMode = null;
+
+const ARC_TEXT = {
+  linked: {
+    caption: `This is a 3-D picture, not a Venn diagram: the two disks are <b>not</b> in the same plane. Σ₁ is a flat disk in a <b>horizontal</b> plane, Σ₂ a flat disk in a <b>vertical</b> plane, threaded through each other like two chain links with soap films. Two <span class="tt" data-tip="Meeting cleanly at an angle, like two pages of an open book — neither tangent nor parallel. Transversality is what makes the intersection a clean 1-dimensional object.">transverse</span> planes meet in a line; the two disks meet in the drawn <b>segment</b> — that segment is "the arc" Σ₁ ∩ Σ₂.`,
+    note: `The dashed quarter of K₂ passes underneath Σ₁. A <span class="tt tt-left" data-tip="A finite union of circles and closed segments. Each segment contributes +1 at one end and −1 at the other (∂[0,1] = {1} − {0}), so the signed count of all boundary points is 0.">compact oriented 1-manifold</span> has signed boundary count 0; the segment's end on K₁ is the point where K₁ pierces Σ₂ (counted by lk(K₂,K₁)), its end on K₂ is where K₂ pierces Σ₁ (counted by lk(K₁,K₂)) — one object, two ends, so the counts agree. The pulse travels the segment.`
+  },
+  unlinked: {
+    caption: `Unlinked, with the same 3-D staging: Σ₁ horizontal, Σ₂ vertical — but now the disks can be pulled apart, so Σ₁ ∩ Σ₂ = ∅. Nothing to count at either end: 0 = 0, the trivial case of the same principle.`,
+    note: `When lk = 0 the two spanning surfaces can be chosen disjoint: the global object is empty and both counts vanish, so symmetry holds for free. Toggle to the Hopf link above to watch the segment appear.`
+  }
+};
+
+// True 3-D configuration of the Hopf link with flat spanning disks, drawn in
+// axonometric projection.  K1 = unit circle in the horizontal plane z = 0;
+// K2 = unit circle in the vertical plane y = 0, centered at (1,0,0), so it
+// threads through Sigma1.  The disks meet where the two planes cross:
+// the straight segment (x,0,0), 0 <= x <= 1, from a point ON K2 to a point ON K1.
+function arcProj(x, y, z) {
+  return { X: 130 + 110 * x + 30 * y, Y: 150 - 95 * z + 26 * y };
+}
+
+function arcPathFromParam(fn, s0, s1, steps) {
+  actx.beginPath();
+  for (let i = 0; i <= steps; i++) {
+    const s = s0 + (i / steps) * (s1 - s0);
+    const p = fn(s);
+    if (i === 0) actx.moveTo(p.X, p.Y); else actx.lineTo(p.X, p.Y);
+  }
+}
+
+function renderArcFigure() {
+  const mode = pairsState.linked ? "linked" : "unlinked";
+  if (mode !== lastArcMode) {
+    lastArcMode = mode;
+    document.getElementById("arcCaption").innerHTML = ARC_TEXT[mode].caption;
+    document.getElementById("arcNote").innerHTML = ARC_TEXT[mode].note;
+    ttFocusable();
+  }
+  if (mode === "unlinked") { renderArcFigureUnlinked(); return; }
+  actx.clearRect(0, 0, arcCanvas.width, arcCanvas.height);
+
+  const K1of = t => arcProj(Math.cos(t), Math.sin(t), 0);
+  const K2of = s => arcProj(1 + Math.cos(s), 0, Math.sin(s));
+
+  // Seifert disks as translucent fills (Sigma2 behind, Sigma1 in front)
+  actx.save();
+  actx.globalAlpha = 0.16;
+  actx.fillStyle = "#2e8b57";
+  arcPathFromParam(K2of, 0, 2 * Math.PI, 90);
+  actx.closePath(); actx.fill();
+  actx.fillStyle = "#1b6ca8";
+  arcPathFromParam(K1of, 0, 2 * Math.PI, 90);
+  actx.closePath(); actx.fill();
+  actx.restore();
+
+  // K1 boundary (lies in the horizontal plane)
+  actx.lineWidth = 3.5;
+  actx.lineCap = "round";
+  actx.strokeStyle = "#1b6ca8";
+  arcPathFromParam(K1of, 0, 2 * Math.PI, 180);
+  actx.stroke();
+
+  // K2 boundary: the quarter s in (pi, 3pi/2) dives BELOW Sigma1 inside its
+  // footprint -> dashed + faint; the rest solid.
+  actx.strokeStyle = "#2e8b57";
+  arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140);   // visible 3/4
+  actx.stroke();
+  actx.save();
+  actx.globalAlpha = 0.4;
+  actx.setLineDash([6, 5]);
+  actx.lineWidth = 2.5;
+  arcPathFromParam(K2of, Math.PI, 1.5 * Math.PI, 50);   // hidden quarter, under the disk
+  actx.stroke();
+  actx.restore();
+
+  // The intersection segment Sigma1 ∩ Sigma2: (0,0,0) -> (1,0,0)
+  const P2 = arcProj(0, 0, 0);   // on K2: where K2 pierces Sigma1
+  const P1 = arcProj(1, 0, 0);   // on K1: where K1 pierces Sigma2
+  actx.strokeStyle = "#333";
+  actx.lineWidth = 3.5;
+  actx.beginPath();
+  actx.moveTo(P2.X, P2.Y);
+  actx.lineTo(P1.X, P1.Y);
+  actx.stroke();
+
+  function dot(p, color) {
+    actx.fillStyle = color;
+    actx.beginPath();
+    actx.arc(p.X, p.Y, 5.5, 0, 2 * Math.PI);
+    actx.fill();
+  }
+  dot(P1, "#1b6ca8");
+  dot(P2, "#2e8b57");
+
+  // pulse traveling the straight segment
+  const t = (Math.sin(arcPulseT) + 1) / 2;
+  actx.fillStyle = "#f5a623";
+  actx.beginPath();
+  actx.arc(P2.X + t * (P1.X - P2.X), P2.Y, 6, 0, 2 * Math.PI);
+  actx.fill();
+
+  // labels
+  actx.font = "12px Georgia";
+  actx.fillStyle = "#1b6ca8";
+  actx.fillText("K1 bounds Σ1 — horizontal plane", 12, 112);
+  actx.fillStyle = "#2e8b57";
+  actx.fillText("K2 bounds Σ2 — vertical plane", 248, 44);
+  actx.fillStyle = "#333";
+  actx.textAlign = "center";
+  actx.fillText("Σ1 ∩ Σ2", (P1.X + P2.X) / 2, P2.Y - 12);
+  actx.font = "11px Georgia";
+  actx.fillStyle = "#2e8b57";
+  actx.fillText("K2 pierces Σ1 here", P2.X - 28, P2.Y + 24);
+  actx.fillText("→ lk(K1,K2)", P2.X - 28, P2.Y + 38);
+  actx.fillStyle = "#1b6ca8";
+  actx.fillText("K1 pierces Σ2 here", P1.X + 44, P1.Y + 24);
+  actx.fillText("→ lk(K2,K1)", P1.X + 44, P1.Y + 38);
+  actx.textAlign = "start";
+}
+
+function renderArcFigureUnlinked() {
+  actx.clearRect(0, 0, arcCanvas.width, arcCanvas.height);
+  // same staging (horizontal disk, vertical disk), pulled apart
+  const K1 = { cx: 105, cy: 160, rx: 88, ry: 30 };
+  const K2 = { cx: 330, cy: 135, rx: 48, ry: 88 };
+
+  actx.save();
+  actx.globalAlpha = 0.16;
+  actx.fillStyle = "#1b6ca8";
+  actx.beginPath();
+  actx.ellipse(K1.cx, K1.cy, K1.rx, K1.ry, 0, 0, 2 * Math.PI);
+  actx.fill();
+  actx.fillStyle = "#2e8b57";
+  actx.beginPath();
+  actx.ellipse(K2.cx, K2.cy, K2.rx, K2.ry, 0, 0, 2 * Math.PI);
+  actx.fill();
+  actx.restore();
+
+  actx.lineWidth = 3.5;
+  actx.strokeStyle = "#1b6ca8";
+  actx.beginPath();
+  actx.ellipse(K1.cx, K1.cy, K1.rx, K1.ry, 0, 0, 2 * Math.PI);
+  actx.stroke();
+  actx.strokeStyle = "#2e8b57";
+  actx.beginPath();
+  actx.ellipse(K2.cx, K2.cy, K2.rx, K2.ry, 0, 0, 2 * Math.PI);
+  actx.stroke();
+
+  actx.font = "12px Georgia";
+  actx.fillStyle = "#1b6ca8";
+  actx.fillText("K1 bounds Σ1 — horizontal plane", 20, 112);
+  actx.fillStyle = "#2e8b57";
+  actx.fillText("K2 bounds Σ2 — vertical plane", 240, 30);
+  actx.fillStyle = "#333";
+  actx.font = "15px Georgia";
+  actx.textAlign = "center";
+  actx.fillText("Σ1 ∩ Σ2 = ∅", 214, 140);
+  actx.fillText("0 = 0", 214, 165);
+  actx.textAlign = "start";
+}
+
+function arcAnimLoop() {
+  arcPulseT += 0.03;
+  // only redraw when the pairs tab is visible
+  if (document.getElementById("tab-pairs").classList.contains("active")) {
+    renderArcFigure();
+  }
+  requestAnimationFrame(arcAnimLoop);
+}
+
+/* =========================================================================
+   TAB — TRIPLES
+   ========================================================================= */
+
+const borroCanvas = document.getElementById("borroCanvas");
+const bctx = borroCanvas.getContext("2d");
+let isolateMode = "none";
+
+function borroCircles() {
+  const cx = 210, cy = 175, r = 100, R = 62;
+  return {
+    1: { cx: cx, cy: cy - R, r, color: "#1b6ca8", label: "K1" },
+    2: { cx: cx - R * 0.87, cy: cy + R * 0.5, r, color: "#2e8b57", label: "K2" },
+    3: { cx: cx + R * 0.87, cy: cy + R * 0.5, r, color: "#e67e22", label: "K3" },
+  };
+}
+
+function dominates(i, j) {
+  const cyc = { "1,2": true, "2,1": false, "2,3": true, "3,2": false, "3,1": true, "1,3": false };
+  return cyc[`${i},${j}`];
+}
+
+function renderBorro() {
+  const circles = borroCircles();
+  bctx.clearRect(0, 0, borroCanvas.width, borroCanvas.height);
+  const ids = ["1", "2", "3"];
+  const visible = ids.filter(id => isolateMode === "none" || id !== isolateMode);
+  const underAngles = { 1: [], 2: [], 3: [] };
+
+  for (let a = 0; a < ids.length; a++) {
+    for (let b = a + 1; b < ids.length; b++) {
+      const i = ids[a], j = ids[b];
+      if (!visible.includes(i) || !visible.includes(j)) continue;
+      const pts = circleIntersections(circles[i], circles[j]);
+      if (pts.length !== 2) continue;
+      const iOver = dominates(i, j);
+      const angI = pts.map(p => angleOnCircle(circles[i], p));
+      const angJ = pts.map(p => angleOnCircle(circles[j], p));
+      if (iOver) underAngles[j].push(...angJ);
+      else underAngles[i].push(...angI);
+    }
+  }
+  const arrowAngle = { 1: -Math.PI / 2, 2: 2.5, 3: 0.64 };
+  for (const id of visible) {
+    drawCircleWithGaps(bctx, circles[id], underAngles[id], { color: circles[id].color });
+    bctx.fillStyle = circles[id].color;
+    bctx.font = "13px Georgia";
+    const labelY = id === "1" ? circles[id].cy - circles[id].r - 8 : circles[id].cy + circles[id].r + 16;
+    bctx.fillText(circles[id].label, circles[id].cx - 8, labelY);
+    circleArrow(bctx, circles[id], arrowAngle[id], circles[id].color);
+  }
+  if (isolateMode !== "none") {
+    bctx.fillStyle = "#bbb";
+    bctx.font = "italic 12px Georgia";
+    bctx.fillText(`K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 20);
+  }
+}
+
+document.getElementById("isolateSelect").addEventListener("change", (e) => {
+  isolateMode = e.target.value;
+  renderBorro();
+});
+
+// Pairwise linking numbers computed live from the Borromean diagram itself:
+// at each computed crossing, the sign is cross(tangent of over-strand, tangent
+// of under-strand); lk = (signed sum)/2 for each pair.
+function borroComputeLk() {
+  const circles = borroCircles();
+  const ids = ["1", "2", "3"];
+  const out = {};
+  for (let a = 0; a < 3; a++) for (let b = a + 1; b < 3; b++) {
+    const i = ids[a], j = ids[b];
+    const pts = circleIntersections(circles[i], circles[j]);
+    let sum = 0;
+    for (const pt of pts) {
+      const ti = { x: -(pt.y - circles[i].cy), y: pt.x - circles[i].cx }; // CCW tangent
+      const tj = { x: -(pt.y - circles[j].cy), y: pt.x - circles[j].cx };
+      const iOver = dominates(i, j);
+      const over = iOver ? ti : tj, under = iOver ? tj : ti;
+      sum += Math.sign(over.x * under.y - over.y * under.x);
+    }
+    out[`${i}${j}`] = sum / 2;
+  }
+  return out; // {"12":0,"13":0,"23":0} expected
+}
+
+// Magnus expansion of the longitude [x1,x2] of K3 — Milnor's computation of mu(123).
+function computeMagnusLongitude12() {
+  const X1 = mgGen(1), X2 = mgGen(2);
+  const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 };
+  return mgCommutator(M1, mgInvOnePlusU(X1), M2, mgInvOnePlusU(X2));
+}
+
+function renderTopoTripleSteps() {
+  const container = document.getElementById("topoTripleSteps");
+  container.innerHTML = "";
+  const steps = [];
+  const mirror = txt => `<div style="color:var(--arith);font-size:.8rem;margin-top:4px;">↔ arithmetic: ${txt}</div>`;
+
+  const lk = borroComputeLk();
+  steps.push({
+    head: "1. Pairwise: computed from the diagram's signed crossings",
+    body: `lk(K1,K2) = ${lk["12"]} &nbsp; lk(K1,K3) = ${lk["13"]} &nbsp; lk(K2,K3) = ${lk["23"]} — at each pair's two crossings the signs cancel: the topological unlink.`
+      + mirror("(13/61) = (13/937) = (61/937) = +1, computed by Euler's criterion.")
+  });
+
+  steps.push({
+    head: "2. The certificate the vanishing leaves behind: the longitude",
+    body: `Because every lk = 0, the curve K3 traces in the complement of K1 ∪ K2 — its <span class="tt tt-left" data-tip="The longitude of a component: the path the component itself follows, read as a word in the meridians x₁, x₂ of the other components. Pairwise lk = 0 says the exponent sums vanish, which is exactly the condition for the word to be a commutator.">longitude</span> — is the commutator ℓ₃ = [x₁, x₂].`
+      + mirror("the Rédei element α = 23 + 6√13 — solvable exactly because the pairwise symbol is +1. Both certificates exist only because the previous level vanished.")
+  });
+
+  const C12 = computeMagnusLongitude12();
+  const c12 = C12["1,2"] || 0, c21 = C12["2,1"] || 0;
+  steps.push({
+    head: "3. Evaluate the certificate: Magnus expansion (computed live)",
+    body: `[x₁,x₂] ↦ 1 ${c12 >= 0 ? "+" : "−"} X₁X₂ ${c21 >= 0 ? "+" : "−"} X₂X₁ + (deg ≥ 3)`
+      + mirror("evaluate α at 937: Tonelli–Shanks for √13, then Legendre of both conjugates — both −1.")
+  });
+
+  steps.push({
+    head: "4. Read the invariant",
+    body: `μ̄(123) = coefficient of X₁X₂ = <b>${c12}</b> (Milnor: the coefficient of X₁X₂ in the expansion of ℓ₃).`
+      + mirror("[13, 61, 937] = −1: the same level, read through Frobenius instead of Magnus.")
+  });
+
+  for (const s of steps) {
+    const div = document.createElement("div");
+    div.className = "step";
+    div.innerHTML = `<div class="head">${s.head}</div><div class="eq">${s.body}</div>`;
+    container.appendChild(div);
+  }
+  document.getElementById("topoTripleBanner").innerHTML =
+    `<b>μ̄(123) = ${c12}</b> — no two linked, all three linked: the Borromean rings. <span class="tt" data-tip="The sign of μ̄(123) depends on the chosen orientations and component ordering (reversing one component negates it); with the conventions fixed here it is +1. The invariant statement is μ̄(123) = ±1 ≠ 0, mirroring [13,61,937] = −1 ≠ +1.">(sign?)</span>`;
+  ttFocusable();
+}
+
+// ----- optional 3D view -----
+let threeLoaded = false, threeFailed = false;
+(function loadThree() {
+  const s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+  s.onload = () => { threeLoaded = true; };
+  s.onerror = () => { threeFailed = true; document.getElementById("borro3dToggle").style.display = "none"; };
+  document.head.appendChild(s);
+})();
+
+let borro3dState = null;
+document.getElementById("borro3dToggle").addEventListener("click", () => {
+  const wrap = document.getElementById("borro3dWrap");
+  if (!threeLoaded) {
+    if (threeFailed) { alert("3D view unavailable offline (three.js CDN failed to load)."); return; }
+    alert("3D library still loading — try again in a moment.");
+    return;
+  }
+  const showing = wrap.style.display !== "none";
+  wrap.style.display = showing ? "none" : "block";
+  if (!showing && !borro3dState) initBorro3D();
+});
+document.getElementById("fsTooltip").addEventListener("click", () => {
+  const el = document.getElementById("fsExplain");
+  el.style.display = el.style.display === "none" ? "block" : "none";
+});
+
+function initBorro3D() {
+  const container = document.getElementById("borro3dContainer");
+  const w = container.clientWidth, h = container.clientHeight;
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xfdfdfb);
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+  camera.position.set(4, 3, 6);
+  camera.lookAt(0, 0, 0);
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(w, h);
+  container.appendChild(renderer.domElement);
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const a = 2, b = 1.1, segs = 128;
+  function ellipseCurve(plane) {
+    const pts = [];
+    for (let i = 0; i <= segs; i++) {
+      const t = (i / segs) * Math.PI * 2;
+      const u = a * Math.cos(t), v = b * Math.sin(t);
+      let x, y, z;
+      if (plane === "xy") { x = u; y = v; z = 0; }
+      else if (plane === "yz") { x = 0; y = u; z = v; }
+      else { x = v; y = 0; z = u; }
+      pts.push(new THREE.Vector3(x, y, z));
+    }
+    return pts;
+  }
+  const colors = [0x1b6ca8, 0x2e8b57, 0xe67e22]; // match the 2D ring colors K1/K2/K3
+  ["xy", "yz", "zx"].forEach((plane, idx) => {
+    const geom = new THREE.BufferGeometry().setFromPoints(ellipseCurve(plane));
+    const mat = new THREE.LineBasicMaterial({ color: colors[idx], linewidth: 2 });
+    group.add(new THREE.Line(geom, mat));
+  });
+
+  let dragging = false, lastX = 0, lastY = 0;
+  renderer.domElement.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+  window.addEventListener("mouseup", () => dragging = false);
+  window.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    group.rotation.y += dx * 0.01;
+    group.rotation.x += dy * 0.01;
+    lastX = e.clientX; lastY = e.clientY;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+  borro3dState = { scene, camera, renderer, group };
+}
+
+// ----- Rédei step-by-step -----
+function renderTripleSteps() {
+  const p1 = 13n, p2 = 61n, q = 937n;
+  const container = document.getElementById("tripleSteps");
+  container.innerHTML = "";
+  const steps = [];
+
+  const mirrorT = txt => `<div style="color:var(--topo);font-size:.8rem;margin-top:4px;">↔ topology: ${txt}</div>`;
+  const l1 = legendre(p1, p2), l2 = legendre(p1, q), l3 = legendre(p2, q);
+  steps.push({
+    head: "1. Pairwise: every pair fully split — the arithmetic unlink",
+    body: `(13/61) = ${l1 > 0 ? "+1" : l1} &nbsp; (13/937) = ${l2 > 0 ? "+1" : l2} &nbsp; (61/937) = ${l3 > 0 ? "+1" : l3}`
+      + mirrorT("lk(K1,K2) = lk(K1,K3) = lk(K2,K3) = 0, computed from the diagram's crossings.")
+  });
+
+  const x = 23n, y = 6n, z = 1n;
+  const resid = x * x - p1 * y * y - p2 * z * z;
+  steps.push({
+    head: `2. <span class="tt tt-left" data-tip="The element α = x + y√p₁ whose square root generates the Rédei field. It exists because (p₁/p₂) = +1 makes the quadratic form equation solvable; the field it generates does not depend on which solution is used.">Rédei element</span>: x² − 13y² − 61z² = 0 with (x,y,z) = (23,6,1); α = 23 + 6√13`,
+    body: `23² − 13·6² − 61·1² = ${(23n * 23n).toString()} − ${(13n * 36n).toString()} − 61 = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span> &nbsp; (solvable exactly because (13/61) = +1)`
+      + mirrorT("the longitude ℓ₃ = [x₁,x₂] — writable as a commutator exactly because every lk = 0.")
+  });
+
+  const roots = tonelliShanks(p1, q);
+  steps.push({
+    head: `3. √13 mod 937 via <span class="tt tt-left" data-tip="The general algorithm for square roots modulo a prime. For p ≡ 3 (mod 4) one can just raise to the power (p+1)/4, but 937 ≡ 1 (mod 4), so the full algorithm — factoring out the 2-part of p−1 and walking a nonresidue's powers — is required. Implemented live on this page.">Tonelli–Shanks</span> (937 ≡ 1 mod 4: no shortcut available)`,
+    body: `roots = {${roots.map(String).join(", ")}}`
+  });
+
+  const conjs = roots.map(r => ((x + y * r) % q + q) % q);
+  const legs = conjs.map(v => legendre(v, q));
+  steps.push({
+    head: `4. Both <span class="tt tt-left" data-tip="The two square roots ±√13 mod 937 give the two Galois conjugates of α reduced mod 937. 'Does 937 split completely in the Rédei field?' reduces to: are these residues squares mod 937? The symbol is well defined because both conjugates give the same answer.">conjugates</span> 23 + 6·(±√13) mod 937, then Legendre mod 937`,
+    body: `values = {${conjs.map(String).join(", ")}} &nbsp; symbols = {${legs.map(l => l > 0 ? "+1" : l).join(", ")}} — 937 does not split completely in k<sub>13,61</sub>`
+      + mirrorT("the Magnus expansion of ℓ₃ — evaluated coefficient of X₁X₂ = μ̄(123) = 1. The same level, read through Magnus instead of Frobenius.")
+  });
+
+  for (const s of steps) {
+    const div = document.createElement("div");
+    div.className = "step";
+    div.innerHTML = `<div class="head">${s.head}</div><div class="eq">${s.body}</div>`;
+    container.appendChild(div);
+  }
+
+  const result = redeiSymbol(p1, p2, q, x, y, z);
+  const banner = document.getElementById("tripleBanner");
+  banner.innerHTML = `<b>[13, 61, 937] = ${result.value > 0 ? "+1" : "−1"}</b> — no two linked, all three linked: the arithmetic Borromean rings.`;
+
+  renderTripleHasse();
+  ttFocusable();
+}
+
+function renderTripleHasse() {
+  // Diamond lattice, every edge drawn box-center to box-center:
+  //          k_{13,61}          (deg 2 over the biquadratic)
+  //              |
+  //         Q(√13,√61)
+  //          /       \
+  //     Q(√13)     Q(√61)
+  //          \       /
+  //              Q
+  const svg = document.getElementById("tripleHasse");
+  svg.innerHTML = `
+    <g font-size="12" text-anchor="middle">
+      <rect class="hasse-box" x="130" y="8" width="160" height="26"/>
+      <text class="hasse-label" x="210" y="25">k₁₃,₆₁ = Q(√13,√61,√α)</text>
+      <text x="296" y="20" font-style="italic" fill="#666" font-size="11" text-anchor="start">Gal = D₄, order 8</text>
+      <text x="296" y="36" font-style="italic" fill="#666" font-size="10" text-anchor="start">the "Σ1 ∩ Σ2" of the primes</text>
+      <line x1="210" y1="34" x2="210" y2="56" stroke="#333"/>
+      <text x="220" y="50" font-size="10" fill="#666" text-anchor="start">deg 2 (√α)</text>
+      <rect class="hasse-box" x="135" y="56" width="150" height="26"/>
+      <text class="hasse-label" x="210" y="73">Q(√13, √61)</text>
+      <line x1="210" y1="82" x2="115" y2="104" stroke="#333"/>
+      <line x1="210" y1="82" x2="305" y2="104" stroke="#333"/>
+      <rect class="hasse-box" x="60" y="104" width="110" height="26"/>
+      <text class="hasse-label" x="115" y="121">Q(√13)</text>
+      <rect class="hasse-box" x="250" y="104" width="110" height="26"/>
+      <text class="hasse-label" x="305" y="121">Q(√61)</text>
+      <line x1="210" y1="152" x2="115" y2="130" stroke="#333"/>
+      <line x1="210" y1="152" x2="305" y2="130" stroke="#333"/>
+      <rect class="hasse-box" x="180" y="152" width="60" height="26"/>
+      <text class="hasse-label" x="210" y="169">Q</text>
+    </g>`;
+}
+
+// ----- Delta_Bor expansion grid -----
+function renderDeltaBorGrid() {
+  const grid = document.getElementById("deltaBorGrid");
+  const poly = expandDeltaBor();
+  const monomials = [
+    ["0,0,0", "1"],
+    ["1,0,0", "x₁"], ["0,1,0", "x₂"], ["0,0,1", "x₃"],
+    ["1,1,0", "x₁x₂"], ["1,0,1", "x₁x₃"], ["0,1,1", "x₂x₃"],
+    ["1,1,1", "x₁x₂x₃"],
+  ];
+  grid.innerHTML = "";
+  for (const [key, label] of monomials) {
+    const c = poly[key] || 0;
+    const div = document.createElement("div");
+    const isTop = key === "1,1,1";
+    div.className = "coef-cell" + (c === 0 ? " zero" : "") + (isTop && c !== 0 ? " top" : "");
+    div.innerHTML = `${label}<br><b>${c}</b>${isTop && c === 1 ? " = μ̄(123)" : ""}`;
+    grid.appendChild(div);
+  }
+}
+
+/* =========================================================================
+   TAB — QUADRUPLES
+   ========================================================================= */
+
+/* ---- The standard 4-component Brunnian link ------------------------------
+   Wikipedia's "Brunnian-4loops.svg" (by AnonMoos, public domain), redrawn
+   from its exact path data.  Components: green ellipse G, yellow stadium Y,
+   red rounded diamond R, blue rounded diamond B.  Layer analysis of the
+   original SVG (base order green, blue, red, yellow, plus patches that put
+   green's lower half and all of blue's yellow-crossings back on top) gives:
+     G-Y: 4 crossings - yellow over the top two, green over the bottom two
+          (the commutator clasp aba^-1 b^-1 of the rubber-band construction);
+     B-Y: 4 crossings - blue over all;    R-Y: 4 - yellow over all;
+     R-B: 2 (top and bottom center) - red over both;  G-R = G-B = no crossings.
+   All pairwise linking numbers are computed live from the drawn crossings. */
+
+const B4W_SCALE = 420 / 588;
+function b4wT(x, y) {
+  return { x: (-123 + 0.139 * x) * B4W_SCALE, y: (850.44 - 0.139 * y) * B4W_SCALE };
+}
+const B4W_COLORS = { G: "#009900", Y: "#c9a500", R: "#cc2020", B: "#2020cc" };
+const B4W_LABEL = { G: "K1", Y: "K2", R: "K3", B: "K4" };
+const B4W_SELMAP = { 1: "G", 2: "Y", 3: "R", 4: "B" };
+let b4wDeleted = null;
+let b4wCache = null;
+
+function b4wSampleCubic(p0, c1, c2, p1, n, out) {
+  for (let i = 1; i <= n; i++) {
+    const t = i / n, u = 1 - t;
+    out.push({
+      x: u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p1.x,
+      y: u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p1.y
+    });
+  }
+}
+function b4wSampleLine(p0, p1, n, out) {
+  for (let i = 1; i <= n; i++) {
+    const t = i / n;
+    out.push({ x: p0.x + t * (p1.x - p0.x), y: p0.y + t * (p1.y - p0.y) });
+  }
+}
+
+// Piecewise path -> closed polyline (internal coords), then projected.
+function b4wPathToPoly(segs) {
+  const pts = [{ x: segs[0].from.x, y: segs[0].from.y }];
+  for (const s of segs) {
+    if (s.type === "C") b4wSampleCubic(s.from, s.c1, s.c2, s.to, 24, pts);
+    else b4wSampleLine(s.from, s.to, 24, pts);
+  }
+  pts.pop(); // closing point duplicates the start
+  return pts.map(p => b4wT(p.x, p.y));
+}
+
+function b4wCurves() {
+  const P = (x, y) => ({ x, y });
+  // Green: ellipse center (3000,3960), rx 1000, ry 500
+  const G = [];
+  for (let i = 0; i < 192; i++) {
+    const t = (i / 192) * 2 * Math.PI;
+    const q = b4wT(3000 + 1000 * Math.cos(t), 3960 + 500 * Math.sin(t));
+    G.push(q);
+  }
+  // Yellow: stadium, limbs x = 2310 / 3690 for y in [2660,5260], caps r = 690
+  const Y = [];
+  for (let i = 0; i < 40; i++) Y.push(b4wT(3690, 5260 - (i / 40) * 2600));         // right limb down
+  for (let i = 0; i < 48; i++) { const a = -(i / 48) * Math.PI;                     // bottom cap
+    Y.push(b4wT(3000 + 690 * Math.cos(a), 2660 + 690 * Math.sin(a))); }
+  for (let i = 0; i < 40; i++) Y.push(b4wT(2310, 2660 + (i / 40) * 2600));          // left limb up
+  for (let i = 0; i < 48; i++) { const a = Math.PI - (i / 48) * Math.PI;            // top cap
+    Y.push(b4wT(3000 + 690 * Math.cos(a), 5260 + 690 * Math.sin(a))); }
+  // Red rounded diamond (transcribed from the SVG path, absolute coords)
+  const R = b4wPathToPoly([
+    { type: "C", from: P(2163.38, 5338.86), c1: P(2285.28, 5460.76), c2: P(2450.61, 5529.24), to: P(2623.00, 5529.24) },
+    { type: "L", from: P(2623.00, 5529.24), to: P(2753.00, 5529.24) },
+    { type: "C", from: P(2753.00, 5529.24), c1: P(2925.39, 5529.24), c2: P(3090.72, 5460.76), to: P(3212.62, 5338.86) },
+    { type: "L", from: P(3212.62, 5338.86), to: P(4419.12, 4132.36) },
+    { type: "C", from: P(4419.12, 4132.36), c1: P(4464.83, 4086.65), c2: P(4490.51, 4024.65), to: P(4490.51, 3960.00) },
+    { type: "C", from: P(4490.51, 3960.00), c1: P(4490.51, 3895.35), c2: P(4464.83, 3833.35), to: P(4419.12, 3787.64) },
+    { type: "L", from: P(4419.12, 3787.64), to: P(3212.62, 2581.14) },
+    { type: "C", from: P(3212.62, 2581.14), c1: P(3090.72, 2459.24), c2: P(2925.39, 2390.76), to: P(2753.00, 2390.76) },
+    { type: "L", from: P(2753.00, 2390.76), to: P(2623.00, 2390.76) },
+    { type: "C", from: P(2623.00, 2390.76), c1: P(2450.61, 2390.76), c2: P(2285.28, 2459.24), to: P(2163.38, 2581.14) },
+    { type: "L", from: P(2163.38, 2581.14), to: P(1244.14, 3500.38) },
+    { type: "C", from: P(1244.14, 3500.38), c1: P(1122.24, 3622.28), c2: P(1053.76, 3787.61), to: P(1053.76, 3960.00) },
+    { type: "C", from: P(1053.76, 3960.00), c1: P(1053.76, 4132.39), c2: P(1122.24, 4297.72), to: P(1244.14, 4419.62) },
+    { type: "L", from: P(1244.14, 4419.62), to: P(2163.38, 5338.86) },
+  ]);
+  // Blue rounded diamond (mirror image, transcribed likewise)
+  const B = b4wPathToPoly([
+    { type: "C", from: P(2787.38, 5338.86), c1: P(2909.28, 5460.76), c2: P(3074.61, 5529.24), to: P(3247.00, 5529.24) },
+    { type: "L", from: P(3247.00, 5529.24), to: P(3377.00, 5529.24) },
+    { type: "C", from: P(3377.00, 5529.24), c1: P(3549.39, 5529.24), c2: P(3714.72, 5460.76), to: P(3836.62, 5338.86) },
+    { type: "L", from: P(3836.62, 5338.86), to: P(4755.86, 4419.62) },
+    { type: "C", from: P(4755.86, 4419.62), c1: P(4877.76, 4297.72), c2: P(4946.24, 4132.39), to: P(4946.24, 3960.00) },
+    { type: "C", from: P(4946.24, 3960.00), c1: P(4946.24, 3787.61), c2: P(4877.76, 3622.28), to: P(4755.86, 3500.38) },
+    { type: "L", from: P(4755.86, 3500.38), to: P(3836.62, 2581.14) },
+    { type: "C", from: P(3836.62, 2581.14), c1: P(3714.72, 2459.24), c2: P(3549.39, 2390.76), to: P(3377.00, 2390.76) },
+    { type: "L", from: P(3377.00, 2390.76), to: P(3247.00, 2390.76) },
+    { type: "C", from: P(3247.00, 2390.76), c1: P(3074.61, 2390.76), c2: P(2909.28, 2459.24), to: P(2787.38, 2581.14) },
+    { type: "L", from: P(2787.38, 2581.14), to: P(1580.88, 3787.64) },
+    { type: "C", from: P(1580.88, 3787.64), c1: P(1535.17, 3833.35), c2: P(1509.49, 3895.35), to: P(1509.49, 3960.00) },
+    { type: "C", from: P(1509.49, 3960.00), c1: P(1509.49, 4024.65), c2: P(1535.17, 4086.65), to: P(1580.88, 4132.36) },
+    { type: "L", from: P(1580.88, 4132.36), to: P(2787.38, 5338.86) },
+  ]);
+  return { G, Y, R, B };
+}
+
+function b4wSegIntersect(a1, a2, b1, b2) {
+  const d1 = { x: a2.x - a1.x, y: a2.y - a1.y };
+  const d2 = { x: b2.x - b1.x, y: b2.y - b1.y };
+  const den = d1.x * d2.y - d1.y * d2.x;
+  if (Math.abs(den) < 1e-12) return null;
+  const s = ((b1.x - a1.x) * d2.y - (b1.y - a1.y) * d2.x) / den;
+  const t = ((b1.x - a1.x) * d1.y - (b1.y - a1.y) * d1.x) / den;
+  if (s <= 0 || s >= 1 || t <= 0 || t >= 1) return null;
+  return { pt: { x: a1.x + s * d1.x, y: a1.y + s * d1.y }, ta: d1, tb: d2 };
+}
+
+// The over/under rules read off the original SVG's layer structure.
+const B4W_GY_SPLIT = (850.44 - 0.139 * 3960) * B4W_SCALE; // canvas y of green's center line
+function b4wOverOf(pair, pt) {
+  if (pair === "GY") return pt.y > B4W_GY_SPLIT ? "G" : "Y"; // green over on its lower half
+  if (pair === "BY") return "B";
+  if (pair === "RY") return "Y";
+  if (pair === "RB") return "R";
+  return null;
+}
+
+function b4wCrossings() {
+  if (b4wCache) return b4wCache;
+  const curves = b4wCurves();
+  const names = ["G", "Y", "R", "B"];
+  const crossings = [];      // {pair, i, j, pt, ti, tj, over}
+  const counts = {};
+  for (let a = 0; a < 4; a++) for (let b = a + 1; b < 4; b++) {
+    const i = names[a], j = names[b];
+    const pair = [i, j].sort().join("").replace("BG", "GB").replace("GR", "GR");
+    const key = i + j; // GY, GR, GB, YR, YB, RB in loop order
+    const A = curves[i], Bc = curves[j];
+    let n = 0;
+    for (let u = 0; u < A.length; u++) {
+      const a1 = A[u], a2 = A[(u + 1) % A.length];
+      for (let v = 0; v < Bc.length; v++) {
+        const hit = b4wSegIntersect(a1, a2, Bc[v], Bc[(v + 1) % Bc.length]);
+        if (hit) {
+          n++;
+          // normalize pair name to the rule table's keys
+          let rulekey = key;
+          if (key === "YR") rulekey = "RY";
+          if (key === "YB") rulekey = "BY";
+          crossings.push({ i, j, key: rulekey, pt: hit.pt, ti: hit.ta, tj: hit.tb, over: b4wOverOf(rulekey, hit.pt) });
+        }
+      }
+    }
+    counts[key] = n;
+  }
+  b4wCache = { curves, crossings, counts };
+  return b4wCache;
+}
+
+// lk for each interacting pair = (sum of signs)/2; sign = cross(t_over, t_under).
+function b4wComputeLk() {
+  const { crossings, counts } = b4wCrossings();
+  const sums = { GY: 0, RY: 0, BY: 0, RB: 0 };
+  for (const c of crossings) {
+    if (!(c.key in sums)) continue;
+    const over = c.over === c.i ? c.ti : c.tj;
+    const under = c.over === c.i ? c.tj : c.ti;
+    sums[c.key] += Math.sign(over.x * under.y - over.y * under.x);
+  }
+  return {
+    GY: sums.GY / 2, RY: sums.RY / 2, BY: sums.BY / 2, RB: sums.RB / 2,
+    GR: 0, GB: 0,
+    counts
+  };
+}
+
+function b4wDrawPoly(ctx, pts, color, gaps, alpha) {
+  const GAP = 6;
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  let drawing = false;
+  for (let u = 0; u <= pts.length; u++) {
+    const p = pts[u % pts.length];
+    const nearGap = gaps.some(g => Math.hypot(p.x - g.x, p.y - g.y) < GAP);
+    if (nearGap) { drawing = false; }
+    else {
+      if (!drawing) { ctx.moveTo(p.x, p.y); drawing = true; }
+      else ctx.lineTo(p.x, p.y);
+    }
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+
+function renderB4() {
+  const canvas = document.getElementById("b4Canvas");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const { curves, crossings } = b4wCrossings();
+
+  // gaps: each curve is gapped where it goes UNDER (and never against a deleted curve)
+  const gaps = { G: [], Y: [], R: [], B: [] };
+  for (const c of crossings) {
+    if (b4wDeleted === c.i || b4wDeleted === c.j) continue;
+    const underName = c.over === c.i ? c.j : c.i;
+    gaps[underName].push(c.pt);
+  }
+  // draw order: under-most first for painterly correctness of solid strands
+  for (const name of ["G", "B", "R", "Y"]) {
+    b4wDrawPoly(ctx, curves[name], B4W_COLORS[name], b4wDeleted === name ? [] : gaps[name],
+      b4wDeleted === name ? 0.12 : 1);
+  }
+  // labels
+  ctx.font = "13px Georgia";
+  const lbl = (name, x, y) => {
+    ctx.fillStyle = b4wDeleted === name ? "#ccc" : B4W_COLORS[name];
+    ctx.fillText(B4W_LABEL[name] + " (" + { G: "green", Y: "yellow", R: "red", B: "blue" }[name] + ")", x, y);
+  };
+  lbl("Y", 160, 14);
+  lbl("R", 4, 150);
+  lbl("B", 330, 150);
+  lbl("G", 175, 232);
+
+  // orientation arrows along each curve's parametrization (indices chosen off-crossing)
+  const arrowIdx = { G: 12, Y: 5, R: 30, B: 30 };
+  for (const name of ["G", "Y", "R", "B"]) {
+    if (b4wDeleted === name) continue;
+    const pts = curves[name], i = arrowIdx[name];
+    drawOrientationArrow(ctx, pts[i],
+      { x: pts[i + 1].x - pts[i].x, y: pts[i + 1].y - pts[i].y }, B4W_COLORS[name]);
+  }
+
+  // live linking data among the surviving components
+  const lk = b4wComputeLk();
+  const pairs = [["GY", "K1,K2"], ["RY", "K2,K3"], ["BY", "K2,K4"], ["RB", "K3,K4"]];
+  const parts = [];
+  for (const [key, label] of pairs) {
+    if (b4wDeleted && key.includes(b4wDeleted)) continue;
+    parts.push(`lk(${label}) = ${lk[key]}`);
+  }
+  const disjoint = [];
+  if (!b4wDeleted || !"GR".includes(b4wDeleted)) disjoint.push("K1∩K3");
+  if (!b4wDeleted || !"GB".includes(b4wDeleted)) disjoint.push("K1∩K4");
+  document.getElementById("b4LkNote").innerHTML =
+    `computed from the diagram's signed crossings: ${parts.join(", ")}; ${disjoint.join(" = ")} = ∅ — every pair unlinked.`;
+}
+
+const B4W_DELETE_TEXT = {
+  G: "Cut K1 (green): the commutator clasp yellow closed around it now closes around nothing — it contracts, yellow slides free, and the rest follows.",
+  Y: "Cut K2 (yellow): it was the only loop meeting green, so green floats off at once; red and blue, no longer woven through, part as well.",
+  R: "Cut K3 (red): the red–blue frame is broken and the remaining three separate.",
+  B: "Cut K4 (blue): the red–blue frame is broken and the remaining three separate.",
+};
+
+document.getElementById("deleteBtn").addEventListener("click", () => {
+  b4wDeleted = B4W_SELMAP[document.getElementById("deleteSelect").value];
+  document.getElementById("b4WordNote").textContent =
+    B4W_DELETE_TEXT[b4wDeleted] + " As the figure's own documentation states: “no two loops are directly linked, but all are collectively linked, and cutting any loop releases the other three.”";
+  renderB4();
+});
+document.getElementById("restoreBtn").addEventListener("click", () => {
+  b4wDeleted = null;
+  document.getElementById("b4WordNote").textContent = "Delete ANY component and the other three fall apart: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.";
+  renderB4();
+});
+
+function renderMagnus() {
+  const series = computeMagnusTripleCommutator();
+  const c123 = series["1,2,3"] || 0;
+  const c213 = series["2,1,3"] || 0;
+  const c312 = series["3,1,2"] || 0;
+  const c321 = series["3,2,1"] || 0;
+  const box = document.getElementById("magnusBox");
+  box.innerHTML =
+    `<span class="tt" data-tip="The Magnus expansion embeds the free group on x₁,…,x_n into power series in noncommuting variables via xᵢ ↦ 1 + Xᵢ, xᵢ⁻¹ ↦ 1 − Xᵢ + Xᵢ² − ⋯. Milnor's invariants are coefficients of the words that appear.">[[x₁,x₂],x₃]</span> ↦ 1 + <span class="hi">X₁X₂X₃</span> ${fmtCoef(c213)}X₂X₁X₃ ${fmtCoef(c312)}X₃X₁X₂ ${fmtCoef(c321)}X₃X₂X₁ + (deg ≥ 4)`
+    + `<div style="font-size:.85rem;color:var(--muted);margin-top:8px;">computed via <span class="tt" data-tip="Words in X₁,X₂,X₃ as arrays, coefficients in a dictionary keyed by the word, everything above degree 5 discarded; the inverse of 1+u is the geometric series 1 − u + u² − ⋯. About forty lines of code, running live on this page.">truncated noncommutative series</span> &nbsp;·&nbsp; coefficient of X₁X₂X₃ : <b class="hi" style="background:none;">μ̄(1234) = ${c123}</b></div>`;
+}
+function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
+
+function renderQuadSteps() {
+  const container = document.getElementById("quadSteps");
+  container.innerHTML = "";
+  const steps = [];
+
+  const pairs = [[5n, 8081n], [5n, 101n], [5n, 449n], [8081n, 101n], [8081n, 449n], [101n, 449n]];
+  const pairSyms = pairs.map(([a, b]) => [a, b, legendre(a, b)]);
+  steps.push({
+    head: "1. Six pairwise Legendre symbols",
+    body: pairSyms.map(([a, b, l]) => `(${a}/${b})=${l > 0 ? "+1" : l}`).join(" &nbsp; ")
+  });
+
+  const redeiDefs = [
+    { p1: 5n, p2: 8081n, x: 241n, y: 100n, label: "(5, 8081): α = 241 + 100√5" },
+    { p1: 5n, p2: 101n, x: 11n, y: 2n, label: "(5, 101): 11 + 2√5" },
+    { p1: 101n, p2: 8081n, x: 1009n, y: 100n, label: "(101, 8081): 1009 + 100√101" },
+  ];
+  let identityLines = redeiDefs.map(d => {
+    const resid = d.x * d.x - d.p1 * d.y * d.y - d.p2;
+    return `${d.label} &nbsp; — &nbsp; ${d.x}² − ${d.p1}·${d.y}² − ${d.p2} = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span>`;
+  }).join("<br>");
+  steps.push({ head: "2. Rédei elements (identity check)", body: identityLines });
+
+  const tripleResults = [];
+  tripleResults.push({ label: "[5, 8081, 101]", ...redeiSymbol(5n, 8081n, 101n, 241n, 100n, 1n) });
+  tripleResults.push({ label: "[5, 101, 8081]", ...redeiSymbol(5n, 101n, 8081n, 11n, 2n, 1n) });
+  tripleResults.push({ label: "[5, 8081, 449]", ...redeiSymbol(5n, 8081n, 449n, 241n, 100n, 1n) });
+  tripleResults.push({ label: "[5, 101, 449]", ...redeiSymbol(5n, 101n, 449n, 11n, 2n, 1n) });
+  tripleResults.push({ label: "[101, 8081, 449]", ...redeiSymbol(101n, 8081n, 449n, 1009n, 100n, 1n) });
+  steps.push({
+    head: "2b. Triple Rédei symbols — all vanish (+1): the triple level is trivial",
+    body: tripleResults.map(t => `${t.label} = ${t.value > 0 ? "+1" : "−1"}`).join(" &nbsp; ")
+      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Note the first two entries: [5, 8081, 101] and [5, 101, 8081] are the <i>same three primes in different orders</i>, computed through two entirely different Rédei elements (α = 241+100√5 versus 11+2√5) — and they agree. That is <span class="tt" data-tip="Rédei's symbol is invariant under all permutations of its three entries — the arithmetic mirror of μ̄'s symmetry properties. Proved by Rédei (1939); the computation here exhibits one instance live.">Rédei reciprocity</span>, witnessed live.</div>`
+  });
+
+  const thetaX = 25n, c5 = 2n, c101 = 2n;
+  const alphaX = 241n, alphaY = 100n;
+  const ratPart = thetaX * thetaX + 5n * c5 * c5 - 101n * c101 * c101;
+  const sqrt5Coef = 2n * thetaX * c5;
+  const ratCheck = ratPart - alphaX;
+  const sqrt5Check = sqrt5Coef - alphaY;
+  steps.push({
+    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. Its defining identity is the Rédei equation run one level higher, and it exists because the triple symbols all vanished.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5]`,
+    body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
+      + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
+  });
+
+  const roots5 = tonelliShanks(5n, 449n);
+  const roots101 = tonelliShanks(101n, 449n);
+  steps.push({
+    head: "4. √5 mod 449 and √101 mod 449 via Tonelli–Shanks",
+    body: `√5 ≡ {${roots5.map(String).join(", ")}} &nbsp;&nbsp; √101 ≡ {${roots101.map(String).join(", ")}}`
+  });
+
+  const r5 = roots5[0], r101 = roots101[0];
+  const signs = [[1n, 1n], [1n, -1n], [-1n, 1n], [-1n, -1n]];
+  const conjVals = signs.map(([s1, s2]) => {
+    const v = 25n + 2n * s1 * r5 + 2n * s2 * r101;
+    return ((v % 449n) + 449n) % 449n;
+  });
+  const conjLegs = conjVals.map(v => legendre(v, 449n));
+  steps.push({
+    head: "5. Four conjugates 25 ± 2√5 ± 2√101 mod 449, and their Legendre symbols",
+    body: `values = {${conjVals.map(String).join(", ")}} &nbsp; symbols = {${conjLegs.map(l => l > 0 ? "+1" : l).join(", ")}}`
+  });
+
+  for (const st of steps) {
+    const div = document.createElement("div");
+    div.className = "step";
+    div.innerHTML = `<div class="head">${st.head}</div><div class="eq">${st.body}</div>`;
+    container.appendChild(div);
+  }
+
+  const allNeg = conjLegs.every(l => l === -1);
+  const banner = document.getElementById("quadBanner");
+  banner.innerHTML = `<b>[5, 8081, 101, 449] = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
+
+  renderMagnus();
+  renderQuadTower();
+  ttFocusable();
+}
+
+function renderQuadTower() {
+  // Partial subfield lattice (invariant-carrying fields only), edges box-to-box:
+  //                    K = compositum(√θ)              deg 64
+  //                          |  (deg 2, √θ)
+  //              k_{5,8081} · k_{101,8081}             deg 32
+  //                  /               \
+  //        k_{5,8081} (D₄)     k_{101,8081} (D₄)       deg 8 each
+  //             |                     |   (deg 2, √α)
+  //        Q(√5,√8081)         Q(√101,√8081)           deg 4 each
+  //          /     \             /      \
+  //     Q(√5)     Q(√8081)            Q(√101)          deg 2
+  //          \        |               /
+  //                   Q
+  const svg = document.getElementById("quadTower");
+  svg.innerHTML = `
+    <g font-size="10.5" text-anchor="middle">
+      <g><title>θ is not a square in the compositum (Amano), so adjoining √θ doubles the degree: 64 = 2⁶ = |N₄(F₂)|.</title>
+      <rect class="hasse-box" x="80" y="4" width="260" height="26"/>
+      <text class="hasse-label" x="210" y="21">K = k₅,₈₀₈₁·k₁₀₁,₈₀₈₁(√θ) — deg 64</text></g>
+      <line x1="210" y1="30" x2="210" y2="59" stroke="#333"/>
+      <text x="218" y="49" font-size="9" fill="#666" text-anchor="start">deg 2 (√θ)</text>
+      <g><title>Why 32 and not 64: the two Rédei octics intersect exactly in Q(√8081). Their other quadratic subfields differ (√5, √40405 versus √101, √816181), and a D₄ octic has no cyclic quartic subfield, so nothing more can coincide: degree = 8·8/2 = 32.</title>
+      <rect class="hasse-box" x="95" y="59" width="230" height="26"/>
+      <text class="hasse-label" x="210" y="76">k₅,₈₀₈₁ · k₁₀₁,₈₀₈₁ — deg 32</text></g>
+      <line x1="210" y1="85" x2="125" y2="117" stroke="#333"/>
+      <line x1="210" y1="85" x2="295" y2="117" stroke="#333"/>
+      <rect class="hasse-box" x="53" y="117" width="144" height="26"/>
+      <text class="hasse-label" x="125" y="134">k₅,₈₀₈₁ (D₄, deg 8)</text>
+      <rect class="hasse-box" x="223" y="117" width="144" height="26"/>
+      <text class="hasse-label" x="295" y="134">k₁₀₁,₈₀₈₁ (D₄, deg 8)</text>
+      <line x1="125" y1="143" x2="125" y2="177" stroke="#333"/>
+      <text x="131" y="164" font-size="9" fill="#666" text-anchor="start">deg 2 (√α)</text>
+      <line x1="295" y1="143" x2="295" y2="177" stroke="#333"/>
+      <rect class="hasse-box" x="55" y="177" width="140" height="26"/>
+      <text class="hasse-label" x="125" y="194">Q(√5, √8081)</text>
+      <rect class="hasse-box" x="225" y="177" width="140" height="26"/>
+      <text class="hasse-label" x="295" y="194">Q(√101, √8081)</text>
+      <text x="370" y="194" font-size="9" fill="#666" text-anchor="start">deg 4</text>
+      <line x1="125" y1="203" x2="80" y2="237" stroke="#333"/>
+      <line x1="125" y1="203" x2="210" y2="237" stroke="#333"/>
+      <line x1="295" y1="203" x2="210" y2="237" stroke="#333"/>
+      <line x1="295" y1="203" x2="340" y2="237" stroke="#333"/>
+      <rect class="hasse-box" x="40" y="237" width="80" height="26"/>
+      <text class="hasse-label" x="80" y="254">Q(√5)</text>
+      <rect class="hasse-box" x="160" y="237" width="100" height="26"/>
+      <text class="hasse-label" x="210" y="254">Q(√8081)</text>
+      <rect class="hasse-box" x="300" y="237" width="80" height="26"/>
+      <text class="hasse-label" x="340" y="254">Q(√101)</text>
+      <text x="385" y="254" font-size="9" fill="#666" text-anchor="start">deg 2</text>
+      <line x1="210" y1="296" x2="80" y2="263" stroke="#333"/>
+      <line x1="210" y1="296" x2="210" y2="263" stroke="#333"/>
+      <line x1="210" y1="296" x2="340" y2="263" stroke="#333"/>
+      <rect class="hasse-box" x="180" y="296" width="60" height="26"/>
+      <text class="hasse-label" x="210" y="313">Q</text>
+      <text x="250" y="330" font-style="italic" fill="#666" font-size="11" text-anchor="start">Gal(K/Q) ≅ N₄(F₂)</text>
+    </g>`;
+}
+
+/* =========================================================================
+   TAB — ZETA (live demos: figure-eight monodromy zeta; Dedekind zeta of Q(√5))
+   ========================================================================= */
+
+/* ---- Topology: A = [[2,1],[1,1]], the monodromy of the figure-eight knot
+   acting on H1 of its fiber (a once-punctured torus). Three faces:
+     S(t) = exp( Σ tr(Aⁿ) tⁿ/n )            — sum over iterates
+     E(t) = det(I − tA)⁻¹ = (1−3t+t²)⁻¹      — product over eigenvalues
+     Z(t) = exp( Σ Fix(hⁿ) tⁿ/n ) = ∏_γ (1−t^{|γ|})^{−o_γ}  — orbits (on T²)
+   with Fix(hⁿ) = |det(Aⁿ−I)| = tr(Aⁿ) − 2, and orbit counts o_d obtained by
+   Möbius inversion. Everything below is computed, nothing is quoted.       */
+
+const FIG8_A = [[2, 1], [1, 1]];
+const FIG8_K = 8;   // series truncation degree
+
+function fig8Traces(count) {
+  // by literal matrix powers (not the recurrence — the recurrence is a TEST)
+  const mul = (a, b) => [
+    [a[0][0]*b[0][0]+a[0][1]*b[1][0], a[0][0]*b[0][1]+a[0][1]*b[1][1]],
+    [a[1][0]*b[0][0]+a[1][1]*b[1][0], a[1][0]*b[0][1]+a[1][1]*b[1][1]]];
+  const tr = [];
+  let P = [[1, 0], [0, 1]];
+  for (let n = 1; n <= count; n++) { P = mul(P, FIG8_A); tr.push(P[0][0] + P[1][1]); }
+  return tr;
+}
+
+function expOfPowerSum(coeffs, K) {
+  // exp( Σ_{n≥1} c_n tⁿ/n ) up to degree K:  E_m = (1/m) Σ_{j=1..m} c_j E_{m−j}
+  const E = [1];
+  for (let m = 1; m <= K; m++) {
+    let s = 0;
+    for (let j = 1; j <= m; j++) s += coeffs[j - 1] * E[m - j];
+    E.push(s / m);
+  }
+  return E;
+}
+
+function fig8Mobius(n) {
+  let m = 1, x = n;
+  for (let p = 2; p * p <= x; p++) if (x % p === 0) { x /= p; if (x % p === 0) return 0; m = -m; }
+  if (x > 1) m = -m;
+  return m;
+}
+
+function fig8Data() {
+  const tr = fig8Traces(12);
+  const fix = tr.map(t => t - 2);
+  const orb = [];
+  for (let n = 1; n <= 12; n++) {
+    let s = 0;
+    for (let d = 1; d <= n; d++) if (n % d === 0) s += fig8Mobius(n / d) * fix[d - 1];
+    orb.push(s / n);
+  }
+  // face 1: exp of trace power sum ; face 2: 1/(1−3t+t²) by integer recurrence
+  const sumFace = expOfPowerSum(tr, FIG8_K);
+  const eigFace = [1, 3];
+  for (let m = 2; m <= FIG8_K; m++) eigFace.push(3 * eigFace[m - 1] - eigFace[m - 2]);
+  // orbit faces: exp of Fix power sum vs product over primitive orbits
+  const fixFace = expOfPowerSum(fix, FIG8_K);
+  let orbFace = new Array(FIG8_K + 1).fill(0); orbFace[0] = 1;
+  const smul = (a, b) => {
+    const r = new Array(FIG8_K + 1).fill(0);
+    for (let i = 0; i <= FIG8_K; i++) for (let j = 0; i + j <= FIG8_K; j++) r[i + j] += a[i] * (b[j] || 0);
+    return r;
+  };
+  for (let d = 1; d <= FIG8_K; d++) {
+    if (orb[d - 1] <= 0) continue;
+    const f = new Array(FIG8_K + 1).fill(0); f[0] = 1;   // (1 − t^d)^{−o_d}
+    for (let k = 1; d * k <= FIG8_K; k++) {
+      let c = 1;
+      for (let i = 1; i <= k; i++) c = c * (orb[d - 1] - 1 + i) / i;
+      f[d * k] = c;
+    }
+    orbFace = smul(orbFace, f);
+  }
+  return { tr, fix, orb, sumFace, eigFace, fixFace, orbFace };
+}
+
+function renderLefschetz() {
+  const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
+  const table = document.getElementById("lefschetzTable");
+  table.innerHTML = `<tr><th>n</th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
+    + [0, 1, 2, 3, 4, 5].map(i =>
+      `<tr><td class="k">${i + 1}</td><td class="v">${tr[i]}</td><td class="v">${fix[i]}</td><td class="v">${orb[i]}</td></tr>`).join("");
+  const rows = [
+    ["exp( Σ tr(Aⁿ)·tⁿ/n )", sumFace],
+    ["det(I − tA)⁻¹ = (1 − 3t + t²)⁻¹", eigFace],
+  ];
+  const rows2 = [
+    ["exp( Σ Fix(hⁿ)·tⁿ/n )", fixFace],
+    ["∏_γ (1 − t^{|γ|})^{−o_γ}", orbFace],
+  ];
+  const fmt = a => a.map(x => Math.round(x)).join(", ");
+  const eq1 = sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6);
+  const eq2 = fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
+  document.getElementById("lefschetzFaces").innerHTML =
+    `<div class="head">Faces agree, coefficient by coefficient (degrees 0…${FIG8_K}):</div>
+     <div class="eq">${rows[0][0]} = ${fmt(sumFace)}<br>${rows[1][0]} = ${fmt(eigFace)}
+       &nbsp;<span class="${eq1 ? "ok" : "fail"}">${eq1 ? "✓ equal" : "✗"}</span>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues (the coefficients are F₂, F₄, F₆, …)</span><br>
+      ${rows2[0][0]} = ${fmt(fixFace)}<br>${rows2[1][0]} = ${fmt(orbFace)}
+       &nbsp;<span class="${eq2 ? "ok" : "fail"}">${eq2 ? "✓ equal" : "✗"}</span>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the orbits are the primes of the flow</span></div>`;
+}
+
+/* ---- Arithmetic: ζ of K = Q(√5), every Euler factor a Legendre symbol.
+   χ(n) = (n/5); a(n) = #ideals of O_K of norm n, multiplicative with
+   a(p^k) = k+1 (split), [k even] (inert), 1 (ramified p = 5).            */
+
+function chi5(n) { return n % 5 === 0 ? 0 : Number(legendre(BigInt(n), 5n)); }
+
+function spfSieve(N) {
+  const spf = new Array(N + 1).fill(0);
+  for (let i = 2; i <= N; i++) if (!spf[i]) for (let j = i; j <= N; j += i) if (!spf[j]) spf[j] = i;
+  return spf;
+}
+
+function dedekindValues(N) {
+  const spf = spfSieve(N);
+  const a = new Array(N + 1).fill(0); a[1] = 1;
+  for (let n = 2; n <= N; n++) {
+    const p = spf[n]; let m = n, k = 0;
+    while (m % p === 0) { m /= p; k++; }
+    const c = chi5(p);
+    const ap = p === 5 ? 1 : (c === 1 ? k + 1 : (k % 2 === 0 ? 1 : 0));
+    a[n] = ap * a[m];
+  }
+  let ideal = 0, z = 0, L = 0, prod = 1;
+  for (let n = 1; n <= N; n++) {
+    ideal += a[n] / (n * n);
+    z += 1 / (n * n);
+    L += chi5(n) / (n * n);
+    if (n >= 2 && spf[n] === n) {
+      const c = chi5(n);
+      prod *= n === 5 ? 1 / (1 - 1 / (n * n))
+        : c === 1 ? 1 / ((1 - 1 / (n * n)) * (1 - 1 / (n * n)))
+        : 1 / (1 - 1 / (n * n * n * n));
+    }
+  }
+  return { ideal, prod, zl: z * L };
+}
+
+function renderDedekind() {
+  const N = parseInt(document.getElementById("dedekindN").value, 10);
+  document.getElementById("dedekindNLabel").textContent = "N = " + N;
+  const { ideal, prod, zl } = dedekindValues(N);
+  document.getElementById("dedekindIdeal").textContent = ideal.toFixed(8);
+  document.getElementById("dedekindProd").textContent = prod.toFixed(8);
+  document.getElementById("dedekindZL").textContent = zl.toFixed(8);
+  // sample Euler factors, with the Legendre symbol computed live
+  const rows = [
+    [5n, "ramified — the surface's own boundary", "(1 − 5⁻ˢ)⁻¹"],
+    [11n, null, null],
+    [13n, null, null],
+    [29n, null, null],
+  ];
+  const table = document.getElementById("dedekindFactors");
+  table.innerHTML = "<tr><th>p</th><th>χ(p) = (5/p), live</th><th>Euler factor of ζ_K at p</th></tr>" + rows.map(([p, note, factor]) => {
+    if (note !== null) return `<tr><td class="k">${p}</td><td class="v">0</td><td class="v">${factor} <span style="color:var(--muted);font-size:.8rem;">${note}</span></td></tr>`;
+    const c = legendre(5n, p);
+    const f = c === 1 ? `(1 − ${p}⁻ˢ)⁻² <span style="color:var(--muted);font-size:.8rem;">split: two primes above ${p} — unlinked</span>`
+      : `(1 − ${p}⁻²ˢ)⁻¹ <span style="color:var(--muted);font-size:.8rem;">inert: one prime of norm ${p}² — ${p === 13n ? "the Hopf pair!" : "linked"}</span>`;
+    return `<tr><td class="k">${p}</td><td class="v">${c > 0 ? "+1" : "−1"}</td><td class="v">${f}</td></tr>`;
+  }).join("");
+}
+document.getElementById("dedekindN").addEventListener("input", renderDedekind);
+
+/* =========================================================================
+   TAB — LADDER
+   ========================================================================= */
+
+function buildMat(size, cells) {
+  const table = document.createElement("table");
+  table.className = "mat";
+  for (let r = 0; r < size; r++) {
+    const tr = document.createElement("tr");
+    for (let c = 0; c < size; c++) {
+      const td = document.createElement("td");
+      const key = `${r},${c}`;
+      if (r === c) td.textContent = "1";
+      else if (r < c && cells[key]) {
+        td.textContent = cells[key].text;
+        td.className = cells[key].cls;
+        if (cells[key].tip) td.title = cells[key].tip;
+      }
+      else { td.textContent = "0"; td.style.color = "#c8c4b8"; }
+      td.dataset.pos = key;
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  return table;
+}
+
+function initLadder() {
+  const n2 = buildMat(2, {
+    "0,1": { text: "χ", cls: "diag1 lit", tip: "The character / pairwise level: linking number mod 2, Legendre symbol. Always defined." }
+  });
+  document.getElementById("matN2").replaceWith(withId(n2, "matN2"));
+
+  const n3cells = {
+    "0,1": { text: "χ₁", cls: "diag1", tip: "Pairwise level: lk(K1,K2) mod 2 / the Legendre symbol (p1/p2)." },
+    "1,2": { text: "χ₂", cls: "diag1", tip: "Pairwise level: lk(K2,K3) mod 2 / the Legendre symbol (p2/p3)." },
+    "0,2": { text: "r", cls: "corner", tip: "Triple level: μ̄(123) / the Rédei symbol. Defined only when both χ entries vanish." },
+  };
+  document.getElementById("matN3").replaceWith(withId(buildMat(3, n3cells), "matN3"));
+
+  const n4cells = {
+    "0,1": { text: "χ₁", cls: "diag1", tip: "Pairwise level for the pair (1,2)." },
+    "1,2": { text: "χ₂", cls: "diag1", tip: "Pairwise level for the pair (2,3)." },
+    "2,3": { text: "χ₃", cls: "diag1", tip: "Pairwise level for the pair (3,4)." },
+    "0,2": { text: "r₁₂₃", cls: "diag2", tip: "Triple level for (1,2,3): defined once the χ level vanishes." },
+    "1,3": { text: "r₂₃₄", cls: "diag2", tip: "Triple level for (2,3,4): defined once the χ level vanishes." },
+    "0,3": { text: "μ̄", cls: "corner", tip: "Quadruple level: μ̄(1234) / the quadruple symbol. Defined only when both triple levels vanish too." },
+  };
+  document.getElementById("matN4").replaceWith(withId(buildMat(4, n4cells), "matN4"));
+}
+function withId(el, id) { el.id = id; return el; }
+
+document.querySelectorAll(".arrow-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const idx = btn.dataset.arrow;
+    document.querySelectorAll("table.mat td").forEach(td => td.classList.remove("lit"));
+    const note = document.getElementById("ladderNote");
+    if (idx === "0") {
+      const td = document.querySelector("#matN3 td[data-pos='0,2']");
+      if (td) td.classList.add("lit");
+      note.textContent = "The corner entry r (Rédei/triple level) of N₃ is defined because the previous level's linking numbers vanished.";
+    } else {
+      ["0,2", "1,3", "0,3"].forEach(pos => {
+        const td = document.querySelector(`#matN4 td[data-pos='${pos}']`);
+        if (td) td.classList.add("lit");
+      });
+      note.textContent = "The second diagonal (triple levels) and the corner μ̄ (quadruple level) of N₄ are defined because the previous level vanished.";
+    }
+  });
+});
+
+/* ---- The ladder, live: rho(Frob_q) in N3(F2) for the pair (13, 61) ------
+   chi1(q), chi2(q) from the Legendre symbols (13/q), (61/q) via the
+   isomorphism {±1} ≅ F2 (+1 -> 0, -1 -> 1).  When both vanish, the corner
+   r(q) = 0 iff q splits completely in k_{13,61}, evaluated as the Legendre
+   symbol of alpha = 23 + 6*sqrt(13) mod q (both conjugates agree because
+   their product is 61, a square mod q when chi2 = 0).                     */
+
+function frobeniusMatrix1361(q) {
+  if (q < 3n || q % 2n === 0n || !isPrimeSmall(q)) return { err: "q must be an odd prime." };
+  if (q === 13n || q === 61n) return { err: "q must avoid the ramified primes 13 and 61 — Frobenius is not defined at a branch point (the knot cannot loop around itself)." };
+  const a = legendre(13n, q), b = legendre(61n, q);
+  const chi1 = a === 1 ? 0 : 1, chi2 = b === 1 ? 0 : 1;
+  if (chi1 || chi2) return { q, chi1, chi2, r: null };
+  const rt = tonelliShanks(13n, q)[0];
+  const v1 = ((23n + 6n * rt) % q + q) % q;
+  const v2 = ((23n + 6n * (q - rt)) % q + q) % q;
+  const l1 = legendre(v1, q), l2 = legendre(v2, q);
+  if (l1 !== l2) return { err: "conjugates disagree — impossible for prime q; is q composite?" };
+  return { q, chi1, chi2, r: l1 === 1 ? 0 : 1, rt, v1, v2 };
+}
+
+function renderFrobenius(q) {
+  const warn = document.getElementById("frobWarn");
+  const mat = document.getElementById("frobMatrix");
+  const exp = document.getElementById("frobExplain");
+  const f = frobeniusMatrix1361(q);
+  if (f.err) {
+    warn.style.color = "var(--bad)";
+    warn.textContent = f.err;
+    mat.innerHTML = ""; exp.innerHTML = "";
+    return;
+  }
+  warn.textContent = " ";
+  const corner = f.r === null
+    ? `<span class="tt" data-tip="With a nonzero superdiagonal, conjugating the matrix changes this entry: it is basis-dependent, i.e. not an invariant of q. It becomes one exactly when χ₁ = χ₂ = 0.">∗</span>`
+    : `<b>${f.r}</b>`;
+  mat.innerHTML =
+    `<tr><td>1</td><td class="diag1${f.chi1 ? " lit" : ""}">${f.chi1}</td><td class="corner${f.r !== null ? " lit" : ""}">${corner}</td></tr>` +
+    `<tr><td style="color:#c8c4b8">0</td><td>1</td><td class="diag1${f.chi2 ? " lit" : ""}">${f.chi2}</td></tr>` +
+    `<tr><td style="color:#c8c4b8">0</td><td style="color:#c8c4b8">0</td><td>1</td></tr>`;
+  let text;
+  if (f.r === null) {
+    text = `(13/${q}) = ${f.chi1 ? "−1" : "+1"}, (61/${q}) = ${f.chi2 ? "−1" : "+1"}: the pairwise level is already nonzero — q = ${q} is "linked" with ${f.chi1 && f.chi2 ? "both 13 and 61" : f.chi1 ? "13" : "61"}. The corner is <b>not an invariant</b> here (hover the ∗): the ladder stops at the first nonvanishing level.`;
+  } else if (f.r === 0) {
+    text = `(13/${q}) = (61/${q}) = +1, and α = 23 + 6·√13 ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>square</b> mod ${q}: q = ${q} splits completely in the degree-8 field k₁₃,₆₁. Frobenius is the <b>identity matrix</b> — q is completely unlinked from the pair, through the triple level.`;
+  } else {
+    text = `(13/${q}) = (61/${q}) = +1 — pairwise invisible — but α ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>non-square</b> mod ${q}: the corner lights up. ${q === 937n ? `This is exactly <span class="jump" onclick="gotoTab('triples')">the Triples tab's [13, 61, 937] = −1</span>, now wearing its matrix.` : "q = " + q + " is linked to the pair only at the triple level — a Borromean partner."}`;
+  }
+  exp.innerHTML = `<div class="step" style="margin:0;">${text}</div>`;
+  ttFocusable();
+}
+
+document.getElementById("frobCompute").addEventListener("click", () => {
+  const q = parseIntegerInput(document.getElementById("frobInput").value);
+  if (q === null) {
+    document.getElementById("frobWarn").style.color = "var(--bad)";
+    document.getElementById("frobWarn").textContent = "Enter a plain decimal integer (no exponents or fractions), at most 9 digits.";
+    document.getElementById("frobMatrix").innerHTML = "";
+    document.getElementById("frobExplain").innerHTML = "";
+    return;
+  }
+  renderFrobenius(q);
+});
+for (const [id, val] of [["frobPreset107", 107], ["frobPreset937", 937], ["frobPreset5", 5], ["frobPreset17", 17]]) {
+  document.getElementById(id).addEventListener("click", () => {
+    document.getElementById("frobInput").value = val;
+    renderFrobenius(BigInt(val));
+  });
+}
+
+/* =========================================================================
+   SELF-TESTS
+   ========================================================================= */
+
+function runSelfTests() {
+  const results = [];
+  function t(name, fn) {
+    try {
+      const ok = fn();
+      results.push({ name, ok: !!ok });
+    } catch (e) {
+      results.push({ name: name + " — threw: " + e.message, ok: false });
+    }
+  }
+  const arrEq = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
+
+  t("legendre(5,29) === 1", () => legendre(5n, 29n) === 1);
+  t("legendre(5,13) === -1", () => legendre(5n, 13n) === -1);
+  t("legendre(13,61) === 1", () => legendre(13n, 61n) === 1);
+  t("legendre(13,937) === 1", () => legendre(13n, 937n) === 1);
+  t("legendre(61,937) === 1", () => legendre(61n, 937n) === 1);
+  t("tonelliShanks(13,937) === [386,551]", () => arrEq(tonelliShanks(13n, 937n), [386n, 551n]));
+  t("redeiSymbol(13,61,937,[23,6,1]) === -1", () => redeiSymbol(13n, 61n, 937n, 23n, 6n, 1n).value === -1);
+
+  const pairs = [[5n, 8081n], [5n, 101n], [5n, 449n], [8081n, 101n], [8081n, 449n], [101n, 449n]];
+  t("all six pairwise symbols of {5,8081,101,449} === 1", () => pairs.every(([a, b]) => legendre(a, b) === 1));
+
+  t("redeiSymbol(5,8081,449,[241,100,1]) === 1", () => redeiSymbol(5n, 8081n, 449n, 241n, 100n, 1n).value === 1);
+  t("redeiSymbol(5,101,449,[11,2,1]) === 1", () => redeiSymbol(5n, 101n, 449n, 11n, 2n, 1n).value === 1);
+  t("redeiSymbol(101,8081,449,[1009,100,1]) === 1", () => redeiSymbol(101n, 8081n, 449n, 1009n, 100n, 1n).value === 1);
+
+  t("tonelliShanks(5,449) roots === {118,331}", () => arrEq(tonelliShanks(5n, 449n), [118n, 331n]));
+  t("tonelliShanks(101,449) roots === {185,264}", () => arrEq(tonelliShanks(101n, 449n), [185n, 264n]));
+
+  t("conjugates 25±2·118±2·185 mod 449 === {182,340,159,317}, each legendre -1", () => {
+    const signs = [[1n, 1n], [1n, -1n], [-1n, 1n], [-1n, -1n]];
+    const vals = signs.map(([s1, s2]) => ((25n + 2n * s1 * 118n + 2n * s2 * 185n) % 449n + 449n) % 449n);
+    const expected = [182n, 340n, 159n, 317n];
+    const sortedVals = [...vals].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    const sortedExp = [...expected].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+    return arrEq(sortedVals, sortedExp) && vals.every(v => legendre(v, 449n) === -1);
+  });
+
+  t("Magnus: coeff X1X2X3 === 1, X2X1X3 === -1", () => {
+    const s = computeMagnusTripleCommutator();
+    return (s["1,2,3"] || 0) === 1 && (s["2,1,3"] || 0) === -1;
+  });
+
+  t("Delta_Bor(1+x): all coefficients below top degree vanish; top === 1 === mu(123)", () => {
+    const poly = expandDeltaBor();
+    const keys = Object.keys(poly);
+    return keys.length === 1 && poly["1,1,1"] === 1;
+  });
+
+  t("Hilbert product formula: product over places === 1 for (5,29) and (5,13)", () => {
+    function hilbertProduct(p, q) {
+      const two = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
+      return two * legendre(p, q) * legendre(q, p);
+    }
+    return hilbertProduct(5n, 29n) === 1 && hilbertProduct(5n, 13n) === 1;
+  });
+
+  t("fig-8 monodromy: tr(A^n) = 3tr(A^{n-1}) - tr(A^{n-2}); tr = 3,7,18,...,103682 (Lucas)", () => {
+    const tr = fig8Traces(12);
+    return tr[0] === 3 && tr[1] === 7 && tr[11] === 103682
+      && tr.slice(2).every((x, i) => x === 3 * tr[i + 1] - tr[i]);
+  });
+
+  t("fig-8 zeta: iterate face === eigenvalue face === 1,3,8,21,55,144,... (Fibonacci F_2k)", () => {
+    const { sumFace, eigFace } = fig8Data();
+    const fib = [1, 3, 8, 21, 55, 144, 377, 987, 2584];
+    return sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6)
+      && eigFace.slice(0, 9).every((c, i) => c === fib[i]);
+  });
+
+  t("fig-8 orbits: Mobius counts are nonneg integers with sum_{d|n} d*o_d = Fix(n)", () => {
+    const { fix, orb } = fig8Data();
+    if (!orb.every(o => o >= 0 && Number.isInteger(o))) return false;
+    return fix.every((f, i) => {
+      const n = i + 1; let s = 0;
+      for (let d = 1; d <= n; d++) if (n % d === 0) s += d * orb[d - 1];
+      return s === f;
+    });
+  });
+
+  t("fig-8 zeta: orbit product === exp(sum Fix t^n/n) (coeffs 0..8)", () => {
+    const { fixFace, orbFace } = fig8Data();
+    return fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
+  });
+
+  t("Q(sqrt5): chi pattern +,-,-,+,0; a(11)=2, a(13)=0, a(169)=1, a(4)=1, a(5)=1", () => {
+    const spf = spfSieve(200);
+    const vals = [chi5(1), chi5(2), chi5(3), chi5(4), chi5(5)];
+    if (JSON.stringify(vals) !== JSON.stringify([1, -1, -1, 1, 0])) return false;
+    const a = (() => {
+      const N = 200, arr = new Array(N + 1).fill(0); arr[1] = 1;
+      for (let n = 2; n <= N; n++) {
+        const p = spf[n]; let m = n, k = 0;
+        while (m % p === 0) { m /= p; k++; }
+        const c = chi5(p);
+        arr[n] = (p === 5 ? 1 : c === 1 ? k + 1 : (k % 2 === 0 ? 1 : 0)) * arr[m];
+      }
+      return arr;
+    })();
+    return a[11] === 2 && a[13] === 0 && a[169] === 1 && a[4] === 1 && a[5] === 1;
+  });
+
+  t("zeta_{Q(sqrt5)}(2): ideal sum, Euler product, zeta*L agree (N=3000, tol 5e-3)", () => {
+    const { ideal, prod, zl } = dedekindValues(3000);
+    return Math.abs(ideal - zl) < 5e-3 && Math.abs(prod - zl) < 5e-3 && Math.abs(ideal - prod) < 5e-3;
+  });
+
+  t("Frobenius matrix: rho(Frob_937) has chi1=chi2=0, corner r=1 (matches [13,61,937] = -1)", () => {
+    const f = frobeniusMatrix1361(937n);
+    return !f.err && f.chi1 === 0 && f.chi2 === 0 && f.r === 1;
+  });
+
+  t("Frobenius matrix: rho(Frob_107) is the identity (splits completely in k_{13,61})", () => {
+    const f = frobeniusMatrix1361(107n);
+    return !f.err && f.chi1 === 0 && f.chi2 === 0 && f.r === 0;
+  });
+
+  t("Frobenius matrix: corner undefined when superdiagonal nonzero (q=5: chi=(1,0); q=17: chi=(0,1))", () => {
+    const f5 = frobeniusMatrix1361(5n), f17 = frobeniusMatrix1361(17n);
+    return f5.chi1 === 1 && f5.chi2 === 0 && f5.r === null
+      && f17.chi1 === 0 && f17.chi2 === 1 && f17.r === null
+      && !!frobeniusMatrix1361(13n).err && !!frobeniusMatrix1361(2n).err;
+  });
+
+  t("input sanitizer: rejects '1e5', '1.5', '-7', '', 10-digit; accepts '937' as 937n", () => {
+    return parseIntegerInput("1e5") === null && parseIntegerInput("1.5") === null
+      && parseIntegerInput("-7") === null && parseIntegerInput("") === null
+      && parseIntegerInput("1234567890") === null && parseIntegerInput("937") === 937n
+      && parseIntegerInput(" 107 ") === 107n;
+  });
+
+  t("Redei reciprocity instance: [5,8081,101] === [5,101,8081] via two different Redei elements", () => {
+    return redeiSymbol(5n, 8081n, 101n, 241n, 100n, 1n).value
+      === redeiSymbol(5n, 101n, 8081n, 11n, 2n, 1n).value;
+  });
+
+  t("Brunnian-4loops: all six pairwise lk === 0 (computed from redrawn crossings)", () => {
+    const lk = b4wComputeLk();
+    return ["GY", "RY", "BY", "RB", "GR", "GB"].every(k => lk[k] === 0);
+  });
+
+  t("Brunnian-4loops: crossing counts GY=4, YR=4, YB=4, RB=2, GR=0, GB=0", () => {
+    const { counts } = b4wComputeLk();
+    return counts.GY === 4 && counts.YR === 4 && counts.YB === 4 && counts.RB === 2
+      && counts.GR === 0 && counts.GB === 0;
+  });
+
+  t("Borromean diagram: lk === 0 for all three pairs, computed from signed crossings", () => {
+    const lk = borroComputeLk();
+    return lk["12"] === 0 && lk["13"] === 0 && lk["23"] === 0;
+  });
+
+  t("Magnus of longitude [x1,x2]: coeff X1X2 === 1 (= mu(123)), X2X1 === -1", () => {
+    const C = computeMagnusLongitude12();
+    return (C["1,2"] || 0) === 1 && (C["2,1"] || 0) === -1;
+  });
+
+  const list = document.getElementById("testList");
+  list.innerHTML = "";
+  for (const r of results) {
+    const li = document.createElement("li");
+    li.className = r.ok ? "pass" : "fail";
+    li.textContent = (r.ok ? "✔ " : "✘ ") + r.name;
+    list.appendChild(li);
+  }
+  const panel = document.getElementById("testsPanel");
+  panel.classList.add("open");
+  const allPass = results.every(r => r.ok);
+  document.getElementById("runTestsBtn").textContent = allPass
+    ? `Self-tests: ${results.length}/${results.length} passed`
+    : `Self-tests: ${results.filter(r => r.ok).length}/${results.length} passed — see failures`;
+}
+document.getElementById("runTestsBtn").addEventListener("click", () => {
+  const panel = document.getElementById("testsPanel");
+  if (panel.classList.contains("open")) { panel.classList.remove("open"); return; }
+  runSelfTests();
+});
+
+/* =========================================================================
+   INIT
+   ========================================================================= */
+
+updatePairsLabels();
+renderPairs();
+renderLegendreTable(5n, 29n);
+renderArcFigure();
+arcAnimLoop();
+renderBorro();
+renderTripleSteps();
+renderTopoTripleSteps();
+renderDeltaBorGrid();
+renderQuadSteps();
+renderB4();
+renderLefschetz();
+renderDedekind();
+initLadder();
+renderFrobenius(107n);
+ttFocusable();
+runSelfTests();
+document.getElementById("testsPanel").classList.remove("open");
+
+</script>
+</body>
+</html>

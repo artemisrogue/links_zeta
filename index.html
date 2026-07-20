@@ -498,8 +498,8 @@
         <h2>Lefschetz zeta of a <span class="tt tt-left" data-tip="For a fibered link the complement fibers over the circle: F is the fiber surface, and h is the twist you accumulate going once around the link — the monodromy.">monodromy</span> h : F → F</h2>
         <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Following the papers' convention, L(hⁿ) here denotes tr(hⁿ∗ on H₁) — the interesting part of the full alternating fixed-point count Σ(−1)ⁱ tr(hⁿ∗ on Hᵢ), which for a fiber surface differs from it only by the constant H₀-term.">L(hⁿ)</span>·tⁿ/n )</div></div>
         <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on H₁(F;Q)</div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
-        <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston): stretches along one foliation, contracts along another. Its periodic points are isolated, which is what makes the orbit product converge factor by factor.">pseudo-Anosov</span>)</div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹</div></div>
-        <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, Milnor's theorem identifies all three with the Alexander polynomial: ζ<sub>h</sub> ≐ ∆<sub>K</sub>⁻¹, with ∆<sub>K</sub>(t) = det(tI − h∗) the characteristic polynomial of the same eigenvalues.</div>
+        <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston): stretches along one foliation, contracts along another. Its periodic points are isolated, which is what makes the orbit product converge factor by factor.">pseudo-Anosov</span>)</div><div class="feq"><span class="tt" data-tip="The orbit product counts every fixed point, so it computes the Artin–Mazur zeta exp(Σ Fix(hⁿ)tⁿ/n) — a different function from the H₁-zeta of the two faces above. With the closed-torus bookkeeping of the demo below, Fix(hⁿ) = tr(Aⁿ) − 2: the two subtracted constants are the H₀ and H₂ traces, and their contribution is exactly the factor (1−t)² written here, reinstated so that this line is a true equality.">(1−t)²</span>·ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹</div></div>
+        <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, Milnor's theorem identifies the H₁-zeta with the Alexander polynomial: ζ<sub>h</sub> ≐ ∆<sub>K</sub>⁻¹, with ∆<sub>K</sub>(t) = det(tI − h∗) the characteristic polynomial of the same eigenvalues; the orbit product then equals (1−t)²·∆<sub>K</sub>(t)⁻¹ up to the same units.</div>
       </div>
       <div class="col arith">
         <h2>Dedekind zeta of a number field K</h2>
@@ -514,7 +514,7 @@
     <div class="twocol">
       <div class="col topo">
         <h2>The zeta of an actual monodromy: the figure-eight knot</h2>
-        <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. All three faces of ζ_h are computed below and shown to agree, coefficient by coefficient.</div>
+        <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. Two zeta functions are computed below: the two H₁-faces of ζ_h, which agree coefficient by coefficient, and the orbit face, which is the Artin–Mazur zeta — equal to (1−t)²·ζ_h, and shown below to be exactly that, also coefficient by coefficient.</div>
         <table class="symbolic" id="lefschetzTable"></table>
         <div class="step" id="lefschetzFaces"></div>
         <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t), the Alexander polynomial of the figure-eight knot — its zeta function <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix acting on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, which is all the zeta faces use, is identical. Bonus arithmetic inside the topology: the traces are the even-indexed Lucas numbers L₂ₙ, the zeta coefficients the even-indexed Fibonacci numbers F₂ₙ. The orbit-face check verifies the exponential–product identity <i>plus</i> the integrality of the Möbius counts — whole-number orbit counts are precisely the statement that iterates organize into closed orbits.</div>
@@ -2136,14 +2136,21 @@ function renderLefschetz() {
   const fmt = a => a.map(x => Math.round(x)).join(", ");
   const eq1 = sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6);
   const eq2 = fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
+  // Cross-check between the TWO zeta functions on this panel: the orbit/fixed-point
+  // zeta equals (1 − t)² times the H₁-zeta — the H₀ and H₂ terms of the closed torus.
+  const cross = sumFace.map((c, i) => c - 2 * (sumFace[i - 1] || 0) + (sumFace[i - 2] || 0));
+  const eq3 = cross.every((c, i) => Math.abs(c - fixFace[i]) < 1e-6);
   document.getElementById("lefschetzFaces").innerHTML =
-    `<div class="head">Faces agree, coefficient by coefficient (degrees 0…${FIG8_K}):</div>
+    `<div class="head">Two zetas, three identities, coefficient by coefficient (degrees 0…${FIG8_K}):</div>
      <div class="eq">${rows[0][0]} = ${fmt(sumFace)}<br>${rows[1][0]} = ${fmt(eigFace)}
        &nbsp;<span class="${eq1 ? "ok" : "fail"}">${eq1 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues (the coefficients are F₂, F₄, F₆, …)</span><br>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues: the two faces of ζ_h (the coefficients are F₂, F₄, F₆, …)</span><br>
       ${rows2[0][0]} = ${fmt(fixFace)}<br>${rows2[1][0]} = ${fmt(orbFace)}
        &nbsp;<span class="${eq2 ? "ok" : "fail"}">${eq2 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the orbits are the primes of the flow</span></div>`;
+       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta</span><br>
+      (1−t)²·(H₁ face) = ${fmt(cross)}
+       &nbsp;<span class="${eq3 ? "ok" : "fail"}">${eq3 ? "✓ equals the orbit face" : "✗"}</span>
+       <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
 }
 
 /* ---- Arithmetic: ζ of K = Q(√5), every Euler factor a Legendre symbol.
@@ -2444,6 +2451,13 @@ function runSelfTests() {
   t("fig-8 zeta: orbit product === exp(sum Fix t^n/n) (coeffs 0..8)", () => {
     const { fixFace, orbFace } = fig8Data();
     return fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
+  });
+
+  t("fig-8: the two zetas are distinct and differ by exactly (1-t)^2: orbit zeta === (1-t)^2 * H1-zeta, coefficient by coefficient", () => {
+    const { sumFace, fixFace } = fig8Data();
+    const cross = sumFace.map((c, i) => c - 2 * (sumFace[i - 1] || 0) + (sumFace[i - 2] || 0));
+    return cross.every((c, i) => Math.abs(c - fixFace[i]) < 1e-6)
+      && Math.abs(sumFace[1] - fixFace[1]) > 0.5; // and they really are different functions
   });
 
   t("Q(sqrt5): chi pattern +,-,-,+,0; a(11)=2, a(13)=0, a(169)=1, a(4)=1, a(5)=1", () => {

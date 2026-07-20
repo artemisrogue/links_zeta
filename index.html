@@ -529,7 +529,7 @@
           <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">N = 2000</span>
         </div>
         <div class="euler-vals">
-          <div><div class="lbl">Σ<sub>N(𝔞)≤N</sub> N(𝔞)⁻² <span class="tt" data-tip="What is summed: a(n)/n², a(n) = #ideals of norm n. Split p ((p/5) = +1): two prime ideals of norm p, a(p^k) = k+1. Inert p: one of norm p², so a(p^k) = 1 (k even), 0 (k odd). Ramified: a(5^k) = 1. Multiplicative in n — so a(4) = 1, a(11) = 2, a(19) = 0: hand-checkable at small N.">(sum over ideals)</span></div><div class="num" id="dedekindIdeal">—</div></div>
+          <div><div class="lbl">Σ<sub>N(𝔞)≤N</sub> N(𝔞)⁻² <span class="tt" data-tip="What is summed: a(n)/n², a(n) = #ideals of norm n. Split p ((p/5) = +1): two prime ideals of norm p, a(p^k) = k+1. Inert p: one of norm p², so a(p^k) = 1 (k even), 0 (k odd). Ramified: a(5^k) = 1. Multiplicative in n — so a(4) = 1, a(11) = 2, a(13) = 0: hand-checkable at small N.">(sum over ideals)</span></div><div class="num" id="dedekindIdeal">—</div></div>
           <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
           <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
         </div>
@@ -2270,7 +2270,7 @@ function initLadder() {
   const n3cells = {
     "0,1": { text: "χ₁", cls: "diag1", tip: "Pairwise level: lk(K1,K2) mod 2 / the Legendre symbol (p1/p2)." },
     "1,2": { text: "χ₂", cls: "diag1", tip: "Pairwise level: lk(K2,K3) mod 2 / the Legendre symbol (p2/p3)." },
-    "0,2": { text: "r", cls: "corner", tip: "Triple level: μ̄(123) / the Rédei symbol. Defined only when both χ entries vanish." },
+    "0,2": { text: "r", cls: "corner", tip: "Triple level: the splitting datum in the Rédei field — defined (conjugation-invariant) exactly when both χ entries vanish, for any odd unramified q. When moreover q ≡ 1 (mod 4) it is the symmetric Rédei symbol, the mirror of μ̄(123) — the two-tier domain the live panel below states." },
   };
   document.getElementById("matN3").replaceWith(withId(buildMat(3, n3cells), "matN3"));
 

@@ -687,6 +687,11 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   if (g !== 1n) throw new Error(`certificate not primitive: gcd(x,y,z) = ${g}`);
   if (y % 2n !== 0n) throw new Error(`normalization fails: y = ${y} must be even`);
   if (((x - y) % 4n + 4n) % 4n !== 1n) throw new Error(`normalization fails: x − y ≡ ${((x - y) % 4n + 4n) % 4n} (mod 4), need 1`);
+  // Definedness conditions, exactly as the Dictionary states them: all three primes
+  // ≡ 1 (mod 4) and ALL pairwise Legendre symbols +1 — including (p1/p2), which the
+  // solvability of the certificate equation presupposes.
+  if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
+  if (legendre(p1, p2) !== 1) throw new Error(`(${p1}/${p2}) != 1`);
   if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
   if (legendre(p2, q) !== 1) throw new Error(`(${p2}/${q}) != 1`);
   const roots = tonelliShanks(p1, q);
@@ -1913,9 +1918,11 @@ function renderQuadSteps() {
   ];
   let identityLines = redeiDefs.map(d => {
     const resid = d.x * d.x - d.p1 * d.y * d.y - d.p2;
-    return `${d.label} &nbsp; — &nbsp; ${d.x}² − ${d.p1}·${d.y}² − ${d.p2} = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span>`;
+    const norm = bigGcd(bigGcd(d.x, d.y), 1n) === 1n && d.y % 2n === 0n && ((d.x - d.y) % 4n + 4n) % 4n === 1n; // z = 1 throughout this tab
+    return `${d.label} &nbsp; — &nbsp; ${d.x}² − ${d.p1}·${d.y}² − ${d.p2} = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span>`
+      + ` &nbsp; <span class="${norm ? "ok" : "fail"}">${norm ? "normalized ✓" : "NOT normalized ✗"}</span>`;
   }).join("<br>");
-  steps.push({ head: "2. Rédei elements (identity check)", body: identityLines });
+  steps.push({ head: `2. Rédei elements (identity + <span class="tt tt-left" data-tip="Rédei's normalization of the certificate (x,y,z): gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4). Only among normalized solutions is the Rédei field — hence the symbol — independent of the certificate; redeiSymbol() enforces this, and the check is displayed here, computed live.">normalization</span> checks)`, body: identityLines });
 
   const tripleResults = [];
   tripleResults.push({ label: "[5, 8081, 101]", ...redeiSymbol(5n, 8081n, 101n, 241n, 100n, 1n) });
@@ -2483,6 +2490,20 @@ function runSelfTests() {
       && parseIntegerInput("-7") === null && parseIntegerInput("") === null
       && parseIntegerInput("1234567890") === null && parseIntegerInput("937") === 937n
       && parseIntegerInput(" 107 ") === 107n;
+  });
+
+  t("certificate-dependence closed: [13,61,269] = -1 via normalized (23,6,1); k=2 exploit (46,12,2), which would report +1 since (2/269) = -1, is rejected", () => {
+    let threw = false;
+    try { redeiSymbol(13n, 61n, 269n, 46n, 12n, 2n); } catch (e) { threw = /primitive/.test(e.message); }
+    return threw && legendre(2n, 269n) === -1
+      && redeiSymbol(13n, 61n, 269n, 23n, 6n, 1n).value === -1;
+  });
+
+  t("definedness enforced: [13,61,7] rejected (7 !== 1 mod 4); (5,13) has (5/13) = -1 and only the imprimitive (0,0,0) 'certificate', also rejected", () => {
+    let a = false, b = false;
+    try { redeiSymbol(13n, 61n, 7n, 23n, 6n, 1n); } catch (e) { a = /mod 4/.test(e.message); }
+    try { redeiSymbol(5n, 13n, 29n, 0n, 0n, 0n); } catch (e) { b = /primitive/.test(e.message); }
+    return a && b && legendre(5n, 13n) === -1;
   });
 
   t("Redei reciprocity instance: [5,8081,101] === [5,101,8081] via two different Redei elements", () => {

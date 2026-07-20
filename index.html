@@ -473,7 +473,7 @@
           <button class="ctrl primary" id="deleteBtn">Delete ring</button>
           <button class="ctrl" id="restoreBtn">Restore all</button>
         </div>
-        <div class="small-note" id="b4WordNote" style="min-height:2.6em;">Delete ANY component — algebraically, set that xᵢ = 1 — and the word below, ℓ₄ = [[x₁,x₂],x₃] (K₄'s longitude in Milnor's model B₄, written in the meridians x₁, x₂, x₃ of the other three), collapses to 1: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.</div>
+        <div class="small-note" id="b4WordNote" style="min-height:2.6em;">Delete K₁, K₂, or K₃ — algebraically, set that xᵢ = 1 — and the word below, ℓ₄ = [[x₁,x₂],x₃] (K₄'s longitude in Milnor's model B₄, written in the meridians x₁, x₂, x₃ of the other three), collapses to 1: the algebraic shadow of the deletion — it says the Milnor data vanish, while the sublinks' actual triviality (every 3-sublink, every pair) is the model's construction, as the honesty note below says of the drawing. Deleting K₄ is different: ℓ₄ is K₄'s own longitude, so there is no x₄ to set — the word leaves with its component. Yet the four together are inseparable.</div>
         <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
         <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
       </div>
@@ -1883,6 +1883,7 @@ const B4W_DELETE_TEXT = {
   B: "Cut K4 (blue): the red–blue frame is broken and the remaining three separate.",
 };
 
+const B4W_HOME_TEXT = document.getElementById("b4WordNote").textContent; // captured so Restore cannot drift from the static note
 document.getElementById("deleteBtn").addEventListener("click", () => {
   b4wDeleted = B4W_SELMAP[document.getElementById("deleteSelect").value];
   document.getElementById("b4WordNote").textContent =
@@ -1891,7 +1892,7 @@ document.getElementById("deleteBtn").addEventListener("click", () => {
 });
 document.getElementById("restoreBtn").addEventListener("click", () => {
   b4wDeleted = null;
-  document.getElementById("b4WordNote").textContent = "Delete ANY component and the other three fall apart: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.";
+  document.getElementById("b4WordNote").textContent = B4W_HOME_TEXT;
   renderB4();
 });
 
@@ -2609,6 +2610,12 @@ function runSelfTests() {
   });
 
   // R3 DOM assertions: rendered text pinned per amendment 3
+  t("DOM: b4WordNote quantifies over K1..K3 only, glosses the collapse as algebraic shadow, credits triviality to the model, and handles K4 separately; Restore reuses this exact text", () => {
+    const s = document.getElementById("b4WordNote").textContent;
+    return s.includes("Delete K₁, K₂, or K₃") && s.includes("algebraic shadow") && s.includes("Milnor data vanish")
+      && s.includes("model's construction") && s.includes("no x₄ to set")
+      && !s.includes("Delete ANY component") && B4W_HOME_TEXT === s;
+  });
   t("DOM: orbit-product face states its sufficient hypothesis (Anosov, closed torus, positive eigenvalues), tooltip carries the -A counterexample", () => {
     const f = [...document.querySelectorAll("#tab-zeta .zeta-face .fname")].find(e => e.textContent.includes("Product over periodic orbits"));
     if (!f || !f.textContent.includes("Anosov on the closed torus, both eigenvalues positive")) return false;

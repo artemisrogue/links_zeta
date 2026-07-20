@@ -230,7 +230,7 @@
   .poly-demo .eq{ font-family:"Cambria Math",Cambria,serif; }
   .coef-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-top:8px; }
   .coef-cell{ text-align:center; padding:6px 4px; border:1px solid var(--line); border-radius:4px; background:#fff; font-family:"Cambria Math",Cambria,serif; font-size:.85rem; }
-  .coef-cell.zero{ color:#bbb; }
+  .coef-cell.zero{ color:#767676; }
   .coef-cell.top{ background:var(--topo-bg); border-color:var(--topo); color:var(--topo); font-weight:700; }
 
   footer{ border-top:2px solid var(--ink); padding:16px 28px 30px; }
@@ -249,8 +249,8 @@
   button.jump,button.tip{ background:none; border:0; padding:0; font:inherit; }
   button.tip{ color:inherit; }
 
-  /* tooltips: hover or keyboard focus */
-  .tt{ border-bottom:1px dotted #999; cursor:help; position:relative; }
+
+  .tt{ border-bottom:1px dotted #767676; cursor:help; position:relative; }
   .tt:hover::after, .tt:focus::after, .tt.tt-open::after{
     content:attr(data-tip);
     position:absolute; left:50%; transform:translateX(-50%);
@@ -269,7 +269,6 @@
   }
   .tt.tt-left:hover::after, .tt.tt-left:focus::after, .tt.tt-left.tt-open::after{ left:0; transform:none; }
   .tt.tt-right:hover::after, .tt.tt-right:focus::after, .tt.tt-right.tt-open::after{ left:auto; right:0; transform:none; }
-  /* pinned tips: scrollable; .tt-below flips them under the term */
   .tt.tt-open::after{ pointer-events:auto; overflow-y:auto; max-height:55vh; }
   .tt.tt-below:hover::after, .tt.tt-below:focus::after, .tt.tt-below.tt-open::after{ bottom:auto; top:calc(100% + 7px); }
   .tt.tt-below:hover::before, .tt.tt-below:focus::before, .tt.tt-below.tt-open::before{ bottom:auto; top:calc(100% + 1px); border-top-color:transparent; border-bottom-color:#2b2b25; }
@@ -636,7 +635,7 @@ function legendre(a, p) {
   throw new Error(`legendre(${a},${p}): p not an odd prime`);
 }
 
-// General Tonelli–Shanks. Returns the two roots [r, p-r] sorted ascending.
+// Returns the two roots [r, p-r] sorted ascending.
 function tonelliShanks(n, p) {
   n = ((n % p) + p) % p;
   if (n === 0n) return [0n, 0n];
@@ -677,8 +676,7 @@ function bigGcd(a, b) {
   return a;
 }
 
-// [p1,p2,q] certified by alpha = x + y*sqrt(p1), x^2 - p1*y^2 - p2*z^2 = 0. Certificate must be
-// Redei-NORMALIZED (gcd 1, y even, x-y = 1 mod 4): scaling by k multiplies the value by (k/q).
+// [p1,p2,q] via alpha = x + y*sqrt(p1); certificate must be Redei-NORMALIZED (gcd 1, y even, x-y = 1 mod 4): scaling by k multiplies the value by (k/q).
 function redeiSymbol(p1, p2, q, x, y, z) {
   if (z === undefined) z = 1n;
   const identity = x * x - p1 * y * y - p2 * z * z;
@@ -687,7 +685,7 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   if (g !== 1n) throw new Error(`certificate not primitive: gcd(x,y,z) = ${g}`);
   if (y % 2n !== 0n) throw new Error(`normalization fails: y = ${y} must be even`);
   if (((x - y) % 4n + 4n) % 4n !== 1n) throw new Error(`normalization fails: x − y ≡ ${((x - y) % 4n + 4n) % 4n} (mod 4), need 1`);
-  // Definedness, as the Dictionary states: all three ≡ 1 (mod 4), all pairwise symbols +1.
+  // Definedness: all three ≡ 1 (mod 4), all pairwise symbols +1.
   if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
   if (legendre(p1, p2) !== 1) throw new Error(`(${p1}/${p2}) != 1`);
   if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
@@ -706,7 +704,7 @@ function isPrimeSmall(n) { // trial division, fine for teaching-scale inputs
   return true;
 }
 
-// Plain decimal integers only (rejects "1e5", "1.5", "-7"); 9 digits max (fast trial division).
+// Plain decimal integers, 9 digits max (rejects "1e5", "1.5", "-7").
 function parseIntegerInput(raw) {
   raw = String(raw).trim();
   if (!/^[0-9]{1,9}$/.test(raw)) return null;
@@ -765,7 +763,7 @@ function angleOnCircle(circle, pt) {
   return Math.atan2((pt.y - circle.cy) / (circle.sy || 1), (pt.x - circle.cx) / (circle.sx || 1));
 }
 
-// Arrowhead at p along dir — the SAME parametrization direction every signed count uses.
+// Arrowhead at p along dir — the SAME direction every signed count uses.
 function drawOrientationArrow(ctx, p, dir, color) {
   const len = Math.hypot(dir.x, dir.y) || 1;
   const ux = dir.x / len, uy = dir.y / len;
@@ -781,7 +779,7 @@ function drawOrientationArrow(ctx, p, dir, color) {
   ctx.restore();
 }
 
-// For circles parametrized CCW as (cx + r cos t, cy + r sin t): arrow at angle theta.
+// arrow at angle theta on a CCW-parametrized circle
 function circleArrow(ctx, circle, theta, color) {
   const p = { x: circle.cx + circle.r * Math.cos(theta), y: circle.cy + circle.r * Math.sin(theta) };
   drawOrientationArrow(ctx, p, { x: -Math.sin(theta), y: Math.cos(theta) }, color);
@@ -855,7 +853,7 @@ function expandDeltaBor() {
   return polyMul(polyMul(f1, f2), f3);
 }
 
-// Every .tt is a tab stop with button semantics + expanded state; recalled after dynamic renders.
+// .tt terms: tab stop + button semantics; re-run after dynamic renders.
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
     el.setAttribute("tabindex", "0");
@@ -864,14 +862,12 @@ function ttFocusable(root) {
   });
 }
 
-// Cross-tab jump buttons (static and generated).
 window.gotoTab = function (name) {
   const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
-// Click/tap or Enter/Space pins a tip; elsewhere-click, re-toggle, or Escape closes.
-// On focus/pin the tip text is copied into the hidden #ttReadout for screen readers.
+// Pin: click/Enter/Space; close: outside click, re-toggle, Escape; tip mirrors into #ttReadout.
 function ttAnnounce(t) {
   document.getElementById("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
@@ -879,7 +875,7 @@ function ttAnnounce(t) {
 function ttSet(t, open) {
   t.classList.toggle("tt-open", open);
   t.setAttribute("aria-expanded", String(open));
-  // near the top, pinned tips open downward (avoid clipping)
+  // near the top, pinned tips open downward
   t.classList.toggle("tt-below", open && t.getBoundingClientRect().top < 340);
   if (open) ttAnnounce(t);
 }
@@ -901,7 +897,7 @@ document.addEventListener("keydown", e => {
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
 
-// ARIA tabs: programmatic tablist; every button stays in the Tab order
+// ARIA tablist wiring (buttons stay in the Tab order)
 document.querySelector("nav.tabs").setAttribute("role", "tablist");
 document.querySelectorAll(".tab-btn").forEach(btn => {
   const n = btn.dataset.tab;
@@ -927,7 +923,7 @@ document.querySelectorAll(".why-toggle").forEach(btn => {
   });
 });
 
-// Canvas text alternatives (R3-A3): labels defer to the live DOM text beside each figure.
+// Canvas text alternatives (R3-A3)
 const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)");
 for (const [id, lbl] of [
   ["pairsCanvas", ""],
@@ -978,7 +974,7 @@ function renderPairs() {
   pctx.fillText("K2", B.cx - 6, B.cy - B.r - 8);
   circleArrow(pctx, A, Math.PI, "#1b6ca8");
   circleArrow(pctx, B, 0, "#2e8b57");
-  pairsCanvas.setAttribute("aria-label", `Two circles K1 (blue) and K2 (green), ${pairsState.linked ? "linked as the Hopf link" : "unlinked"}; lk is stated in the label below.`);
+  pairsCanvas.setAttribute("aria-label", `Two circles K1 (blue) and K2 (green), ${pairsState.linked ? "linked as the Hopf link" : "unlinked"}; lk in the label below.`);
 }
 
 function updatePairsLabels() {
@@ -1015,7 +1011,6 @@ document.getElementById("pairsLiftBtn").addEventListener("click", () => {
   pairsState.liftAnim = requestAnimationFrame(step);
 });
 
-// Legendre calculator + Hilbert product formula
 function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
 
 function renderLegendreTable(p, q) {
@@ -1142,7 +1137,7 @@ document.getElementById("preset513").addEventListener("click", () => {
   setPairsTopology(true);    // −1: the Hopf pair
 });
 
-// the arc figure (Figure 2 of the papers), with a traveling pulse
+// the arc figure (Figure 2 of the papers)
 const arcCanvas = document.getElementById("arcCanvas");
 const actx = arcCanvas.getContext("2d");
 let arcPulseT = 0;
@@ -1159,8 +1154,7 @@ const ARC_TEXT = {
   }
 };
 
-// Hopf link with flat disks, axonometric. K1: unit circle in z = 0; K2: unit circle in
-// y = 0 centered at (1,0,0). The disks meet in the segment (x,0,0), 0 <= x <= 1.
+// Hopf link, flat disks, axonometric; the disks meet in the segment (x,0,0), 0 <= x <= 1.
 function arcProj(x, y, z) {
   return { X: 130 + 110 * x + 30 * y, Y: 150 - 95 * z + 26 * y };
 }
@@ -1236,7 +1230,6 @@ function renderArcFigure() {
   dot(P1, "#1b6ca8");
   dot(P2, "#2e8b57");
 
-  // pulse (skipped under reduced motion)
   if (!REDUCED_MOTION.matches) {
     const t = (Math.sin(arcPulseT) + 1) / 2;
     actx.fillStyle = "#f5a623";
@@ -1265,7 +1258,6 @@ function renderArcFigure() {
 
 function renderArcFigureUnlinked() {
   actx.clearRect(0, 0, arcCanvas.width, arcCanvas.height);
-  // same staging, pulled apart
   const K1 = { cx: 105, cy: 160, rx: 88, ry: 30 };
   const K2 = { cx: 330, cy: 135, rx: 48, ry: 88 };
 
@@ -1306,7 +1298,7 @@ function renderArcFigureUnlinked() {
 
 function arcAnimLoop() {
   arcPulseT += 0.03;
-  // redraw only when visible; no animation under reduced motion
+  // redraw when visible; skip under reduced motion
   if (!REDUCED_MOTION.matches && document.getElementById("tab-pairs").classList.contains("active")) {
     renderArcFigure();
   }
@@ -1361,7 +1353,7 @@ function renderBorro() {
     circleArrow(bctx, circles[id], arrowAngle[id], circles[id].color);
   }
   if (isolateMode !== "none") {
-    bctx.fillStyle = "#bbb";
+    bctx.fillStyle = "#666";
     bctx.font = "italic 12px Georgia";
     bctx.fillText(`K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 20);
   }
@@ -1372,8 +1364,7 @@ document.getElementById("isolateSelect").addEventListener("change", (e) => {
   renderBorro();
 });
 
-// lk from the diagram's crossings: sign = cross(over-tangent, under-tangent); lk = sum/2.
-// Canvas coords (y down) mirror the picture — harmless: only zero totals are asserted, 0 = −0.
+// lk from crossings: sign = cross(over-, under-tangent); lk = sum/2. Canvas coords (y down) mirror the picture — harmless: only zero totals are asserted, 0 = −0.
 function borroComputeLk() {
   const circles = borroCircles();
   const ids = ["1", "2", "3"];
@@ -1445,7 +1436,6 @@ function renderTopoTripleSteps() {
   ttFocusable();
 }
 
-// optional 3D view
 let threeLoaded = false, threeFailed = false;
 (function loadThree() {
   const s = document.createElement("script");
@@ -1485,7 +1475,7 @@ function initBorro3D() {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
   renderer.domElement.setAttribute("role", "img");
-  renderer.domElement.setAttribute("aria-label", "3D view: the Borromean rings as three ellipses, one per coordinate plane.");
+  renderer.domElement.setAttribute("aria-label", "3D Borromean rings: three ellipses, one per coordinate plane.");
   container.appendChild(renderer.domElement);
 
   const group = new THREE.Group();
@@ -1513,7 +1503,7 @@ function initBorro3D() {
   });
 
   container.tabIndex = 0;
-  container.setAttribute("aria-label", "3D Borromean rings; drag, or focus and press arrow keys, to rotate");
+  container.setAttribute("aria-label", "3D Borromean rings; drag or arrow keys to rotate");
   container.addEventListener("keydown", e => {
     const d = { ArrowLeft: [0, -1], ArrowRight: [0, 1], ArrowUp: [-1, 0], ArrowDown: [1, 0] }[e.key];
     if (!d) return;
@@ -1540,7 +1530,6 @@ function initBorro3D() {
   borro3dState = { scene, camera, renderer, group };
 }
 
-// Rédei step-by-step
 function renderTripleSteps() {
   const p1 = 13n, p2 = 61n, q = 937n;
   const container = document.getElementById("tripleSteps");
@@ -1618,7 +1607,6 @@ function renderTripleHasse() {
 </g>`;
 }
 
-// Delta_Bor expansion grid
 function renderDeltaBorGrid() {
   const grid = document.getElementById("deltaBorGrid");
   const poly = expandDeltaBor();
@@ -1639,11 +1627,9 @@ function renderDeltaBorGrid() {
   }
 }
 
-/* Brunnian-4loops.svg (AnonMoos, public domain), redrawn from its exact path data.
-   G ellipse, Y stadium, R/B rounded diamonds. Layer analysis of the original gives:
-   G-Y 4 crossings (Y over top two, G over bottom two: the commutator clasp);
-   B-Y 4 (B over); R-Y 4 (Y over); R-B 2 (R over); G-R = G-B = none.
-   Pairwise lk computed live from the drawn crossings. */
+/* Brunnian-4loops.svg (AnonMoos, public domain), redrawn from its exact path data. Layer
+   analysis: G-Y 4 crossings (Y over top two, G over bottom two: the commutator clasp);
+   B-Y 4 (B over); R-Y 4 (Y over); R-B 2 (R over); G-R = G-B = none. lk computed live. */
 
 const B4W_SCALE = 420 / 588;
 function b4wT(x, y) {
@@ -1671,8 +1657,7 @@ function b4wSampleLine(p0, p1, n, out) {
   }
 }
 
-// Piecewise path -> closed polyline (internal coords), then projected.
-// Segments: ["C",x0,y0,c1x,c1y,c2x,c2y,x1,y1] or ["L",x0,y0,x1,y1].
+// Path (["C",x0,y0,c1x,c1y,c2x,c2y,x1,y1] / ["L",x0,y0,x1,y1]) -> closed polyline, projected.
 function b4wPathToPoly(segs) {
   const pt = (s, i) => ({ x: s[i], y: s[i + 1] });
   const pts = [pt(segs[0], 1)];
@@ -1692,15 +1677,15 @@ function b4wCurves() {
     const q = b4wT(3000 + 1000 * Math.cos(t), 3960 + 500 * Math.sin(t));
     G.push(q);
   }
-  // Yellow: stadium, limbs x = 2310 / 3690 for y in [2660,5260], caps r = 690
+  // Yellow stadium: limbs x = 2310/3690, caps r = 690
   const Y = [];
-  for (let i = 0; i < 40; i++) Y.push(b4wT(3690, 5260 - (i / 40) * 2600));         // right limb down
-  for (let i = 0; i < 48; i++) { const a = -(i / 48) * Math.PI;                     // bottom cap
+  for (let i = 0; i < 40; i++) Y.push(b4wT(3690, 5260 - (i / 40) * 2600));
+  for (let i = 0; i < 48; i++) { const a = -(i / 48) * Math.PI;
     Y.push(b4wT(3000 + 690 * Math.cos(a), 2660 + 690 * Math.sin(a))); }
-  for (let i = 0; i < 40; i++) Y.push(b4wT(2310, 2660 + (i / 40) * 2600));          // left limb up
-  for (let i = 0; i < 48; i++) { const a = Math.PI - (i / 48) * Math.PI;            // top cap
+  for (let i = 0; i < 40; i++) Y.push(b4wT(2310, 2660 + (i / 40) * 2600));
+  for (let i = 0; i < 48; i++) { const a = Math.PI - (i / 48) * Math.PI;
     Y.push(b4wT(3000 + 690 * Math.cos(a), 5260 + 690 * Math.sin(a))); }
-  // Red rounded diamond (transcribed from the SVG path, absolute coords)
+  // Red rounded diamond (from the SVG path)
   const R = b4wPathToPoly([
     ["C",2163.38,5338.86,2285.28,5460.76,2450.61,5529.24,2623,5529.24],
     ["L",2623,5529.24,2753,5529.24],
@@ -1717,7 +1702,7 @@ function b4wCurves() {
     ["C",1053.76,3960,1053.76,4132.39,1122.24,4297.72,1244.14,4419.62],
     ["L",1244.14,4419.62,2163.38,5338.86],
   ]);
-  // Blue rounded diamond (mirror image, transcribed likewise)
+  // Blue rounded diamond (mirror image)
   const B = b4wPathToPoly([
     ["C",2787.38,5338.86,2909.28,5460.76,3074.61,5529.24,3247,5529.24],
     ["L",3247,5529.24,3377,5529.24],
@@ -1776,7 +1761,6 @@ function b4wCrossings() {
         const hit = b4wSegIntersect(a1, a2, Bc[v], Bc[(v + 1) % Bc.length]);
         if (hit) {
           n++;
-          // normalize pair name to the rule table's keys
           let rulekey = key;
           if (key === "YR") rulekey = "RY";
           if (key === "YB") rulekey = "BY";
@@ -1849,7 +1833,7 @@ function renderB4() {
   }
   ctx.font = "13px Georgia";
   const lbl = (name, x, y) => {
-    ctx.fillStyle = b4wDeleted === name ? "#ccc" : B4W_COLORS[name];
+    ctx.fillStyle = b4wDeleted === name ? "#666" : B4W_COLORS[name];
     ctx.fillText(B4W_LABEL[name] + " (" + { G: "green", Y: "yellow", R: "red", B: "blue" }[name] + ")", x, y);
   };
   lbl("Y", 160, 14);
@@ -1878,7 +1862,7 @@ function renderB4() {
   if (!b4wDeleted || !"GB".includes(b4wDeleted)) disjoint.push("K1∩K4");
   document.getElementById("b4LkNote").innerHTML =
     `computed from the diagram's signed crossings: ${parts.join(", ")}; ${disjoint.join(" = ")} = ∅ — every pair unlinked.`;
-  canvas.setAttribute("aria-label", `Four-component Brunnian link${b4wDeleted ? ", with " + B4W_LABEL[b4wDeleted] + " deleted (faded)" : ""}; pairwise linking data appear in the note below.`);
+  canvas.setAttribute("aria-label", `Four-component Brunnian link${b4wDeleted ? ", with " + B4W_LABEL[b4wDeleted] + " deleted (faded)" : ""}; linking data in the note below.`);
 }
 
 const B4W_DELETE_TEXT = {
@@ -2063,9 +2047,8 @@ function renderQuadTower() {
 </g>`;
 }
 
-/* A = [[2,1],[1,1]], fig-8 monodromy on H1 of the fiber. Faces: S(t) = exp(Σ tr(Aⁿ)tⁿ/n),
-   E(t) = det(I−tA)⁻¹, Z(t) = exp(Σ Fix(hⁿ)tⁿ/n) = ∏_d (1−t^d)^{−o_d} on T², with
-   Fix(hⁿ) = tr(Aⁿ)−2 and o_d by Möbius inversion. All computed, nothing quoted. */
+/* A = [[2,1],[1,1]], fig-8 monodromy on H1. Faces: exp(Σ tr(Aⁿ)tⁿ/n), det(I−tA)⁻¹, and
+   exp(Σ Fix(hⁿ)tⁿ/n) = ∏_d (1−t^d)^{−o_d} on T², Fix = tr−2, o_d by Möbius. All computed. */
 
 const FIG8_A = [[2, 1], [1, 1]];
 const FIG8_K = 8;   // series truncation degree
@@ -2082,7 +2065,7 @@ function fig8Traces(count) {
 }
 
 function expOfPowerSum(coeffs, K) {
-  // exp( Σ_{n≥1} c_n tⁿ/n ) up to degree K:  E_m = (1/m) Σ_{j=1..m} c_j E_{m−j}
+  // exp(Σ c_n tⁿ/n) to degree K: E_m = (1/m) Σ c_j E_{m−j}
   const E = [1];
   for (let m = 1; m <= K; m++) {
     let s = 0;
@@ -2166,8 +2149,7 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
 }
 
-/* ζ of Q(√5): χ(n) = (n/5); a(n) = #ideals of norm n, multiplicative,
-   a(p^k) = k+1 (split), [k even] (inert), 1 (ramified p = 5). */
+/* ζ of Q(√5): χ(n) = (n/5); a(p^k) = k+1 (split), [k even] (inert), 1 (p = 5); multiplicative. */
 
 function chi5(n) { return n % 5 === 0 ? 0 : Number(legendre(BigInt(n), 5n)); }
 
@@ -2241,7 +2223,7 @@ function buildMat(size, cells) {
         td.className = cells[key].cls;
         if (cells[key].tip) { td.classList.add("tt"); td.setAttribute("data-tip", cells[key].tip); }
       }
-      else { td.textContent = "0"; td.style.color = "#c8c4b8"; }
+      else { td.textContent = "0"; td.style.color = "#767676"; }
       td.dataset.pos = key;
       tr.appendChild(td);
     }
@@ -2294,9 +2276,8 @@ document.querySelectorAll(".arrow-btn").forEach(btn => {
   });
 });
 
-/* rho(Frob_q) in N3(F2) for (13,61): chi_i from (13/q), (61/q), +1 -> 0. Both zero =>
-   corner r = 0 iff q splits completely in k_{13,61}: Legendre of alpha = 23+6*sqrt(13)
-   mod q (conjugates agree: their product is 61, a square mod q when chi2 = 0). */
+/* rho(Frob_q) in N3(F2) for (13,61): chi_i from (13/q), (61/q), +1 -> 0. Both zero => corner
+   r = 0 iff q splits in k_{13,61}: Legendre of alpha = 23+6*sqrt(13) mod q (conjugates agree). */
 
 function frobeniusMatrix1361(q) {
   if (q < 3n || q % 2n === 0n || !isPrimeSmall(q)) return { err: "q must be an odd prime." };
@@ -2329,8 +2310,8 @@ function renderFrobenius(q) {
     : `<b>${f.r}</b>`;
   mat.innerHTML =
     `<tr><td>1</td><td class="diag1${f.chi1 ? " lit" : ""}">${f.chi1}</td><td class="corner${f.r !== null ? " lit" : ""}">${corner}</td></tr>` +
-    `<tr><td style="color:#c8c4b8">0</td><td>1</td><td class="diag1${f.chi2 ? " lit" : ""}">${f.chi2}</td></tr>` +
-    `<tr><td style="color:#c8c4b8">0</td><td style="color:#c8c4b8">0</td><td>1</td></tr>`;
+    `<tr><td style="color:#767676">0</td><td>1</td><td class="diag1${f.chi2 ? " lit" : ""}">${f.chi2}</td></tr>` +
+    `<tr><td style="color:#767676">0</td><td style="color:#767676">0</td><td>1</td></tr>`;
   let text;
   if (f.r === null) {
     text = `(13/${q}) = ${f.chi1 ? "−1" : "+1"}, (61/${q}) = ${f.chi2 ? "−1" : "+1"}: the pairwise level is already nonzero — q = ${q} is "linked" with ${f.chi1 && f.chi2 ? "both 13 and 61" : f.chi1 ? "13" : "61"}. The corner is <b>not an invariant</b> here (hover the ∗): the ladder stops at the first nonvanishing level.`;
@@ -2674,7 +2655,7 @@ function runSelfTests() {
 
   // R3 a11y DOM assertions (amendment 3)
   const ga = (id, a) => document.getElementById(id).getAttribute(a);
-  t("DOM R3-A1: .tt terms expose role=button/aria-expanded/tabindex; Enter pins (tt-open, readout gets tip text), Escape closes; header names the keys", () => {
+  t("DOM R3-A1: .tt has button semantics; Enter pins and fills the readout; Escape closes; header names the keys", () => {
     const el = document.querySelector("#tab-dict .tt");
     if (!el || el.getAttribute("role") !== "button" || el.getAttribute("tabindex") !== "0"
       || el.getAttribute("aria-expanded") !== "false") return false;
@@ -2703,18 +2684,18 @@ function runSelfTests() {
     before[0].click();
     return flipped && sel().length === 1 && sel()[0] === before[0];
   });
-  t("DOM R3-A3: every 2D canvas exposes role=img + nonempty aria-label; the pairs and b4 labels track state via their render functions", () => {
+  t("DOM R3-A3: canvases expose role=img + nonempty aria-label; pairs/b4 labels track state", () => {
     const ok = ["pairsCanvas", "arcCanvas", "borroCanvas", "b4Canvas"].every(id =>
       ga(id, "role") === "img" && (ga(id, "aria-label") || "").length > 20);
     return ok && ga("pairsCanvas", "aria-label").includes(pairsState.linked ? "Hopf" : "unlinked")
       && ga("b4Canvas", "aria-label").includes(b4wDeleted ? "deleted" : "Brunnian");
   });
-  t("DOM R3-A4: computed results announce — aria-live=polite on the result surfaces, role=alert on both warn fields", () => {
+  t("DOM R3-A4: aria-live=polite on result surfaces; role=alert on both warn fields", () => {
     return ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
       && document.querySelector(".euler-vals").getAttribute("aria-live") === "polite"
       && ga("pairsWarn", "role") === "alert" && ga("frobWarn", "role") === "alert";
   });
-  t("DOM R3-A5: jump links and the ellipse toggle are real buttons (fsTooltip syncs aria-expanded); select and slider carry accessible names; 3D note offers arrow keys", () => {
+  t("DOM R3-A5: jumps and the ellipse toggle are real buttons; select/slider named; 3D note offers arrow keys", () => {
     const jumps = [...document.querySelectorAll(".jump")];
     if (jumps.length < 3 || !jumps.every(el => el.tagName === "BUTTON" && el.type === "button")) return false;
     const fs = document.getElementById("fsTooltip");
@@ -2728,6 +2709,14 @@ function runSelfTests() {
       && (ga("deleteSelect", "aria-label") || "").length > 0
       && ga("dedekindN", "aria-label") === "summation limit N"
       && document.querySelector("#borro3dWrap .small-note").textContent.includes("arrow keys");
+  });
+  t("DOM R3-A6: vanished entries and the .tt affordance meet contrast — zeros and dotted underline at #767676", () => {
+    const grey = "rgb(118, 118, 118)";
+    const fm = document.querySelector("#frobMatrix td[style]");
+    return getComputedStyle(document.querySelector("#deltaBorGrid .coef-cell.zero")).color === grey
+      && document.querySelector("#matN3 td[data-pos='1,0']").style.color === grey
+      && (!fm || fm.style.color === grey)
+      && getComputedStyle(document.querySelector(".tt")).borderBottomColor === grey;
   });
 
   const list = document.getElementById("testList");

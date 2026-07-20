@@ -1356,6 +1356,10 @@ document.getElementById("isolateSelect").addEventListener("change", (e) => {
 // Pairwise linking numbers computed live from the Borromean diagram itself:
 // at each computed crossing, the sign is cross(tangent of over-strand, tangent
 // of under-strand); lk = (signed sum)/2 for each pair.
+// Honesty: signs are taken in canvas coordinates (y points down), a global mirror
+// of the picture. Harmless for what is asserted — only the zero totals — since a
+// mirror negates every sign and 0 = −0; no nonzero sign from this function is
+// ever displayed or used.
 function borroComputeLk() {
   const circles = borroCircles();
   const ids = ["1", "2", "3"];
@@ -1398,7 +1402,7 @@ function renderTopoTripleSteps() {
 
   steps.push({
     head: "2. The certificate the vanishing leaves behind: the longitude",
-    body: `Because every lk = 0, the curve K3 traces in the complement of K1 ∪ K2 — its <span class="tt tt-left" data-tip="The longitude of a component: the path the component itself follows, read as a word in the meridians x₁, x₂ of the other components. Pairwise lk = 0 says the exponent sums vanish, which is exactly the condition for the word to be a commutator.">longitude</span> — is the commutator ℓ₃ = [x₁, x₂].`
+    body: `Because every lk = 0, the word K3 traces in the complement of K1 ∪ K2 — its <span class="tt tt-left" data-tip="The longitude of a component: the path the component itself follows, read as a word in the meridians x₁, x₂ of the other components. Pairwise lk = 0 says the exponent sums vanish, i.e. the word lies in the commutator subgroup [F,F] — that and no more: zero exponent sums do not make a word a single commutator ([x₁,x₂]² has zero exponent sums and is not one, by Wicks).">longitude</span> — lies in [F,F]: that is everything vanishing lk gives. That it is the specific commutator ℓ₃ = [x₁, x₂] is Milnor's Wirtinger computation for the standard Borromean diagram, taken here as the model word rather than recomputed from the drawing — the same standard the Quadruples tab's honesty note applies to B₄.`
       + mirror("the Rédei element α = 23 + 6√13 — solvable exactly because the pairwise symbol is +1. Both certificates exist only because the previous level vanished.")
   });
 
@@ -1423,7 +1427,7 @@ function renderTopoTripleSteps() {
     container.appendChild(div);
   }
   document.getElementById("topoTripleBanner").innerHTML =
-    `<b>μ̄(123) = ${c12}</b> — no two linked, all three linked: the Borromean rings. <span class="tt" data-tip="The sign of μ̄(123) depends on the chosen orientations and component ordering (reversing one component negates it); with the conventions fixed here it is +1. The invariant statement is μ̄(123) = ±1 ≠ 0, mirroring [13,61,937] = −1 ≠ +1.">(sign?)</span>`;
+    `<b>μ̄(123) = ${c12}</b> — no two linked, all three linked: the Borromean rings. <span class="tt" data-tip="The sign of μ̄(123) depends on orientations and component ordering (reversing one component negates it). The +1 shown is read off the model word [x₁,x₂], not derived from the drawn diagram — that would require its Wirtinger presentation, which this app does not compute, and the mirror choice [x₂,x₁] gives −1. What is convention-free is μ̄(123) = ±1 ≠ 0, mirroring [13,61,937] = −1 ≠ +1.">(sign?)</span>`;
   ttFocusable();
 }
 
@@ -1529,7 +1533,7 @@ function renderTripleSteps() {
   steps.push({
     head: `2. <span class="tt tt-left" data-tip="The element α = x + y√p₁ whose square root generates the Rédei field. It exists because (p₁/p₂) = +1 makes the quadratic form equation solvable; among Rédei-normalized solutions — gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4), all satisfied by (23,6,1) — the field does not depend on which one is used. Unnormalized solutions generate genuinely different fields (scaling by k twists by √k), so redeiSymbol() rejects them.">Rédei element</span>: x² − 13y² − 61z² = 0 with (x,y,z) = (23,6,1); α = 23 + 6√13`,
     body: `23² − 13·6² − 61·1² = ${(23n * 23n).toString()} − ${(13n * 36n).toString()} − 61 = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span> &nbsp; (solvable exactly because (13/61) = +1)`
-      + mirrorT("the longitude ℓ₃ = [x₁,x₂] — writable as a commutator exactly because every lk = 0.")
+      + mirrorT("the longitude ℓ₃ — in the commutator subgroup exactly because every lk = 0; equal to the model word [x₁,x₂] by Milnor's computation.")
   });
 
   const roots = tonelliShanks(p1, q);

@@ -267,6 +267,10 @@
   }
   .tt.tt-left:hover::after, .tt.tt-left:focus::after, .tt.tt-left.tt-open::after{ left:0; transform:none; }
   .tt.tt-right:hover::after, .tt.tt-right:focus::after, .tt.tt-right.tt-open::after{ left:auto; right:0; transform:none; }
+  /* pinned (clicked) tips: scrollable, and flipped below the term when it sits near the viewport top */
+  .tt.tt-open::after{ pointer-events:auto; overflow-y:auto; max-height:55vh; }
+  .tt.tt-below:hover::after, .tt.tt-below:focus::after, .tt.tt-below.tt-open::after{ bottom:auto; top:calc(100% + 7px); }
+  .tt.tt-below:hover::before, .tt.tt-below:focus::before, .tt.tt-below.tt-open::before{ bottom:auto; top:calc(100% + 1px); border-top-color:transparent; border-bottom-color:#2b2b25; }
   .why-box{
     margin-top:10px; font-size:.88rem; padding:10px 14px;
     border-left:3px solid var(--line); background:#fafaf6; display:none;
@@ -279,7 +283,7 @@
 
 <header>
   <h1>Knots &amp; Primes</h1>
-  <p>Linking, triple linking, and zeta functions — on both sides of the mirror. A teaching companion to the papers.</p>
+  <p>Linking, triple linking, and zeta functions — on both sides of the mirror. A teaching companion to the papers. <span style="font-size:.85rem;">Dotted terms carry definitions: hover, Tab to them, or click to pin one open.</span></p>
 </header>
 
 <nav class="tabs">
@@ -311,7 +315,9 @@
       <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers. χ(Frob_p) plays the role of an eigenvalue: characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.">characters</span> of the Galois group</td></tr>
     </table>
 
-    <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. That taming does not propagate up the tower (higher floors ramify at ∞), which is why the f<sub>S</sub> tooltip above must state its convention: unramified outside S ∪ {∞}. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
+    <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. That taming does not propagate up the tower (higher floors ramify at ∞), which is why the convention — unramified outside S ∪ {∞} — must be stated; it is spelled out in visible text just below. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
+    <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry, in visible text)</button>
+    <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2. So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ. Full statement and references: the f<sub>S</sub> tooltip in the table above. This box is what the Pairs, Triples, and Zeta tabs cite.</div>
     <div class="small-note">And one more entry, from this app's running example (<span class="jump" onclick="gotoTab('zeta')">Zeta tab</span>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — the same number on both sides.</div>
 
     <div class="coda">
@@ -391,7 +397,7 @@
         <div class="poly-demo">Every link L carries a computable polynomial invariant, the <span class="tt" data-tip="Black-box version, all this strip needs: one Laurent polynomial per link, one variable tᵢ per component, defined up to a unit. The rigorous definition — the order of the first homology of the infinite abelian cover of the link exterior, as a module over the deck transformations — is in the Dictionary's ∆_L row.">Alexander polynomial</span> ∆<sub>L</sub>(t₁,…,t<sub>r</sub>): one variable per component, defined up to a unit. Here <span class="eq">∆<sub>Hopf</sub>(t₁,t₂) ≐ 1</span> — a <span class="tt" data-tip="An invertible element ±t₁^a·t₂^b. Alexander polynomials are only defined up to units, so '≐ 1' means: carries no information at all.">unit</span>, as trivial as a polynomial can be. For the <span class="tt" data-tip="Two circles in disjoint balls — separable by a sphere. Splitness is stronger than being unlinked crossing-by-crossing.">split unlink</span>, ∆ ≐ 0: the classical splitness test. Once lk is known, there is nothing further of low order to report.</div>
       </div>
       <div class="col arith">
-        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the pro-ℓ cover, viewed as a module over the complete group ring of the deck group — the arithmetic H₁ of the cover. On the arithmetic side that deck group is finite, not Z_ℓ^r: see the f_S tooltip in the Dictionary.">Iwasawa module</span> — the arithmetic side's H₁-of-the-cover, whose order polynomial f<sub>S</sub> plays the role ∆<sub>L</sub> just played — carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
+        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the pro-ℓ cover, viewed as a module over the complete group ring of the deck group — the arithmetic H₁ of the cover. On the arithmetic side that deck group is finite, not Z_ℓ^r: see the f_S why-box under the Dictionary table.">Iwasawa module</span> — the arithmetic side's H₁-of-the-cover, whose order polynomial f<sub>S</sub> plays the role ∆<sub>L</sub> just played — carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
       </div>
     </div>
 
@@ -447,7 +453,7 @@
         </div>
       </div>
       <div class="col arith">
-        <div class="poly-demo">The Rédei symbol is the triple <span class="tt" data-tip="A higher-order product in cohomology, defined only when the ordinary products vanish — and then only up to the ambiguity those vanishings leave. Its topological ancestor detects exactly the Borromean phenomenon.">Massey product</span> ⟨χ₁, χ₂, χ₃⟩ in Galois cohomology, defined precisely because the pairwise <span class="tt" data-tip="The basic multiplication in cohomology. For the Galois characters attached to p and q, the cup product χ_p ∪ χ_q vanishes exactly when (p/q) = +1 — vanishing cup products are the arithmetic 'pairwise unlinked'.">cup products</span> (Legendre symbols) vanish first — and, by Morishita's theorem (Compositio Math. 140, 2004), it equals the arithmetic triple Milnor invariant μ̄₂(123), read from the pro-2 Magnus expansion of Frobenius exactly as μ̄(123) is read from the longitude. On the topological side the coefficient statement is computed live at left: every coefficient of ∆<sub>Bor</sub> below top degree vanishes and the survivor is μ̄(123). The matching statement for f<sub>S</sub> — that it reports the Rédei symbol once every lower-order term vanishes — is offered as analogy, not theorem: over Q the deck group is finite (see the f<sub>S</sub> tooltip in the Dictionary). The two sides say the same sentence, one as computation, one as analogy: <i>when the cheap invariants vanish, the polynomial's leading surviving coefficient is the triple invariant.</i></div>
+        <div class="poly-demo">The Rédei symbol is the triple <span class="tt" data-tip="A higher-order product in cohomology, defined only when the ordinary products vanish — and then only up to the ambiguity those vanishings leave. Its topological ancestor detects exactly the Borromean phenomenon.">Massey product</span> ⟨χ₁, χ₂, χ₃⟩ in Galois cohomology, defined precisely because the pairwise <span class="tt" data-tip="The basic multiplication in cohomology. For the Galois characters attached to p and q, the cup product χ_p ∪ χ_q vanishes exactly when (p/q) = +1 — vanishing cup products are the arithmetic 'pairwise unlinked'.">cup products</span> (Legendre symbols) vanish first — and, by Morishita's theorem (Compositio Math. 140, 2004), it equals the arithmetic triple Milnor invariant μ̄₂(123), read from the pro-2 Magnus expansion of Frobenius exactly as μ̄(123) is read from the longitude. On the topological side the coefficient statement is computed live at left: every coefficient of ∆<sub>Bor</sub> below top degree vanishes and the survivor is μ̄(123). The matching statement for f<sub>S</sub> — that it reports the Rédei symbol once every lower-order term vanishes — is offered as analogy, not theorem: over Q the deck group is finite (see the f<sub>S</sub> why-box under the Dictionary table). The two sides say the same sentence, one as computation, one as analogy: <i>when the cheap invariants vanish, the polynomial's leading surviving coefficient is the triple invariant.</i></div>
       </div>
     </div>
 
@@ -544,7 +550,7 @@
         <div class="poly-demo"><b>Milnor–Turaev:</b> the <span class="tt tt-left" data-tip="An alternating product of determinants from the chain complex of the infinite cover — a 'sum over the cover' reorganized multiplicatively, which is exactly what a zeta function is.">Milnor–Reidemeister torsion</span> of the Z<sup>r</sup>-cover satisfies τ<sub>L</sub> ≐ ∆<sub>L</sub> — the Alexander polynomial <i>is</i> the zeta function of the link exterior. Concretely τ<sub>Hopf</sub> ≐ 1 and τ<sub>Bor</sub> ≐ (t₁−1)(t₂−1)(t₃−1), with μ̄(123) its leading Taylor coefficient at (1,1,1).</div>
       </div>
       <div class="col arith">
-        <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the annihilator of the Iwasawa module — the arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial.">characteristic ideal</span> of the cyclotomic Iwasawa module — the knot-side Λ = Z<sub>ℓ</sub>[[T]] story, see the f<sub>S</sub> tooltip in the Dictionary — is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — an analytically-built object equal (up to units) to the algebraically built Iwasawa polynomial. Proven over Q by Mazur–Wiles for odd ℓ; the case ℓ = 2 — the one prime every computation in this app instantiates — is Greither (1992).">p-adic L-function</span>, f ≐ L<sub>p</sub> (Mazur–Wiles; ℓ = 2 by Greither) — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
+        <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the annihilator of the Iwasawa module — the arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial.">characteristic ideal</span> of the cyclotomic Iwasawa module — the knot-side Λ = Z<sub>ℓ</sub>[[T]] story, see the f<sub>S</sub> why-box under the Dictionary table — is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — an analytically-built object equal (up to units) to the algebraically built Iwasawa polynomial. Proven over Q by Mazur–Wiles for odd ℓ; the case ℓ = 2 — the one prime every computation in this app instantiates — is Greither (1992).">p-adic L-function</span>, f ≐ L<sub>p</sub> (Mazur–Wiles; ℓ = 2 by Greither) — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
       </div>
     </div>
     <div class="caption-strip">A sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters.</div>
@@ -893,7 +899,11 @@ window.gotoTab = function (name) {
 document.addEventListener("click", e => {
   const t = e.target.closest(".tt");
   document.querySelectorAll(".tt.tt-open").forEach(el => { if (el !== t) el.classList.remove("tt-open"); });
-  if (t) t.classList.toggle("tt-open");
+  if (t) {
+    t.classList.toggle("tt-open");
+    // a long tip anchored near the viewport top would clip above it: open pinned tips downward there
+    t.classList.toggle("tt-below", t.classList.contains("tt-open") && t.getBoundingClientRect().top < 340);
+  }
 });
 
 /* =========================================================================
@@ -1947,6 +1957,7 @@ function renderQuadSteps() {
     return `${d.label} &nbsp; — &nbsp; ${d.x}² − ${d.p1}·${d.y}² − ${d.p2} = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span>`
       + ` &nbsp; <span class="${norm ? "ok" : "fail"}">${norm ? "normalized ✓" : "NOT normalized ✗"}</span>`;
   }).join("<br>");
+  identityLines += `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">"normalized" = Rédei's three conditions on (x,y,z): gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4) — what makes the field, hence the symbol, independent of the certificate.</div>`;
   steps.push({ head: `2. Rédei elements (identity + <span class="tt tt-left" data-tip="Rédei's normalization of the certificate (x,y,z): gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4). Only among normalized solutions is the Rédei field — hence the symbol — independent of the certificate; redeiSymbol() enforces this, and the check is displayed here, computed live.">normalization</span> checks)`, body: identityLines });
 
   const tripleResults = [];
@@ -2651,6 +2662,16 @@ function runSelfTests() {
       const s = el.getAttribute("data-tip");
       return s.includes("unramified outside S ∪ {∞}") && s.includes("Z/4 × Z/2");
     });
+  });
+
+  // R3 pedagogy DOM assertions (amendment 3): promoted-to-visible text pinned
+  t("DOM R3-N1: f_S asymmetry is visible text (why-box: S u {inf} convention, e_i = v_l(p_i - 1), Z/4 x Z/4 vs totally real Z/4 x Z/2); quad step 2 states Redei's three normalization conditions visibly", () => {
+    const b = document.getElementById("whyFS");
+    if (!b) return false;
+    const s = b.textContent, q = document.getElementById("quadSteps").textContent;
+    return s.includes("unramified outside S ∪ {∞}") && s.includes("eᵢ = v_ℓ(pᵢ − 1)")
+      && s.includes("Z/4 × Z/4") && s.includes("Z/4 × Z/2")
+      && q.includes("gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4)");
   });
 
   const list = document.getElementById("testList");

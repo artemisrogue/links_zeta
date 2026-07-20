@@ -1948,7 +1948,7 @@ function renderQuadSteps() {
   const ratCheck = ratPart - alphaX;
   const sqrt5Check = sqrt5Coef - alphaY;
   steps.push({
-    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. Its defining identity is the Rédei equation run one level higher, and it exists because the triple symbols all vanished.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5]`,
+    head: `3. The new level: <span class="tt tt-left" data-tip="θ is to the quadruple level what α was to the triple level: an element (now living in Z[√5], one ring up) whose square root generates K over the compositum of the two Rédei fields. Its defining identity is the Rédei equation run one level higher, and it exists because the triple symbols all vanished.">θ</span> = 25 + 2√5 + 2√101, with (25+2√5)² − 101·2² − α = 0 in Z[√5], where α = 241 + 100√5 is the Rédei element of (5, 8081) from step 2`,
     body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
       + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
   });

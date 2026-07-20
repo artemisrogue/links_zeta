@@ -869,8 +869,7 @@ function expandDeltaBor() {
 
 /* ---- TOOLTIP FOCUSABILITY (keyboard / touch support) ---- */
 
-// Tooltips show on hover OR focus; every term is a tab stop with button semantics
-// and a collapsed/expanded state. Called again after any dynamic render.
+// Every .tt is a tab stop with button semantics + expanded state; recalled after dynamic renders.
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
     el.setAttribute("tabindex", "0");
@@ -885,9 +884,8 @@ window.gotoTab = function (name) {
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
-// Click/tap or Enter/Space pins a tooltip open; clicking elsewhere, the same term
-// again, or Escape closes. On focus or pin, the tip text is copied into #ttReadout
-// (visually hidden) so it exists as real DOM content for screen readers.
+// Click/tap or Enter/Space pins a tip; elsewhere-click, re-toggle, or Escape closes.
+// On focus/pin the tip text is copied into the hidden #ttReadout for screen readers.
 function ttAnnounce(t) {
   document.getElementById("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
@@ -951,6 +949,19 @@ document.querySelectorAll(".why-toggle").forEach(btn => {
 
 /* ---- TAB — PAIRS ---- */
 
+// Canvas text alternatives: role=img + labels deferring to the live DOM text beside each figure.
+const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)");
+for (const [id, lbl] of [
+  ["pairsCanvas", ""],
+  ["arcCanvas", "Two spanning disks meeting in the segment Σ1∩Σ2; the argument is stated in the caption and note beside this figure."],
+  ["borroCanvas", "Borromean rings: three circles, no two linked; pairwise linking numbers are computed in step 1 below."],
+  ["b4Canvas", ""],
+]) {
+  const c = document.getElementById(id);
+  c.setAttribute("role", "img");
+  if (lbl) c.setAttribute("aria-label", lbl);
+}
+
 const pairsState = { linked: false, liftOffset: 0, liftAnim: null };
 const pairsCanvas = document.getElementById("pairsCanvas");
 const pctx = pairsCanvas.getContext("2d");
@@ -989,6 +1000,7 @@ function renderPairs() {
   pctx.fillText("K2", B.cx - 6, B.cy - B.r - 8);
   circleArrow(pctx, A, Math.PI, "#1b6ca8");
   circleArrow(pctx, B, 0, "#2e8b57");
+  pairsCanvas.setAttribute("aria-label", `Two circles K1 (blue) and K2 (green), ${pairsState.linked ? "linked as the Hopf link" : "unlinked"}; lk is stated in the label below.`);
 }
 
 function updatePairsLabels() {
@@ -1216,8 +1228,7 @@ function renderArcFigure() {
   arcPathFromParam(K1of, 0, 2 * Math.PI, 180);
   actx.stroke();
 
-  // K2 boundary: the quarter s in (pi, 3pi/2) dives BELOW Sigma1 inside its
-  // footprint -> dashed + faint; the rest solid.
+  // K2: the quarter s in (pi, 3pi/2) dives BELOW Sigma1 -> dashed + faint; rest solid.
   actx.strokeStyle = "#2e8b57";
   arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140);   // visible 3/4
   actx.stroke();
@@ -1248,12 +1259,14 @@ function renderArcFigure() {
   dot(P1, "#1b6ca8");
   dot(P2, "#2e8b57");
 
-  // pulse traveling the straight segment
-  const t = (Math.sin(arcPulseT) + 1) / 2;
-  actx.fillStyle = "#f5a623";
-  actx.beginPath();
-  actx.arc(P2.X + t * (P1.X - P2.X), P2.Y, 6, 0, 2 * Math.PI);
-  actx.fill();
+  // pulse traveling the straight segment (skipped under prefers-reduced-motion)
+  if (!REDUCED_MOTION.matches) {
+    const t = (Math.sin(arcPulseT) + 1) / 2;
+    actx.fillStyle = "#f5a623";
+    actx.beginPath();
+    actx.arc(P2.X + t * (P1.X - P2.X), P2.Y, 6, 0, 2 * Math.PI);
+    actx.fill();
+  }
 
   // labels
   actx.font = "12px Georgia";
@@ -1317,8 +1330,8 @@ function renderArcFigureUnlinked() {
 
 function arcAnimLoop() {
   arcPulseT += 0.03;
-  // only redraw when the pairs tab is visible
-  if (document.getElementById("tab-pairs").classList.contains("active")) {
+  // only redraw when the pairs tab is visible, and never animate under reduced motion
+  if (!REDUCED_MOTION.matches && document.getElementById("tab-pairs").classList.contains("active")) {
     renderArcFigure();
   }
   requestAnimationFrame(arcAnimLoop);
@@ -1495,6 +1508,8 @@ function initBorro3D() {
   camera.lookAt(0, 0, 0);
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(w, h);
+  renderer.domElement.setAttribute("role", "img");
+  renderer.domElement.setAttribute("aria-label", "3D view: the Borromean rings as three ellipses, one per coordinate plane.");
   container.appendChild(renderer.domElement);
 
   const group = new THREE.Group();
@@ -1674,18 +1689,19 @@ function b4wSampleLine(p0, p1, n, out) {
 }
 
 // Piecewise path -> closed polyline (internal coords), then projected.
+// Segments: ["C", x0,y0, c1x,c1y, c2x,c2y, x1,y1] or ["L", x0,y0, x1,y1].
 function b4wPathToPoly(segs) {
-  const pts = [{ x: segs[0].from.x, y: segs[0].from.y }];
+  const pt = (s, i) => ({ x: s[i], y: s[i + 1] });
+  const pts = [pt(segs[0], 1)];
   for (const s of segs) {
-    if (s.type === "C") b4wSampleCubic(s.from, s.c1, s.c2, s.to, 24, pts);
-    else b4wSampleLine(s.from, s.to, 24, pts);
+    if (s[0] === "C") b4wSampleCubic(pt(s, 1), pt(s, 3), pt(s, 5), pt(s, 7), 24, pts);
+    else b4wSampleLine(pt(s, 1), pt(s, 3), 24, pts);
   }
   pts.pop(); // closing point duplicates the start
   return pts.map(p => b4wT(p.x, p.y));
 }
 
 function b4wCurves() {
-  const P = (x, y) => ({ x, y });
   // Green: ellipse center (3000,3960), rx 1000, ry 500
   const G = [];
   for (let i = 0; i < 192; i++) {
@@ -1703,37 +1719,37 @@ function b4wCurves() {
     Y.push(b4wT(3000 + 690 * Math.cos(a), 5260 + 690 * Math.sin(a))); }
   // Red rounded diamond (transcribed from the SVG path, absolute coords)
   const R = b4wPathToPoly([
-    { type: "C", from: P(2163.38, 5338.86), c1: P(2285.28, 5460.76), c2: P(2450.61, 5529.24), to: P(2623.00, 5529.24) },
-    { type: "L", from: P(2623.00, 5529.24), to: P(2753.00, 5529.24) },
-    { type: "C", from: P(2753.00, 5529.24), c1: P(2925.39, 5529.24), c2: P(3090.72, 5460.76), to: P(3212.62, 5338.86) },
-    { type: "L", from: P(3212.62, 5338.86), to: P(4419.12, 4132.36) },
-    { type: "C", from: P(4419.12, 4132.36), c1: P(4464.83, 4086.65), c2: P(4490.51, 4024.65), to: P(4490.51, 3960.00) },
-    { type: "C", from: P(4490.51, 3960.00), c1: P(4490.51, 3895.35), c2: P(4464.83, 3833.35), to: P(4419.12, 3787.64) },
-    { type: "L", from: P(4419.12, 3787.64), to: P(3212.62, 2581.14) },
-    { type: "C", from: P(3212.62, 2581.14), c1: P(3090.72, 2459.24), c2: P(2925.39, 2390.76), to: P(2753.00, 2390.76) },
-    { type: "L", from: P(2753.00, 2390.76), to: P(2623.00, 2390.76) },
-    { type: "C", from: P(2623.00, 2390.76), c1: P(2450.61, 2390.76), c2: P(2285.28, 2459.24), to: P(2163.38, 2581.14) },
-    { type: "L", from: P(2163.38, 2581.14), to: P(1244.14, 3500.38) },
-    { type: "C", from: P(1244.14, 3500.38), c1: P(1122.24, 3622.28), c2: P(1053.76, 3787.61), to: P(1053.76, 3960.00) },
-    { type: "C", from: P(1053.76, 3960.00), c1: P(1053.76, 4132.39), c2: P(1122.24, 4297.72), to: P(1244.14, 4419.62) },
-    { type: "L", from: P(1244.14, 4419.62), to: P(2163.38, 5338.86) },
+    ["C", 2163.38, 5338.86, 2285.28, 5460.76, 2450.61, 5529.24, 2623, 5529.24],
+    ["L", 2623, 5529.24, 2753, 5529.24],
+    ["C", 2753, 5529.24, 2925.39, 5529.24, 3090.72, 5460.76, 3212.62, 5338.86],
+    ["L", 3212.62, 5338.86, 4419.12, 4132.36],
+    ["C", 4419.12, 4132.36, 4464.83, 4086.65, 4490.51, 4024.65, 4490.51, 3960],
+    ["C", 4490.51, 3960, 4490.51, 3895.35, 4464.83, 3833.35, 4419.12, 3787.64],
+    ["L", 4419.12, 3787.64, 3212.62, 2581.14],
+    ["C", 3212.62, 2581.14, 3090.72, 2459.24, 2925.39, 2390.76, 2753, 2390.76],
+    ["L", 2753, 2390.76, 2623, 2390.76],
+    ["C", 2623, 2390.76, 2450.61, 2390.76, 2285.28, 2459.24, 2163.38, 2581.14],
+    ["L", 2163.38, 2581.14, 1244.14, 3500.38],
+    ["C", 1244.14, 3500.38, 1122.24, 3622.28, 1053.76, 3787.61, 1053.76, 3960],
+    ["C", 1053.76, 3960, 1053.76, 4132.39, 1122.24, 4297.72, 1244.14, 4419.62],
+    ["L", 1244.14, 4419.62, 2163.38, 5338.86],
   ]);
   // Blue rounded diamond (mirror image, transcribed likewise)
   const B = b4wPathToPoly([
-    { type: "C", from: P(2787.38, 5338.86), c1: P(2909.28, 5460.76), c2: P(3074.61, 5529.24), to: P(3247.00, 5529.24) },
-    { type: "L", from: P(3247.00, 5529.24), to: P(3377.00, 5529.24) },
-    { type: "C", from: P(3377.00, 5529.24), c1: P(3549.39, 5529.24), c2: P(3714.72, 5460.76), to: P(3836.62, 5338.86) },
-    { type: "L", from: P(3836.62, 5338.86), to: P(4755.86, 4419.62) },
-    { type: "C", from: P(4755.86, 4419.62), c1: P(4877.76, 4297.72), c2: P(4946.24, 4132.39), to: P(4946.24, 3960.00) },
-    { type: "C", from: P(4946.24, 3960.00), c1: P(4946.24, 3787.61), c2: P(4877.76, 3622.28), to: P(4755.86, 3500.38) },
-    { type: "L", from: P(4755.86, 3500.38), to: P(3836.62, 2581.14) },
-    { type: "C", from: P(3836.62, 2581.14), c1: P(3714.72, 2459.24), c2: P(3549.39, 2390.76), to: P(3377.00, 2390.76) },
-    { type: "L", from: P(3377.00, 2390.76), to: P(3247.00, 2390.76) },
-    { type: "C", from: P(3247.00, 2390.76), c1: P(3074.61, 2390.76), c2: P(2909.28, 2459.24), to: P(2787.38, 2581.14) },
-    { type: "L", from: P(2787.38, 2581.14), to: P(1580.88, 3787.64) },
-    { type: "C", from: P(1580.88, 3787.64), c1: P(1535.17, 3833.35), c2: P(1509.49, 3895.35), to: P(1509.49, 3960.00) },
-    { type: "C", from: P(1509.49, 3960.00), c1: P(1509.49, 4024.65), c2: P(1535.17, 4086.65), to: P(1580.88, 4132.36) },
-    { type: "L", from: P(1580.88, 4132.36), to: P(2787.38, 5338.86) },
+    ["C", 2787.38, 5338.86, 2909.28, 5460.76, 3074.61, 5529.24, 3247, 5529.24],
+    ["L", 3247, 5529.24, 3377, 5529.24],
+    ["C", 3377, 5529.24, 3549.39, 5529.24, 3714.72, 5460.76, 3836.62, 5338.86],
+    ["L", 3836.62, 5338.86, 4755.86, 4419.62],
+    ["C", 4755.86, 4419.62, 4877.76, 4297.72, 4946.24, 4132.39, 4946.24, 3960],
+    ["C", 4946.24, 3960, 4946.24, 3787.61, 4877.76, 3622.28, 4755.86, 3500.38],
+    ["L", 4755.86, 3500.38, 3836.62, 2581.14],
+    ["C", 3836.62, 2581.14, 3714.72, 2459.24, 3549.39, 2390.76, 3377, 2390.76],
+    ["L", 3377, 2390.76, 3247, 2390.76],
+    ["C", 3247, 2390.76, 3074.61, 2390.76, 2909.28, 2459.24, 2787.38, 2581.14],
+    ["L", 2787.38, 2581.14, 1580.88, 3787.64],
+    ["C", 1580.88, 3787.64, 1535.17, 3833.35, 1509.49, 3895.35, 1509.49, 3960],
+    ["C", 1509.49, 3960, 1509.49, 4024.65, 1535.17, 4086.65, 1580.88, 4132.36],
+    ["L", 1580.88, 4132.36, 2787.38, 5338.86],
   ]);
   return { G, Y, R, B };
 }
@@ -1881,6 +1897,7 @@ function renderB4() {
   if (!b4wDeleted || !"GB".includes(b4wDeleted)) disjoint.push("K1∩K4");
   document.getElementById("b4LkNote").innerHTML =
     `computed from the diagram's signed crossings: ${parts.join(", ")}; ${disjoint.join(" = ")} = ∅ — every pair unlinked.`;
+  canvas.setAttribute("aria-label", `Four-component Brunnian link${b4wDeleted ? ", with " + B4W_LABEL[b4wDeleted] + " deleted (faded)" : ""}; pairwise linking data appear in the note below.`);
 }
 
 const B4W_DELETE_TEXT = {
@@ -1916,8 +1933,7 @@ function renderMagnus() {
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
 
-// θ-certificates, θ = (a + b√5) + (c + d√5)·√101. X² − 101Z² = α does NOT determine θ
-// (rejected exploits in self-tests); live-checked: identity + total positivity; rest cited.
+// θ = (a+b√5) + (c+d√5)√101. X² − 101Z² = α does NOT determine θ (exploits rejected in self-tests).
 function quadThetaEmbeddings(a, b, c, d) {
   const s5 = Math.sqrt(5), s101 = Math.sqrt(101), out = [];
   for (const e5 of [1, -1]) for (const e101 of [1, -1])
@@ -2068,13 +2084,9 @@ function renderQuadTower() {
 
 /* ---- TAB — ZETA (live demos: figure-eight monodromy zeta; Dedekind zeta of Q(√5)) ---- */
 
-/* ---- Topology: A = [[2,1],[1,1]], the monodromy of the figure-eight knot
-   acting on H1 of its fiber (a once-punctured torus). Three faces:
-     S(t) = exp( Σ tr(Aⁿ) tⁿ/n )            — sum over iterates
-     E(t) = det(I − tA)⁻¹ = (1−3t+t²)⁻¹      — product over eigenvalues
-     Z(t) = exp( Σ Fix(hⁿ) tⁿ/n ) = ∏_d (1−t^d)^{−o_d}  — periods d (on T²)
-   with Fix(hⁿ) = |det(Aⁿ−I)| = tr(Aⁿ) − 2, and orbit counts o_d obtained by
-   Möbius inversion. Everything below is computed, nothing is quoted.       */
+/* A = [[2,1],[1,1]], fig-8 monodromy on H1 of the fiber. Faces: S(t) = exp(Σ tr(Aⁿ)tⁿ/n),
+   E(t) = det(I−tA)⁻¹, Z(t) = exp(Σ Fix(hⁿ)tⁿ/n) = ∏_d (1−t^d)^{−o_d} on T², with
+   Fix(hⁿ) = tr(Aⁿ)−2 and o_d by Möbius inversion. All computed, nothing quoted. */
 
 const FIG8_A = [[2, 1], [1, 1]];
 const FIG8_K = 8;   // series truncation degree
@@ -2175,9 +2187,8 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
 }
 
-/* ---- Arithmetic: ζ of K = Q(√5), every Euler factor a Legendre symbol.
-   χ(n) = (n/5); a(n) = #ideals of O_K of norm n, multiplicative with
-   a(p^k) = k+1 (split), [k even] (inert), 1 (ramified p = 5).            */
+/* ζ of Q(√5): χ(n) = (n/5); a(n) = #ideals of norm n, multiplicative,
+   a(p^k) = k+1 (split), [k even] (inert), 1 (ramified p = 5). */
 
 function chi5(n) { return n % 5 === 0 ? 0 : Number(legendre(BigInt(n), 5n)); }
 
@@ -2715,6 +2726,14 @@ function runSelfTests() {
     const flipped = sel().length === 1 && sel()[0] === other;
     before[0].click();
     return flipped && sel().length === 1 && sel()[0] === before[0];
+  });
+  t("DOM R3-A3: every 2D canvas exposes role=img + nonempty aria-label; the pairs and b4 labels track state via their render functions", () => {
+    const ok = ["pairsCanvas", "arcCanvas", "borroCanvas", "b4Canvas"].every(id => {
+      const c = document.getElementById(id);
+      return c.getAttribute("role") === "img" && (c.getAttribute("aria-label") || "").length > 20;
+    });
+    return ok && document.getElementById("pairsCanvas").getAttribute("aria-label").includes(pairsState.linked ? "Hopf" : "unlinked")
+      && document.getElementById("b4Canvas").getAttribute("aria-label").includes(b4wDeleted ? "deleted" : "Brunnian");
   });
 
   const list = document.getElementById("testList");

@@ -1995,9 +1995,11 @@ function renderQuadSteps() {
     return ((v % 449n) + 449n) % 449n;
   });
   const conjLegs = conjVals.map(v => legendre(v, 449n));
+  const allNeg = conjLegs.every(l => l === -1), allPos = conjLegs.every(l => l === 1);
   steps.push({
-    head: "5. Four conjugates 25 ± 2√5 ± 2√101 mod 449, and their Legendre symbols",
+    head: `5. Four <span class="tt tt-left" data-tip="The four residues are the Galois conjugates of θ mod 449; 'does 449 split completely in K = k₅,₈₀₈₁·k₁₀₁,₈₀₈₁(√θ)?' reduces to: are they all squares mod 449? Their common value is the symbol (+1: splits completely; −1: not), and the agreement of all four is the well-definedness check, witnessed live — Triples step 4, one level up.">conjugates</span> 25 ± 2√5 ± 2√101 mod 449, and their Legendre symbols`,
     body: `values = {${conjVals.map(String).join(", ")}} &nbsp; symbols = {${conjLegs.map(l => l > 0 ? "+1" : l).join(", ")}}`
+      + (allNeg ? " — 449 does not split completely in K" : allPos ? " — 449 splits completely in K" : " — the conjugates disagree: symbol undefined")
   });
 
   for (const st of steps) {
@@ -2007,9 +2009,8 @@ function renderQuadSteps() {
     container.appendChild(div);
   }
 
-  const allNeg = conjLegs.every(l => l === -1);
   const banner = document.getElementById("quadBanner");
-  banner.innerHTML = `<b><span class="tt" data-tip="The 4-ary notation asserts the value depends on the four primes alone, not on θ: that is Amano's independence theorem, under the step-3 conditions — the identity alone would not justify it (see the rejected exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : "?"}</b> — no two linked, no three linked, all four linked: the arithmetic B₄.`;
+  banner.innerHTML = `<b><span class="tt" data-tip="The 4-ary notation asserts the value depends on the four primes alone, not on θ: that is Amano's independence theorem, under the step-3 conditions — the identity alone would not justify it (see the rejected exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : allPos ? "+1" : "?"}</b> — ${allNeg ? "no two linked, no three linked, all four linked: the arithmetic B₄." : allPos ? "449 splits completely in K: unlinked at the fourth level." : "the four conjugates disagree — the symbol is undefined."}`;
 
   renderMagnus();
   renderQuadTower();

@@ -379,7 +379,7 @@
       <tr><th class="t">the arc (topology)</th><th class="a">the product formula (arithmetic)</th></tr>
       <tr><td class="t">the global object: the compact 1-manifold Σ₁ ∩ Σ₂</td><td class="a">the global object: the family of local symbols (p,q)<sub>v</sub> over all places v</td></tr>
       <tr><td class="t">interior points of the segment — contribute nothing</td><td class="a">places v ∉ {p, q} — each factor is +1 (including v = 2 and v = ∞, trivial because p ≡ q ≡ 1 mod 4 and both are positive: the orientability normalizations)</td></tr>
-      <tr><td class="t">the end on K₁, where K₁ pierces Σ₂ — counted by lk(K₂,K₁)</td><td class="a">the surviving factor at v = p: (p,q)<sub>p</sub> = (q/p)</td></tr>
+      <tr><td class="t">the end on K₁, where K₁ pierces Σ₂ — counted by lk(K₂,K₁)</td><td class="a">the surviving factor at v = p: <span class="tt" data-tip="Why the local symbol IS the Legendre symbol: reduce a primitive solution of z² = px² + qy² mod p — the px² term dies, leaving z² ≡ qy² with y a unit, so q must be a square mod p; conversely Hensel's lemma lifts a square root of q mod p back to Q_p. Same argument at v = q.">(p,q)<sub>p</sub> = (q/p)</span></td></tr>
       <tr><td class="t">the end on K₂, where K₂ pierces Σ₁ — counted by lk(K₁,K₂)</td><td class="a">the surviving factor at v = q: (p,q)<sub>q</sub> = (p/q)</td></tr>
       <tr><td class="t">closedness: the signed boundary of a compact oriented 1-manifold is 0</td><td class="a">closedness: ∏<sub>v</sub> (p,q)<sub>v</sub> = 1</td></tr>
       <tr><td class="t">⇒ the two ends agree: lk(K₁,K₂) = lk(K₂,K₁)</td><td class="a">⇒ the two factors cancel: (p/q) = (q/p)</td></tr>
@@ -1079,8 +1079,8 @@ function renderHilbertTable(p, q, pq, qp) {
     ["v = ∞", "+1", "both p, q > 0"],
     ["v = 2", two > 0 ? "+1" : "−1", `(−1)<sup>((p−1)/2)·((q−1)/2)</sup>`],
     ["v ∉ {2, p, q, ∞}", "+1", "both are local units"],
-    [`v = ${p}`, qp > 0 ? "+1" : "−1", `(${q}/${p}) — the symbol (q/p)`],
-    [`v = ${q}`, pq > 0 ? "+1" : "−1", `(${p}/${q}) — the symbol (p/q)`],
+    [`v = ${p}`, qp > 0 ? "+1" : "−1", `(${q}/${p}): mod ${p} the px² term dies, forcing z² ≡ ${q}y² (y a unit) — solvable iff ${q} is a square mod ${p}; Hensel lifts the converse`],
+    [`v = ${q}`, pq > 0 ? "+1" : "−1", `(${p}/${q}): the same argument mod ${q}`],
   ];
   const product = two * pq * qp;
   for (const [k, v, why] of rows) {

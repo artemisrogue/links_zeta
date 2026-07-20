@@ -437,7 +437,7 @@
       </div>
       <div class="col arith">
         <h2>Arithmetic</h2>
-        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4) — the conditions that keep the extension unramified outside p₁p₂. Rédei's theorem: it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. The normalization is load-bearing: scaling (x,y,z) by k twists the field by √k and multiplies the symbol by (k/q), so redeiSymbol() rejects unnormalized certificates.">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
+        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The value rule: [p₁, p₂, q] = <b>+1 if q splits completely in the Rédei field k<sub>p₁,p₂</sub>, −1 if not</b> (steps 3–4 decide which). The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4) — the conditions that keep the extension unramified outside p₁p₂. Rédei's theorem: it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. The normalization is load-bearing: scaling (x,y,z) by k twists the field by √k and multiplies the symbol by (k/q), so redeiSymbol() rejects unnormalized certificates.">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
         <div id="tripleSteps"></div>
         <div class="banner" id="tripleBanner"></div>
         <svg id="tripleHasse" width="100%" height="190" viewBox="0 0 420 190"></svg>
@@ -2009,6 +2009,7 @@ function renderQuadSteps() {
     head: `5. Four <span class="tt tt-left" data-tip="The four residues are the Galois conjugates of θ mod 449; 'does 449 split completely in K = k₅,₈₀₈₁·k₁₀₁,₈₀₈₁(√θ)?' reduces to: are they all squares mod 449? Their common value is the symbol (+1: splits completely; −1: not), and the agreement of all four is the well-definedness check, witnessed live — Triples step 4, one level up.">conjugates</span> 25 ± 2√5 ± 2√101 mod 449, and their Legendre symbols`,
     body: `values = {${conjVals.map(String).join(", ")}} &nbsp; symbols = {${conjLegs.map(l => l > 0 ? "+1" : l).join(", ")}}`
       + (allNeg ? " — 449 does not split completely in K" : allPos ? " — 449 splits completely in K" : " — the conjugates disagree: symbol undefined")
+      + ` <span style="color:var(--muted);font-size:.8rem;">(value rule, one level up from Triples: +1 = splits completely, −1 = not)</span>`
   });
 
   for (const st of steps) {
@@ -2691,6 +2692,11 @@ function runSelfTests() {
     const b = document.getElementById("whyKnots");
     return !!b && b.textContent.includes("profinite fundamental group of the circle")
       && b.textContent.includes("Artin–Verdier") && b.textContent.includes("A circle inside a 3-space is a knot");
+  });
+  t("DOM R3-N5: the Redei symbol's defining rule is visible on the Triples tab (+1 iff q splits completely in k_{p1,p2}) and echoed at quad step 5", () => {
+    const sub = document.querySelector("#tab-triples .col.arith .sub");
+    const q = document.getElementById("quadSteps").textContent;
+    return !!sub && sub.textContent.includes("+1 if q splits completely") && q.includes("+1 = splits completely");
   });
 
   const list = document.getElementById("testList");

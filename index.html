@@ -927,7 +927,7 @@ document.querySelectorAll(".why-toggle").forEach(btn => {
 const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)");
 for (const [id, lbl] of [
   ["pairsCanvas", ""],
-  ["arcCanvas", "Two spanning disks meeting in the segment Σ1∩Σ2; argument in the caption and note beside."],
+  ["arcCanvas", ""],
   ["borroCanvas", "Borromean rings: three circles, no two linked; linking numbers computed in step 1 below."],
   ["b4Canvas", ""],
 ]) {
@@ -987,7 +987,7 @@ document.getElementById("pairsToggleBtn").addEventListener("click", () => {
   document.getElementById("pairsLiftNote").textContent = " ";
   updatePairsLabels();
   renderPairs();
-  renderArcFigure();   // keep the symmetry figure in step even if rAF is throttled
+  renderArcFigure();   // keep the symmetry figure in step
 });
 
 document.getElementById("pairsLiftBtn").addEventListener("click", () => {
@@ -1137,7 +1137,7 @@ document.getElementById("preset513").addEventListener("click", () => {
   setPairsTopology(true);    // −1: the Hopf pair
 });
 
-// the arc figure (Figure 2 of the papers)
+// arc figure (papers' Fig. 2)
 const arcCanvas = document.getElementById("arcCanvas");
 const actx = arcCanvas.getContext("2d");
 let arcPulseT = 0;
@@ -1145,16 +1145,18 @@ let lastArcMode = null;
 
 const ARC_TEXT = {
   linked: {
+    label: "Two spanning disks meeting in the segment Σ1∩Σ2; argument in the caption and note beside.",
     caption: `This is a 3-D picture, not a Venn diagram: the two disks are <b>not</b> in the same plane. Σ₁ is a flat disk in a <b>horizontal</b> plane, Σ₂ a flat disk in a <b>vertical</b> plane, threaded through each other like two chain links with soap films. Two <span class="tt" data-tip="Meeting cleanly at an angle, like two pages of an open book — neither tangent nor parallel. Transversality is what makes the intersection a clean 1-dimensional object.">transverse</span> planes meet in a line; the two disks meet in the drawn <b>segment</b> — that segment is "the arc" Σ₁ ∩ Σ₂.`,
     note: `The dashed quarter of K₂ passes underneath Σ₁. A <span class="tt tt-left" data-tip="A finite union of circles and closed segments. Each segment contributes +1 at one end and −1 at the other (∂[0,1] = {1} − {0}), so the signed count of all boundary points is 0.">compact oriented 1-manifold</span> has signed boundary count 0; the segment's end on K₁ is the point where K₁ pierces Σ₂ (counted by lk(K₂,K₁)), its end on K₂ is where K₂ pierces Σ₁ (counted by lk(K₁,K₂)) — one object, two ends, so the counts agree. The pulse travels the segment.`
   },
   unlinked: {
+    label: "Two spanning disks pulled apart, so Σ1∩Σ2 = ∅; caption and note beside.",
     caption: `Unlinked, with the same 3-D staging: Σ₁ horizontal, Σ₂ vertical — but now the disks can be pulled apart, so Σ₁ ∩ Σ₂ = ∅. Nothing to count at either end: 0 = 0, the trivial case of the same principle.`,
     note: `When lk = 0 the two spanning surfaces can be chosen disjoint: the global object is empty and both counts vanish, so symmetry holds for free. Toggle to the Hopf link above to watch the segment appear.`
   }
 };
 
-// Hopf link, flat disks, axonometric; the disks meet in the segment (x,0,0), 0 <= x <= 1.
+// Hopf link, axonometric; disks meet in (x,0,0), 0 <= x <= 1.
 function arcProj(x, y, z) {
   return { X: 130 + 110 * x + 30 * y, Y: 150 - 95 * z + 26 * y };
 }
@@ -1172,6 +1174,7 @@ function renderArcFigure() {
   const mode = pairsState.linked ? "linked" : "unlinked";
   if (mode !== lastArcMode) {
     lastArcMode = mode;
+    arcCanvas.setAttribute("aria-label", ARC_TEXT[mode].label);
     document.getElementById("arcCaption").innerHTML = ARC_TEXT[mode].caption;
     document.getElementById("arcNote").innerHTML = ARC_TEXT[mode].note;
     ttFocusable();
@@ -1182,7 +1185,7 @@ function renderArcFigure() {
   const K1of = t => arcProj(Math.cos(t), Math.sin(t), 0);
   const K2of = s => arcProj(1 + Math.cos(s), 0, Math.sin(s));
 
-  // Seifert disks (Sigma2 behind, Sigma1 in front)
+  // Seifert disks: Sigma2 behind, Sigma1 front
   actx.save();
   actx.globalAlpha = 0.16;
   actx.fillStyle = "#2e8b57";
@@ -1199,7 +1202,7 @@ function renderArcFigure() {
   arcPathFromParam(K1of, 0, 2 * Math.PI, 180);
   actx.stroke();
 
-  // K2: the quarter s in (pi, 3pi/2) dives BELOW Sigma1 -> dashed + faint; rest solid.
+  // K2: quarter (pi, 3pi/2) dives BELOW Sigma1 -> dashed + faint.
   actx.strokeStyle = "#2e8b57";
   arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140);   // visible 3/4
   actx.stroke();
@@ -1364,7 +1367,7 @@ document.getElementById("isolateSelect").addEventListener("change", (e) => {
   renderBorro();
 });
 
-// lk from crossings: sign = cross(over-, under-tangent); lk = sum/2. Canvas coords (y down) mirror the picture — harmless: only zero totals are asserted, 0 = −0.
+// lk = (sum of signs)/2, sign = cross(over-, under-tangent); y-down coords mirror the picture — harmless, only zero totals asserted.
 function borroComputeLk() {
   const circles = borroCircles();
   const ids = ["1", "2", "3"];
@@ -1733,7 +1736,7 @@ function b4wSegIntersect(a1, a2, b1, b2) {
   return { pt: { x: a1.x + s * d1.x, y: a1.y + s * d1.y }, ta: d1, tb: d2 };
 }
 
-// The over/under rules read off the original SVG's layer structure.
+// over/under rules read off the original SVG's layers.
 const B4W_GY_SPLIT = (850.44 - 0.139 * 3960) * B4W_SCALE; // canvas y of green's center line
 function b4wOverOf(pair, pt) {
   if (pair === "GY") return pt.y > B4W_GY_SPLIT ? "G" : "Y"; // green over on its lower half
@@ -1774,7 +1777,7 @@ function b4wCrossings() {
   return b4wCache;
 }
 
-// lk for each interacting pair = (sum of signs)/2; sign = cross(t_over, t_under).
+// pair lk = (sum of signs)/2; sign = cross(t_over, t_under).
 function b4wComputeLk() {
   const { crossings, counts } = b4wCrossings();
   const sums = { GY: 0, RY: 0, BY: 0, RB: 0 };
@@ -1819,7 +1822,7 @@ function renderB4() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const { curves, crossings } = b4wCrossings();
 
-  // each curve is gapped where it goes UNDER (never against a deleted curve)
+  // gap where UNDER (never against a deleted curve)
   const gaps = { G: [], Y: [], R: [], B: [] };
   for (const c of crossings) {
     if (b4wDeleted === c.i || b4wDeleted === c.j) continue;
@@ -2002,7 +2005,7 @@ function renderQuadSteps() {
 }
 
 function renderQuadTower() {
-  // Partial lattice: Q up to K (deg 64) through the two D₄ octics and their compositum.
+  // Partial lattice: Q to K (deg 64) via the two D₄ octics and compositum.
   const svg = document.getElementById("quadTower");
   svg.innerHTML = `
 <g font-size="10.5" text-anchor="middle">
@@ -2054,7 +2057,7 @@ const FIG8_A = [[2, 1], [1, 1]];
 const FIG8_K = 8;   // series truncation degree
 
 function fig8Traces(count) {
-  // by literal matrix powers (not the recurrence — the recurrence is a TEST)
+  // literal matrix powers (the recurrence is a TEST)
   const mul = (a, b) => [
     [a[0][0]*b[0][0]+a[0][1]*b[1][0], a[0][0]*b[0][1]+a[0][1]*b[1][1]],
     [a[1][0]*b[0][0]+a[1][1]*b[1][0], a[1][0]*b[0][1]+a[1][1]*b[1][1]]];
@@ -2133,7 +2136,7 @@ function renderLefschetz() {
   const fmt = a => a.map(x => Math.round(x)).join(", ");
   const eq1 = sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6);
   const eq2 = fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
-  // Cross-check: orbit zeta === (1 − t)²·H₁-zeta (the H₀/H₂ terms of the closed torus).
+  // Cross-check: orbit zeta === (1 − t)²·H₁-zeta.
   const cross = sumFace.map((c, i) => c - 2 * (sumFace[i - 1] || 0) + (sumFace[i - 2] || 0));
   const eq3 = cross.every((c, i) => Math.abs(c - fixFace[i]) < 1e-6);
   document.getElementById("lefschetzFaces").innerHTML =
@@ -2684,10 +2687,11 @@ function runSelfTests() {
     before[0].click();
     return flipped && sel().length === 1 && sel()[0] === before[0];
   });
-  t("DOM R3-A3: canvases expose role=img + nonempty aria-label; pairs/b4 labels track state", () => {
+  t("DOM R3-A3: canvases expose role=img + nonempty aria-label; pairs/arc/b4 labels track state", () => {
     const ok = ["pairsCanvas", "arcCanvas", "borroCanvas", "b4Canvas"].every(id =>
       ga(id, "role") === "img" && (ga(id, "aria-label") || "").length > 20);
     return ok && ga("pairsCanvas", "aria-label").includes(pairsState.linked ? "Hopf" : "unlinked")
+      && ga("arcCanvas", "aria-label").includes(pairsState.linked ? "meeting in the segment" : "pulled apart")
       && ga("b4Canvas", "aria-label").includes(b4wDeleted ? "deleted" : "Brunnian");
   });
   t("DOM R3-A4: aria-live=polite on result surfaces; role=alert on both warn fields", () => {

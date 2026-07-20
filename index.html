@@ -1046,11 +1046,19 @@ function renderLegendreTable(p, q) {
     tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td>`;
     table.appendChild(tr);
   }
+  // The Hopf/unlink gloss is a dictionary translation and lk is symmetric, so it is
+  // asserted only where (p/q) = (q/p) makes the symbol order-independent. Both ≡ 3
+  // (mod 4): the symbol is order-dependent, and no linking reading exists.
+  const noGloss = `. <b>No linking gloss here</b>: with both primes ≡ 3 (mod 4) the symbol is order-dependent — (${p}/${q}) = −(${q}/${p}), swap the inputs and the banner flips — while lk is symmetric (proved twice on this tab). The Hopf/unlink dictionary is reserved for pairs with a prime ≡ 1 (mod 4).`;
   if (pq === 1) {
     banner.classList.add("topo");
-    banner.innerHTML = `<b>+1</b> — ${q} <span class="tt" data-tip="The prime ${q} factors into two distinct primes in the ring of integers of Q(√${p}): Frobenius is trivial, the curve misses the surface — no puncture.">splits</span> in Q(√${p}): unlinked.`;
+    banner.innerHTML = bothThree
+      ? `<b>+1</b> — ${q} <span class="tt" data-tip="The prime ${q} factors into two distinct primes in the ring of integers of Q(√${p}): Frobenius is trivial.">splits</span> in Q(√${p})${noGloss}`
+      : `<b>+1</b> — ${q} <span class="tt" data-tip="The prime ${q} factors into two distinct primes in the ring of integers of Q(√${p}): Frobenius is trivial, the curve misses the surface — no puncture.">splits</span> in Q(√${p}): unlinked.`;
   } else if (pq === -1) {
-    banner.innerHTML = `<b>−1</b> — ${q} is <span class="tt" data-tip="The prime ${q} stays prime in Q(√${p}): Frobenius is the flip √${p} ↦ −√${p} — one puncture, the mod-2 shadow of lk = ±1.">inert</span> in Q(√${p}): the Hopf pair.`;
+    banner.innerHTML = bothThree
+      ? `<b>−1</b> — ${q} is <span class="tt" data-tip="The prime ${q} stays prime in Q(√${p}): Frobenius is the flip √${p} ↦ −√${p}.">inert</span> in Q(√${p})${noGloss}`
+      : `<b>−1</b> — ${q} is <span class="tt" data-tip="The prime ${q} stays prime in Q(√${p}): Frobenius is the flip √${p} ↦ −√${p} — one puncture, the mod-2 shadow of lk = ±1.">inert</span> in Q(√${p}): the Hopf pair.`;
   } else {
     banner.innerHTML = `<b>0</b> — ${q} <span class="tt" data-tip="The prime divides the discriminant: it 'branches' in the field, like a singular point of the covering. Excluded by the p ≡ 1 (mod 4), p ≠ q convention.">ramifies</span> in Q(√${p}).`;
   }
@@ -2470,6 +2478,8 @@ function runSelfTests() {
     const keys = Object.keys(poly);
     return keys.length === 1 && poly["1,1,1"] === 1;
   });
+
+  t("both = 3 (mod 4) is order-dependent: (3/7) = -1 but (7/3) = +1 - why the Pairs banner attaches no Hopf/unlink gloss in that class", () => legendre(3n, 7n) === -1 && legendre(7n, 3n) === 1);
 
   t("Hilbert product formula: product over places === 1 for (5,29) and (5,13)", () => {
     function hilbertProduct(p, q) {

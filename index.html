@@ -473,7 +473,7 @@
           <button class="ctrl primary" id="deleteBtn">Delete ring</button>
           <button class="ctrl" id="restoreBtn">Restore all</button>
         </div>
-        <div class="small-note" id="b4WordNote" style="min-height:2.6em;">Delete ANY component and the word collapses to 1: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.</div>
+        <div class="small-note" id="b4WordNote" style="min-height:2.6em;">Delete ANY component — algebraically, set that xᵢ = 1 — and the word below, ℓ₄ = [[x₁,x₂],x₃] (K₄'s longitude in Milnor's model B₄, written in the meridians x₁, x₂, x₃ of the other three), collapses to 1: every 3-sublink trivial, every pair trivial — yet the four together are inseparable.</div>
         <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
         <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
       </div>
@@ -1909,7 +1909,7 @@ function renderMagnus() {
   const c321 = series["3,2,1"] || 0;
   const box = document.getElementById("magnusBox");
   box.innerHTML =
-    `<span class="tt" data-tip="The Magnus expansion embeds the free group on x₁,…,x_n into power series in noncommuting variables via xᵢ ↦ 1 + Xᵢ, xᵢ⁻¹ ↦ 1 − Xᵢ + Xᵢ² − ⋯. Milnor's invariants are coefficients of the words that appear.">[[x₁,x₂],x₃]</span> ↦ 1 + <span class="hi">X₁X₂X₃</span> ${fmtCoef(c213)}X₂X₁X₃ ${fmtCoef(c312)}X₃X₁X₂ ${fmtCoef(c321)}X₃X₂X₁ + (deg ≥ 4)`
+    `<span class="tt" data-tip="The Magnus expansion embeds the free group on x₁,…,x_n into power series in noncommuting variables via xᵢ ↦ 1 + Xᵢ, xᵢ⁻¹ ↦ 1 − Xᵢ + Xᵢ² − ⋯. This word is ℓ₄, K₄'s longitude in the model B₄, and μ̄(1234) is its X₁X₂X₃-coefficient — exactly as ℓ₃ = [x₁,x₂] and the X₁X₂-coefficient were Triples steps 2 and 4, one level up.">[[x₁,x₂],x₃]</span> ↦ 1 + <span class="hi">X₁X₂X₃</span> ${fmtCoef(c213)}X₂X₁X₃ ${fmtCoef(c312)}X₃X₁X₂ ${fmtCoef(c321)}X₃X₂X₁ + (deg ≥ 4)`
     + `<div style="font-size:.85rem;color:var(--muted);margin-top:8px;">computed via <span class="tt" data-tip="Words in X₁,X₂,X₃ as arrays, coefficients in a dictionary keyed by the word, everything above degree 5 discarded; the inverse of 1+u is the geometric series 1 − u + u² − ⋯. About forty lines of code, running live on this page.">truncated noncommutative series</span> &nbsp;·&nbsp; coefficient of X₁X₂X₃ : <b class="hi" style="background:none;">μ̄(1234) = ${c123}</b></div>`;
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }

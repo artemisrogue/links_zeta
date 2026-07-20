@@ -1402,7 +1402,7 @@ function renderTopoTripleSteps() {
 
   steps.push({
     head: "2. The certificate the vanishing leaves behind: the longitude",
-    body: `Because every lk = 0, the word K3 traces in the complement of K1 ∪ K2 — its <span class="tt tt-left" data-tip="The longitude of a component: the path the component itself follows, read as a word in the meridians x₁, x₂ of the other components. Pairwise lk = 0 says the exponent sums vanish, i.e. the word lies in the commutator subgroup [F,F] — that and no more: zero exponent sums do not make a word a single commutator ([x₁,x₂]² has zero exponent sums and is not one, by Wicks).">longitude</span> — lies in [F,F]: that is everything vanishing lk gives. That it is the specific commutator ℓ₃ = [x₁, x₂] is Milnor's Wirtinger computation for the standard Borromean diagram, taken here as the model word rather than recomputed from the drawing — the same standard the Quadruples tab's honesty note applies to B₄.`
+    body: `Because every lk = 0, the word K3 traces in the complement of K1 ∪ K2 — its <span class="tt tt-left" data-tip="The longitude of a component: the path the component itself follows, read as a word in the meridians x₁, x₂ of the other components. Pairwise lk = 0 says the exponent sums vanish, i.e. the word lies in the commutator subgroup [F,F] — that and no more: zero exponent sums do not make a word a single commutator ([x₁,x₂]² has zero exponent sums and is not one, by Wicks).">longitude</span> — lies in [F,F], where F is the free group on the meridians x₁, x₂ of K1 and K2 (a meridian: a small loop encircling that component once): that is everything vanishing lk gives. That it is the specific commutator ℓ₃ = [x₁, x₂] is Milnor's Wirtinger computation for the standard Borromean diagram, taken here as the model word rather than recomputed from the drawing — the same standard the Quadruples tab's honesty note applies to B₄.`
       + mirror("the Rédei element α = 23 + 6√13 — solvable exactly because the pairwise symbol is +1. Both certificates exist only because the previous level vanished.")
   });
 
@@ -1410,7 +1410,7 @@ function renderTopoTripleSteps() {
   const c12 = C12["1,2"] || 0, c21 = C12["2,1"] || 0;
   steps.push({
     head: "3. Evaluate the certificate: Magnus expansion (computed live)",
-    body: `[x₁,x₂] ↦ 1 ${c12 >= 0 ? "+" : "−"} X₁X₂ ${c21 >= 0 ? "+" : "−"} X₂X₁ + (deg ≥ 3)`
+    body: `Substitute x₁ ↦ 1 + X₁, x₂ ↦ 1 + X₂, xᵢ⁻¹ ↦ 1 − Xᵢ + Xᵢ² − ⋯ (X₁, X₂ noncommuting) and multiply out: [x₁,x₂] ↦ 1 ${c12 >= 0 ? "+" : "−"} X₁X₂ ${c21 >= 0 ? "+" : "−"} X₂X₁ + (deg ≥ 3)`
       + mirror("evaluate α at 937: Tonelli–Shanks for √13, then Legendre of both conjugates — both −1.")
   });
 

@@ -267,7 +267,7 @@
   }
   .tt.tt-left:hover::after, .tt.tt-left:focus::after, .tt.tt-left.tt-open::after{ left:0; transform:none; }
   .tt.tt-right:hover::after, .tt.tt-right:focus::after, .tt.tt-right.tt-open::after{ left:auto; right:0; transform:none; }
-  /* pinned (clicked) tips: scrollable, and flipped below the term when it sits near the viewport top */
+  /* pinned tips: scrollable; .tt-below flips them under the term */
   .tt.tt-open::after{ pointer-events:auto; overflow-y:auto; max-height:55vh; }
   .tt.tt-below:hover::after, .tt.tt-below:focus::after, .tt.tt-below.tt-open::after{ bottom:auto; top:calc(100% + 7px); }
   .tt.tt-below:hover::before, .tt.tt-below:focus::before, .tt.tt-below.tt-open::before{ bottom:auto; top:calc(100% + 1px); border-top-color:transparent; border-bottom-color:#2b2b25; }
@@ -283,7 +283,7 @@
 
 <header>
   <h1>Knots &amp; Primes</h1>
-  <p>Linking, triple linking, and zeta functions — on both sides of the mirror. A teaching companion to the papers. <span style="font-size:.85rem;">Dotted terms carry definitions: hover, Tab to them, or click to pin one open.</span></p>
+  <p>Linking, triple linking, and zeta functions — on both sides of the mirror. A teaching companion to the papers. <span style="font-size:.85rem;">Dotted terms carry definitions — hover, Tab, or click to pin.</span></p>
 </header>
 
 <nav class="tabs">
@@ -311,15 +311,15 @@
       <tr><td class="t"><span class="tt tt-left" data-tip="The signed number of times K₂ punctures a surface spanning K₁. Independent of the chosen surface, and symmetric in the two knots.">linking number</span> lk(K₁, K₂) ∈ Z</td><td class="a"><span class="tt" data-tip="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: p₁^((p₂−1)/2) mod p₂. It is a mod-2 linking number.">Legendre symbol</span> (p₁/p₂) ∈ {±1}</td></tr>
       <tr><td class="t">symmetry of lk</td><td class="a"><span class="tt" data-tip="Gauss's theorem: for odd primes p, q ≡ 1 (mod 4), (p/q) = (q/p). In this story it is the statement that the two ends of one global object must agree.">quadratic reciprocity</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
-      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series. An honest asymmetry of the dictionary lives here: over Q there is no rank-r tower. For ℓ ∉ S the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ^eᵢ with eᵢ = v_ℓ(pᵢ − 1) — finite (for S = {13, 61}, ℓ = 2: Z/4 × Z/4). The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2 — p ≡ 1 (mod 4) tames ∞ for the resolvent Q(√p) only, not up the tower (the quartic subfield of Q(ζ₁₃) is already imaginary). And the one Z_ℓ-extension of Q, the cyclotomic one, is ramified at ℓ. So the complete Alexander module of the pro-ℓ link group of S lives over Z_ℓ[[u₁,…,u_r]] with the relations (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, and f_S generates its Alexander (Fitting) ideal there, up to a unit (Morishita, Knots and Primes, ch. 9–12). Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] is the knot-side story run over the cyclotomic tower, where the deck group really is Z_ℓ.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series. An honest asymmetry of the dictionary lives here: over Q there is no rank-r tower. For ℓ ∉ S the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ^eᵢ with eᵢ = v_ℓ(pᵢ − 1) — finite (for S = {13, 61}, ℓ = 2: Z/4 × Z/4). The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2. f_S generates the Alexander (Fitting) ideal of the module over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12); Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] is the knot-side story run over the cyclotomic tower, where the deck group really is Z_ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the cover — a combinatorial 'zeta function' of the space. Milnor–Turaev: it equals ∆_L up to units.">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes literally play the role of periodic orbits of Spec(O_K): both index the factors of an Euler product. Artin–Mazur named the dynamical zeta function after this analogy.">prime ideals</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers. χ(Frob_p) plays the role of an eigenvalue: characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.">characters</span> of the Galois group</td></tr>
     </table>
 
     <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. That taming does not propagate up the tower (higher floors ramify at ∞), which is why the convention — unramified outside S ∪ {∞} — must be stated; it is spelled out in visible text just below. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
-    <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry, in visible text)</button>
-    <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2. So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ. Full statement and references: the f<sub>S</sub> tooltip in the table above. This box is what the Pairs, Triples, and Zeta tabs cite.</div>
+    <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry)</button>
+    <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2 — p ≡ 1 (mod 4) tames ∞ for the resolvent Q(√p) only, not higher (the quartic subfield of Q(ζ₁₃) is already imaginary). So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ (Morishita, Knots and Primes, ch. 9–12).</div>
     <div class="small-note">And one more entry, from this app's running example (<span class="jump" onclick="gotoTab('zeta')">Zeta tab</span>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — the same number on both sides.</div>
 
     <div class="coda">
@@ -491,7 +491,7 @@
         <div id="quadSteps"></div>
         <div class="banner" id="quadBanner"></div>
         <svg id="quadTower" width="100%" height="340" viewBox="0 0 420 335"></svg>
-        <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played one tab back); θ lives in their compositum, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The two octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield, so nothing more can coincide: 8·8/2 = 32.</div>
+        <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played one tab back); θ lives in their compositum, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield — so 8·8/2 = 32.</div>
       </div>
     </div>
     <div class="caption-strip">When the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</div>
@@ -504,7 +504,7 @@
     <div class="twocol">
       <div class="col topo">
         <h2>Lefschetz zeta of a <span class="tt tt-left" data-tip="For a fibered link the complement fibers over the circle: F is the fiber surface, and h is the twist you accumulate going once around the link — the monodromy.">monodromy</span> h : F → F</h2>
-        <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Convention, stated exactly: L(hⁿ) here denotes tr(hⁿ∗ on H₁) alone. The full Lefschetz number Σᵢ(−1)ⁱ tr(hⁿ∗ on Hᵢ) equals 1 − tr(hⁿ∗ on H₁) for the fiber surface — the H₀-term MINUS ours: a sign as well as a constant. So this ζ_h is not the alternating-product Lefschetz zeta; that zeta equals det(I − t·h∗)/(1 − t), i.e. our ζ_h reciprocated, divided by (1 − t). The H₁-only convention is the fibered-knot literature's choice because H₁ is the factor carrying the eigenvalues; the exact bridge is stated here so no sign is hidden.">L(hⁿ)</span>·tⁿ/n ), &nbsp;<span style="font-size:.8rem;color:var(--muted);">where L(hⁿ) := tr(hⁿ∗ on H₁) — the tr(Aⁿ) of the demo below; full convention in the tooltip</span></div></div>
+        <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Convention, stated exactly: L(hⁿ) here denotes tr(hⁿ∗ on H₁) alone. The full Lefschetz number Σᵢ(−1)ⁱ tr(hⁿ∗ on Hᵢ) equals 1 − tr(hⁿ∗ on H₁) for the fiber surface — the H₀-term MINUS ours: a sign as well as a constant. So this ζ_h is not the alternating-product Lefschetz zeta; that zeta equals det(I − t·h∗)/(1 − t), i.e. our ζ_h reciprocated, divided by (1 − t). The H₁-only convention is the fibered-knot literature's choice because H₁ is the factor carrying the eigenvalues; the exact bridge is stated here so no sign is hidden.">L(hⁿ)</span>·tⁿ/n ), &nbsp;<span style="font-size:.8rem;color:var(--muted);">where L(hⁿ) := tr(hⁿ∗ on H₁) — the demo's tr(Aⁿ); sign convention in the tooltip</span></div></div>
         <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on <span class="tt" data-tip="H₁ of a space, black-box (the ∆_L standard of the Pairs tab): closed loops up to deformation and merging form an abelian group. For a torus — punctured or not — it is Z², generated by the two core loops; any continuous self-map merges loops linearly, inducing a 2×2 integer matrix h∗. That matrix is all this column uses.">H₁(F;Q)</span></div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
         <div class="small-note">The resummation engine, shown once: −log(1 − x) = Σ<sub>n≥1</sub> xⁿ/n, so for one eigenvalue exp( Σ<sub>n</sub> λⁿtⁿ/n ) = (1 − λt)⁻¹; summing the exponents over eigenvalues is allowed because tr(hⁿ∗) = Σ<sub>j</sub> λ<sub>j</sub>ⁿ. Every sum-into-product identity on this page, in both columns, is this one line — run per eigenvalue, per orbit, or per prime (log of an Euler factor: Σ<sub>n</sub> Np⁻ⁿˢ/n).</div>
         <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston) is pseudo-Anosov: it stretches along one foliation, contracts along another, and its periodic points are isolated — which is what makes an orbit product converge factor by factor. But pseudo-Anosov alone does NOT suffice for the equality printed here, so the face states its actual hypothesis: h Anosov on the closed torus with both eigenvalues positive (equivalently, the orientations of both invariant foliations preserved), so that every fixed point of every iterate has index −1 — the demo's bookkeeping below. Drop positivity and it fails: −A is Anosov, but on odd iterates every index is +1, so Fix(n) = 5, 5, 20, 45, … while tr − 2 = −5, 5, −20, 45, … — the two sides already differ at t¹. And on the once-punctured fiber F itself H₂(F) = 0, so even the (1−t)² would be wrong — hence the closed-torus scoping, the same one the honesty note below makes for the demo.">Anosov on the closed torus, both eigenvalues positive</span> — the demo's bookkeeping)</div><div class="feq"><span class="tt" data-tip="The orbit product counts every fixed point, so it computes the Artin–Mazur zeta exp(Σ Fix(hⁿ)tⁿ/n) — a different function from the H₁-zeta of the two faces above. With the closed-torus bookkeeping of the demo below, the alternating Lefschetz number is Σ(−1)ⁱtr = 1 − tr(Aⁿ) + 1, and every fixed point of the positive-eigenvalue Anosov Aⁿ has index −1, so the honest count is #Fix(hⁿ) = −(2 − tr(Aⁿ)) = tr(Aⁿ) − 2: the two constants are the H₀ and H₂ traces, the overall sign is the fixed-point index, and their joint contribution is exactly the factor (1−t)² written here, reinstated so that this line is a true equality.">(1−t)²</span>·ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹ &nbsp;<span style="font-size:.8rem;color:var(--muted);">(why (1−t)²? the H₀/H₂ bookkeeping — see the coefficient check in the demo below)</span></div></div>
@@ -682,12 +682,9 @@ function bigGcd(a, b) {
   return a;
 }
 
-// Rédei symbol [p1,p2,q] certified by alpha = x + y*sqrt(p1), with x^2 - p1*y^2 - p2*z^2 = 0.
-// The certificate must be Rédei-NORMALIZED: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4).
-// This is not pedantry: scaling (x,y,z) by k multiplies the returned value by (k/q), so on
-// unnormalized certificates the "symbol" is not a function of (p1,p2,q) at all. Rédei's
-// independence theorem — Q(√p1,√p2,√α) is one fixed field, unramified outside p1·p2,
-// independent of the solution chosen — holds among normalized solutions only; we enforce them.
+// Rédei symbol [p1,p2,q] certified by alpha = x + y*sqrt(p1), x^2 - p1*y^2 - p2*z^2 = 0.
+// Certificate must be Rédei-NORMALIZED (gcd 1, y even, x − y ≡ 1 mod 4): scaling by k multiplies
+// the value by (k/q), so Rédei's independence theorem holds among normalized solutions only.
 function redeiSymbol(p1, p2, q, x, y, z) {
   if (z === undefined) z = 1n;
   const identity = x * x - p1 * y * y - p2 * z * z;
@@ -696,9 +693,7 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   if (g !== 1n) throw new Error(`certificate not primitive: gcd(x,y,z) = ${g}`);
   if (y % 2n !== 0n) throw new Error(`normalization fails: y = ${y} must be even`);
   if (((x - y) % 4n + 4n) % 4n !== 1n) throw new Error(`normalization fails: x − y ≡ ${((x - y) % 4n + 4n) % 4n} (mod 4), need 1`);
-  // Definedness conditions, exactly as the Dictionary states them: all three primes
-  // ≡ 1 (mod 4) and ALL pairwise Legendre symbols +1 — including (p1/p2), which the
-  // solvability of the certificate equation presupposes.
+  // Definedness, as the Dictionary states: all three ≡ 1 (mod 4), all pairwise symbols +1.
   if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
   if (legendre(p1, p2) !== 1) throw new Error(`(${p1}/${p2}) != 1`);
   if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
@@ -903,7 +898,7 @@ document.addEventListener("click", e => {
   document.querySelectorAll(".tt.tt-open").forEach(el => { if (el !== t) el.classList.remove("tt-open"); });
   if (t) {
     t.classList.toggle("tt-open");
-    // a long tip anchored near the viewport top would clip above it: open pinned tips downward there
+    // near the viewport top, open pinned tips downward (they would clip above)
     t.classList.toggle("tt-below", t.classList.contains("tt-open") && t.getBoundingClientRect().top < 340);
   }
 });
@@ -1058,9 +1053,7 @@ function renderLegendreTable(p, q) {
     tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td>`;
     table.appendChild(tr);
   }
-  // The Hopf/unlink gloss is a dictionary translation and lk is symmetric, so it is
-  // asserted only where (p/q) = (q/p) makes the symbol order-independent. Both ≡ 3
-  // (mod 4): the symbol is order-dependent, and no linking reading exists.
+  // Linking gloss only where (p/q) = (q/p): both ≡ 3 (mod 4) is order-dependent.
   const noGloss = `. <b>No linking gloss here</b>: with both primes ≡ 3 (mod 4) the symbol is order-dependent — (${p}/${q}) = −(${q}/${p}), swap the inputs and the banner flips — while lk is symmetric (proved twice on this tab). The Hopf/unlink dictionary is reserved for pairs with a prime ≡ 1 (mod 4).`;
   if (pq === 1) {
     banner.classList.add("topo");
@@ -1589,8 +1582,7 @@ function renderTripleSteps() {
 }
 
 function renderTripleHasse() {
-  // Diamond lattice, edges box-center to box-center:
-  // Q < Q(√13), Q(√61) < Q(√13,√61) < k_{13,61} (deg 2 over the biquadratic).
+  // Diamond lattice: Q < Q(√13), Q(√61) < Q(√13,√61) < k_{13,61}.
   const svg = document.getElementById("tripleHasse");
   svg.innerHTML = `
     <g font-size="12" text-anchor="middle">
@@ -1921,10 +1913,8 @@ function renderMagnus() {
 }
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
 
-// θ-certificates, θ = (a + b√5) + (c + d√5)·√101. The identity X² − 101Z² = α does
-// NOT determine θ (see the rejected exploits in the self-tests); Amano's theorem needs
-// K Galois/Q with group N₄(F₂), ramified only at {p1,p2,p3}. Live-checkable pieces:
-// the identity, and total positivity (= unramified at ∞); the rest is cited.
+// θ-certificates, θ = (a + b√5) + (c + d√5)·√101. X² − 101Z² = α does NOT determine θ
+// (rejected exploits in self-tests); live-checked: identity + total positivity; rest cited.
 function quadThetaEmbeddings(a, b, c, d) {
   const s5 = Math.sqrt(5), s101 = Math.sqrt(101), out = [];
   for (const e5 of [1, -1]) for (const e101 of [1, -1])
@@ -2028,9 +2018,7 @@ function renderQuadSteps() {
 }
 
 function renderQuadTower() {
-  // Partial subfield lattice (invariant-carrying fields only), edges box-to-box:
-  // Q < quadratics < biquadratics Q(√5,√8081), Q(√101,√8081) < the two D₄ Rédei
-  // fields (deg 8, √α) < their compositum (deg 32) < K (deg 64, √θ).
+  // Partial lattice: Q < quadratics < biquadratics < two D₄ octics (√α) < compositum (32) < K (64, √θ).
   const svg = document.getElementById("quadTower");
   svg.innerHTML = `
     <g font-size="10.5" text-anchor="middle">
@@ -2170,8 +2158,7 @@ function renderLefschetz() {
   const fmt = a => a.map(x => Math.round(x)).join(", ");
   const eq1 = sumFace.every((c, i) => Math.abs(c - eigFace[i]) < 1e-6);
   const eq2 = fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
-  // Cross-check between the TWO zeta functions on this panel: the orbit/fixed-point
-  // zeta equals (1 − t)² times the H₁-zeta — the H₀ and H₂ terms of the closed torus.
+  // Cross-check: orbit zeta === (1 − t)²·H₁-zeta (the H₀/H₂ terms of the closed torus).
   const cross = sumFace.map((c, i) => c - 2 * (sumFace[i - 1] || 0) + (sumFace[i - 2] || 0));
   const eq3 = cross.every((c, i) => Math.abs(c - fixFace[i]) < 1e-6);
   document.getElementById("lefschetzFaces").innerHTML =
@@ -2265,7 +2252,6 @@ function buildMat(size, cells) {
       else if (r < c && cells[key]) {
         td.textContent = cells[key].text;
         td.className = cells[key].cls;
-        // .tt affordance (dotted, focusable, click-to-pin), not a bare title attribute
         if (cells[key].tip) { td.classList.add("tt"); td.setAttribute("data-tip", cells[key].tip); }
       }
       else { td.textContent = "0"; td.style.color = "#c8c4b8"; }
@@ -2669,7 +2655,7 @@ function runSelfTests() {
   });
 
   // R3 pedagogy DOM assertions (amendment 3): promoted-to-visible text pinned
-  t("DOM R3-N1: f_S asymmetry is visible text (why-box: S u {inf} convention, e_i = v_l(p_i - 1), Z/4 x Z/4 vs totally real Z/4 x Z/2); quad step 2 states Redei's three normalization conditions visibly", () => {
+  t("DOM R3-N1: f_S asymmetry visible in the whyFS box; quad step 2 states Redei's normalization conditions", () => {
     const b = document.getElementById("whyFS");
     if (!b) return false;
     const s = b.textContent, q = document.getElementById("quadSteps").textContent;
@@ -2677,28 +2663,28 @@ function runSelfTests() {
       && s.includes("Z/4 × Z/4") && s.includes("Z/4 × Z/2")
       && q.includes("gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4)");
   });
-  t("DOM R3-N2: quad step 3 says visibly why positivity is checked (identity does not pin theta down; other solutions certify the opposite verdict; Amano independence)", () => {
+  t("DOM R3-N2: quad step 3 visibly justifies the positivity check (identity does not pin theta; Amano independence)", () => {
     const q = document.getElementById("quadSteps").textContent;
     return q.includes("does not pin θ down") && q.includes("opposite") && q.includes("Amano's independence theorem");
   });
-  t("DOM R3-N3: 'Sum over iterates' face defines L(h^n) visibly as tr(h^n_* on H1) = tr(A^n); orbit face cross-references the (1-t)^2 check below", () => {
+  t("DOM R3-N3: iterate face defines L(h^n) visibly (= tr on H1 = tr(A^n)); orbit face cross-references the (1-t)^2 check", () => {
     const faces = [...document.querySelectorAll("#tab-zeta .zeta-face")];
     const sum = faces.find(f => f.textContent.includes("Sum over iterates"));
     const orb = faces.find(f => f.textContent.includes("Product over periodic orbits"));
     return !!sum && sum.textContent.includes("where L(hⁿ) := tr(hⁿ∗ on H₁)") && sum.textContent.includes("tr(Aⁿ)")
       && !!orb && orb.textContent.includes("why (1−t)²?");
   });
-  t("DOM R3-N4: the app's premise is justified in visible text (whyKnots box: Gal(F_p) = Z-hat = profinite pi_1(S^1); Spec Z 3-dimensional by Artin-Verdier; circle in a 3-space = knot)", () => {
+  t("DOM R3-N4: whyKnots box justifies the premise visibly (profinite pi_1(S^1); Artin-Verdier; circle in a 3-space)", () => {
     const b = document.getElementById("whyKnots");
     return !!b && b.textContent.includes("profinite fundamental group of the circle")
       && b.textContent.includes("Artin–Verdier") && b.textContent.includes("A circle inside a 3-space is a knot");
   });
-  t("DOM R3-N5: the Redei symbol's defining rule is visible on the Triples tab (+1 iff q splits completely in k_{p1,p2}) and echoed at quad step 5", () => {
+  t("DOM R3-N5: Redei value rule visible on Triples (+1 iff q splits completely) and echoed at quad step 5", () => {
     const sub = document.querySelector("#tab-triples .col.arith .sub");
     const q = document.getElementById("quadSteps").textContent;
     return !!sub && sub.textContent.includes("+1 if q splits completely") && q.includes("+1 = splits completely");
   });
-  t("DOM R3-N6: Ladder matrix cell tips use the .tt affordance (dotted, tabbable, pinnable), no bare title attributes; the tower's 'why deg 32' argument is visible text", () => {
+  t("DOM R3-N6: Ladder cell tips use the .tt affordance, no bare titles; 'why deg 32' is visible text", () => {
     const td = document.querySelector("#matN4 td[data-pos='0,2']");
     if (!td || !td.classList.contains("tt") || td.getAttribute("tabindex") !== "0") return false;
     if (!(td.getAttribute("data-tip") || "").includes("Triple level for (1,2,3)") || td.getAttribute("title")) return false;

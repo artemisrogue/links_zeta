@@ -153,7 +153,7 @@ details.zx{border:1px solid var(--line);border-radius:6px;background:#fff;margin
 details.zx>summary{cursor:pointer;padding:10px 14px;}
 details.zx>summary::marker{color:#767676;}
 details.zx>summary:hover{background:#f6f3ea;}
-details.zx>summary h2{display:inline;margin:0;font-size:1rem;}
+details.zx>summary h2{display:inline;margin:0;font-size:1rem;text-transform:none;letter-spacing:0;}
 details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 .zx-hook{text-transform:none;color:var(--muted);font-size:.82rem;font-weight:400;letter-spacing:0;font-style:italic;}
 .zx-row-head{margin:22px 0 8px;padding:6px 12px;background:#efece3;border-left:4px solid var(--ink);font-weight:600;font-size:.98rem;}
@@ -500,7 +500,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <div class="eq">∆<sub>Bor</sub>(t₁,t₂,t₃) = (t₁−1)(t₂−1)(t₃−1)</div>
           <div style="margin-top:6px;">Substituting t<sub>i</sub> = 1 + x<sub>i</sub> and expanding live:</div>
           <div class="coef-grid" id="deltaBorGrid"></div>
-          <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point. This polynomial is the link's own zeta — see <button type="button" class="jump" onclick="gotoTab('zeta')">The zeta of a link</button>, Zeta tab.</div>
+          <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point. This polynomial is the link's own zeta — see <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxBorro');if(d){d.open=true;d.scrollIntoView();}">The zeta of a link</button>, Zeta tab.</div>
         </div>
       </div>
       <div class="col arith">
@@ -1214,7 +1214,7 @@ function renderPairsThread(p, q, sym) {
   } else {
     orbits = `Inert: the roots live upstairs in F<sub>${q}²</sub>, and Frobenius swaps them: r<sup>${q}</sup> = (r²)<sup>${e}</sup>·r = ${p}<sup>${e}</sup>·r = −r, since ${p}<sup>${e}</sup> ≡ ${pw} ≡ −1 (mod ${q}), computed. <b>One orbit of period 2</b>: local factor ${localFactor(q, 2, 2)} = (1−t)⁻¹(1+t)⁻¹.`;
   }
-  box.innerHTML = `${TB}<b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors — the per-prime pieces — of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ), Riemann's zeta (the K = Q case) times a twin series built from exactly these ±1 symbols: split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>.`
+  box.innerHTML = `${TB}<b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors — the per-prime pieces — of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ), Riemann's zeta (the K = Q case) times a twin series built from exactly these ±1 symbols: split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxSqrt5');if(d){d.open=true;d.scrollIntoView();}">Zeta tab</button>.`
     + (!isOneMod4(p) && !isOneMod4(q)
       ? `<div class="tln">↔ topology: <b>withheld for this pair</b> — both primes ≡ 3 (mod 4), so this symbol is order-dependent, (${p}/${q}) = −(${q}/${p}), while lk is symmetric: per the banner above, no lk-parity gloss. The Euler factor stands — it reads ${q}'s splitting in the fixed field Q(√${p}), where the ordering is part of the data.</div>`
       : `<div class="tln">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The coset argument, standard: K₂ lifts to a loop iff its class dies under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; preimage components = cosets of the image subgroup — even lk: two disjoint lifts; odd lk: one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`);

@@ -148,6 +148,16 @@ button.tip{color:inherit;}
 .rung-count{margin:0 14px 12px;padding:8px 12px;background:#efece3;border:1px dashed var(--line);border-radius:5px;font-size:.9rem;}
 .hasse-box.cover{stroke:var(--topo);fill:#f4f9fd;}
 .cover-cap{font-size:.88rem;margin-top:8px;}
+/* R6 G2: the Zeta gallery — native <details> cards, closed at load, keyboard-native */
+details.zx{border:1px solid var(--line);border-radius:6px;background:#fff;margin:12px 0;}
+details.zx>summary{cursor:pointer;padding:10px 14px;}
+details.zx>summary::marker{color:#767676;}
+details.zx>summary:hover{background:#f6f3ea;}
+details.zx>summary h2{display:inline;margin:0;font-size:1rem;}
+details.zx[open]>summary{border-bottom:1px dashed var(--line);}
+.zx-hook{text-transform:none;color:var(--muted);font-size:.82rem;font-weight:400;letter-spacing:0;font-style:italic;}
+.zx-body{padding:6px 14px 14px;}
+.zx-lesson{margin:10px 0 6px;padding:8px 12px;background:#efece3;border-left:3px solid #2b2b25;border-radius:4px;font-size:.88rem;}
 </style>
 </head>
 <body>
@@ -577,34 +587,55 @@ button.tip{color:inherit;}
     </div>
 
     <span id="zetaK1361"></span>
-    <div class="section-head">The mechanism, live — in the objects of this story</div>
+    <div class="section-head">The mechanism, live — a gallery of worked examples</div>
+    <div class="small-note" style="text-align:left;margin:0 0 6px;">Each example is a closed card: open it for the live computation. Every card leads with its lesson, stated across the links ↔ primes analogy.</div>
     <div class="twocol">
       <div class="col topo">
-        <h2>The zeta of a link: the Borromean rings</h2>
-        <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
-        <h2 style="margin-top:16px;">Contrast: what knotting adds — the figure-eight knot</h2>
-        <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
-        <table class="symbolic" id="lefschetzTable"></table>
-        <div class="step" id="lefschetzFaces"></div>
-        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
-        <div class="thread" id="fig8Dichotomy"></div>
+        <details class="zx" id="zxBorro">
+          <summary><h2>The zeta of a link: the Borromean rings <span class="zx-hook">— all linking, no stretching: a zeta with no spectral content</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores everything in the Taylor coefficients at t = 1 — the μ̄ hierarchy — exactly where the prime side keeps its linking: in symbol-controlled Euler factors, never in a spectrum.</div>
+            <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
+          </div>
+        </details>
+        <details class="zx" id="zxFig8">
+          <summary><h2>Contrast: what knotting adds — the figure-eight knot <span class="zx-hook">— eigenvalues pushed off 1: the spectral dial</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> knotting moves the spectrum — dilatation φ², entropy log φ² &gt; 0 — and its arithmetic mirror is the irregular prime in the card opposite, whose Iwasawa polynomial gains genuine degree. Linking touches neither spectrum.</div>
+            <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
+            <table class="symbolic" id="lefschetzTable"></table>
+            <div class="step" id="lefschetzFaces"></div>
+            <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
+            <div class="thread" id="fig8Dichotomy"></div>
+          </div>
+        </details>
       </div>
       <div class="col arith">
-        <h2>The zeta of an actual arithmetic link: ζ of Q(√5)</h2>
-        <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every Euler factor of its zeta is a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
-        <table class="symbolic" id="dedekindFactors"></table>
-        <div class="controls">
-          <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100" aria-label="summation limit N">
-          <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">N = 2000</span>
-        </div>
-        <div class="euler-vals" aria-live="polite">
-          <div><div class="lbl">Σ<sub>N(𝔞)≤N</sub> N(𝔞)⁻² <span class="tt" data-tip="What is summed: a(n)/n², a(n) = #ideals of norm n. Split p ((p/5) = +1): two prime ideals of norm p, a(p^k) = k+1. Inert p: one of norm p², so a(p^k) = 1 (k even), 0 (k odd). Ramified: a(5^k) = 1. Multiplicative in n — so a(4) = 1, a(11) = 2, a(13) = 0: hand-checkable at small N.">(sum over ideals)</span></div><div class="num" id="dedekindIdeal">—</div></div>
-          <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
-          <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
-        </div>
-        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
-        <h2 style="margin-top:16px;">Contrast: what a knotted prime adds — regular vs irregular</h2>
-        <div class="thread" id="knottedPrime"></div>
+        <details class="zx" id="zxSqrt5">
+          <summary><h2>The zeta of an actual arithmetic link: ζ of Q(√5) <span class="zx-hook">— one number, three faces, converging live</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> a Dedekind zeta is the Pairs tab multiplied out — every Euler factor is a Legendre symbol, a mod-2 linking number; the monodromy zeta opposite runs the same sum-into-product with eigenvalues in place of characters.</div>
+            <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every Euler factor of its zeta is a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
+            <table class="symbolic" id="dedekindFactors"></table>
+            <div class="controls">
+              <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100" aria-label="summation limit N">
+              <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">N = 2000</span>
+            </div>
+            <div class="euler-vals" aria-live="polite">
+              <div><div class="lbl">Σ<sub>N(𝔞)≤N</sub> N(𝔞)⁻² <span class="tt" data-tip="What is summed: a(n)/n², a(n) = #ideals of norm n. Split p ((p/5) = +1): two prime ideals of norm p, a(p^k) = k+1. Inert p: one of norm p², so a(p^k) = 1 (k even), 0 (k odd). Ramified: a(5^k) = 1. Multiplicative in n — so a(4) = 1, a(11) = 2, a(13) = 0: hand-checkable at small N.">(sum over ideals)</span></div><div class="num" id="dedekindIdeal">—</div></div>
+              <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
+              <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
+            </div>
+            <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
+          </div>
+        </details>
+        <details class="zx" id="zxKnotted">
+          <summary><h2>Contrast: what a knotted prime adds — regular vs irregular <span class="zx-hook">— irregular = knotted: 101, an Amano prime, is one</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> "knotted" has an arithmetic meaning — irregular, λ &gt; 0 — a spectral fact about the prime's own cyclotomic tower, independent of every linking symbol in this app; 101 wears both hats.</div>
+            <div class="thread" id="knottedPrime"></div>
+          </div>
+        </details>
       </div>
     </div>
     <div class="caption-strip">The same √5 on both sides: the knot stretches by φ², and φ is the field's fundamental unit. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
@@ -3264,6 +3295,23 @@ function runSelfTests() {
       && !!$q("#quadCoverTower rect.hasse-box.cover") && !!$q("#pairsCoverMini rect.hasse-box.cover");
   });
 
+  // R6 G2: the Zeta gallery (session B)
+  t("DOM R6-G2: gallery — every .zx card closed at load; summary h2 + hook; nonempty Lesson line each; R5-K1/K2/K3 pins alive inside cards", () => {
+    const cards = [...$qa("details.zx")];
+    const LESSON = "Lesson (links ↔ primes):";
+    return cards.length >= 4
+      && ZX_AT_LOAD.length === cards.length && ZX_AT_LOAD.every(x => x.open === false)
+      && cards.every(d => !!d.querySelector("summary h2 .zx-hook"))
+      && cards.every(d => {
+        const L = d.querySelector(".zx-lesson");
+        return !!L && L.textContent.startsWith(LESSON) && L.textContent.length > LESSON.length + 20;
+      })
+      && $id("borroZeta").textContent.includes("every eigenvalue is 1")
+      && $id("fig8Dichotomy").textContent.includes("coefficients-at-1 dial")
+      && [...$qa("#knottedTable tr")].some(r => r.textContent.includes("B68 ≡ 0 (mod 101)"))
+      && $id("zetaThread").textContent.includes("keep the dials apart: linking at t = 1, knotting in the spectrum");
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
@@ -3305,6 +3353,8 @@ renderKnottedPrime();
 initLadder();
 renderFrobenius(107n);
 ttFocusable();
+// R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
+const ZX_AT_LOAD = [...$qa("details.zx")].map(d => ({ id: d.id, open: d.open }));
 runSelfTests();
 $id("testsPanel").classList.remove("open");
 

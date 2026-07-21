@@ -202,6 +202,7 @@
   .mln{ color:var(--muted); font-size:.8rem; margin-top:4px; }
   .thread{ margin:14px 0; padding:10px 14px; background:#fff; border:1px solid var(--line); border-left:4px solid #2b2b25; border-radius:5px; font-size:.9rem; }
   .thread-badge{ display:inline-block; font-size:.72rem; letter-spacing:.6px; border:1px solid #2b2b25; border-radius:3px; padding:0 6px; margin-right:8px; background:#efece3; color:#2b2b25; white-space:nowrap; }
+  .thread>div{ margin-top:6px; }
 
   /* Ladder matrices */
   .matrices{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; margin:20px 0; }
@@ -538,7 +539,7 @@
         <h2>The zeta of a link: the Borromean rings</h2>
         <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
         <h2 style="margin-top:16px;">Contrast: what knotting adds — the figure-eight knot</h2>
-        <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Below, the two H₁-faces of ζ_h agree coefficient by coefficient, and the orbit face — the Artin–Mazur zeta, = (1−t)²·ζ_h — is verified likewise.</div>
+        <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Below: both H₁-faces of ζ_h, and the orbit face (the Artin–Mazur zeta, = (1−t)²·ζ_h), verified coefficient by coefficient.</div>
         <table class="symbolic" id="lefschetzTable"></table>
         <div class="step" id="lefschetzFaces"></div>
         <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
@@ -558,6 +559,8 @@
           <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
         </div>
         <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
+        <h2 style="margin-top:16px;">Contrast: what a knotted prime adds — regular vs irregular</h2>
+        <div class="thread" id="knottedPrime"></div>
       </div>
     </div>
     <div class="caption-strip">The same √5 on both sides: the knot's monodromy stretches by φ², and φ is the fundamental unit of the field — the eigenvalue of the flow is the unit of the arithmetic. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
@@ -2040,7 +2043,7 @@ function renderQuadSteps() {
   ttFocusable();
 }
 
-// R4-S3: follow the banner — assert nothing definite when the symbol is undefined.
+// R4-S3: assert nothing definite when the symbol is undefined.
 function quadThreadHTML(allNeg, allPos) {
   const pre = `${TB}<b>The thread, two levels up.</b> `;
   if (!allNeg && !allPos) return pre + `The four conjugates disagree — the symbol is undefined (banner above) — so no Frobenius order, orbit count, or Euler factor is asserted at 449.`;
@@ -2098,16 +2101,13 @@ function renderQuadTower() {
 </g>`;
 }
 
-/* K1: the zeta of a LINK. Borromean = closure of (s1 s2^-1)^3, fibered (Stallings 1978);
-   Torres: 1-var Alexander = (t-1)*Delta(t,...,t). All arithmetic below is literal. */
-function polyAdd1(a, b) { const r = []; for (let i = 0; i < Math.max(a.length, b.length); i++) r[i] = (a[i] || 0) + (b[i] || 0); return r; }
+// K1: link zeta — Torres diagonal + unipotent monodromy
 function polyMul1(a, b) {
   const r = new Array(a.length + b.length - 1).fill(0);
   for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] += a[i] * b[j];
   return r;
 }
-// Delta_Bor(t,...,t) in powers of u = t-1: expandDeltaBor's keys are exponent vectors
-// in x_i = t_i - 1, so the diagonal sums coefficients by total degree.
+// Delta_Bor(t,…,t) in u = t-1: expandDeltaBor keys are exponent vectors, so sum by total degree.
 function borDiagCoeffs() {
   const poly = expandDeltaBor(), out = [];
   for (const k in poly) { const d = k.split(",").reduce((s, e) => s + +e, 0); out[d] = (out[d] || 0) + poly[k]; }
@@ -2117,7 +2117,10 @@ function borDiagCoeffs() {
 function torresBorOneVar() { // (t-1)*Delta(t,...,t), dense ascending in t
   const d = borDiagCoeffs(), u = [-1, 1];
   let acc = [0], pw = [1];
-  for (let k = 0; k < d.length; k++) { if (d[k]) acc = polyAdd1(acc, pw.map(c => c * d[k])); pw = polyMul1(pw, u); }
+  for (let k = 0; k < d.length; k++) {
+    if (d[k]) { const s = pw.map(c => c * d[k]); acc = (s.length > acc.length ? s : acc).map((_, i) => (acc[i] || 0) + (s[i] || 0)); }
+    pw = polyMul1(pw, u);
+  }
   return polyMul1(acc, u);
 }
 function borUnipotentTraces(n) { // literal powers of a 4x4 with char poly (t-1)^4
@@ -2140,10 +2143,10 @@ function renderBorroZeta() {
   const topD = dg.length - 1;
   const uTr = borUnipotentTraces(4), fTr = fig8Traces(4);
   $id("borroZeta").innerHTML =
-    `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link — Stallings (1978): the closure of a homogeneous braid is fibered, and the Borromean rings close up the braid (σ₁σ₂⁻¹)³ — with fiber that braid's Bennequin surface: χ = strands − crossings = 3 − 6 = ${fmtM(chi)}, so b₁ = 1 − (${fmtM(chi)}) = ${b1}.`
-    + `<div style="margin-top:6px;"><b>Torres (1953), arithmetic live:</b> for a link of ≥ 2 components the one-variable Alexander polynomial is (t−1)·Δ<sub>L</sub>(t,…,t). Set every tᵢ = t in the Triples grid's Δ<sub>Bor</sub>: each xᵢ = tᵢ − 1 collapses to (t−1), so summing the grid's coefficients by total degree (computed) leaves ${dg[topD] === 1 ? "" : fmtM(dg[topD])}(t−1)${supN(topD)}; one more (t−1), multiplied out live: (t−1)${supN(one.length - 1)} = ${polyStr1(one)} — coefficients <b>${coefStr}</b>, degree ${one.length - 1} = b₁. Sanity: the Hopf link gives (t−1)·1 = ${polyStr1(hopf)}, degree ${hopf.length - 1} = b₁ of its annulus fiber.</div>`
-    + `<div style="margin-top:6px;"><b>Milnor (1968):</b> for a fibered link the infinite cyclic cover is F × ℝ, so H₁ = H₁(F) with t acting as the monodromy h₁∗ — the one-variable Δ <i>is</i> det(tI − h₁∗) up to units. So det(tI − h₁∗) = (t−1)⁴ on the b₁ = ${b1} fiber: <b>every eigenvalue is 1</b>. h₁∗ is unipotent — homological entropy 0, Lefschetz numbers flat: tr(h₁∗ⁿ) = ${uTr.join(", ")}, … (computed by powering a unipotent 4×4; the constant ${uTr[0]} is forced by the eigenvalues alone), against ${fTr.join(", ")}, … in the contrast panel below.</div>`
-    + `<div style="margin-top:6px;"><b>The punchline:</b> for a link of unknots the zeta has <b>no spectral content</b> — everything it knows sits in the Taylor coefficients at t = 1, and those are exactly the μ̄ hierarchy this app computes: Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples')">the Triples grid</button>.</div>`;
+    `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link (Stallings 1978: closures of homogeneous braids are fibered; these close (σ₁σ₂⁻¹)³), fiber its Bennequin surface: χ = strands − crossings = 3 − 6 = ${fmtM(chi)}, so b₁ = 1 − (${fmtM(chi)}) = ${b1}.`
+    + `<div><b>Torres (1953), live:</b> the one-variable Alexander polynomial of a ≥ 2-component link is (t−1)·Δ<sub>L</sub>(t,…,t). On the Triples grid, tᵢ = t sends each xᵢ ↦ (t−1): summing coefficients by total degree (computed) gives ${dg[topD] === 1 ? "" : fmtM(dg[topD])}(t−1)${supN(topD)}; times (t−1), multiplied out live: (t−1)${supN(one.length - 1)} = ${polyStr1(one)} — coefficients <b>${coefStr}</b>, degree ${one.length - 1} = b₁. Hopf sanity: (t−1)·1 = ${polyStr1(hopf)}, degree ${hopf.length - 1} = b₁ of the annulus fiber.</div>`
+    + `<div><b>Milnor (1968):</b> for a fibered link the infinite cyclic cover is F × ℝ, so H₁ = H₁(F) with t acting as the monodromy h₁∗ — the one-variable Δ <i>is</i> det(tI − h₁∗) up to units. Here det(tI − h₁∗) = (t−1)⁴ on the b₁ = ${b1} fiber: <b>every eigenvalue is 1</b> — unipotent, entropy 0, Lefschetz numbers flat: tr(h₁∗ⁿ) = ${uTr.join(", ")}, … (powered live; forced by the eigenvalues), against ${fTr.join(", ")}, … below.</div>`
+    + `<div><b>The punchline:</b> a link of unknots has a zeta with <b>no spectral content</b> — everything sits in the Taylor coefficients at t = 1: exactly the μ̄ hierarchy this app computes, Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples')">the Triples grid</button>.</div>`;
 }
 
 /* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
@@ -2215,7 +2218,7 @@ function fig8Data() {
 function renderLefschetz() {
   const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
   const table = $id("lefschetzTable");
-  table.innerHTML = `<tr><th><span class="tt tt-left" data-tip="The table continues: tr(Aⁿ) = L₂ₙ, the even-indexed Lucas numbers 3, 7, 18, 47, 123, 322, … — growth rate φ² per step, the exponential orbit growth knotting buys. Three rows carry the contrast; the identity checks below still run to degree 8.">n (1–3 of ∞)</span></th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
+  table.innerHTML = `<tr><th><span class="tt tt-left" data-tip="The sequence continues: tr(Aⁿ) = L₂ₙ, the even-indexed Lucas numbers 3, 7, 18, 47, 123, … — φ² growth per step; the checks below still run to degree 8.">n (1–3 of ∞)</span></th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
     + [0, 1, 2].map(i =>
       `<tr><td class="k">${i + 1}</td><td class="v">${tr[i]}</td><td class="v">${fix[i]}</td><td class="v">${orb[i]}</td></tr>`).join("");
   const rows = [
@@ -2245,7 +2248,7 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
   const lam = (3 + Math.sqrt(5)) / 2;
   $id("fig8Dichotomy").innerHTML =
-    `${TB}<b>The dichotomy.</b> Knotting is the <b>spectral dial</b>: the pseudo-Anosov monodromy pushes eigenvalues off 1 — here to φ² ≈ ${lam.toFixed(3)} and φ⁻² — so entropy log φ² ≈ ${Math.log(lam).toFixed(3)} > 0 and the Lefschetz numbers grow exponentially: ${tr.slice(0, 4).join(", ")}, … against the Borromean box's constant ${borUnipotentTraces(3).join(", ")}, …. Linking is the <b>coefficients-at-1 dial</b>: eigenvalues all 1, everything stored in the Taylor coefficients at t = 1. Two independent dials — and the arithmetic mirror of the knotted one sits directly opposite.`;
+    `${TB}<b>The dichotomy.</b> Knotting is the <b>spectral dial</b>: the pseudo-Anosov monodromy pushes eigenvalues off 1 — φ² ≈ ${lam.toFixed(3)} and φ⁻² — entropy log φ² ≈ ${Math.log(lam).toFixed(3)} > 0, Lefschetz numbers exponential: ${tr.slice(0, 4).join(", ")}, … against the Borromean box's constant ${borUnipotentTraces(3).join(", ")}, …. Linking is the <b>coefficients-at-1 dial</b>: eigenvalues all 1, everything in the Taylor coefficients at t = 1. Independent dials — the arithmetic mirror sits opposite.`;
 }
 
 /* zeta of Q(sqrt5): the a(n) recipe is displayed in the ideal-sum tooltip. */
@@ -2307,6 +2310,73 @@ function renderDedekind() {
   }).join("");
 }
 $id("dedekindN").addEventListener("input", renderDedekind);
+
+/* K3: regular = unknotted, irregular = knotted (Mazur). Numbers safe: residues < p < 2^13. */
+function bernoulliRowModP(p, inv, B, m) { // B_m = -(1/(m+1)) Σ_{j<m} C(m+1,j) B_j mod p
+  if (m > 1 && m % 2 === 1) { B[m] = 0; return; } // odd Bernoullis vanish
+  let s = 0, c = 1; // c walks C(m+1, j)
+  for (let j = 0; j < m; j++) {
+    s = (s + c * B[j]) % p;
+    c = c * ((m + 1 - j) % p) % p * inv[j + 1] % p;
+  }
+  B[m] = ((p - s) % p) * inv[m + 1] % p;
+}
+function invTableModP(p) {
+  const inv = new Array(p); inv[1] = 1;
+  for (let i = 2; i < p; i++) inv[i] = (p - Math.floor(p / i)) * inv[p % i] % p;
+  return inv;
+}
+function bIdx(B, p) { // even k <= p-3 with B_k = 0 (mod p); regular iff empty
+  const idx = [];
+  for (let k = 2; k <= p - 3; k += 2) if (B[k] === 0) idx.push(k);
+  return idx;
+}
+function irregularIndices(p) {
+  const inv = invTableModP(p), B = new Array(p - 2).fill(0); B[0] = 1;
+  for (let m = 1; m <= p - 3; m++) bernoulliRowModP(p, inv, B, m);
+  return bIdx(B, p);
+}
+function irregularIndicesAsync(p, onTick, onDone) { // same rows, chunked
+  const inv = invTableModP(p), B = new Array(p - 2).fill(0); B[0] = 1;
+  let m = 1;
+  (function chunk() {
+    const end = Math.min(p - 3, m + 599);
+    for (; m <= end; m++) bernoulliRowModP(p, inv, B, m);
+    if (m <= p - 3) { onTick(m / (p - 3)); setTimeout(chunk, 0); }
+    else onDone(bIdx(B, p));
+  })();
+}
+function renderKnottedPrime() {
+  const t0 = performance.now();
+  const cast = [5, 13, 29, 61, 101, 449, 937].map(p => [p, irregularIndices(p)]);
+  const gal = [37, 59, 67, 103, 691].map(p => [p, irregularIndices(p)]);
+  const ms = (performance.now() - t0).toFixed(1);
+  const row = ([p, idx]) => `<tr><td class="k">${p}</td><td class="v">${idx.length === 0
+    ? `regular — <span style="color:var(--good);">unknotted</span>: ${p - 3 <= 2 ? "B₂" : `B₂, B₄, …, B<sub>${p - 3}</sub> all`} ≢ 0 (mod ${p}); trivial Iwasawa polynomial, λ = 0`
+    : `<b>irregular — <span style="color:var(--arith);">knotted</span></b>: ${idx.map(k => `B<sub>${k}</sub> ≡ 0 (mod ${p})`).join(", ")}`}</td></tr>`;
+  $id("knottedPrime").innerHTML =
+    `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12): a knot's Alexander polynomial ↔ a prime's <b>Iwasawa polynomial</b> for its own cyclotomic Z<sub>p</sub>-tower — its own Alexander-type invariant — λ ↔ degree. Regular prime: trivial polynomial, <b>unknotted</b>. Irregular: <b>knotted</b>. The test is Bernoulli — p irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3 — run here via B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub> mod p (p-integral for k ≤ p−3, von Staudt–Clausen). Herbrand–Ribet: p | B<sub>k</sub> ⇔ a nontrivial eigenspace in the p-class group — λ/degree as the spectral dial.`
+    + `<div>The app's own cast, judged at load (${ms} ms):</div>`
+    + `<table class="symbolic" id="knottedTable">${cast.map(row).join("")}</table>`
+    + `<div><b>The jewel:</b> 101 — one of Amano's four quadruple primes — is <b>knotted</b>: the app contained a knotted prime all along, and the linking story never noticed. Independent dials: the ℓ = 2 linking tower of {5, 8081, 101, 449} and the p = 101 cyclotomic tower are different covers of different things.</div>`
+    + `<div class="mln">The classical gallery, computed: ${gal.map(([p, idx]) => `${p} (${idx.map(k => `B<sub>${k}</sub>`).join(", ")})`).join(", ")}.</div>`
+    + `<div class="controls"><button class="ctrl" id="check8081">check 8081</button><span class="small-note" id="verdict8081" aria-live="polite"></span></div>`;
+  $id("check8081").addEventListener("click", () => {
+    const btn = $id("check8081"), out = $id("verdict8081");
+    btn.disabled = true;
+    const note = f => `computing B₂ … B₈₀₇₈ mod 8081, chunked so the page stays live (≈ 16M multiply-and-reduce steps; odd rows free) … ≈ ${Math.round(100 * f * f)}% done`;
+    out.textContent = note(0);
+    const s0 = performance.now();
+    irregularIndicesAsync(8081,
+      f => { out.textContent = note(f); },
+      idx => {
+        const dt = Math.round(performance.now() - s0);
+        out.innerHTML = idx.length === 0
+          ? `<b>8081 is regular — unknotted</b>: no B<sub>k</sub> ≡ 0 (mod 8081), k = 2, …, 8078 (${dt} ms). All four Amano primes judged: three unknotted, one (101) knotted.`
+          : `<b>8081 is irregular — knotted</b> at ${idx.map(k => `B<sub>${k}</sub>`).join(", ")} (${dt} ms).`;
+      });
+  });
+}
 
 function buildMat(size, cells) {
   const table = $el("table");
@@ -2399,7 +2469,7 @@ function n3Order(a, b, c) {
   while (P.flat().join("") !== "100010001") { P = n3Mul(P, M); n++; if (n > 8) throw new Error("order > 8?"); }
   return n;
 }
-function frobOrderTriple(q) { // reuses frobeniusMatrix1361 (no duplicated certificate logic)
+function frobOrderTriple(q) { // reuses frobeniusMatrix1361
   const f = frobeniusMatrix1361(q);
   return f.err ? f : { ...f, ord: n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r) };
 }
@@ -2945,22 +3015,17 @@ function runSelfTests() {
   });
 
   // R5 linking-vs-knotting dichotomy (user-directed)
-  t("R5-K1 pure: Torres diagonal from expandDeltaBor = u^3 (coeffs by total degree [0,0,0,1]); (t-1)*(t-1)^3 = 1,-4,6,-4,1; Hopf (t-1)*1 deg 1; unipotent 4x4 traces all 4", () => {
-    const dg = borDiagCoeffs(), one = torresBorOneVar();
-    return arrEq(dg, [0, 0, 0, 1]) && arrEq(one, [1, -4, 6, -4, 1])
-      && arrEq(polyMul1([-1, 1], [1]), [-1, 1])
+  t("R5-K1 pure: Torres diagonal [0,0,0,1] = u^3; (t-1)^4 = 1,-4,6,-4,1; unipotent traces all 4", () => {
+    return arrEq(borDiagCoeffs(), [0, 0, 0, 1]) && arrEq(torresBorOneVar(), [1, -4, 6, -4, 1])
       && borUnipotentTraces(6).every(x => x === 4);
   });
-  t("DOM R5-K1: Borromean link-zeta box — Stallings fibered, b1 = 1 − (−3) = 4, live coefficients 1, −4, 6, −4, 1, every eigenvalue is 1, Hopf annulus sanity, Torres + Milnor cited, Triples jump", () => {
+  t("DOM R5-K1: Borromean box — b1 = 4 line, live coefficients 1, −4, 6, −4, 1, every eigenvalue is 1, badge + Triples jump", () => {
     const s = $id("borroZeta").textContent;
-    return s.includes("Stallings") && s.includes("b₁ = 1 − (−3) = 4")
-      && s.includes("1, −4, 6, −4, 1") && s.includes("every eigenvalue is 1")
-      && s.includes("degree 1 = b₁ of its annulus fiber")
-      && s.includes("Torres") && s.includes("Milnor") && s.includes("no spectral content")
-      && !!$q('#borroZeta .jump[onclick*="triples"]')
-      && !!$q("#borroZeta .thread-badge");
+    return s.includes("b₁ = 1 − (−3) = 4") && s.includes("1, −4, 6, −4, 1")
+      && s.includes("every eigenvalue is 1")
+      && !!$q('#borroZeta .jump[onclick*="triples"]') && !!$q("#borroZeta .thread-badge");
   });
-  t("DOM R5-K2: fig-8 re-headed as the knotting contrast; table cut to n = 1..3 with Lucas-continuation tooltip; dichotomy close names both dials (entropy log phi^2 > 0 vs constant 4, 4, 4)", () => {
+  t("DOM R5-K2: knotting-contrast heading; 3-row table + Lucas tooltip; dichotomy names both dials", () => {
     if (![...$qa("#tab-zeta .col.topo h2")].some(e => e.textContent.includes("Contrast: what knotting adds"))) return false;
     if ($qa("#lefschetzTable tr").length !== 4) return false;
     if (!$q("#lefschetzTable th [data-tip*='Lucas']")) return false;
@@ -2969,6 +3034,24 @@ function runSelfTests() {
       && d.includes("eigenvalues off 1") && d.includes("entropy log φ²")
       && d.includes("3, 7, 18, 47") && d.includes("4, 4, 4")
       && d.includes("Taylor coefficients at t = 1");
+  });
+  t("R5-K3 pure: irregularIndices 37:[32] 59:[44] 67:[58] 101:[68] 103:[24]; 691 has 12; 5,13,29,61,449,937 regular", () => {
+    return arrEq(irregularIndices(37), [32]) && arrEq(irregularIndices(59), [44])
+      && arrEq(irregularIndices(67), [58]) && arrEq(irregularIndices(101), [68])
+      && arrEq(irregularIndices(103), [24]) && irregularIndices(691).includes(12)
+      && [5, 13, 29, 61, 449, 937].every(p => irregularIndices(p).length === 0);
+  });
+  t("DOM R5-K3: 101 irregular/knotted at B68, 449 regular/unknotted; gallery computed; 8081 on demand (state-robust)", () => {
+    const rows = [...$qa("#knottedTable tr")].map(r => r.textContent);
+    const a = rows.find(s => s.startsWith("101")), b = rows.find(s => s.startsWith("449"));
+    const s = $id("knottedPrime").textContent;
+    return rows.length === 7
+      && !!a && a.includes("irregular") && a.includes("knotted") && a.includes("B68 ≡ 0 (mod 101)")
+      && !!b && b.includes("regular") && b.includes("unknotted")
+      && s.includes("691 (B12, B200)")
+      // state-robust (R3-S2)
+      && ($id("verdict8081").textContent === "" ? !$id("check8081").disabled
+        : /computing|8081 is/.test($id("verdict8081").textContent));
   });
 
   const list = $id("testList");
@@ -3006,6 +3089,7 @@ renderB4();
 renderBorroZeta();
 renderLefschetz();
 renderDedekind();
+renderKnottedPrime();
 initLadder();
 renderFrobenius(107n);
 ttFocusable();

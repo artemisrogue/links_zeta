@@ -537,11 +537,12 @@
       <div class="col topo">
         <h2>The zeta of a link: the Borromean rings</h2>
         <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
-        <h2 style="margin-top:16px;">The zeta of an actual monodromy: the figure-eight knot</h2>
-        <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. Two zeta functions are computed below: the two H₁-faces of ζ_h, which agree coefficient by coefficient, and the orbit face, which is the Artin–Mazur zeta — equal to (1−t)²·ζ_h, and shown below to be exactly that, also coefficient by coefficient.</div>
+        <h2 style="margin-top:16px;">Contrast: what knotting adds — the figure-eight knot</h2>
+        <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Below, the two H₁-faces of ζ_h agree coefficient by coefficient, and the orbit face — the Artin–Mazur zeta, = (1−t)²·ζ_h — is verified likewise.</div>
         <table class="symbolic" id="lefschetzTable"></table>
         <div class="step" id="lefschetzFaces"></div>
-        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t), the Alexander polynomial of the figure-eight knot — its zeta function <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix acting on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, which is all the zeta faces use, is identical. Bonus arithmetic inside the topology: the traces are the even-indexed Lucas numbers L₂ₙ, the zeta coefficients the even-indexed Fibonacci numbers F₂ₙ. The orbit-face check verifies the exponential–product identity <i>plus</i> the integrality of the Möbius counts — whole-number orbit counts are precisely the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
+        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
+        <div class="thread" id="fig8Dichotomy"></div>
       </div>
       <div class="col arith">
         <h2>The zeta of an actual arithmetic link: ζ of Q(√5)</h2>
@@ -2214,8 +2215,8 @@ function fig8Data() {
 function renderLefschetz() {
   const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
   const table = $id("lefschetzTable");
-  table.innerHTML = `<tr><th>n</th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
-    + [0, 1, 2, 3, 4, 5].map(i =>
+  table.innerHTML = `<tr><th><span class="tt tt-left" data-tip="The table continues: tr(Aⁿ) = L₂ₙ, the even-indexed Lucas numbers 3, 7, 18, 47, 123, 322, … — growth rate φ² per step, the exponential orbit growth knotting buys. Three rows carry the contrast; the identity checks below still run to degree 8.">n (1–3 of ∞)</span></th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
+    + [0, 1, 2].map(i =>
       `<tr><td class="k">${i + 1}</td><td class="v">${tr[i]}</td><td class="v">${fix[i]}</td><td class="v">${orb[i]}</td></tr>`).join("");
   const rows = [
     ["exp( Σ tr(Aⁿ)·tⁿ/n )", sumFace],
@@ -2242,6 +2243,9 @@ function renderLefschetz() {
       (1−t)²·(H₁ face) = ${fmt(cross)}
        &nbsp;<span class="${eq3 ? "ok" : "fail"}">${eq3 ? "✓ equals the orbit face" : "✗"}</span>
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
+  const lam = (3 + Math.sqrt(5)) / 2;
+  $id("fig8Dichotomy").innerHTML =
+    `${TB}<b>The dichotomy.</b> Knotting is the <b>spectral dial</b>: the pseudo-Anosov monodromy pushes eigenvalues off 1 — here to φ² ≈ ${lam.toFixed(3)} and φ⁻² — so entropy log φ² ≈ ${Math.log(lam).toFixed(3)} > 0 and the Lefschetz numbers grow exponentially: ${tr.slice(0, 4).join(", ")}, … against the Borromean box's constant ${borUnipotentTraces(3).join(", ")}, …. Linking is the <b>coefficients-at-1 dial</b>: eigenvalues all 1, everything stored in the Taylor coefficients at t = 1. Two independent dials — and the arithmetic mirror of the knotted one sits directly opposite.`;
 }
 
 /* zeta of Q(sqrt5): the a(n) recipe is displayed in the ideal-sum tooltip. */
@@ -2955,6 +2959,16 @@ function runSelfTests() {
       && s.includes("Torres") && s.includes("Milnor") && s.includes("no spectral content")
       && !!$q('#borroZeta .jump[onclick*="triples"]')
       && !!$q("#borroZeta .thread-badge");
+  });
+  t("DOM R5-K2: fig-8 re-headed as the knotting contrast; table cut to n = 1..3 with Lucas-continuation tooltip; dichotomy close names both dials (entropy log phi^2 > 0 vs constant 4, 4, 4)", () => {
+    if (![...$qa("#tab-zeta .col.topo h2")].some(e => e.textContent.includes("Contrast: what knotting adds"))) return false;
+    if ($qa("#lefschetzTable tr").length !== 4) return false;
+    if (!$q("#lefschetzTable th [data-tip*='Lucas']")) return false;
+    const d = $id("fig8Dichotomy").textContent;
+    return d.includes("spectral dial") && d.includes("coefficients-at-1 dial")
+      && d.includes("eigenvalues off 1") && d.includes("entropy log φ²")
+      && d.includes("3, 7, 18, 47") && d.includes("4, 4, 4")
+      && d.includes("Taylor coefficients at t = 1");
   });
 
   const list = $id("testList");

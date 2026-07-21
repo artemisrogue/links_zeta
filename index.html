@@ -156,6 +156,8 @@ details.zx>summary:hover{background:#f6f3ea;}
 details.zx>summary h2{display:inline;margin:0;font-size:1rem;}
 details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 .zx-hook{text-transform:none;color:var(--muted);font-size:.82rem;font-weight:400;letter-spacing:0;font-style:italic;}
+.zx-row-head{margin:22px 0 8px;padding:6px 12px;background:#efece3;border-left:4px solid var(--ink);font-weight:600;font-size:.98rem;}
+.zx-row-head .rh-sub{color:var(--muted);font-weight:400;font-style:italic;font-size:.85rem;margin-left:8px;}
 .zx-body{padding:6px 14px 14px;}
 .zx-lesson{margin:10px 0 6px;padding:8px 12px;background:#efece3;border-left:3px solid #2b2b25;border-radius:4px;font-size:.88rem;}
 </style>
@@ -594,7 +596,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 
     <section id="tab-zeta" class="tab-panel">
     <p style="max-width:840px;">Everything above is packaged by a zeta function on each side, and the packaging is the same: <b>a sum, resummed as a product, in two different ways.</b> Primes are the periodic orbits of Spec(O<sub>K</sub>) — the Euler product, via Weil's zeta of varieties over finite fields, is what Artin–Mazur imitated in naming the dynamical zeta — and characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.</p>
-    <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The live demos below run <b>both</b> columns on this app's smallest genuine examples: the monodromy of the figure-eight knot on the left, and K = Q(√5) — the quadratic resolvent that opened the Pairs tab — on the right. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
+    <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The gallery below then works the zeta at <b>every level of this app's story — two, three and four components</b>, each link paired with its mirror field, closing with a contrast pair for what knotting, as opposed to linking, would add. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
     <div class="thread" id="zetaThread"></div>
     <div class="twocol">
       <div class="col topo">
@@ -614,40 +616,17 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
     </div>
 
-    <div class="section-head">The mechanism, live — a gallery of worked examples</div>
-    <div class="small-note" style="text-align:left;margin:0 0 6px;">Each example is a closed card: open it for the live computation. Every card leads with its lesson, stated across the links ↔ primes analogy.</div>
+    <div class="section-head">The gallery: the zeta worked at every level of linking</div>
+    <div class="small-note" style="text-align:left;margin:0 0 6px;">Four rows, one per level of the story. Each row pairs a link with its mirror field; each card starts closed — open it for the live computation — and leads with its lesson, stated across the links ↔ primes analogy.</div>
+
+    <div class="zx-row-head">Two components <span class="rh-sub">the pairwise dial: lk mod 2 ↔ the Legendre symbol</span></div>
     <div class="twocol">
       <div class="col topo">
-        <details class="zx" id="zxBorro">
-          <summary><h2>The zeta of a link: the Borromean rings <span class="zx-hook">— all linking, no stretching: a zeta with no spectral content</span></h2></summary>
+        <details class="zx" id="zxHopf">
+          <summary><h2>ζ at the Hopf link — worked <span class="zx-hook">— the two-component dial, both positions</span></h2></summary>
           <div class="zx-body">
-            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores everything in the Taylor coefficients at t = 1 — the μ̄ hierarchy — exactly where the prime side keeps its linking: in symbol-controlled Euler factors, never in a spectrum.</div>
-            <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
-          </div>
-        </details>
-        <details class="zx" id="zxBorroWorked">
-          <summary><h2>ζ of the Borromean rings — worked <span class="zx-hook">— two zetas of one link: fiber homology, then covering-space orbits</span></h2></summary>
-          <div class="zx-body">
-            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores linking in Taylor coefficients — and the cover-orbit factor (1 − t²)⁻⁴ is literally the same bookkeeping as 937's Euler factor (1 − 937⁻²ˢ)⁻⁴, |G| = count × size on both sides.</div>
-            <div id="borroWorked"></div>
-          </div>
-        </details>
-        <details class="zx" id="zxB4">
-          <summary><h2>ζ of B₄ — worked at the model level <span class="zx-hook">— the 64-sheet cover hears what every pair and triple misses</span></h2></summary>
-          <div class="zx-body">
-            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> the quadruple symbol is invisible to every pair and triple — yet the 64-sheet cover hears it: 32 double loops on one side, 32 primes of residue degree 2 on the other.</div>
-            <div id="b4Worked"></div>
-          </div>
-        </details>
-        <details class="zx" id="zxFig8">
-          <summary><h2>Contrast: what knotting adds — the figure-eight knot <span class="zx-hook">— eigenvalues pushed off 1: the spectral dial</span></h2></summary>
-          <div class="zx-body">
-            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> knotting moves the spectrum — dilatation φ², entropy log φ² &gt; 0 — and its arithmetic mirror is the irregular prime in the card opposite, whose Iwasawa polynomial gains genuine degree. Linking touches neither spectrum.</div>
-            <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
-            <table class="symbolic" id="lefschetzTable"></table>
-            <div class="step" id="lefschetzFaces"></div>
-            <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
-            <div class="thread" id="fig8Dichotomy"></div>
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> one flip of the dial: lk odd folds K₂'s lift into a single double loop — factor (1 − t²)⁻¹ — exactly as (5/13) = −1 folds 13's two would-be primes into one of norm 13²: (1 − 13⁻²ˢ)⁻¹.</div>
+            <div id="hopfWorked"></div>
           </div>
         </details>
       </div>
@@ -670,6 +649,28 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
           </div>
         </details>
+      </div>
+    </div>
+
+    <div class="zx-row-head">Three components <span class="rh-sub">the Borromean rings ↔ the field k₁₃,₆₁ — the triple dial: μ̄(123) ↔ [13, 61, 937]</span></div>
+    <div class="twocol">
+      <div class="col topo">
+        <details class="zx" id="zxBorro">
+          <summary><h2>The zeta of a link: the Borromean rings <span class="zx-hook">— all linking, no stretching: a zeta with no spectral content</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores everything in the Taylor coefficients at t = 1 — the μ̄ hierarchy — exactly where the prime side keeps its linking: in symbol-controlled Euler factors, never in a spectrum.</div>
+            <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
+          </div>
+        </details>
+        <details class="zx" id="zxBorroWorked">
+          <summary><h2>ζ of the Borromean rings — worked <span class="zx-hook">— two zetas of one link: fiber homology, then covering-space orbits</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores linking in Taylor coefficients — and the cover-orbit factor (1 − t²)⁻⁴ is literally the same bookkeeping as 937's Euler factor (1 − 937⁻²ˢ)⁻⁴, |G| = count × size on both sides.</div>
+            <div id="borroWorked"></div>
+          </div>
+        </details>
+      </div>
+      <div class="col arith">
         <span id="zetaK1361"></span>
         <details class="zx" id="zxK1361">
           <summary><h2>ζ of k₁₃,₆₁ — the Borromean field, worked <span class="zx-hook">— eleven local factors read off one matrix, then multiplied out</span></h2></summary>
@@ -678,6 +679,21 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <div id="k1361Worked"></div>
           </div>
         </details>
+      </div>
+    </div>
+
+    <div class="zx-row-head">Four components <span class="rh-sub">B₄ ↔ the degree-64 field K — the quadruple dial: μ̄(1234) ↔ [5, 8081, 101, 449]</span></div>
+    <div class="twocol">
+      <div class="col topo">
+        <details class="zx" id="zxB4">
+          <summary><h2>ζ of B₄ — worked at the model level <span class="zx-hook">— the 64-sheet cover hears what every pair and triple misses</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> the quadruple symbol is invisible to every pair and triple — yet the 64-sheet cover hears it: 32 double loops on one side, 32 primes of residue degree 2 on the other.</div>
+            <div id="b4Worked"></div>
+          </div>
+        </details>
+      </div>
+      <div class="col arith">
         <details class="zx" id="zx449">
           <summary><h2>ζ of the degree-64 field K — worked at 449 <span class="zx-hook">— one corner entry, thirty-two Euler factors of the same shape</span></h2></summary>
           <div class="zx-body">
@@ -685,6 +701,25 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <div id="quad449Worked"></div>
           </div>
         </details>
+      </div>
+    </div>
+
+    <div class="zx-row-head">The contrast pair <span class="rh-sub">what knotting — as opposed to linking — adds: the spectral dial, on both sides</span></div>
+    <div class="twocol">
+      <div class="col topo">
+        <details class="zx" id="zxFig8">
+          <summary><h2>Contrast: what knotting adds — the figure-eight knot <span class="zx-hook">— eigenvalues pushed off 1: the spectral dial</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> knotting moves the spectrum — dilatation φ², entropy log φ² &gt; 0 — and its arithmetic mirror is the irregular prime in the card opposite, whose Iwasawa polynomial gains genuine degree. Linking touches neither spectrum.</div>
+            <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the right panel.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent box above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
+            <table class="symbolic" id="lefschetzTable"></table>
+            <div class="step" id="lefschetzFaces"></div>
+            <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
+            <div class="thread" id="fig8Dichotomy"></div>
+          </div>
+        </details>
+      </div>
+      <div class="col arith">
         <details class="zx" id="zxKnotted">
           <summary><h2>Contrast: what a knotted prime adds — regular vs irregular <span class="zx-hook">— irregular = knotted: 101, an Amano prime, is one</span></h2></summary>
           <div class="zx-body">
@@ -2642,6 +2677,15 @@ function renderBorroWorked() {
     + `<div class="mln"><b>Keep them apart — different objects:</b> ζ<sub>h</sub> counts fixed points of the monodromy on H₁ of the fiber; the cover-orbit factor counts K₃'s loop-orbits among the 8 sheets. Both are Borromean bookkeeping, and both are worked above: <button type="button" class="jump" onclick="var d=$id('zxBorro');d.open=true;d.scrollIntoView();">the link-zeta card</button> · <button type="button" class="jump" onclick="gotoTab('triples');$id('tripleCoverHasse').scrollIntoView();">the tower of covers, Triples tab</button>.</div>`;
 }
 
+/* Organic pass: the two-component worked card — the Hopf link, both faces, every symbol live. */
+function renderHopfWorked() {
+  const c13 = Number(legendre(5n, 13n)), c29 = Number(legendre(5n, 29n));
+  $id("hopfWorked").innerHTML =
+    `<div class="step"><div class="head">Face 1 — the monodromy zeta: trivial, and honestly so.</div><div class="eq">The Hopf link is <span class="tt" data-tip="The complement fibers over the circle with fiber the obvious annulus between the two rings (the Hopf band). Fiberedness is a cited classical fact (Stallings 1978 covers it as the smallest homogeneous braid closure, (σ₁)²).">fibered</span>; the fiber is an annulus, H₁ = Z, and the monodromy acts on it by the identity — so det(tI − h₁∗) = t − 1. Torres agrees, computed: (t − 1) · ∆<sub>Hopf</sub>(t, t) = (t − 1) · 1 = t − 1, degree 1 = b₁(annulus). The smallest fibered link has a zeta with no room for anything but linking.</div></div>`
+    + `<div class="step"><div class="head">Face 2 — the cover-orbit factor: the dial, both positions.</div><div class="eq">lk(K₁, K₂) = 1 is odd, so in the double cover of S³ ∖ K₁ the loop K₂ lifts to <b>1 loop winding twice</b> — local factor <b>(1 − t²)⁻¹</b> ↔ (5/13) = ${c13 > 0 ? "+1" : "−1"} (computed live): 13 inert in Q(√5), Euler factor (1 − 13⁻²ˢ)⁻¹. Unlink instead — lk even — and K₂ lifts to <b>2 loops</b>: (1 − t)⁻² ↔ (5/29) = ${c29 > 0 ? "+1" : "−1"} (live): 29 split, (1 − 29⁻ˢ)⁻². <button type="button" class="jump" onclick="gotoTab('pairs')">the lift picture, Pairs tab</button></div></div>`
+    + `<div class="mln">Everything the higher rows do is already here at n = 2: a cover, a loop upstairs, |deck| = (loop count) × (winding) — and the mirror field reading the same dial as e·f·g. The three- and four-component rows below just climb to deeper covers.</div>`;
+}
+
 /* R6 G4 (session B): worked 4-linked zetas. Order rule Node-verified (64/64) before display. */
 function n4Matrix(c1, c2, c3, r1, r2, qq) { // entries: superdiag chi1..3, second diag r123, r234, corner q
   return [[1, c1, r1, qq], [0, 1, c2, r2], [0, 0, 1, c3], [0, 0, 0, 1]];
@@ -3509,6 +3553,17 @@ function runSelfTests() {
       && [...$qa("#knottedTable tr")].some(r => r.textContent.includes("B68 ≡ 0 (mod 101)"))
       && $id("zetaThread").textContent.includes("keep the dials apart: linking at t = 1, knotting in the spectrum");
   });
+  t("DOM organic: gallery spine stratified by component count — four row heads (two/three/four/contrast) and the Hopf card worked live", () => {
+    const heads = [...$qa("#tab-zeta .zx-row-head")].map(e => e.textContent);
+    return heads.length === 4
+      && heads[0].includes("Two components") && heads[1].includes("Three components")
+      && heads[2].includes("Four components") && heads[3].includes("knotting")
+      && $id("hopfWorked").textContent.includes("1 loop winding twice")
+      && $id("hopfWorked").textContent.includes("(1 − 13⁻²ˢ)⁻¹")
+      && $id("hopfWorked").textContent.includes("(1 − 29⁻ˢ)⁻²")
+      && $q("#zxHopf .zx-lesson").textContent.startsWith("Lesson (links ↔ primes):")
+      && $id("zxHopf").open === false;
+  });
 
   // R6 G3: worked 3-linked zetas (session B); reference values Node-verified from extracted machinery
   t("R6-G3a pure: k13,61 f-table — f(2)=4, f(3)=2, f(5)=2, f(7)=4, f(11)=4, f(17)=f(19)=f(23)=f(29)=2, f(107)=1, f(937)=2; partial Euler product s=2, p≤200 = 1.0673950922954751 ± 1e-6 over 44 primes", () => {
@@ -3645,6 +3700,7 @@ renderDedekind();
 renderKnottedPrime();
 renderK1361Worked();
 renderBorroWorked();
+renderHopfWorked();
 renderQuad449Worked();
 renderB4Worked();
 initLadder();

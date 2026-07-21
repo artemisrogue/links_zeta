@@ -535,7 +535,9 @@
     <div class="section-head">The mechanism, live — in the objects of this story</div>
     <div class="twocol">
       <div class="col topo">
-        <h2>The zeta of an actual monodromy: the figure-eight knot</h2>
+        <h2>The zeta of a link: the Borromean rings</h2>
+        <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
+        <h2 style="margin-top:16px;">The zeta of an actual monodromy: the figure-eight knot</h2>
         <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. Two zeta functions are computed below: the two H₁-faces of ζ_h, which agree coefficient by coefficient, and the orbit face, which is the Artin–Mazur zeta — equal to (1−t)²·ζ_h, and shown below to be exactly that, also coefficient by coefficient.</div>
         <table class="symbolic" id="lefschetzTable"></table>
         <div class="step" id="lefschetzFaces"></div>
@@ -2095,6 +2097,54 @@ function renderQuadTower() {
 </g>`;
 }
 
+/* K1: the zeta of a LINK. Borromean = closure of (s1 s2^-1)^3, fibered (Stallings 1978);
+   Torres: 1-var Alexander = (t-1)*Delta(t,...,t). All arithmetic below is literal. */
+function polyAdd1(a, b) { const r = []; for (let i = 0; i < Math.max(a.length, b.length); i++) r[i] = (a[i] || 0) + (b[i] || 0); return r; }
+function polyMul1(a, b) {
+  const r = new Array(a.length + b.length - 1).fill(0);
+  for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] += a[i] * b[j];
+  return r;
+}
+// Delta_Bor(t,...,t) in powers of u = t-1: expandDeltaBor's keys are exponent vectors
+// in x_i = t_i - 1, so the diagonal sums coefficients by total degree.
+function borDiagCoeffs() {
+  const poly = expandDeltaBor(), out = [];
+  for (const k in poly) { const d = k.split(",").reduce((s, e) => s + +e, 0); out[d] = (out[d] || 0) + poly[k]; }
+  for (let i = 0; i < out.length; i++) out[i] = out[i] || 0;
+  return out;
+}
+function torresBorOneVar() { // (t-1)*Delta(t,...,t), dense ascending in t
+  const d = borDiagCoeffs(), u = [-1, 1];
+  let acc = [0], pw = [1];
+  for (let k = 0; k < d.length; k++) { if (d[k]) acc = polyAdd1(acc, pw.map(c => c * d[k])); pw = polyMul1(pw, u); }
+  return polyMul1(acc, u);
+}
+function borUnipotentTraces(n) { // literal powers of a 4x4 with char poly (t-1)^4
+  const U = [[1, 1, 0, 0], [0, 1, 1, 0], [0, 0, 1, 1], [0, 0, 0, 1]];
+  const mul = (A, B) => A.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s + A[i][k] * B[k][j], 0)));
+  let P = U; const tr = [];
+  for (let k = 1; k <= n; k++) { tr.push(P[0][0] + P[1][1] + P[2][2] + P[3][3]); P = mul(P, U); }
+  return tr;
+}
+function fmtM(n) { return String(n).replace("-", "−"); }
+function polyStr1(a) {
+  let s = "";
+  for (let k = a.length - 1; k >= 0; k--) if (a[k]) s += (a[k] < 0 ? " − " : " + ") + (Math.abs(a[k]) === 1 && k > 0 ? "" : Math.abs(a[k])) + (k > 0 ? "t" + (k > 1 ? supN(k) : "") : "");
+  return s.replace(/^ \+ /, "");
+}
+function renderBorroZeta() {
+  const chi = 3 - 6, b1 = 1 - chi;
+  const dg = borDiagCoeffs(), one = torresBorOneVar(), hopf = polyMul1([-1, 1], [1]);
+  const coefStr = one.slice().reverse().map(fmtM).join(", ");
+  const topD = dg.length - 1;
+  const uTr = borUnipotentTraces(4), fTr = fig8Traces(4);
+  $id("borroZeta").innerHTML =
+    `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link — Stallings (1978): the closure of a homogeneous braid is fibered, and the Borromean rings close up the braid (σ₁σ₂⁻¹)³ — with fiber that braid's Bennequin surface: χ = strands − crossings = 3 − 6 = ${fmtM(chi)}, so b₁ = 1 − (${fmtM(chi)}) = ${b1}.`
+    + `<div style="margin-top:6px;"><b>Torres (1953), arithmetic live:</b> for a link of ≥ 2 components the one-variable Alexander polynomial is (t−1)·Δ<sub>L</sub>(t,…,t). Set every tᵢ = t in the Triples grid's Δ<sub>Bor</sub>: each xᵢ = tᵢ − 1 collapses to (t−1), so summing the grid's coefficients by total degree (computed) leaves ${dg[topD] === 1 ? "" : fmtM(dg[topD])}(t−1)${supN(topD)}; one more (t−1), multiplied out live: (t−1)${supN(one.length - 1)} = ${polyStr1(one)} — coefficients <b>${coefStr}</b>, degree ${one.length - 1} = b₁. Sanity: the Hopf link gives (t−1)·1 = ${polyStr1(hopf)}, degree ${hopf.length - 1} = b₁ of its annulus fiber.</div>`
+    + `<div style="margin-top:6px;"><b>Milnor (1968):</b> for a fibered link the infinite cyclic cover is F × ℝ, so H₁ = H₁(F) with t acting as the monodromy h₁∗ — the one-variable Δ <i>is</i> det(tI − h₁∗) up to units. So det(tI − h₁∗) = (t−1)⁴ on the b₁ = ${b1} fiber: <b>every eigenvalue is 1</b>. h₁∗ is unipotent — homological entropy 0, Lefschetz numbers flat: tr(h₁∗ⁿ) = ${uTr.join(", ")}, … (computed by powering a unipotent 4×4; the constant ${uTr[0]} is forced by the eigenvalues alone), against ${fTr.join(", ")}, … in the contrast panel below.</div>`
+    + `<div style="margin-top:6px;"><b>The punchline:</b> for a link of unknots the zeta has <b>no spectral content</b> — everything it knows sits in the Taylor coefficients at t = 1, and those are exactly the μ̄ hierarchy this app computes: Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples')">the Triples grid</button>.</div>`;
+}
+
 /* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
 
 const FIG8_A = [[2, 1], [1, 1]];
@@ -2890,6 +2940,23 @@ function runSelfTests() {
     return ok;
   });
 
+  // R5 linking-vs-knotting dichotomy (user-directed)
+  t("R5-K1 pure: Torres diagonal from expandDeltaBor = u^3 (coeffs by total degree [0,0,0,1]); (t-1)*(t-1)^3 = 1,-4,6,-4,1; Hopf (t-1)*1 deg 1; unipotent 4x4 traces all 4", () => {
+    const dg = borDiagCoeffs(), one = torresBorOneVar();
+    return arrEq(dg, [0, 0, 0, 1]) && arrEq(one, [1, -4, 6, -4, 1])
+      && arrEq(polyMul1([-1, 1], [1]), [-1, 1])
+      && borUnipotentTraces(6).every(x => x === 4);
+  });
+  t("DOM R5-K1: Borromean link-zeta box — Stallings fibered, b1 = 1 − (−3) = 4, live coefficients 1, −4, 6, −4, 1, every eigenvalue is 1, Hopf annulus sanity, Torres + Milnor cited, Triples jump", () => {
+    const s = $id("borroZeta").textContent;
+    return s.includes("Stallings") && s.includes("b₁ = 1 − (−3) = 4")
+      && s.includes("1, −4, 6, −4, 1") && s.includes("every eigenvalue is 1")
+      && s.includes("degree 1 = b₁ of its annulus fiber")
+      && s.includes("Torres") && s.includes("Milnor") && s.includes("no spectral content")
+      && !!$q('#borroZeta .jump[onclick*="triples"]')
+      && !!$q("#borroZeta .thread-badge");
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
@@ -2922,6 +2989,7 @@ renderTopoTripleSteps();
 renderDeltaBorGrid();
 renderQuadSteps();
 renderB4();
+renderBorroZeta();
 renderLefschetz();
 renderDedekind();
 initLadder();

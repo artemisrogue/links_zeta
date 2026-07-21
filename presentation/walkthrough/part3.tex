@@ -1,0 +1,469 @@
+\subsection*{Quadruples}
+
+\walkfig{q1-intro}{The Quadruples opener: one line of scope-setting above the two columns.}
+
+\Stu{One sentence, and it is the whole thesis of the tab. R\'edei's classical construction stops at triples; Amano's 2014 paper and the unipotent ladder from the tab before this one run one more level --- the same argument, one matrix size up. Everything underneath is that sentence cashed out twice: topology on the left, arithmetic on the right.}
+
+\Kle{``The same argument, one matrix size up'' is either a very strong claim or an empty one. Which is it?}
+
+\Stu{Strong in that the only thing that moves is the group: $N_3(\mathbb{F}_2)$ becomes $N_4(\mathbb{F}_2)$, and the shape --- an order rule in a unipotent group, a splitting condition, a cover --- is unchanged. Not empty, because Amano had to prove an independence theorem to make the four-term bracket a function of the four primes at all. The tab shows you exactly where that theorem gets used. It is step 3.}
+
+\Kle{I will hold you to step 3.}
+
+\walkfig{q2-b4}{The four-component Brunnian link, redrawn from the original path data, with the live pairwise-linking note beneath it.}
+
+\Stu{This is Wikipedia's Brunnian-4loops figure by AnonMoos, public domain, redrawn from its exact path data --- the crossing gaps sit at computed intersections and the over/under comes from the original's layer order. The note underneath is live. It walks the diagram's signed crossings and reports $lk(K_1,K_2) = 0$, $lk(K_2,K_3) = 0$, $lk(K_2,K_4) = 0$, $lk(K_3,K_4) = 0$.}
+
+\Kle{That is four numbers. A four-component link has six pairs. Where are the other two?}
+
+\Stu{In the same sentence, stated differently: $K_1 \cap K_3 = K_1 \cap K_4 = \emptyset$. Green never meets red or blue anywhere in this drawing, so there are no crossings to sign. Those two pairs are unlinked because they are disjoint on the page, not because a signed sum came out zero. I would rather the note said that in two clauses than pretend six sums were computed.}
+
+\Kle{Accepted --- and it is checkable by eye, which is the right kind of honesty. Now a complaint. Your $K_4$ label is written in blue directly across the blue strand. I read it as ``K4 (b1ue)'' for a second. Nudge it out into the white space; there is plenty at that corner.}
+
+\Stu{Fair. The four labels are placed at fixed canvas coordinates and the blue one collides with its own curve. That is a five-pixel fix I have not made.}
+
+\Kle{And the Brunnian property itself --- ``cut any loop and the other three fall apart'' --- you are not computing that.}
+
+\Stu{No. The honesty note below the figure says it outright: the Brunnian claim is the figure's documented property, and the algebraic certificate $\bar\mu(1234) = 1$ is computed for Milnor's model $B_4$, not for the pictured diagram. Getting $\bar\mu$ off this drawing would need its Wirtinger presentation, which the app does not build.}
+
+\Kle{So there are two objects on this screen and only one of them is computed. Say that out loud every time, because a reader who skims will merge them.}
+
+\walkfig{q3-delete}{The delete-a-ring note: the algebraic shadow of cutting a component.}
+
+\Stu{The interactive part. Pick a component, press Delete ring, and the drawing fades it and drops the pairs it was in. But the sentence here is about the algebra. Delete $K_1$, $K_2$, or $K_3$ --- algebraically, set that meridian $x_i = 1$ --- and the word $\ell_4 = [[x_1,x_2],x_3]$ collapses to $1$. That is $K_4$'s longitude in the model, written in the meridians of the other three.}
+
+\Kle{Check it in front of me. $x_2 = 1$.}
+
+\Stu{$[[x_1,1],x_3] = [1,x_3] = 1$. Same for $x_1$, and $x_3 = 1$ kills the outer bracket directly. All three collapse.}
+
+\Kle{And $K_4$?}
+
+\Stu{Different, and the note says so: $\ell_4$ is $K_4$'s own longitude, so there is no $x_4$ to set --- the word leaves with its component. Deleting $K_4$ is a real deletion in the picture but a vacuous one in this word.}
+
+\Kle{Good. But notice what the note is careful about --- it says the collapse means ``the Milnor data vanish,'' not that the sublink is trivial. Those are not the same statement.}
+
+\Stu{Right, and the note draws that line explicitly: the sublinks' actual triviality is the model's construction, not something read off the collapsing word. The word vanishing is the shadow, not the thing.}
+
+\begin{knote}
+Quads tab. Two $B_4$'s live here: the drawn diagram (linking numbers computed, Brunnian cited) and Milnor's model (longitude $[[x_1,x_2],x_3]$, $\bar\mu$ computed). App is honest about it but the two sit six inches apart on one screen. Label collision on $K_4$. Deletion demo: word collapse verified by hand, three cases, correct.
+\end{knote}
+
+\walkfig{q4-magnus}{The Magnus expansion box for the model longitude.}
+
+\Stu{This is the computation. The Magnus expansion embeds the free group into power series in noncommuting variables, $x_i \mapsto 1 + X_i$. Expanding $[[x_1,x_2],x_3]$ gives $1 + X_1X_2X_3 - X_2X_1X_3 - X_3X_1X_2 + X_3X_2X_1$ plus degree four and up, and $\bar\mu(1234)$ is the coefficient of $X_1X_2X_3$, highlighted: $1$. About forty lines of truncated noncommutative series arithmetic, running at page load.}
+
+\Kle{Milnor invariants of length four are only defined modulo an indeterminacy coming from the shorter ones. What is your indeterminacy here?}
+
+\Stu{Zero, and for the reason the tab spent its first half establishing: every pairwise linking number vanishes and every three-component sublink is trivial in the model, so the ideal generated by the lower invariants is zero and the length-four invariant is an honest integer. That is why this rung exists at all --- the deeper diagonal is only defined once everything above it vanishes. It is the ladder's discipline, one step up.}
+
+\Kle{Then the degree-three part had better be exactly those four words, with coefficients of absolute value one, or your indeterminacy story is decoration.}
+
+\Stu{The self-test suite pins precisely that: the degree-at-most-three support is exactly the set $\{1, +X_1X_2X_3, -X_2X_1X_3, -X_3X_1X_2, +X_3X_2X_1\}$, all coefficients of modulus one, and it asserts the displayed text matches. If someone edits the expansion code, that test goes red.}
+
+\Kle{That I like. Most demos of this kind print a number and dare you to disbelieve it.}
+
+\walkfig{q5-steps}{The arithmetic column: five computed steps for Amano's quadruple $(5, 8081, 101, 449)$.}
+
+\Stu{Amano's quadruple, computed live. Step 1: all six pairwise Legendre symbols, all $+1$ --- no two of these primes are linked. Step 2: three R\'edei elements with their identity and normalization checks, all residuals zero. Step 2b: five triple R\'edei symbols, all $+1$ --- the triple level is trivial too. Step 3 is the new level: $\theta = 25 + 2\sqrt{5} + 2\sqrt{101}$. Step 4 takes square roots mod $449$ by Tonelli--Shanks. Step 5 reads the four conjugates of $\theta$ mod $449$ and their Legendre symbols.}
+
+\Kle{Stop at 2b for a moment. You list $[5, 8081, 101]$ and $[5, 101, 8081]$ separately. Those are the same three primes.}
+
+\Stu{Deliberately. They are computed through two entirely different R\'edei elements --- $\alpha = 241 + 100\sqrt{5}$ for one, $11 + 2\sqrt{5}$ for the other --- and they agree. That is one instance of R\'edei reciprocity, witnessed rather than asserted. The tooltip is careful that this exhibits one transposition, not all of $S_3$, and that R\'edei's own symmetry argument from 1939 is regarded as incomplete; the complete proofs are Corsman 2007 and Stevenhagen 2018.}
+
+\Kle{Now step 3, which you promised me. Why is that identity not enough?}
+
+\Stu{Because $X^2 - 101Z^2 = \alpha$ does not pin $\theta$ down. Other solutions satisfy the identity and certify the opposite verdict. Concretely, scaling by a norm-one factor --- Hilbert 90, $\xi = 10 + \sqrt{101}$ has norm $-1$ --- gives a totally negative $\theta''$, hence an imaginary field ramified at infinity, and $449$ cannot see the difference because $(-1/449) = +1$. So the app checks total positivity: the four real embeddings come out near $49.57$, $9.37$, $40.63$, $0.43$, all positive.}
+
+\Kle{Zero point four three. That is not comfortable.}
+
+\Stu{It is not, and it is real: $25 - 2\sqrt{5} - 2\sqrt{101}$ is genuinely close to zero. The check is exact in spirit --- the identity residuals are BigInt and land on zero --- but the positivity test is floating point on four doubles. At this size that is a hundred-and-fifty-bit margin, so it is safe, but I would not call it certified. The exploit that the self-tests reject is caught by sign, not by magnitude, so it survives that criticism; a $\theta$ engineered to sit at $10^{-16}$ would not be caught.}
+
+\Kle{Write that down as a known limitation rather than hoping nobody multiplies it out. And the second condition?}
+
+\Stu{The 2-adic normalization, which is cited and not computed --- Amano's, and the tab says so in the step-3 tooltip and again in the banner. Positivity handles infinity; the prime $2$ is on trust.}
+
+\Kle{One more, small. Step 5 prints your symbols as ``$\{-1, -1, -1, -1\}$'' with a typewriter hyphen, and the banner two inches below prints $-1$ with a proper minus. On a page this typographically fussy, that reads as a bug.}
+
+\Stu{It is the same code path in both places emitting a raw JavaScript number in one and a formatted string in the other. You are right that it looks like the two disagree.}
+
+\begin{knote}
+Step 3 is the load-bearing one. Identity alone underdetermines $\theta$; Hilbert-90 twist gives a totally negative competitor invisible mod $449$ since $(-1/449) = +1$. Positivity kills it --- but smallest embedding is $0.43$ and the test is floating point. 2-adic condition cited, not computed. Reciprocity: one transposition exhibited, not $S_3$; app says so.
+\end{knote}
+
+\walkfig{q6-banner}{The quadruple-symbol verdict.}
+
+\Stu{$[5, 8081, 101, 449] = -1$. No two linked, no three linked, all four linked: the arithmetic $B_4$. The banner is generated from step 5's four symbols --- if they had all come out $+1$ it would say $449$ splits completely and unlinked at the fourth level, and if they had disagreed it would refuse to assert anything.}
+
+\Kle{Can they disagree?}
+
+\Stu{No. At a prime modulus the four conjugate values are Frobenius-stable, so agreement is forced. That branch is an internal guard, and the code comments call it that rather than dressing it up as a mathematical contingency. It exists so that a future edit that breaks Tonelli--Shanks produces a refusal instead of a confident wrong answer.}
+
+\Kle{Then the interesting content of this banner is the tooltip, not the banner. It is the tooltip that tells me the four-place notation is a theorem --- that the value depends on four primes and not on $\theta$.}
+
+\Stu{Yes, and that is a fair criticism of the layout: the headline is one symbol and the justification is a hover away.}
+
+\walkfig{q7-tower}{The 64-sheet cover tower with deck group $N_4(\mathbb{F}_2)$, and its computed caption.}
+
+\Stu{The topological mirror, box for box against the field tower. The base is $X = S^3 \setminus (K_1 \cup K_2 \cup K_3)$; three meridian double covers; two four-fold covers through the shared $K_2$; two 8-sheet mod-2 Heisenberg covers $H_{12}$ and $H_{23}$ with deck group $D_4$; their join at 32 sheets; and on top the 64-sheet cover with deck $N_4(\mathbb{F}_2)$.}
+
+\Kle{Why is $K_4$ not in the base?}
+
+\Stu{Because it is the object being read, not part of what is being covered --- exactly as $449$ is the prime whose splitting is read in a field ramified only at $5$, $8081$, $101$. The map $\rho$ sends the meridians $x_1, x_2, x_3$ to the superdiagonal generators, and $K_4$'s class in $\pi_1(X)$ is its longitude $[[x_1,x_2],x_3]$, which lands on the corner. So $\rho(K_4)$ has entries all zero except $\bar\mu(1234) \bmod 2 = 1$ at the corner.}
+
+\Kle{And the corner element has order two, so its preimage is thirty-two loops of double length. Fine. Say the counting rule.}
+
+\Stu{Loops times winding equals the order of the deck group: $32 \times 2 = 64$. The caption states the arithmetic twin in the same breath --- $449$'s 32 orbits of size 2, conjugate symbols recomputed live --- and prints the two factors side by side: $(1 - t^2)^{-32}$ and $(1 - 449^{-2s})^{-32}$.}
+
+\Kle{Now the label on the left edge of the tower says ``2 sheets, $\gamma_{12}$ unwinds.'' What is $\gamma_{12}$?}
+
+\Stu{The curve $\Sigma_1 \cap \Sigma_2$ from the Triples tab. And it is not defined anywhere on this tab.}
+
+\Kle{Then it is noise for anyone who entered here. Nine-point grey type inside an SVG, no tooltip, referring to an object two tabs back. The rest of the page is scrupulous about naming its terms; this one slipped.}
+
+\Stu{Conceded. Everything else on this tab that needs a definition has a dotted underline and a tooltip. That label has neither because it is drawn text, not HTML.}
+
+\Kle{Also note what the caption gets right, which is not nothing: the two Heisenberg covers share $K_2$ the way the two R\'edei fields share $8081$, and that shared object is why the join is 32 sheets and not 64. That is the sentence that makes the picture worth drawing.}
+
+\walkfig{q8-fieldtower}{The degree-64 field tower, opposite the covers.}
+
+\Stu{The mirror. Three quadratics at the bottom, two biquadratics, the two $D_4$ R\'edei octics $k_{5,8081}$ and $k_{101,8081}$, their compositum at degree 32, and $K$ on top at degree 64 with $\mathrm{Gal}(K/\mathbb{Q}) \cong N_4(\mathbb{F}_2)$. Only invariant-carrying fields are drawn --- degree 64 has vastly more subfields than fit on a page, and the note says so.}
+
+\Kle{Justify the 32. Two octics should give me 64.}
+
+\Stu{The note gives the argument: the two octics intersect exactly in $\mathbb{Q}(\sqrt{8081})$ --- their other quadratic subfields differ, and a $D_4$ octic has no cyclic quartic subfield --- so $8 \cdot 8 / 2 = 32$.}
+
+\Kle{That formula needs both fields Galois over $\mathbb{Q}$, which they are, being $D_4$. The note leaves that step silent. It is true, but a student reading it will think degrees always multiply and divide like that.}
+
+\Stu{Fair. The compositum degree formula is used without its hypothesis being named.}
+
+\Kle{Second thing. Your left branch is labelled ``deg 2, $\sqrt{\alpha}$.'' The right branch, $k_{101,8081}$ over $\mathbb{Q}(\sqrt{101},\sqrt{8081})$, has no label at all --- and its generator is a different R\'edei element, $1009 + 100\sqrt{101}$, which you computed in step 2 and then did not put on the diagram.}
+
+\Stu{That is a genuine omission. The number is on the screen, ten inches above, and the diagram does not connect them.}
+
+\Kle{And the top edge, adjoining $\sqrt\theta$ --- that is the only edge in either tower that carries the new invariant. It is labelled the same size as everything else.}
+
+\begin{knote}
+Mirror is honest: base has three components against three ramified primes; $K_4$ and $449$ are both the read object, not the covered one. $\rho(K_4) = $ corner of $N_4(\mathbb{F}_2)$ via the longitude $[[x_1,x_2],x_3]$ --- that is the real content. Counting: $32 \times 2 = 64$ both sides. Gaps: $\gamma_{12}$ undefined on this tab; right branch of field tower unlabelled; compositum-degree hypothesis unstated.
+\end{knote}
+
+\walkfig{q9-thread}{The zeta-Delta thread box closing the Quadruples tab.}
+
+\Stu{The thread box, tagged with the zeta-Delta badge that recurs across tabs. It says: $449$ splits completely in the degree-32 compositum --- its six pairwise and four triple symbols, all computed above, are $+1$ --- but the quadruple $-1$ puts $\mathrm{Frob}_{449}$ at order 2 in $\mathrm{Gal}(K/\mathbb{Q}) \cong N_4(\mathbb{F}_2)$: the 64 points fall into 32 orbits of period 2, local factor $(1 - 449^{-2s})^{-32}$. The Pairs box's inert bookkeeping, two levels up.}
+
+\Kle{This is the sentence the whole tab exists to produce, and it is the last thing on the page.}
+
+\Stu{It is placed to be the payoff. And it is state-tracked --- the box is regenerated from the same three branches as the banner, so if the symbol were undefined it would say that no Frobenius order, orbit count, or Euler factor is asserted at $449$, rather than printing a factor anyway.}
+
+\Kle{``The polynomial recording it is the next Alexander-type invariant in the tower.'' Is that computed anywhere?}
+
+\Stu{No. That is a forward reference to the Zeta tab, and it is a claim about what such a polynomial would be, not a computed object. The Zeta tab computes the local factor and stops there.}
+
+\Kle{Then it is a promise. Let us go see whether you keep it.}
+
+\subsection*{Zeta}
+
+\walkfig{z1-intro}{The Zeta tab opening: the packaging claim, with the ``which zeta is which'' note beneath it.}
+
+\Stu{The thesis: everything the previous tabs computed is packaged by a zeta function on each side, and the packaging is the same --- a sum, resummed as a product, in two different ways. Primes play the role of periodic orbits; characters diagonalize Frobenius the way eigenvalues diagonalize the monodromy.}
+
+\Kle{``Periodic orbits of $\mathrm{Spec}(\mathcal{O}_K)$.'' Orbits of what map? There is no dynamical system on $\mathrm{Spec}(\mathcal{O}_K)$.}
+
+\Stu{There is not, and the second paragraph exists to say so. It is headed ``which zeta is which,'' and it states that three distinct objects appear on this page --- the Lefschetz zeta of a monodromy, the Dedekind zeta of a number field, and the Alexander and Iwasawa polynomials --- and that they are related by analogy, not equality. The route in the first paragraph goes through Weil's zeta of varieties over finite fields, where Frobenius really is a map and its fixed points really are the points over $\mathbb{F}_{q^n}$; Artin--Mazur imitated that shape when they named the dynamical zeta. The analogy is on the shape of the resummation.}
+
+\Kle{Then that second paragraph is the most important text on this page, and you have set it in the smallest, greyest type on the page, underneath a bolded sentence that overclaims.}
+
+\Stu{That is right and I do not have a defence. The disclaimer is styled as an aside; the claim it qualifies is styled as a headline.}
+
+\Kle{Invert them. The honest sentence should be the one in bold. What you actually share --- one sum, two product resummations --- is a real and non-obvious observation; it does not need the dressing.}
+
+\walkfig{z2-faces}{The three-faces framework: iterates, eigenvalues, orbits against ideals, characters, primes.}
+
+\Stu{The two columns, three faces each. On the left: sum over iterates, product over eigenvalues of $h_*$ on $H_1(F;\mathbb{Q})$, product over periodic orbits. On the right: sum over ideals, Euler product over primes, product over characters. And between the first two left-hand faces, the resummation engine, shown once: $-\log(1-x) = \sum x^n/n$, so one eigenvalue gives $(1 - \lambda t)^{-1}$. Every sum-into-product identity on the page, both columns, is that one line --- run per eigenvalue, per orbit, or per prime.}
+
+\Kle{The orbit face has a factor $(1-t)^2$ hanging off the left. Explain it, because on a once-punctured torus $H_2$ vanishes and I do not see where a square comes from.}
+
+\Stu{The tooltip says exactly that, and it is the honest scoping on this page. The orbit product counts every fixed point, so it computes the Artin--Mazur zeta, which is a different function from the $H_1$-zeta of the two faces above. With the closed-torus bookkeeping the alternating Lefschetz number is $1 - \mathrm{tr}(A^n) + 1$, every fixed point of a positive-eigenvalue Anosov has index $-1$, so $\#\mathrm{Fix}(h^n) = \mathrm{tr}(A^n) - 2$ --- and the two constants are the $H_0$ and $H_2$ traces. On the punctured fiber $H_2(F) = 0$, so the $(1-t)^2$ would be wrong; the tooltip says the scoping is to the closed torus.}
+
+\Kle{And ``both eigenvalues positive'' is doing work in that hypothesis, not decoration.}
+
+\Stu{The tooltip runs the counterexample: $-A$ is Anosov, but on odd iterates every index is $+1$, so $\mathrm{Fix}(n) = 5, 5, 20, 45, \ldots$ while $\mathrm{tr} - 2 = -5, 5, -20, 45, \ldots$ --- the two sides already differ at $t^1$. Drop positivity and the face is false.}
+
+\Kle{Good. That is a real hypothesis with a real counterexample attached, which is more than most expositions of this manage. Now the layout. Your left column runs the full height of the screen and your right column stops a third of the way down. Half the arithmetic panel is empty. On a page whose entire argument is symmetry, that asymmetry is the first thing the eye reads.}
+
+\Stu{The right column is three faces and a one-line note; the left column carries the convention bridge and the orbit bookkeeping. There is no filler on the right and I did not want to invent any.}
+
+\Kle{Then move something. The Milnor sentence at the bottom left, or the resummation engine, is a shared claim --- it belongs between the columns, not inside one.}
+
+\begin{knote}
+Framework is sound. Resummation engine stated once and reused --- correct pedagogy. Orbit face's $(1-t)^2$ properly scoped to the closed torus, with the $-A$ counterexample showing positivity is a real hypothesis. $H_1$-only convention flagged, bridge to alternating-product zeta given. Layout: right column half empty, and the symmetry claim is what the page is selling.
+\end{knote}
+
+\walkfig{z3-capstone}{The capstone thread box: the trail of Euler factors computed across the whole app.}
+
+\Stu{The capstone. It reads back the trail: the Pairs box's split and inert local factors, the Triples box's $(1 - 937^{-2s})^{-4}$ at $937$, the Ladder's order-into-orbits reading, the Quadruples box's $(1 - 449^{-2s})^{-32}$ at $449$. Those two factors are recomputed here, not copied --- the Frobenius order at $937$ and the quadruple symbol at $449$ are both rerun to build this sentence.}
+
+\Kle{So if I sabotaged the quadruple symbol, this box would change.}
+
+\Stu{It would say ``$449$ factor --- undefined this run, not asserted.'' The function takes a null and refuses.}
+
+\Kle{``$\Delta_L$ and $f_S$ are, up to units, these zetas.'' What is $f_S$?}
+
+\Stu{The Iwasawa polynomial attached to a finite set $S$ of ramified primes, with finite deck group --- it is defined on the Dictionary tab, with a why-box on the asymmetry.}
+
+\Kle{Which is four tabs away, and this page never says so. Worse: further down this same page you use $f_\Lambda$ for the characteristic power series, and you flag there that $f_\Lambda$ must be kept apart from the residue degree $f$ in your local-factor tables. So this page carries three different $f$'s and disambiguates two of them.}
+
+\Stu{Correct. $f_S$ appears here undefined and unlinked, and the disambiguation the page does make is a hundred lines below the place it is needed.}
+
+\walkfig{z4-spine}{The gallery spine: the first of five row heads.}
+
+\Stu{The gallery is five rows, one per level of the story. Two components --- the pairwise dial, $lk \bmod 2$ against the Legendre symbol. Three components --- the Borromean rings against $k_{13,61}$. Four components --- $B_4$ against the degree-64 field. Five components --- the half-built rung, one column computing and the other naming its missing theorem. Then a contrast pair for what knotting, as opposed to linking, adds. Each card starts closed and leads with its lesson, stated across the analogy.}
+
+\Kle{Cards closed by default. So a visitor sees five headings and no mathematics.}
+
+\Stu{The trade was deliberate: opened, the gallery is roughly six screens of dense output, and the spine is the argument. The row heads are meant to be readable as a single claim --- the levels of linking, in order, with both columns at each.}
+
+\Kle{The spine is good. I can read the whole thesis off five lines, which is more than most talks give me. But default-closed means the app's best material is behind a click, and the row head is styled quieter than the tab's own intro paragraphs. Reverse the emphasis.}
+
+\walkfig{z5-hopf}{The worked Hopf-link card: both positions of the two-component dial.}
+
+\Stu{The smallest case, worked. Face one: the Hopf link is fibered, the fiber is an annulus, $H_1 = \mathbb{Z}$, and the monodromy is the identity, so $\det(tI - h_{1*}) = t - 1$. Torres agrees, computed: $(t-1) \cdot \Delta_{\mathrm{Hopf}}(t,t) = (t-1) \cdot 1 = t-1$, degree one, which is $b_1$ of the annulus. Face two is the dial. $lk(K_1,K_2) = 1$ is odd, so in the double cover of $S^3 \setminus K_1$ the loop $K_2$ lifts to one loop winding twice --- factor $(1 - t^2)^{-1}$ --- against $(5/13) = -1$, computed live: $13$ is inert in $\mathbb{Q}(\sqrt5)$, Euler factor $(1 - 13^{-2s})^{-1}$. Flip the dial: $lk$ even gives two loops, $(1-t)^{-2}$, against $(5/29) = +1$, $29$ split, $(1 - 29^{-s})^{-2}$.}
+
+\Kle{The two Legendre symbols are computed and the two lift counts are not.}
+
+\Stu{Correct. The lift counts are covering-space theory applied to a case anyone can see; the symbols come out of Euler's criterion at run time. The card does not claim otherwise, but it also does not mark which is which as sharply as the higher cards do.}
+
+\Kle{Here is what I actually like. The Hopf link is where this analogy is usually introduced and then abandoned as too small to be interesting. You use it to show the counting rule in its simplest possible instance --- deck order equals loop count times winding --- and then you say, in the closing line, that everything the higher rows do is already here at $n = 2$. That is the correct pedagogical order and almost nobody does it.}
+
+\Stu{The higher rows only climb to deeper covers. The bookkeeping never changes.}
+
+\walkfig{z6-sqrt5}{The zeta of $\mathbb{Q}(\sqrt5)$: three faces converging live under the slider.}
+
+\Stu{An actual Dedekind zeta, three faces at once. The table gives four Euler factors read off Legendre symbols computed live: $5$ ramified, $11$ split, $13$ inert --- that is the Hopf pair from the Pairs tab sitting inside a zeta function --- and $29$ split. Then the slider sets a cutoff $X$, and three numbers update: the sum over ideals, the Euler product over primes, and $\zeta(2) \cdot L(2,\chi_5)$.}
+
+\walkbeat{He leans in on the three numbers.}
+
+\Kle{At $X = 2000$ you show me $1.16145678$, $1.16160385$ and $1.16131818$. Those are three different numbers. They agree to four figures and then part company.}
+
+\Stu{Because they are three different truncations of the same limit, not three evaluations of the same finite sum. The ideal face sums over ideals of norm at most $X$. The Euler face takes complete local factors --- all powers --- for primes up to $X$, so it includes contributions from norms far beyond $X$. The character face truncates $\zeta$ and $L$ at $n \le X$ independently, and the product of two truncations is not the truncation of the product.}
+
+\Kle{Then show me. Move the slider.}
+
+\walkbeat{The student drags to $X = 6000$; the three figures tighten.}
+
+\Stu{They close, and they close at the rate you would expect. The honest version of the caption would say ``three truncations, converging together,'' which is what it does say --- ``converging together,'' not ``equal.''}
+
+\Kle{Then the caption is right and the display is misleading, because eight decimal places invite me to compare eight decimal places. Print four and a residual, or print the truncation each face is using next to it.}
+
+\Stu{Agreed. The precision is beyond what the truncations support.}
+
+\Kle{Why $s = 2$?}
+
+\Stu{Convergence. At $s = 1$ there is a pole; at $s = 2$ all three faces converge fast enough to move visibly under a slider inside a browser.}
+
+\begin{knote}
+$\mathbb{Q}(\sqrt5)$ card is the best thing on the tab: three genuinely different computations of one number, all live, and the Legendre symbols driving the Euler factors are the same ones from the Pairs tab. Slider makes convergence visible. But eight printed decimals for three differently-truncated quantities is a display error --- they agree to four and cannot agree to more.
+\end{knote}
+
+\walkfig{z7-borro}{The Borromean link-zeta card: fibered, Torres, unipotent, linking at $t = 1$.}
+
+\Stu{The three-component topology column. The Borromean rings are fibered --- Stallings 1978, closures of homogeneous braids, and these close $(\sigma_1\sigma_2^{-1})^3$ --- with fiber the Bennequin surface, so $\chi = 3 - 6 = -3$ and $b_1 = 4$. Torres, computed: collapsing the Triples grid's variables to one and summing by total degree gives $(t-1)^3$, times $(t-1)$ gives $(t-1)^4 = t^4 - 4t^3 + 6t^2 - 4t + 1$, coefficients $1, -4, 6, -4, 1$. Milnor then says the one-variable Alexander polynomial is $\det(tI - h_{1*})$, so every eigenvalue is $1$: unipotent, entropy zero, Lefschetz numbers flat at $4, 4, 4, 4$.}
+
+\Kle{So the punchline is: a link of three unknots has a zeta with no spectral content, everything in the Taylor coefficients at $t=1$. Is that a theorem?}
+
+\Stu{No, and the card says so under a heading that reads ``Scope: exhibited, not a theorem.'' Unknotted components alone do not force it. The counterexample is printed: the $(2,4)$ torus link is two unknots, fibered, $lk = 2$, with $\Delta \doteq (t-1)(t^2+1)$ --- eigenvalues $\pm i$, which are not $1$. They sit on the unit circle so entropy is still zero, but there is spectral content.}
+
+\Kle{Good. So ``linking'' in your slogan means the vanishing-$\bar\mu$ story, not ``components are unknots.''}
+
+\Stu{The card says exactly that in its last clause.}
+
+\Kle{One thing bothers me here. You write $\chi$ for Euler characteristic in the second line and $\chi$ for a Dirichlet character in the column opposite, in the same field of view.}
+
+\Stu{The card interrupts itself to say so --- ``$\chi = $ Euler characteristic here, not this tab's Dirichlet character.'' It is a parenthesis in the middle of a computation, which is the only place it could go, but it is also the third such collision the tab has to defuse: $\gamma$ for orbits against the Triples curve, $\lambda$ for dilatation against the Iwasawa invariant, and now $\chi$.}
+
+\Kle{Three notation collisions, all flagged, none resolved. Flagging is better than nothing. Renaming would be better than flagging.}
+
+\walkfig{z8-borroworked}{The worked Borromean card: two distinct zetas of one link, kept apart.}
+
+\Stu{This card exists because the previous one is easy to misread. Object one is the monodromy zeta on the fiber's homology: traces $4, 4, 4, 4$, and both faces multiplied out to degree eight --- $\exp(\sum 4t^n/n)$ gives $1, 4, 10, 20, 35, 56, 84, 120, 165$ and $(1-t)^{-4}$ gives the same, checked coefficient by coefficient. The right side is computed as $\binom{n+3}{3} = (n+1)(n+2)(n+3)/6$ by literal products --- polynomial growth, no spectral growth. Object two is the cover-orbit factor: in the 8-sheet mod-2 Heisenberg cover of $S^3 \setminus (K_1 \cup K_2)$, $\rho(K_3) = (0,0,1)$ has order 2 by powering, so $K_3$'s preimage is four loops each winding twice --- $(1 - t^2)^{-4}$, the exact twin of $937$'s $(1 - 937^{-2s})^{-4}$.}
+
+\Kle{Two zetas of one link, living in different places. Which one is the analogue of the Dedekind zeta?}
+
+\Stu{The second. The card's lesson line is explicit about it: it is the cover-orbit factor, not the fiber zeta, that is literally the same bookkeeping as $937$'s Euler factor. Deck order equals count times size on both sides.}
+
+\Kle{Then the fiber zeta is the odd one out, and it is the one you compute in most detail.}
+
+\Stu{Because it is the one that has a spectrum to talk about, and the contrast pair at the bottom of the gallery needs it. But you are right that a reader could come away thinking $\zeta_h$ is the mirror of $\zeta_K$. The closing note says ``keep them apart, different objects,'' and I would rather that were the heading than the footer.}
+
+\Kle{The trace stand-in --- ``a stand-in unipotent with the same characteristic polynomial.'' You are not using the actual monodromy matrix.}
+
+\Stu{No. Every quantity used depends only on the eigenvalues, and the card says so each time it appears. The characteristic polynomial is $(t-1)^4$ from Torres and Milnor, both computed; the matrix realizing it is chosen, not derived. That is an honest shortcut but it is a shortcut.}
+
+\walkfig{z9-k1361}{The worked zeta of $k_{13,61}$: eleven local factors, the partial Euler product, the ideal-sum face, and the Artin note.}
+
+\Stu{The arithmetic mirror of the Borromean row, and the densest card on the page. Eleven rows, one per prime: $2, 3, 5, 7, 11, 17, 19, 23, 29, 107, 937$. Each row shows the pairwise level computed --- $(13/p)$ and $(61/p)$ --- then the corner entry, then $f = \mathrm{ord}\,\rho(\mathrm{Frob}_p)$, then the orbit picture, then the local factor. The rule at every unramified $p$ --- which is every $p$ except $13$ and $61$, with $2$ and infinity included --- is $e = 1$, so $fg = 8$: the eight embeddings fall into $g = 8/f$ orbits of size $f$.}
+
+\Kle{$107$ splits completely and $937$ has four orbits of size two. That second one is your triple symbol.}
+
+\Stu{That is the point of the row. $937$'s pairwise data are both $+1$, exactly like $107$'s --- the two look identical at the pairwise level --- and they separate only at the corner: $\alpha$ is a square mod $107$ and a non-square mod $937$. One triple symbol, and the whole Euler product feels it.}
+
+\Kle{Multiplied out, you get $1.067395$ over $44$ primes below $200$. And then a second face agreeing with it. How independent is that agreement?}
+
+\Stu{Not very, and the tooltip concedes it. The ideal sum runs over $200$-smooth norms coprime to $13 \cdot 61$ up to $120{,}000$ --- $151$ terms --- and restricting to $200$-smooth norms makes it converge to exactly the same truncation as the product face. The tooltip says: the two faces then must agree, and the display checks that they do. So it is a cross-check between two code paths, not independent numerical evidence.}
+
+\Kle{Then it is a unit test wearing a mathematical hat, and the admission is inside a tooltip on the word ``smooth.'' Put it in the body text. The agreement to $1.5 \times 10^{-7}$ looks like a discovery and is not one.}
+
+\Stu{Accepted. It does verify something real --- that the ideal-counting recipe $a(p^k) = \binom{k/f + g - 1}{g-1}$ and the Euler factors are the same combinatorics --- but that is a weaker claim than the display implies.}
+
+\Kle{And the third face?}
+
+\Stu{Missing, honestly. $\mathrm{Gal}(k_{13,61}/\mathbb{Q}) \cong D_4$ is nonabelian, so the character face upgrades from Dirichlet $L$-functions to Artin $L$-functions --- stated, citing Artin 1923 and 1930, not computed. The two-component cards run the abelian version because there the group is $\mathbb{Z}/2$ and the characters are on the page.}
+
+\Kle{That is the right call and the right place to stop. Now: this table is unreadable. Your $p = 2$ row wraps its pairwise cell into five lines to say ``$13 \equiv 5$, $61 \equiv 5 \pmod 8$, both inert.'' Six columns in that width was one too many.}
+
+\Stu{The orbit-picture column is redundant with $f$ and the local factor --- it is there for readers who do not want to decode $8/f$. Folding it into the factor column would buy the width back.}
+
+\begin{knote}
+$k_{13,61}$ card: $107$ against $937$ is the single best example in the app --- identical pairwise data, separated only by the corner, and the Euler product changes. Partial product $1.067395$. Ideal-sum ``agreement'' is engineered (same truncation by construction) --- admitted only in a tooltip. Artin upgrade for nonabelian $D_4$ correctly stated and correctly not attempted. Table too narrow for six columns.
+\end{knote}
+
+\walkfig{z10-b4}{The worked $B_4$ card, at the Milnor-model level.}
+
+\Stu{The four-component topology column, and it is short because the Quadruples tab did the work. $\bar\mu(1234) = 1$, the coefficient of $X_1X_2X_3$ in the Magnus expansion of $\ell_4$, recomputed here. It places $\rho(K_4)$ at the corner of $N_4(\mathbb{F}_2)$ with all $\chi$ and $r$ entries zero. Powered live: order 2. So in the 64-sheet cover $K_4$'s preimage is 32 loops of double length, local factor $(1 - t^2)^{-32}$, the exact twin of the $449$ card's $(1 - 449^{-2s})^{-32}$.}
+
+\Kle{The lesson line claims the quadruple symbol is invisible to every pair and triple, yet the cover hears it. Is that a computation or a slogan?}
+
+\Stu{Both halves are computed, on different tabs. That every pair and triple is trivial is the Quadruples tab's steps 1 and 2b for the arithmetic side and the vanishing lower Magnus coefficients for the topological side. That the cover hears it is the order-2 corner element, powered here. What is not computed is the general statement --- that no pair or triple invariant can ever detect a corner entry. That is the structure of the unipotent group, and the Ladder tab argues it.}
+
+\Kle{So this card is a rendering of results from two other tabs.}
+
+\Stu{Yes, and that is the design of the gallery: each card recomputes rather than caches, but the mathematics is the mathematics of its home tab. This card's own contribution is the twinning --- putting $(1 - t^2)^{-32}$ and $(1 - 449^{-2s})^{-32}$ in one sentence, with the arithmetic side recomputed so that the word ``twin'' is checked and not asserted. If $449$ came out split, the card would say so and would not claim a twin.}
+
+\Kle{Then say that in the card. ``The exact twin'' is doing a lot of work and the reader cannot see that it is conditional.}
+
+\walkfig{z11-449}{The worked degree-64 card at $449$: the order rule brute-forced, and the $\chi$-case table.}
+
+\Stu{The heaviest card. First the order rule of $N_4(\mathbb{F}_2)$, stated: write $M = I + N$, and in characteristic two $(I+N)^2 = I + N^2$ with $N^4 = 0$, so $N^2$ has exactly three entries that can survive --- $\chi_1\chi_2$, $\chi_2\chi_3$, and $\chi_1 r_{234} \oplus r_{123}\chi_3$. Order is 4 if $N^2 \neq 0$, else 2 if $N \neq 0$, else 1. Then it is brute-forced: every one of the 64 elements is literally powered and compared against the rule. Sixty-four out of sixty-four.}
+
+\Kle{You verified a rule about a group of order 64 by checking all 64 elements. That is not a proof technique I would normally applaud, but here it is exactly right --- the group is small enough that exhaustion is a proof.}
+
+\Stu{And it runs at page load, so an edit to the matrix code breaks the display rather than silently changing the answer.}
+
+\Kle{The $\chi$-case table --- eight rows. Some determine $f$ and some do not.}
+
+\Stu{That is the honest part. Each row's verdict is the computed set of orders over the eight fillings of $(r_{123}, r_{234}, q)$. Where $f$ is not determined the row says exactly which deeper entry it needs: $(1,0,0)$ needs $r_{234}$, $(0,0,1)$ needs $r_{123}$, $(1,0,1)$ needs $r_{234} \oplus r_{123}$, and $(0,0,0)$ needs the $r$'s and the corner. Where the $\chi$-products already force $N^2 \neq 0$, the row says order 4 regardless.}
+
+\Kle{So the arithmetic content of the tab lives in exactly one row of that table --- the all-zeros row --- and that is the row where the answer needs the corner.}
+
+\Stu{Which is $449$: $\chi = (0,0,0)$ computed, $r_{123} = r_{234} = 0$ computed, so every entry of $N$ vanishes except possibly the corner, and the quadruple symbol supplies it. Order 2, 32 orbits of size 2, $(1 - 449^{-2s})^{-32}$.}
+
+\Kle{Why no Euler product on this card, when you gave me one for $k_{13,61}$?}
+
+\Stu{Because for a general prime the $r$-entries are its splitting data in the two R\'edei octics, and the app cannot compute those. The closing note says exactly that: only the structure --- the rule, the eight cases --- and the one worked prime are shown, with the general local rule stated for the record.}
+
+\Kle{That is the right refusal. You could have faked a product by pretending the $r$'s were zero everywhere and nobody would have checked.}
+
+\walkfig{z12-five}{The five-component card: $\bar\mu(12345)$ and the 1024-sheet cover, both computed.}
+
+\Stu{The next rung's topology column, running today. $\ell_5 = [[[x_1,x_2],x_3],x_4]$ --- Milnor's model, one commutator deeper --- pushed through the same Magnus machinery already on the page at truncation degree five. Coefficient of $X_1X_2X_3X_4$ is $1$, lower coefficients $0$ and $0$, so $\bar\mu(12345) = 1$ at the model level. Then the counting space: $\rho(K_5)$ at the corner of $N_5(\mathbb{F}_2)$, order $2^{10} = 1024$, and powering the $5 \times 5$ matrix gives order 2. So $512$ loops of double length, factor $(1 - t^2)^{-512}$.}
+
+\Kle{Truncation degree five, and you need a degree-four coefficient. That is a margin of one.}
+
+\Stu{It is, and it is why the card names the truncation rather than hiding it. The machinery was written for the four-component case and the five-component word fits inside it with one degree to spare. Going one rung further would need the truncation raised, and I have not tested that it stays exact.}
+
+\Kle{Say it plainly: this is the last rung this code can reach.}
+
+\Stu{With the current truncation, yes.}
+
+\Kle{And what have you actually demonstrated? That a commutator you wrote down has the coefficient you expected, and that a corner element of a matrix group has order two. Neither is surprising.}
+
+\Stu{Neither is surprising, and the card's claim is correspondingly modest --- the lesson line says the ladder does not stop, and that what is missing on the other side is a theorem, not a computation. The value is not the number; it is that the topological column can be produced at all at a level where the arithmetic column cannot.}
+
+\walkfig{z13-fiveblank}{The deliberately blank arithmetic cell of the five-component row.}
+
+\Stu{And this is the other half of that row. No quintuple symbol exists to compute. The analogue of Amano's independence theorem for $[p_1, \ldots, p_5]$ --- a normalization making the bracket a function of the five primes alone, reading splitting in a degree-1024 field with Galois group $N_5(\mathbb{F}_2)$ --- is not in the literature the app cites. Until that theorem exists the cell stays blank rather than pretend.}
+
+\Kle{``Not in the literature this app cites'' is a careful phrase. It is not the same as ``does not exist.''}
+
+\Stu{It is deliberately weaker, because I cannot certify the second. I can certify what I read.}
+
+\Kle{Good. Then the blank is honest twice over --- about the mathematics and about the limits of your search. ``The app's one citation to an absence --- the citation style one hopes goes stale'' is a nice line, and unlike most nice lines on this page it is earned. Leave the cell empty. Do not let anyone talk you into filling it with a diagram of what the theorem would look like.}
+
+\Stu{That was the temptation and I resisted it.}
+
+\begin{knote}
+Five-component row is the best-judged thing in the app. Topology computed ($\bar\mu(12345) = 1$, order 2, $512$ double loops); arithmetic cell blank with a stated reason. Margin: Magnus truncation is degree five and the needed coefficient is degree four --- one to spare, so this is the ceiling of the current code. Blank is scoped to ``literature this app cites,'' not to ``does not exist.'' Correct.
+\end{knote}
+
+\walkfig{z14-fig8}{The figure-eight contrast card: knotting moves the spectrum.}
+
+\Stu{The contrast pair. $4_1$ is fibered like the Borromean rings, but knotted: the monodromy acts on $H_1$ by the Anosov matrix $A = [[2,1],[1,1]]$ with dilatation $(3+\sqrt5)/2 = \varphi^2$. The table gives $\mathrm{tr}(A^n) = 3, 7, 18$, then $\mathrm{Fix}(h^n) = \mathrm{tr} - 2 = 1, 5, 16$, then primitive orbit counts $1, 2, 5$. Below it, three identities checked coefficient by coefficient to degree eight: the two faces of $\zeta_h$ agree at $1, 3, 8, 21, 55, 144, 377, 987, 2584$ --- alternate Fibonacci numbers --- the two faces of the Artin--Mazur zeta agree, and $(1-t)^2$ times the $H_1$ face equals the orbit face.}
+
+\Kle{The third identity is the one that matters. It is the $(1-t)^2$ you asserted in the framework, now verified.}
+
+\Stu{Verified nine coefficients deep. And the orbit-face check does something extra: it verifies integrality of the M\"obius counts. Whole-number orbit counts are the statement that iterates organize into closed orbits --- if the identity held numerically but the orbit counts came out fractional, the interpretation would be empty.}
+
+\Kle{That is a real point and it is buried in a grey note. Now look at your own display. You have printed ``$\prod\_d (1 - t^{\wedge}d)^{\wedge}\{-o\_d\}$'' with literal braces and carets, next to a line that renders $\exp(\sum \mathrm{Fix}(h^n) \cdot t^n/n)$ properly typeset. And three inches above, in the introduction to this card, you have written zeta-sub-h as ``zeta underscore h'' twice.}
+
+\Stu{Those are two hard-coded label strings that never got converted to markup, while everything around them did. It is a real defect and it is at the visual center of the card that carries the tab's punchline.}
+
+\Kle{It undercuts you more than you think. A reader who cannot tell whether your notation is deliberate will not trust your arithmetic either.}
+
+\Stu{The honesty note below is also load-bearing and I should say it: the fiber is a once-punctured torus, but the fixed-point counts are taken for the same matrix on the closed torus, where $\mathrm{Fix} = |\det(A^n - I)| = \mathrm{tr}(A^n) - 2$ and the orbit bookkeeping is clean. The $H_1$-action, which is all the faces use, is identical.}
+
+\Kle{And the dichotomy line at the bottom: entropy $\log \varphi^2 \approx 0.962$ against the Borromean box's flat $4, 4, 4$. That is the whole tab in one comparison. It should not be the last box on the card.}
+
+\walkfig{z15-knotted}{The knotted-primes card: regular against irregular, computed at load.}
+
+\Stu{The arithmetic mirror of knotting. Mazur's dictionary: a knot's Alexander polynomial against a prime's Iwasawa polynomial for its own cyclotomic $\mathbb{Z}_p$-tower, with $\lambda$ its degree. Regular prime, trivial polynomial, unknotted --- Kummer's criterion plus Iwasawa's theorem. Irregular, knotted. The test is Bernoulli, run mod $p$, and the cast is judged at load in four milliseconds: $5, 13, 29, 61, 449, 937$ all regular, and $101$ irregular --- $B_{68} \equiv 0 \pmod{101}$.}
+
+\Kle{Running the Bernoulli recurrence mod $p$ needs the denominators to be prime to $p$.}
+
+\Stu{Von Staudt--Clausen, and the card cites it with the argument sketched: $p$ divides the denominator of $B_k$ only if $(p-1) \mid k$, which is impossible for even $k \le p - 3$. So those $B_k$ are $p$-integral, the recurrence reduces, and $B_k \equiv 0$ is equivalent to $p$ dividing the numerator.}
+
+\Kle{And $101$ is one of Amano's four primes.}
+
+\Stu{That is the card's jewel, and the sentence I am most careful about: the app contained a knotted prime all along and the linking story never noticed. These are independent dials --- the $\ell = 2$ linking tower of $\{5, 8081, 101, 449\}$ and the $p = 101$ cyclotomic tower are different covers of different things. The coincidence is that $101$ wears both hats, not that one caused the other.}
+
+\Kle{Do not oversell it and you have a genuinely charming observation. Oversell it and it becomes numerology. The sentence as written is on the right side of that line.}
+
+\walkbeat{He scans the cast table.}
+
+\Kle{Where is $8081$? It is one of the four and it is not in the table.}
+
+\Stu{Behind that button. Deciding $8081$ needs the recurrence run to $B_{8078}$, which is too slow for page load, so it is chunked and asynchronous with a progress tick. The other seven are cheap enough to judge at load.}
+
+\Kle{So three of Amano's four primes are judged in front of me and the fourth requires that I notice a small grey button below a table. That is the pattern I keep hitting on this app: the supporting evidence is one click away and the click is invisible.}
+
+\Stu{That is the fairest single criticism of the whole design.}
+
+\Kle{And the $\lambda$ collision --- you use $\lambda$ for the dilatation on the card opposite.}
+
+\Stu{Flagged in the first sentence: ``not the figure-eight card's dilatation $\lambda$ opposite: same letter, different object.'' Flagged, again, rather than fixed.}
+
+\walkfig{z16-presmat}{The two presentation matrices: $tI - A$ for the Alexander module, and the $1 \times 1$ $\Lambda$-side.}
+
+\Stu{The closing pair. On the left, the module itself: for a fibered knot the Alexander module is presented by $tI - h_{1*}$, by Milnor's theorem that the infinite cyclic cover is $F \times \mathbb{R}$. For $4_1$ that is the two-by-two matrix with entries $t-2$, $-1$, $-1$, $t-1$, and the determinant is computed live by polynomial arithmetic: $t^2 - 3t + 1 = \Delta_{4_1}$, the polynomial the figure-eight card verified as the zeta.}
+
+\Kle{And the right.}
+
+\Stu{The mirror module at the level the literature pins. The Iwasawa module of an irregular prime is a $\Lambda = \mathbb{Z}_p[[T]]$-module; for $p = 37$ the relevant $\omega$-eigenspace has $\lambda = 1$, $\mu = 0$ --- $\mu = 0$ by Ferrero--Washington, the $\lambda$-value from the standard tables --- so the characteristic polynomial is linear and the smallest faithful presentation is one-by-one: $\Lambda / (f_{37}(T))$.}
+
+\Kle{You have drawn me a one-by-one matrix containing a symbol whose value you do not know.}
+
+\Stu{And the note says exactly that: what the cited results pin are the matrix's size and its determinant ideal --- the characteristic ideal is $(L_p)$ by the Main Conjecture. The entries need class-group tower data the app does not carry. It is displayed schematically and the display says so, with the contrast drawn explicitly: the two-by-two twin at left is fully computed.}
+
+\Kle{Then the two halves of this figure are not the same kind of object. One is a computation and one is a diagram of a computation somebody else did. The layout presents them as a matched pair.}
+
+\Stu{The visual symmetry outruns the epistemic symmetry. That is true here and it is true of the whole app --- the two-column format asserts a parity between the sides that the individual boxes then have to walk back one at a time.}
+
+\Kle{That is the most useful thing you have said in an hour. The format is an argument, and it is an argument you have to keep apologizing for. On $37$ specifically --- why not $101$, which you just told me is irregular and is one of your four?}
+
+\Stu{Because $37$ is the classical first case with tabulated invariants I can cite. For $101$ I would need the $\lambda$-value and I did not verify one I trust.}
+
+\Kle{Then say ``$37$, because its invariants are tabulated and $101$'s are not to hand.'' That sentence costs you nothing and buys the reader the reason the two cards do not line up.}
+
+\begin{knote}
+Closing pair: left is fully computed ($tI - A$, $\det = t^2 - 3t + 1 = \Delta_{4_1}$, live). Right is schematic --- size and determinant ideal cited (Ferrero--Washington $\mu = 0$, $\lambda = 1$ from tables), entries unknown, admitted. $p = 37$ used, not $101$, and the reason is not given.
+
+Overall, Zeta tab: the sum-two-resummations claim is real and is carried through every card. Scope discipline is unusually good --- the $(1-t)^2$ hypothesis, the $(2,4)$ torus counterexample, the Artin upgrade left undone, the blank fifth cell. Weaknesses are presentational and they are systematic: the disclaimer is smaller than the claim, the raw-TeX labels sit at the center of the punchline card, and the evidence is repeatedly one invisible click away. The two-column layout asserts a symmetry the content spends its time qualifying.
+\end{knote}

@@ -1,0 +1,295 @@
+\walkbeat{Klein sits, pulls the laptop a quarter turn toward himself, and does not take his coat off.}
+
+\Kle{Before you show me a single picture. What is this, in one sentence, and what is it not?}
+
+\Stu{It is one HTML file that runs Mazur's knots-and-primes dictionary as a working exhibit: a single story --- an intersection count, what survives when the count vanishes, and the zeta functions that record the whole hierarchy --- told simultaneously in topology and in number theory, at the smallest examples where each level is genuinely nontrivial. The Hopf link and the pair $(5,13)$; the unlink and $(5,29)$; the Borromean rings and the triple $(13,61,937)$. What it is not: a theorem, and not a functor. Nothing here sends links to sets of primes.}
+
+\Kle{Good, because the functor question was going to be my first one. House rules.}
+
+\Stu{Three, and they are enforced rather than promised. Every number on the screen is computed at page load or on a click --- there are no typed-in constants. Everything structural is cited by name and year at the point of use. And the three words \emph{theorem}, \emph{computed live}, and \emph{analogy} never trade places; where the app can only manage the third, it says so in the same sentence, not in a footnote. There is a button in the footer that recomputes every number and also asserts the rendered prose against the live page --- one hundred fourteen checks, sixty-two computational and fifty-two text pins.}
+
+\Kle{Fifty-two text pins means you expect your own prose to rot faster than your arithmetic. That is more honest than most of what I read. Go.}
+
+\subsection*{Dictionary}
+
+\walkfig{d1-hero}{The header and the eight-tab bar: Dictionary, Pairs, Triples, Ladder, Quadruples, Zeta, Q and A, Experimental.}
+
+\Stu{Eight tabs, and the order is the argument. Dictionary states the correspondence. Pairs computes the intersection count at the two-component level. Triples computes the first invariant that only exists because the pairwise count vanished. Quadruples goes one further. Zeta cashes all of it out. Q and A is fourteen objections with answers, and Experimental is the frontier, walled off --- nothing on it is load-bearing for the other seven.}
+
+\Kle{Then why is Ladder sitting between Triples and Quadruples instead of at the end with the other machinery?}
+
+\Stu{Because it is used there, not proved there. The Ladder tab is the unipotent tower over $\mathbb{F}_2$ --- $N_2$, $N_3$, $N_4$, of orders $2$, $8$, $64$. The superdiagonal carries the pairwise level; each deeper diagonal is only defined once everything above it vanishes. Triples needs $N_3(\mathbb{F}_2)$, which is $D_4$; Quadruples needs $N_4(\mathbb{F}_2)$. Putting the ladder after both would mean two tabs quietly borrowing a group the reader has not met.}
+
+\Kle{Fine. That is a defensible reason and you gave it in one breath, which is more than I expected. The subtitle says dotted terms carry definitions. So the page has two layers.}
+
+\Stu{Yes, and that is a real tension I will not pretend away. Hover, Tab, or click pins them; Escape closes.}
+
+\walkfig{d2-whyknots}{The ``why is a prime a knot'' box, opened; Artin-Verdier duality sits under a dotted rule.}
+
+\Stu{This is the load-bearing paragraph of the whole app. Each prime is secretly a circle: $\mathrm{Gal}(\overline{\mathbb{F}_p}/\mathbb{F}_p)$ is $\hat{\mathbb{Z}}$, which is exactly the profinite fundamental group of $S^1$, so $\mathrm{Spec}\,\mathbb{F}_p$ is a circle in disguise. And the ambient space behaves three-dimensionally: etale cohomological dimension $3$. A circle in a $3$-space is a knot. That is Mazur's observation, and it is the reason the table below is a dictionary rather than a coincidence.}
+
+\Kle{Stop. Cohomological dimension three is a number, not an orientation. Poincare duality in top degree needs a fundamental class and it needs the thing to be closed. $\mathrm{Spec}\,\mathbb{Z}$ is affine and it is not compact. Where is your compactification, and what is your orientation sheaf?}
+
+\Stu{Both are in the tooltip on Artin-Verdier, and I will pin it rather than paraphrase it. The trace isomorphism is $H^3(\mathrm{Spec}\,\mathcal{O}_K, \mathbb{G}_m) \cong \mathbb{Q}/\mathbb{Z}$, and the pairing of $H^i(F)$ against $\mathrm{Ext}^{3-i}(F, \mathbb{G}_m)$ into $\mathbb{Q}/\mathbb{Z}$ is perfect for constructible $F$. So $\mathbb{G}_m$ is the orientation sheaf and that degree $3$ is the precise sense in which $\mathrm{Spec}\,\mathbb{Z}$ behaves like a closed oriented $3$-manifold. The fine print is in the same tooltip, in the same size type: the real place introduces $2$-torsion corrections, and they are handled by compactifying $\mathrm{Spec}\,\mathbb{Z}$. Cited, not computed --- Artin-Verdier, Woods Hole 1964; Mazur, Ann. Sci. ENS 6 (1973).}
+
+\Kle{Then that tooltip is not a tooltip. It is the justification for your entire premise, and until I put a cursor on it, the page asserts ``behaves 3-dimensionally'' with a parenthesis. Anyone who reads this without hovering has read an unsupported claim in a serif font. Promote it.}
+
+\Stu{That is fair and I will not argue it. The visible sentence is doing rhetorical work the hidden sentence is doing mathematical work.}
+
+\begin{knote}
+Premise: $\mathrm{Spec}\,\mathbb{F}_p \simeq S^1$ via $\hat{\mathbb{Z}} = \pi_1^{et}(S^1)$; ambient etale cd $= 3$; A-V duality with $\mathbb{G}_m$ as orientation sheaf, $H^3 \cong \mathbb{Q}/\mathbb{Z}$. Real place gives 2-torsion, killed by compactifying. He knows the fine print and it is written down --- but it is written down where I have to go looking. Content: correct. Typography: it hides its own load-bearing wall.
+\end{knote}
+
+\walkfig{d3-table}{The full dictionary table --- topology column against arithmetic column, eleven rows.}
+
+\Stu{Eleven rows, read across. Link in $S^3$ against a set of primes in $\mathrm{Spec}\,\mathbb{Z}$, each $\equiv 1 \pmod 4$. Seifert surface against quadratic resolvent $k_i = \mathbb{Q}(\sqrt{p_i})$, ramified only at $p_i$ --- touching only its own knot. Puncture point against non-split prime, that is Frobenius. Linking number against Legendre symbol. Symmetry of lk against quadratic reciprocity. Then the vanishing rows: surface intersection $\gamma = \Sigma_1 \cap \Sigma_2$, closed since lk $= 0$, against the Redei element $\alpha$, which exists because $(p_1/p_2) = +1$. Triple linking $\bar\mu(123)$ against the Redei symbol. Then Alexander polynomial against Iwasawa polynomial, torsion against Dedekind zeta, orbits against primes, eigenvalues against characters.}
+
+\Kle{The $\equiv 1 \pmod 4$ in row one. You are telling me the arithmetic side gets to choose its objects and the topology side does not.}
+
+\Stu{Yes, and the note under the table says exactly what it buys: the congruence tames ramification at $2$ and at $\infty$ in the quadratic resolvents, and it plays the role of orientability. The same note says the taming does not propagate up the tower.}
+
+\Kle{Now the row I actually want to fight about. Seifert surface against quadratic resolvent. A knot bounds infinitely many Seifert surfaces and no canonical one. $\mathbb{Q}(\sqrt{p})$ is unique on the nose. Those are not the same kind of object and you have put them in the same row.}
+
+\Stu{The note under the table concedes precisely that, in those terms: a knot bounds many Seifert surfaces and every construction has to be checked independent of the choice, whereas the resolvent is unique, so on the arithmetic side well-definedness is free. It is listed as an asymmetry, not smoothed over.}
+
+\Kle{Good. That paragraph is the best writing on the tab, and it is set in the smallest type on the tab. Second complaint, and this one is pure carelessness --- your first row reads $K_1 \cup \cdots \cup K_r$ with a typeset subscript on the one and a literal underscore on the $r$. Same in the arithmetic cell, $p_1$ typeset, $p_r$ with an underscore. It looks like the file leaked its own source.}
+
+\Stu{It did. Those two cells are plain text where the neighbours are marked up. That is a bug, not a decision.}
+
+\begin{knote}
+Table is honest where it costs it something: the Seifert/resolvent non-uniqueness asymmetry is stated, not buried --- credit. But $K_-r$ and $p_-r$ render as raw ASCII subscripts beside properly set ones. Whole tab loses authority on a typo. Tell him to fix it before anyone else sees it.
+\end{knote}
+
+\walkfig{d4-thread}{The $\zeta \leftrightarrow \Delta$ thread box: ``Where this is going.''}
+
+\Stu{This box is a running device. Any box wearing the $\zeta \leftrightarrow \Delta$ badge carries the same thread across tabs. The claim is: two zetas --- $\zeta_K$ of a number field against the Lefschetz zeta of a monodromy --- and two polynomials, $\Delta_L$ against $f_S$, each polynomial being the zeta of its own cover up to units. Milnor-Turaev on the left, the Main Conjecture on the right. And two dials feed those zetas: linking, which is Taylor coefficients at $t = 1$ and is this app's whole story, and knotting, which is eigenvalues pushed off $1$ and is not.}
+
+\Kle{Separating those two dials is the right instinct. Most expositions of this material blur them and then wonder why the analogy stops paying.}
+
+\Stu{The Zeta tab has contrast cards that keep them apart deliberately --- the figure-eight knot against $\mathbb{Q}(\sqrt{5})$, where $\varphi^2$ shows up as both a stretch factor and a fundamental unit, and the app labels that coincidence as a coincidence.}
+
+\Kle{Then here is your problem in this box. Milnor-Turaev gets two names. ``The Main Conjecture'' gets no name, no year, and no article. On a page whose stated rule is name-and-year at the point of use, that is a violated rule, and it is the one row where I have the least prior --- I do not do Iwasawa theory.}
+
+\Stu{You are right that it is violated here. The names exist in the app: Mazur-Wiles, Invent. Math. 76 (1984), and $\ell = 2$ --- which is the case every computation in this app instantiates --- is Greither 1992. Both are in the tooltip on the Zeta tab and again in the Q and A tab. But they are two clicks from the sentence that needs them.}
+
+\Kle{Two clicks is not a citation. And note what you just told me: the only case your app ever actually computes is the case that was proved eight years later by somebody you did not name.}
+
+\Stu{Conceded. That should be inline.}
+
+\walkfig{d5-whyfs}{The $f_S$ why-box: finite deck group over $\mathbb{Q}$, unramified outside $S \cup \{\infty\}$, $\mathbb{Z}/4 \times \mathbb{Z}/4$, and the totally real $\mathbb{Z}/4 \times \mathbb{Z}/2$.}
+
+\Stu{This box exists because you would have asked. On the knot side, $\Delta_L$ lives over Laurent polynomials with deck group $\mathbb{Z}^r$. Over $\mathbb{Q}$ there is no rank-$r$ tower mirroring that. For $\ell \notin S$, the Galois group of the maximal abelian $\ell$-extension of $\mathbb{Q}$ unramified outside $S \cup \{\infty\}$ is a product of $\mathbb{Z}/\ell^{e_i}$ with $e_i = v_\ell(p_i - 1)$, and that is \emph{finite}. For $S = \{13, 61\}$ and $\ell = 2$ it is $\mathbb{Z}/4 \times \mathbb{Z}/4$.}
+
+\Kle{And the $\cup \{\infty\}$ is doing what, exactly? Because in my world you do not get to append a point to your ramification set and keep a straight face.}
+
+\Stu{It is a convention, the box says so, and it says where it bites: at $\ell = 2$. Complex conjugation lands on the order-two element $(2,2)$, so the totally real tower --- unramified at $\infty$ --- is the strictly smaller $\mathbb{Z}/4 \times \mathbb{Z}/2$. And it spells out why: $p \equiv 1 \pmod 4$ tames $\infty$ for the resolvent $\mathbb{Q}(\sqrt{p})$ only, not higher up. The quartic subfield of $\mathbb{Q}(\zeta_{13})$ is already imaginary.}
+
+\Kle{So the orientability convention you sold me in row one of the table does not survive one floor up the tower.}
+
+\Stu{Correct, and the note under the table says that too --- ``the taming does not propagate up the tower.'' The consequence is the honest one: $f_S$ lives over the finite deck group's ring, while Iwasawa's own $\Lambda = \mathbb{Z}_\ell[[T]]$ series runs over the cyclotomic tower, whose deck group really is $\mathbb{Z}_\ell$ but which ramifies at $\ell$ itself. Two different rings. The Q and A tab lists that as fracture four of five in the dictionary.}
+
+\Kle{Then the $\Delta_L$ against $f_S$ row of your table is the weakest row in the table, and you know it, and you say so somewhere else. Put a marker in the row.}
+
+\Stu{Yes.}
+
+\Kle{Last thing on this box, and it is the same complaint as before but worse. Look at it. $\mathbb{Z}_\ell[[u_1,\ldots,u_r]]$ with underscores and square brackets, $v_\ell(p_i - 1)$ with an underscore, and $(1+u_i)$ raised to $\ell^{e_i}$ written with a caret. This paragraph is the most technical thing on the tab and it is typeset like a mailing-list post while the table above it is set properly.}
+
+\Stu{Same defect as the table row, larger surface. The box was written last and it shows.}
+
+\begin{knote}
+$f_S$ box: the real content of the tab. Deck group over $\mathbb{Q}$ is finite --- $\prod \mathbb{Z}/\ell^{e_i}$, $e_i = v_\ell(p_i-1)$; $S=\{13,61\}$, $\ell=2$ gives $\mathbb{Z}/4 \times \mathbb{Z}/4$, totally real part $\mathbb{Z}/4 \times \mathbb{Z}/2$ because conjugation hits $(2,2)$. So the $\Delta_L / f_S$ row is a row between objects over different rings, and he says so --- but says it here and in Q and A, not in the row. Also: ASCII math leaking through the serif. Twice now.
+\end{knote}
+
+\subsection*{Pairs}
+
+\walkfig{p1-lede}{The Pairs tab lede.}
+
+\Stu{One intersection count, computed in both languages: lk by counting punctures through a spanning surface, $(p/q)$ by Euler's criterion. Then one symmetry with the same proof twice. And the link at the end of the lede goes straight to the bottom of the tab, where the count becomes a picture --- the double cover drawn as a lift diagram.}
+
+\Kle{You put the destination in the first sentence. I approve of that and I want to see whether the tab earns it. What is computed here and what is asserted?}
+
+\Stu{Every Legendre symbol on this tab is computed live by Euler's criterion --- $p^{(q-1)/2} \bmod q$, BigInt fast exponentiation, one function that every symbol in the app goes through. The Hilbert symbol at $v = 2$ is computed by enumeration. The topology side is a drawing plus cited reasoning, and it is labelled as cited at the two places where it matters.}
+
+\walkfig{p2-canvas}{The two-circle canvas in the unlinked state, with the state label lk $= 0$.}
+
+\Stu{$K_1$ blue, $K_2$ green, arrowheads marking orientations. In this state $K_1$ is consistently on top at both crossings, so the diagram is the unlink and the label reads lk $= 0$. The ``Lift apart'' button animates them apart and prints ``Separated --- the circles were never entangled.''}
+
+\Kle{Two crossings, both the same sign resolution, and you are calling it the unlink. That is a diagram of the unlink, not the split unlink. Do you distinguish them anywhere, because your Alexander statement further down had better care.}
+
+\Stu{It does, and the app makes the distinction in a tooltip on the phrase ``split unlink'': two circles in disjoint balls, separable by a sphere, and splitness is strictly stronger than being unlinked crossing by crossing. The polynomial claim in the lower strip is the split one --- $\Delta \doteq 0$ is the classical splitness test.}
+
+\Kle{Good, the drawn state is isotopic to split so you are safe, but you are safe by an inch. Now the sub-caption. Read me the sentence about crossing signs.}
+
+\Stu{``Crossing signs are read in the screen's y-down, left-handed frame, and the app only ever displays diagram counts that survive that choice --- parities and zero totals, never a bare handed sign.''}
+
+\Kle{So you have made a design rule out of refusing to commit to an orientation. In a browser, with a y-down canvas, I will accept it, because the alternative is a mirror-image bug that nobody catches for a year. But say it once and loudly rather than in the small type under one figure.}
+
+\walkfig{p3-hopf-canvas}{The same canvas toggled to the Hopf link; the label reads lk $= \pm 1$.}
+
+\Stu{Toggle, and the crossings alternate --- one under each way. The label becomes lk $= \pm 1$, Hopf link. That $\pm$ is the design rule you just read, cashed out: the app will tell you the linking number is odd and nonzero, and it will not tell you the handedness, because the handedness is an artifact of which way the canvas $y$-axis points.}
+
+\Kle{And ``Lift apart'' in this state?}
+
+\Stu{It bounces --- the circles separate partway and come back, and the note reads ``Bounced back --- a genuine crossing survives every isotopy.''}
+
+\Kle{That is a cartoon, not an argument. An animation that returns to its start proves nothing about isotopy; it proves your easing function has a turning point at fifty-five percent.}
+
+\Stu{Agreed, and I will not defend it as more than a gesture. The actual invariance argument on this tab is the surface-independence why-box, which is a proof, and the product formula, which is a proof. The bounce is a mnemonic.}
+
+\Kle{Then let me have the why-box, since you raised it.}
+
+\Stu{``Two choices of Seifert surface glue along $K_1$ into a closed surface, against which the disjoint curve $K_2$ has algebraic intersection number $0$ --- so both puncture counts agree.''}
+
+\Kle{Wrong as stated. You glue $\Sigma$ to $-\Sigma'$. If you glue two coherently oriented surfaces along their common boundary you do not get a cycle, you get something with a boundary counted twice. The orientation reversal is the entire content of the argument and it is missing from the sentence.}
+
+\Stu{That is a real gap in the wording. The conclusion is right and the reason as written is not sufficient.}
+
+\begin{knote}
+Canvas: unlink and Hopf, toggled, arrowheads for orientation. Label refuses handedness on purpose --- y-down frame, stated rule, only parities and zeros displayed. Defensible in a browser. ``Lift apart'' bounce is decoration. Surface-independence why-box drops the orientation reversal: should read $\Sigma \cup (-\Sigma')$. Fix the sentence; the mathematics is fine underneath it.
+\end{knote}
+
+\walkfig{p4-calculator}{The Legendre calculator with the $(5,29)$ preset: both symbols $+1$, the reciprocity check, and the verdict banner.}
+
+\Stu{Preset $(5,29)$. Euler's criterion gives $(5/29) = +1$ and $(29/5) = +1$, both computed, and the third row is a live check that they agree --- reciprocity, not assumed but verified against the two computed values. The banner says $+1$, $29$ splits in $\mathbb{Q}(\sqrt5)$: unlinked. Pressing the other preset gives $(5,13)$, both symbols $-1$, and the banner reads: the Hopf pair.}
+
+\Kle{The reciprocity row. If both entries come out of the same function, checking that they agree is checking that your exponentiation is deterministic. It is not checking reciprocity.}
+
+\Stu{They come out of the same function but from genuinely different computations --- $5^{14} \bmod 29$ and $29^{2} \bmod 5$. Nothing in Euler's criterion knows about the other direction, so the agreement is not automatic; a bug in the modular exponentiation would break both, but reciprocity is not smuggled in. The real independent check is one panel over, in the Hilbert table, and that one is built so that it can fail.}
+
+\Kle{And what does pressing Compute do to the drawing on the left?}
+
+\Stu{It syncs it, when the gloss is licensed --- if either prime is $\equiv 1 \pmod 4$ the app draws the unlink for $+1$ and the Hopf link for $-1$. Hold that thought, because in a minute I am going to show you the case where it deliberately does not sync, and you are going to dislike what that looks like.}
+
+\walkfig{p5-hopf-thread}{The Pairs $\zeta \leftrightarrow \Delta$ thread box for $(5,13)$: Frobenius on the roots of $x^2 - 5$, one orbit of period $2$, and the local factor.}
+
+\Stu{This is the thread badge again, now carrying a live computation. Frobenius $x \mapsto x^{13}$ acts on the two roots of $x^2 - 5$. Since $5$ is not a square mod $13$ the roots live upstairs in $\mathbb{F}_{13^2}$, and Frobenius swaps them: $r^{13} = (r^2)^6 \cdot r = 5^6 \cdot r = -r$, because $5^6 \equiv 12 \equiv -1 \pmod{13}$, and that $12$ is computed, not quoted. One orbit of period $2$, so the local factor is $(1 - 13^{-2s})^{-1}$. With $t = 13^{-s}$, split gives $(1-t)^{-2}$ and inert gives $(1-t)^{-1}(1+t)^{-1} = (1-t^2)^{-1}$ --- these are literally the Euler factors of $\zeta_{\mathbb{Q}(\sqrt5)} = \zeta(s) L(s,\chi)$.}
+
+\Kle{Now the second paragraph, the one in blue.}
+
+\Stu{That is the topology side, and note how it opens: ``cited reasoning, not computed.'' In the double cover of the $K_1$-complement --- the cover this symbol mirrors --- the preimage of $K_2$ is two disjoint copies when lk is even, one connected curve double-covering $K_2$ when lk is odd. Two period-one orbits against one period-two orbit. Same bookkeeping.}
+
+\Kle{Two period-one orbits of \emph{what}? You have a deck group of order two acting on a preimage. Say which action.}
+
+\Stu{The deck action, and the box says so --- ``two period-1 orbits of the deck action.'' The tooltip on the phrase gives the argument: $K_2$ lifts to a loop exactly when its class dies under $\pi_1 \to \mathbb{Z}/2$, that is when lk$(K_1,K_2)$ is even, and the components of the preimage are cosets of the image subgroup.}
+
+\Kle{Then here is the real question, and it is the one your whole tab turns on. lk lives in $\mathbb{Z}$. Your symbol lives in $\{\pm 1\}$. Your cover only ever sees lk mod $2$. So the Hopf link and a link with lk $= 3$ are indistinguishable to everything on this tab, and you have drawn a dictionary in which one side forgets almost everything.}
+
+\Stu{That is exactly right, and the app states it as a limitation rather than defending it. There is a why-box on the arithmetic panel: ``a curve can wind any number of times around a surface, while a degree-$2$ extension admits only one nontrivial Frobenius. The Legendre symbol is a mod-$2$ linking number.'' It is not a lossless correspondence, and where the app displays a topological count derived from the symbol, it derives it from lk parity, not from the symbol's value.}
+
+\Kle{Then say ``mod-2 linking number'' in the table row on the Dictionary tab, not in a collapsed box three tabs away. Right now the table shows me $\mathbb{Z}$ against $\{\pm 1\}$ and lets me notice the gap myself.}
+
+\begin{knote}
+Thread box, $(5,13)$: $5^6 \equiv 12 \equiv -1 \pmod{13}$ computed; inert; one period-2 orbit; factor $(1-13^{-2s})^{-1}$. Euler factors of $\zeta(s)L(s,\chi)$. Topology half explicitly flagged cited-not-computed --- he is disciplined about that line and I have now seen him hold it three times. The lossiness is real: symbol sees lk mod 2 only. He knows; the admission is one collapsed box away from the table that needs it.
+\end{knote}
+
+\walkfig{p6-arc}{The arc figure --- $\Sigma_1$ horizontal, $\Sigma_2$ vertical, the segment $\Sigma_1 \cap \Sigma_2$ between them --- with caption and note.}
+
+\Stu{This is the topological half of the reciprocity proof. The caption opens by heading off the misreading: this is a three-dimensional picture, not a Venn diagram. $\Sigma_1$ is a flat disk in a horizontal plane, $\Sigma_2$ a flat disk in a vertical plane, threaded through each other like two chain links with soap films. Two transverse planes meet in a line, so the two disks meet in a segment --- and that segment is the arc. One end sits on $K_1$, where $K_1$ pierces $\Sigma_2$, counted by lk$(K_2,K_1)$. The other sits on $K_2$, where $K_2$ pierces $\Sigma_1$, counted by lk$(K_1,K_2)$. A compact oriented $1$-manifold has signed boundary count zero. One object, two ends, so the counts agree.}
+
+\Kle{The argument is right and the staging sentence is genuinely useful --- I have watched three people misread that exact figure as a Venn diagram. But look at your own picture. The words ``$K_2$ pierces $\Sigma_1$ here'' are struck through by the blue ellipse. So is the ``$\Sigma_1 \cap \Sigma_2$'' label. The two labels that name the two ends of your global object are the two labels you cannot read.}
+
+\Stu{They are drawn under the ellipse rather than over it. That is a paint-order defect and it is on the one figure that has to be legible.}
+
+\Kle{Second thing, and this one is mathematical. Both your surfaces are flat disks. That is available to you only because both components are unknotted. If $K_1$ is a trefoil, $\Sigma_1$ has genus one and it is not flat and it is not a disk, and your picture has no way to say so.}
+
+\Stu{Conceded --- the drawing hard-codes the smallest case. What I would say in the figure's defence is that the argument in the note does not use disks anywhere: it uses transversality and the fact that a compact oriented $1$-manifold has signed boundary zero, and both survive genus. But the reader only sees disks, so the reader is entitled to think disks are load-bearing.}
+
+\Kle{Then put one sentence under it saying the picture is the genus-zero case and the argument is not.}
+
+\walkfig{p7-hilbert}{The Hilbert product-formula table for $(5,13)$: $v = \infty$, $v = 2$ by mod-8 enumeration with the closed form as cross-check, $v = 5$, $v = 13$, and the product row.}
+
+\Stu{The arithmetic half of the same proof. Five rows. At $v = \infty$ the symbol is $+1$ because both primes are positive. At $v = 2$ it is computed --- genuinely computed, by testing primitive solvability of $z^2 \equiv px^2 + qy^2 \pmod 8$ over all $512$ triples, discarding the all-even ones. Then $v \notin \{2,p,q,\infty\}$, then $v = 5$ giving $(13/5) = -1$, then $v = 13$ giving $(5/13) = -1$. Product $+1$, and the note says the formula collapses to $(5/13)(13/5) = 1$: reciprocity is the closedness of one global object.}
+
+\Kle{Why mod eight and not mod sixteen?}
+
+\Stu{Because odd squares are determined mod $8$ and lift $8$-adically by Hensel, which is the sentence in the ``why'' column. That justification is cited, not proved in the app.}
+
+\Kle{And the closed form sitting next to it --- the one with $(-1)$ to the product of $(p-1)/2$ and $(q-1)/2$?}
+
+\Stu{That is deliberately kept out of the vote. The app's own comment says why: that closed form is reciprocity-equivalent, so if it computed the entry, the table would be assuming what the table is proving. It is displayed only as an independent cross-check, and the check is built so it can print ``DISAGREES'' rather than always printing a tick.}
+
+\Kle{That is the right architectural decision and I want it noted that you made it. Most people would have used the closed form and never noticed they had assumed the theorem. Now --- row three.}
+
+\Stu{$v \notin \{2, p, q, \infty\}$, value $+1$, reason ``both are local units.''}
+
+\Kle{That is one row standing for infinitely many places, and it is the only row on this table that is not computed. It is hard-coded. You have a table that presents itself as a computation and one of its five entries is a theorem you typed in.}
+
+\Stu{Correct, and it cannot be otherwise --- there are infinitely many places, so no browser will enumerate them. What the row asserts is that for odd $\ell$ not dividing $pq$, both $p$ and $q$ are $\ell$-adic units and the symbol of two units at an odd place is trivial. That is standard and it is true, but you are right that the row is doing the same rhetorical trick I just complained about on the Dictionary tab: it sits in a computed table wearing computed clothes.}
+
+\Kle{Then mark it. One word --- ``cited'' --- in that cell, and the table becomes honest instead of merely correct.}
+
+\walkfig{p8-withheld}{The $(3,7)$ case: both primes $\equiv 3 \pmod 4$, the warn line, the flipped reciprocity check, and the thread box withholding the linking gloss.}
+
+\Stu{Now the case I flagged. Enter $3$ and $7$ --- both $\equiv 3 \pmod 4$, outside the paper's convention. Watch what the app refuses to do. $(3/7) = -1$, $(7/3) = +1$, and the reciprocity row prints the \emph{flipped} identity with a tick: $(p/q) = -(q/p)$, both $\equiv 3 \bmod 4$, and it names the $-1$ as the $2$-adic factor. The banner says $-1$, $7$ is inert in $\mathbb{Q}(\sqrt3)$ --- and then, in bold red, ``No linking gloss here.'' Because with both primes $\equiv 3 \pmod 4$ the symbol is order-dependent: swap the inputs and the banner flips, while lk is symmetric. The Hopf-unlink dictionary is reserved for pairs with a prime $\equiv 1 \pmod 4$.}
+
+\Kle{And the thread box at the bottom does the same thing.}
+
+\Stu{It withholds the topology half entirely --- ``withheld for this pair'' --- while keeping the Euler factor. The Euler factor survives because it reads $7$'s splitting in the specific field $\mathbb{Q}(\sqrt3)$, fixed once and for all, where the ordering is part of the data rather than a symmetry that has to hold.}
+
+\Kle{That distinction is sharp and it is the right one. Refusing to draw a conclusion is the hardest thing to build into a demo and you built it. Now look at the top left of your own screen.}
+
+\walkbeat{He puts a finger on the canvas panel, which still reads lk $= \pm 1$ (Hopf link).}
+
+\Kle{Your drawing still says Hopf link. It is sitting six inches from a banner that says the Hopf dictionary does not apply to this pair. Every reader who scans left to right gets the gloss you just spent a paragraph withholding.}
+
+\Stu{That is a genuine defect and it is a consequence of the fix rather than an oversight. The Compute handler only re-syncs the topology panel when at least one prime is $\equiv 1 \pmod 4$ --- precisely so it does not draw a picture the banner is disowning. But not updating it leaves the previous pair's picture on screen, which is worse, because a stale correct-looking picture reads as an answer.}
+
+\Kle{It should blank, or grey out, or print ``no topological reading for this pair.'' Silence and staleness look identical to a reader.}
+
+\Stu{Yes. Refusing to answer and forgetting to answer render the same way, and only one of them is the design.}
+
+\Kle{One more thing, and then I will let this case go. Your banner says $7$ is inert in $\mathbb{Q}(\sqrt3)$. What is the discriminant of $\mathbb{Q}(\sqrt3)$?}
+
+\Stu{Twelve. So it ramifies at $2$ as well as at $3$, and the ``surface touching only its own knot'' reading fails.}
+
+\Kle{Does the app say that?}
+
+\Stu{In the mixed case it does --- if exactly one prime is $\equiv 3 \pmod 4$, the warn line spells out that $\mathbb{Q}(\sqrt p)$ has discriminant $4p$, is ramified at $2$ as well as $p$, and that only splitting and symmetry survive. In the both-$\equiv 3$ case, which is this one, the warn line talks about the sign flip and the $2$-adic factor and never mentions the discriminant. So the caveat is stated in the case where it is half-needed and omitted in the case where it applies to both fields.}
+
+\Kle{Which is the case a reader is most likely to be confused by. Move the sentence.}
+
+\begin{knote}
+$(3,7)$: $(3/7) = -1$, $(7/3) = +1$, flipped reciprocity checked and the $-1$ named as the 2-adic factor. Banner and thread box both refuse the lk gloss --- order-dependent symbol against symmetric lk. That refusal is the best thing on the tab. Two defects at the same moment: (i) canvas keeps the stale Hopf picture because the sync is suppressed --- silence looks like an assertion; (ii) disc $= 12$ caveat appears in the mixed-parity warning and vanishes in the both-3 warning, which is backwards.
+\end{knote}
+
+\walkfig{p9-hilbert37}{The Hilbert table for $(3,7)$, with the $2$-adic factor equal to $-1$.}
+
+\Stu{Same table, same code path, different congruence class. Now $v = 2$ computes to $-1$ --- from the same $512$-triple enumeration --- and the closed form independently gives $-1$ and agrees. $v = 3$ gives $(7/3) = +1$, $v = 7$ gives $(3/7) = -1$, and the product is still $+1$ with a tick. The note reads: the product formula collapses to $(p,q)_2 \cdot (3/7)(7/3) = 1$ with $(p,q)_2 = -1$, so $(3/7)(7/3) = -1$ --- the sign flip of this congruence class is itself part of the closedness of the same global object.}
+
+\Kle{So the $-1$ is not an exception to your global principle, it is a term in it.}
+
+\Stu{That is the whole point of computing $v = 2$ instead of assuming it. In the $\equiv 1 \pmod 4$ world the $2$-adic factor is $+1$ and drops out silently, and you can go a long time believing the product formula \emph{is} reciprocity. Run it at $(3,7)$ and the missing factor appears with a place attached to it. The convention on the Dictionary tab is not a simplification, it is a choice to work where one specific local term vanishes.}
+
+\Kle{Good. That is the strongest paragraph you have said all session, and it is the one thing here I would actually use in a lecture --- the archimedean and dyadic bookkeeping made visible by choosing bad primes on purpose. Does the app ever say it that plainly?}
+
+\Stu{Not in that many words. It says the pieces --- the warn line, the product note, the orientability remark under the dictionary table --- but a reader has to assemble them.}
+
+\Kle{Then that is a paragraph you have not written yet, and it belongs at the top of this tab.}
+
+\walkfig{p10-lift}{The double-cover lift diagram: two sheets, $2:1$ arrows, two lifted loops against one loop winding twice, with caption and the Galois-correspondence line.}
+
+\Stu{The count becomes a picture. Centre: a two-box tower --- $X = S^3 \setminus K_1$ at the bottom, its double cover $\tilde X$ on top, with the edge labelled ``$2$ sheets, degree $2$: $\mathbb{Q}(\sqrt p)/\mathbb{Q}$.'' Left panel, lk even: the two sheets are drawn as two parallel lines and $K_2$ lifts to two separate loops, one on each sheet, projecting $2:1$ down to the single loop downstairs --- split, two primes above. Right panel, lk odd: one loop travels along the top sheet, passes down to the bottom sheet, and closes up --- one loop winding twice, inert, one prime of residue degree $2$. Either way loops times winding equals $2$, which is the order of the deck group.}
+
+\Kle{Loops times winding equals the order of the group, and $efg$ equals the order of the group. You are drawing $e = 1$, $f \cdot g = 2$.}
+
+\Stu{Exactly, and the app says it as $|G| = \mathrm{count} \times \mathrm{size}$ --- a loop with monodromy of order $d$ has preimage $|G|/d$ loops each winding $d$ times, and a prime with Frobenius of order $f$ has $g = |G|/f$ primes above it each of residue degree $f$, with $e = 1$ because we are unramified. One bookkeeping, two languages. That identity is what the Triples and Quadruples tabs scale up, to $8$ sheets and $64$.}
+
+\Kle{The correspondence line at the bottom.}
+
+\Stu{``The lattice of intermediate covers mirrors the subgroup lattice of the deck group --- the Galois correspondence, both sides --- here at its smallest: one $\mathbb{Z}/2$ on each side.'' And it is labelled cited, not computed, with Hatcher section 1.3 for covers and Morishita chapters 2 through 4 for the joint dictionary.}
+
+\Kle{Which is the correct label, because at $|G| = 2$ there is nothing to compute --- the lattice is two boxes and a line. This figure is doing something the rest of the tab is not, though: it is the only place where I can see, in one glance, that the arithmetic statement and the topological statement are two readings of the same diagram. The tables tell me; this shows me.}
+
+\Stu{That was the intent, and it is why the lede links straight to it.}
+
+\Kle{Two complaints and I am done. First: your tilde. ``$\tilde X$'' renders with the accent floating half off the letter, in three separate labels, and on a figure whose entire job is to distinguish upstairs from downstairs, the upstairs symbol is the one that looks broken. Second, and this is the one that matters --- your left panel says ``lk even (split).'' Even, not zero. So you are correctly telling me the cover cannot distinguish lk $= 0$ from lk $= 2$.}
+
+\Stu{Yes. The word ``even'' is chosen deliberately, and the count is derived from lk parity rather than from the symbol.}
+
+\Kle{Then the picture is more honest than the table on the Dictionary tab, which puts $\mathbb{Z}$ opposite $\{\pm 1\}$ and lets it pass. Make the table as honest as the figure.}
+
+\begin{knote}
+Lift diagram: the one thing here I would put on a slide. Two sheets, $K_2$ lifts to 2 loops when lk even / 1 loop winding twice when lk odd; loops $\times$ winding $= 2 = |{\rm deck}|$, which is $efg$ with $e=1$. Same bookkeeping, two languages, one picture. Scales to 8 and 64 sheets on later tabs.
+
+Running tally, two tabs in: mathematics checks everywhere I have pushed. Failures are all of the same species --- support exists but is one hover, one click, or one tab away from the sentence that needs it, and the page presents cited things and computed things in identical type. Also: raw ASCII subscripts twice, labels painted under a figure, and a stale canvas that reads as an assertion. He concedes every one of these without argument, which makes me trust the parts I have not checked more than I usually would.
+\end{knote}

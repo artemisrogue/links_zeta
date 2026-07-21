@@ -1,0 +1,429 @@
+\subsection*{Triples}
+
+\walkfig{t1-hero}{The Triples lede and the live Borromean canvas.}
+
+\Stu{This is the tab the rest of the app exists to reach. Two languages, one invariant: on the left $\bar\mu(123)$ through surfaces, on the right the R\'edei symbol $[13, 61, 937]$ through Frobenius. The canvas is live in a modest sense --- the three circles are drawn from stored centres and radii, the six crossings are computed as circle-circle intersections, and the over-under data is a cyclic table: $K_1$ over $K_2$, $K_2$ over $K_3$, $K_3$ over $K_1$, at both crossings of each pair.}
+
+\Kle{Your $K_1$ label is guillotined. The top half of it is off the canvas.}
+
+\Stu{It is. The label baseline is the circle's topmost point minus eight pixels, and $K_1$'s top sits thirteen pixels below the canvas edge, so the glyph runs off. Nobody caught it because the eye supplies the letter.}
+
+\Kle{Second thing, and this one is not cosmetic. Those are round circles. Three round circles in space cannot form the Borromean rings. That is a theorem --- Freedman and Skora.}
+
+\Stu{Correct, and the app cites exactly that theorem --- one layer down. What is on screen is a diagram: a plane shadow plus over-under data. The shadow is allowed to be round; the link it presents is not round in $S^3$. If you press ``Toggle 3D view (ellipses)'' you get genuine ellipses, semi-axes $2$ and $1.1$, one in each coordinate plane, and a note under them citing Freedman--Skora, J. Differential Geom. 25 (1987), for precisely the reason you just gave.}
+
+\Kle{Then the citation is in the wrong place. The claim that needs defending is on this screen. The defence is behind a button and a hover.}
+
+\Stu{Agreed. That is a fair charge and I have no answer to it.}
+
+\Kle{What does the ``Isolate'' dropdown do?}
+
+\Stu{Fades one component. Choose ``fade $K_1$'' and the app writes across the top: the remaining pair is visibly unlinked, one ring entirely on top. It is the cheapest way to see that pairwise vanishing is not a computation, it is a picture --- and the whole tab is about what survives it.}
+
+\begin{knote}
+Round circles on the canvas; Freedman--Skora is quoted, but only inside the 3D panel. The 2D picture is a shadow --- fine --- but he should say that where the shadow is, not two clicks away. Label $K_1$ clipped. Ellipses in the 3D view: $a = 2$, $b = 1.1$, one per coordinate plane. Ask later whether the 3D view needs the network.
+\end{knote}
+
+\walkfig{t2-steps}{The two four-step sequences: topology at left, R\'edei at right.}
+
+\Stu{Same four beats down both columns. Step 1, the pairwise level vanishes: on the left $\mathrm{lk}(K_1,K_2) = \mathrm{lk}(K_1,K_3) = \mathrm{lk}(K_2,K_3) = 0$, computed from the diagram's signed crossings; on the right $(13/61) = (13/937) = (61/937) = +1$, computed by Euler's criterion. Step 2, the certificate the vanishing leaves behind: the longitude on the left, the R\'edei element $\alpha = 23 + 6\sqrt{13}$ on the right, with the identity $23^2 - 13 \cdot 6^2 - 61 \cdot 1^2 = 529 - 468 - 61 = 0$ shown as an evaluated residual. Step 3, evaluate the certificate: Magnus expansion on the left, Tonelli--Shanks for $\sqrt{13} \bmod 937$ on the right --- it returns $\{386, 551\}$. Step 4, read the invariant.}
+
+\Kle{Stop at step 1. How does the sign cancellation actually come out of the code?}
+
+\Stu{For each pair the app finds the two intersection points of the two circles, takes the counterclockwise tangent at each point on each circle, decides which strand is over from the cyclic table, and sums the sign of the cross product of over with under. Divided by two, that is the linking number.}
+
+\Kle{And for two overlapping circles with the same strand on top at both crossings, those two signs are automatically opposite. I can see that without the machine --- the tangent frame reverses between the two intersection points. So step 1 is honest but it is not deep.}
+
+\Stu{It is not deep. It is arithmetic on a picture.}
+
+\Kle{Now step 2. You write ``that it is the specific commutator $\ell_3 = [x_1, x_2]$ is Milnor's Wirtinger computation, taken here as the model word rather than recomputed from the drawing.'' So the diagram gives you the vanishing, and the non-vanishing --- the thing the tab is named for --- is typed in.}
+
+\Stu{Yes. That is the central gap of this tab and I will not dress it up. Vanishing $\mathrm{lk}$ tells you the longitude lies in the commutator subgroup $[F, F]$ and nothing more --- the tooltip is explicit that zero exponent sums do not make a word a single commutator; it gives $[x_1,x_2]^2$ as the counterexample, by Wicks. Which commutator it is comes from Milnor's Wirtinger computation, cited, not recomputed. What is computed live is everything downstream: substitute $x_i \mapsto 1 + X_i$, invert the series, multiply out, and read the coefficient of $X_1 X_2$.}
+
+\Kle{So ``computed live'' means computed live from a hand-supplied input.}
+
+\Stu{For the model word, yes. The same standard the Quadruples tab applies to $B_4$. The app says so in the step itself rather than in a footnote, which is the most I can claim for it.}
+
+\Kle{Third thing, and it is a presentation failure. Your left column's step 2 is five times the height of the right column's step 2, so by the bottom of the screen your step 4 is opposite blank space and your step 3 is opposite their step 4. You have built a mirror and then let the halves slide.}
+
+\Stu{The two columns are independent flows in a two-column grid; nothing ties row $k$ to row $k$. It is exactly the defect you name.}
+
+\begin{knote}
+Structure of the tab is right: vanish, certificate, evaluate, read --- twice. What is actually computed: crossings, Legendre symbols, the R\'edei identity residual, Tonelli--Shanks ($\sqrt{13} \bmod 937 = \{386, 551\}$), the Magnus coefficient. What is not: the longitude word itself. That is a fixture and he says so on the step. Mirror rows drift out of alignment --- fix with a row grid.
+\end{knote}
+
+\walkfig{t3-verdicts}{The two verdict banners: $\bar\mu(123) = 1$ and $[13, 61, 937] = -1$.}
+
+\Kle{One banner says $1$. The other says $-1$. You are asking me to read those as the same statement.}
+
+\Stu{I am, and the app hedges it in exactly one place --- the ``(sign?)'' tooltip on the left banner. The honest content is: $\bar\mu(123) = \pm 1 \neq 0$, mirroring $[13,61,937] = -1 \neq +1$. Not $1 = -1$.}
+
+\Kle{Then the value groups are different and you should lead with that, not hide it in a hover. $\bar\mu$ is an integer. The R\'edei symbol lives in $\{\pm 1\}$.}
+
+\Stu{The Q\&A tab has a whole entry on it, and it draws the line where you just drew it: the knot side has the full integers --- $\mathrm{lk} \in \mathbb{Z}$, $\bar\mu \in \mathbb{Z}$, and the Magnus coefficients are computed over $\mathbb{Z}$ before any reduction --- while $\mathrm{Gal}(\mathbb{Q}(\sqrt{p})/\mathbb{Q})$ has order $2$, so the Legendre symbol is genuinely a mod-$2$ linking number. The matching is $\bar\mu(123) \bmod 2 = 1$ against the nontrivial value of the symbol.}
+
+\Kle{And the sign on the left is convention.}
+
+\Stu{Orientation and component ordering. Reversing one component negates it; the mirror word $[x_2, x_1]$ gives $-1$. The app says the $+1$ is read off the model word, not derived from the drawn diagram --- which would need the Wirtinger presentation it does not compute.}
+
+\Kle{Fine. Then the banner should read ``$\bar\mu(123) = \pm 1$, nonzero'' and the tab would lose nothing and gain a reader who is not me.}
+
+\walkfig{t4-towers}{The cover tower --- mod-$2$ Heisenberg, deck $D_4$, $8$ sheets --- opposite the field tower $k_{13,61}$.}
+
+\Stu{Left, a purely topological tower: the base $X = S^3 \setminus (K_1 \cup K_2)$, two double covers $X_1$ and $X_2$ --- the covers the linking numbers probe --- their join $X_{12}$, the $(\mathbb{Z}/2)^2$ cover, and on top $\tilde{X}$, the mod-$2$ Heisenberg cover, deck group $N_3(\mathbb{F}_2) \cong D_4$, $8$ sheets. Right, the field tower: $\mathbb{Q}$, $\mathbb{Q}(\sqrt{13})$, $\mathbb{Q}(\sqrt{61})$, $\mathbb{Q}(\sqrt{13},\sqrt{61})$, and $k_{13,61} = \mathbb{Q}(\sqrt{13},\sqrt{61},\sqrt{\alpha})$. The edge from the join to the top is labelled on both sides: two sheets where $\gamma$ unwinds, degree $2$ via $\sqrt{\alpha}$.}
+
+\Kle{The caption underneath says the lattice of intermediate covers mirrors the subgroup lattice of the deck group. It does not. $D_4$ has three subgroups of index $2$, so there are three quadratic subfields of $k_{13,61}$. You have drawn two. Where is $\mathbb{Q}(\sqrt{793})$?}
+
+\Stu{Missing, and so is the corresponding diagonal double cover on the left. The drawing is a sublattice, not the lattice: five nodes against $D_4$'s ten subgroups. The two I show are the two the linking numbers probe, which is the tab's narrative, but the caption claims the general correspondence and the picture does not deliver it.}
+
+\Kle{The correspondence itself is true --- I am not disputing Galois theory. I am disputing a caption that promises a lattice and delivers a chain with a fork in it. Say ``the part of the lattice this computation uses'' and you are clean.}
+
+\Stu{Noted, and it is a one-word fix.}
+
+\Kle{One more. You promise ``box for box'' twice, above both towers. Look at the bottoms. $\mathbb{Q}$ sits a good deal higher than $X = S^3 \setminus (K_1 \cup K_2)$.}
+
+\Stu{The two figures have different viewBox heights, $216$ against $190$, and no shared baseline. The top boxes happen to land level and the drift accumulates downward. The claim in the prose is stronger than the geometry on screen.}
+
+\walkfig{t5-tower-caps}{The tower captions: $4$ loops winding twice against $937$'s $4$ primes of residue degree $2$.}
+
+\Stu{This is the paragraph I would keep if I had to throw away the rest of the tab. On the left, $\rho(K_3)$ in $N_3(\mathbb{F}_2)$ has entries $(\mathrm{lk}, \mathrm{lk}, \bar\mu) \bmod 2 = (0, 0, 1)$; the app powers that matrix literally until it hits the identity and gets order $2$; so $K_3$'s preimage upstairs is $8/2 = 4$ loops, each winding twice. On the right, Frobenius at $937$ has order $2$, so there are $4$ primes above $937$ of residue degree $2$. Then the line I care about: loops times winding equals $4 \times 2 = 8 = |\mathrm{deck}|$; and $g \cdot f = 4 \times 2 = 8 = [k_{13,61} : \mathbb{Q}]$. The same $|G| = \mathrm{count} \times \mathrm{size}$ bookkeeping, twice.}
+
+\Kle{That is the good sentence, and I will say so plainly: that is the only place so far where the two sides are not analogy but the same statement about a finite group acting on a fibre. Nothing is being smuggled.}
+
+\Stu{Thank you.}
+
+\Kle{Now let me try to break it. Both orders --- the matrix order on the left, the Frobenius order on the right --- are computed by the same subroutine. You call one function, feed it two inputs, and then present the agreement as a mirror. That is not a mirror. That is one calculation printed twice.}
+
+\Stu{That is the sharpest form of the objection and it is half right. The shared routine takes a triple of bits and returns the order of the corresponding unitriangular matrix. What differs is what produces the bits. On the left, the corner bit is $\bar\mu(123) \bmod 2$ out of the Magnus expansion. On the right, the corner bit is the Legendre symbol of $\alpha = 23 + 6\sqrt{13}$ reduced mod $937$, after Tonelli--Shanks. Two entirely disjoint computations arriving at the same bit; the group theory downstream is deliberately shared, because the assertion is precisely that the bookkeeping is the same on both sides.}
+
+\Kle{Then the mirror lives in the bit, not in the order.}
+
+\Stu{Yes. And the app never claims otherwise --- but it also never says it that crisply, and it should.}
+
+\Kle{And the factor twins at the end, $(1 - t^2)^{-4}$ against $(1 - 937^{-2s})^{-4}$?}
+
+\Stu{Both assembled from the order and the degree. That is the Euler factor of $\zeta_{k_{13,61}}$ at $937$ on the right, and the corresponding orbit factor on the left, and the Zeta tab works the product through.}
+
+\begin{knote}
+The $|G| = \mathrm{count} \times \mathrm{size}$ paragraph is the best thing in the app. $4$ loops $\times$ winding $2 = 8$ sheets; $g = 4$, $f = 2$, $gf = 8 = [k_{13,61} : \mathbb{Q}]$. Real, not analogical. Pressed him on the shared order routine --- he conceded correctly: the independence is in the corner bit (Magnus versus Legendre-of-$\alpha$), not in the group theory. Tower caption oversells the lattice; drawing shows $5$ nodes of $D_4$'s $10$ subgroups, $\mathbb{Q}(\sqrt{793})$ absent.
+\end{knote}
+
+\walkfig{t6-whymu}{The why-box defining $\bar\mu(123)$ by tubing and triple points.}
+
+\Stu{This is the geometric definition. Because every pairwise $\mathrm{lk}$ vanishes, each Seifert surface $\Sigma_i$ can be chosen disjoint from the other two components --- punctures come in cancelling pairs, tube them away. Then $\Sigma_1 \cap \Sigma_2$ has no boundary at all: it survives as a closed curve. And its intersection with $\Sigma_3$, rather than its boundary, becomes the well-defined count: $\bar\mu(123)$ is the signed sum over points of $(\Sigma_1 \cap \Sigma_2) \cap \Sigma_3$, independent of all choices, by Milnor --- because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.}
+
+\Kle{This is the definition of the invariant the entire tab computes, and it is collapsed behind a button labelled in small grey type. Why is it not the first paragraph?}
+
+\Stu{Because the tab was built to lead with the two columns. It is the wrong ordering and I do not have a defence.}
+
+\Kle{Now the mathematics. ``Tube them away'' is doing a great deal of work. Tubing changes the surface --- genus goes up, the surface is no longer the one you drew. Why does the triple-point count not move when I tube differently?}
+
+\Stu{Independence is Milnor's, cited here, not proved in the app. The sketch the app does carry is in the triple-point tooltip on rung $3$: triple points are exactly where the closed curve $\gamma = \Sigma_1 \cap \Sigma_2$ meets $\Sigma_3$, so their signed count is the intersection number $\gamma \cdot \Sigma_3 = \mathrm{lk}(\gamma, K_3)$; trading one surface for another changes the count by an intersection with a closed surface, and that vanishes because the pairwise linking already did.}
+
+\Kle{That is the right sketch. It is also the argument I would have given, so I believe the app read Milnor rather than paraphrasing a survey. But notice what has happened: the geometric definition is a story, and the number on the banner came from Magnus. Nowhere does this app count a triple point.}
+
+\Stu{Nowhere. No surface is ever constructed in code. The surfaces are pictures; the invariant comes from the free group.}
+
+\walkfig{t7-cockpit}{The certificate cockpit, seeded with $(5, 29, 109)$ and certificate $(7, 2, 1)$.}
+
+\Stu{Honesty first, and the app leads with it: the pair $(13, 61)$ upstairs is pinned because the app ships R\'edei's normalized certificate $(23, 6, 1)$ as data. It verifies certificates; it does not search for them. This cockpit takes yours: primes $p_1, p_2, q$ and a certificate $(x, y, z)$ with $x^2 - p_1 y^2 - p_2 z^2 = 0$. The engine runs every definedness and normalization check and names the one that fails.}
+
+\Kle{Name them.}
+
+\Stu{Primality of all three; the congruence $p_1 \equiv p_2 \equiv q \equiv 1 \pmod 4$; the identity itself, reported as a residual; primitivity, $\gcd(x,y,z) = 1$; $y$ even; $x - y \equiv 1 \pmod 4$; the three Legendre conditions; and a check that $q$ does not divide a conjugate of $\alpha$.}
+
+\Kle{Why does primitivity matter? If $(x,y,z)$ solves the form, so does $(kx, ky, kz)$.}
+
+\Stu{Because scaling the certificate by $k$ twists the symbol by $(k/q)$ --- the field $\mathbb{Q}(\sqrt{13},\sqrt{61},\sqrt{k\alpha})$ is genuinely a different field. R\'edei's normalization is what makes the symbol independent of which solution you found. There is a self-test that feeds $(21, 6, 3)$ for $(5,29,109)$ --- the same solution scaled by three --- and asserts the engine rejects it on primitivity.}
+
+\Kle{Good. Then the rejection taxonomy is the teaching content and the verdict is decoration.}
+
+\Stu{That is the app's own framing, in that sentence.}
+
+\walkfig{t8-cockpit-run}{The cockpit verdict for the seeded triple.}
+
+\Stu{Run it and you get $[5, 29, 109] = +1$: $q$ splits completely in $k_{5,29}$, conjugates $49$ and $74$ mod $109$, both Legendre $+1$. Every check passed --- identity, primitivity, R\'edei normalization, definedness, primality.}
+
+\Kle{So your fresh, bring-your-own example is unlinked. The one triple a visitor is handed at the door is the boring one.}
+
+\Stu{Yes. The seeded triple demonstrates that all five gates open; it does not demonstrate a triple linking. The only $-1$ in the app is the pinned $(13, 61, 937)$.}
+
+\Kle{That is worse than it sounds. A reader who never scrolls up sees a machine that says $+1$, and the tab's whole thesis is about the case where the answer is $-1$. Seed it with a linked triple and put the split one one click away, or label this one ``definedness demo'' in the box, not in the paragraph above it.}
+
+\Stu{Both would be improvements. The paragraph does say it verifies rather than searches, but it does not say ``and the example you are looking at is the trivial value.''}
+
+\Kle{Does the engine ever produce a $-1$ for a triple I invent?}
+
+\Stu{It will, if you supply a normalized certificate. It will not find one for you. That is the honest boundary of the tool: no search, only verification.}
+
+\begin{knote}
+Cockpit: verification only, no search --- correctly advertised. Checks: primality, all three $\equiv 1 \bmod 4$, the form identity, $\gcd = 1$, $y$ even, $x - y \equiv 1 \bmod 4$, three Legendre conditions, $q \nmid$ conjugate. Primitivity matters because scaling by $k$ twists by $(k/q)$ --- self-tested with $(21,6,3)$. But: seeded example returns $+1$. The demo case is the case the tab is not about. Reseed.
+\end{knote}
+
+\walkfig{t9-ladder-intro}{The section head ``Climbing the ladder with surfaces --- what the zeta counts''.}
+
+\walkbeat{He scrolls down past the head to the paragraph under it.}
+
+\Stu{The columns above say what the invariants are; the ladder says what they count. Left rail, the surfaces of the Borromean rings rung by rung; right rail, the same climb for $(13, 61, 937)$. Each rung closes with the count its zeta function records --- sheets and loops upstairs on the left, primes above and residue degrees on the right. And the disclaimer, in the paragraph: the figures are schematic, honest cartoons of the general-position picture, not computed embeddings, while every number on the ladder is computed live.}
+
+\Kle{``Honest cartoons'' is a good phrase and I will steal it. But you have just given me two categories --- schematic figure, live number --- and I am going to hold you to the boundary between them on every rung.}
+
+\Stu{You should. There is exactly one figure in this section that is computed, and it is labelled so in bold.}
+
+\walkfig{t10-rung1}{Rung $1$: $K_2$ piercing $\Sigma_1$ twice with opposite signs, against $(13/61) = +1$.}
+
+\Stu{Rung $1$ is the pairwise count. A Seifert surface $\Sigma_1$ spans $K_1$; $K_2$ crosses it twice, once each way, dashed below the surface, plus and minus at the two punctures, and the caption says ``net $0$''. On the right, $(13/61) = +1$ computed by Euler's criterion, so $61$ splits in $\mathbb{Q}(\sqrt{13})$: two primes upstairs, each fixed by Frobenius. Then the counted line: in the double cover of $S^3 \setminus K_1$, $K_2$'s preimage is $2$ loops, from the parity of $\mathrm{lk}$; on the right, $2$ primes above $61$ of residue degree $1$, Euler factor $(1 - 61^{-s})^{-2}$ of $\zeta_{\mathbb{Q}(\sqrt{13})}$. Split equals two sheets equals two fixed points.}
+
+\Kle{The sentence in the middle of your left panel does the work: ``computed from the Borromean diagram at the top of this tab, its signed crossings, not from this schematic.'' So the surface is a picture and the number is crossings.}
+
+\Stu{Yes. No Seifert surface exists anywhere in this codebase. The surface language is how the invariant is explained; the arithmetic on the diagram is how it is produced.}
+
+\Kle{I want that stated once, loudly, rather than five times quietly in figure captions. A manifold theorist reading this will assume you built a spanning surface, because that is what the pictures show.}
+
+\Stu{That is the right criticism and it is the one I would act on first.}
+
+\Kle{Second, and this is going to sound petty until you look at it. Your right rail reads ``$(13/61) =$'' on one line, then ``$+1$'' alone on the next line, then a line starting with a comma. That is not a line wrap. That is broken.}
+
+\Stu{It is a CSS bug and I can tell you exactly what it is. The arithmetic rail is a flex container with column direction, so every child element becomes its own flex item on its own line. The bold $+1$ is a child element. So is the tooltip span further down. Every emphasized value in all three arithmetic rails gets torn onto its own line, with the surrounding prose orphaned around it.}
+
+\Kle{So it repeats on rung $2$ and rung $3$.}
+
+\Stu{On every rung, and on the tooltip in rung $2$ as well --- that is why ``the cover where $\gamma$ unwinds'' sits alone with a colon dangling under it.}
+
+\Kle{Then it is one line of stylesheet, and it is disfiguring the half of the ladder you most want a number theorist to read.}
+
+\begin{knote}
+Rung $1$ honest: $\mathrm{lk} = 0$ from crossing signs, not from any surface. No Seifert surface is ever built in code --- say it once at the top, not in captions. Arithmetic rail is a flex column, so every $\langle b \rangle$ becomes its own line: ``$(13/61) =$'' / ``$+1$'' / ``, computed live''. One stylesheet line. Fix before anyone else sees this.
+\end{knote}
+
+\walkfig{t11-rung2}{Rung $2$: the three-step storyboard, the R\'edei certificate arithmetic, and the counted line.}
+
+\Stu{The storyboard is three panels. One: the two spanning surfaces apart --- a flat disk with boundary $K_1$, a bowl with rim $K_2$. Two: the bowl pushed down through the disk; where the bowl's sides pass through, they cross it in exactly one closed circle, drawn bold, dashed where it is hidden below the disk. Three: that circle extracted and shown alone --- $\gamma = \Sigma_1 \cap \Sigma_2$, closed because rung $1$'s punctures cancelled, and not a component of the link.}
+
+\Kle{Why one circle and not two? If I push a bowl through a plane I generically get a circle, yes, but I want to hear why this configuration gives one and not a pair.}
+
+\Stu{The bowl meets the plane of the disk in a single closed curve because the bowl is a disk with one rim and the rim sits above the plane --- the intersection of the bowl's interior with the plane is the boundary of the region of the bowl lying below it, one component. If the bowl dipped through twice you would get two, and then $\gamma$ would be two circles and the count would run over both. The app does not compute this. It draws it.}
+
+\Kle{Fair. Now the right rail. You match $\gamma$ to $\alpha = 23 + 6\sqrt{13}$ and then your headline is that the norm is $61$: $23^2 - 13 \cdot 6^2 = 529 - 468 = 61$, the second prime itself. That is a pretty coincidence. Why is it the right mirror?}
+
+\Stu{It is not a coincidence and the R\'edei-field tooltip has the reason. The identity is $x^2 - p_1 y^2 = p_2 z^2$, so $\alpha \bar\alpha = p_2 z^2$, and here $z = 1$, so the norm is $61$ on the nose. That relation is the load-bearing one: it gives $\sqrt{\bar\alpha} = z\sqrt{p_2}/\sqrt{\alpha}$, which already lies in the field --- that is why the extension is Galois --- and the same relation is what selects $D_4$ over the quaternion group. So the norm being $p_2$ is exactly the statement that the top of the tower closes up, which is the arithmetic form of ``$\gamma$ is a closed curve''.}
+
+\Kle{Good. That is a real answer and it is in the app rather than in your head?}
+
+\Stu{In the tooltip on ``R\'edei field'', with R\'edei 1939 cited. The congruence conditions are attributed there too --- they are what kills ramification at $2$ and at infinity.}
+
+\Kle{The counted line at the bottom says ``What is being counted: nothing yet.'' Explain that.}
+
+\Stu{Rung $2$ builds the counting space rather than counting: the mod-$2$ Heisenberg cover of $S^3 \setminus (K_1 \cup K_2)$, $2^3 = 8$ sheets, deck group $N_3(\mathbb{F}_2) \cong D_4$, existing precisely because $\mathrm{lk} \equiv 0$ --- Morishita chapters $4$ and $8$, cited --- opposite the degree-$8$ field $k_{13,61}$. Rung $3$ counts orbits in it.}
+
+\Kle{I like that a rung is allowed to count nothing. Most expositions would have invented a number here.}
+
+\walkfig{t12-gamma-computed}{The one computed figure: standard ellipse position, flat disks, intersection segment sampled numerically.}
+
+\Stu{This is the exception to ``schematic''. Standard ellipse position, the same coordinates as the 3D view: $K_1$ is the ellipse in $z = 0$ with semi-axes $2$ and $1.1$, $K_2$ the same ellipse in $x = 0$, and $\Sigma_1$, $\Sigma_2$ are the flat spanning disks. The app samples the line $x = z = 0$ at two hundred points, keeps those inside both disks, and reports $\Sigma_1 \cap \Sigma_2 = y \in [-1.10, 1.10]$. Separately it computes where $K_1$ punctures $\Sigma_2$ --- at $t = \pi/2$ and $3\pi/2$, with signs from the sign of $dx/dt$ --- and gets $y = \pm 1.1$ with opposite signs. The endpoints of the segment land exactly on the two cancelling punctures. That coincidence is asserted as a self-test to nine decimal places.}
+
+\Kle{Then your one computed picture shows a segment. You have spent the last two rungs telling me $\gamma$ is a closed curve.}
+
+\Stu{It shows the picture before the tubing, and the caption says so in those words: this figure computes the before, the cartoon above draws the after. The flat disks are not the surfaces the definition wants --- they still hit the other components. Tubing them away is what closes the arc into a circle, and the app does not compute the tubing.}
+
+\Kle{So the honest reading is: the general-position intersection of the naive surfaces is an arc whose ends are precisely the two punctures that cancel, and the cancellation is what lets you close it up.}
+
+\Stu{That is exactly the reading, and it is why this figure is worth having: it exhibits the mechanism --- ends of the arc equals the cancelling pair --- rather than the conclusion.}
+
+\Kle{Second complaint, visual. Those two curves look nested. A blue ellipse sitting inside a green one. Nothing about that picture says two unlinked circles in general position, it says one loop inside another.}
+
+\Stu{Projection artifact of the oblique view. And there is a real fact behind it: they genuinely are unlinked, because $K_2$ meets the plane $z = 0$ at $(0, \pm 2, 0)$, which is outside the disk $\Sigma_1$ --- $4/1.21 > 1$. So the picture is telling the truth about the linking and lying about the configuration.}
+
+\Kle{And $K_3$ is not in this figure at all.}
+
+\Stu{Not drawn. This figure is only about $\Sigma_1 \cap \Sigma_2$. $K_3$ appears on rung $3$, schematically.}
+
+\Kle{I will say this: it is the only figure on the tab that could have been wrong and is not. Everything else is a drawing that cannot be checked. This one can be, and the endpoints agreeing with the punctures is a genuine test.}
+
+\walkfig{t13-rung3}{Rung $3$: $K_3$ threading $\gamma$ once, $\bar\mu = \mathrm{lk}(\gamma, K_3)$, and $[13,61,937] = -1$.}
+
+\Stu{$K_3$ passes through the circle $\gamma$ exactly once --- one triple point of $\Sigma_1$, $\Sigma_2$, $\Sigma_3$. The reading $\bar\mu(123) = \mathrm{lk}(\gamma, K_3) =$ signed count of triple points is cited: Cochran, Mem. AMS 84 (1990); Mellor--Melvin, Alg. Geom. Topol. 3 (2003); mod $2$, Morishita chapter $4$. The number itself is the Magnus coefficient from step $4$ above. On the right, $[13, 61, 937] = -1$: Frobenius at $937$ moves $\sqrt{\alpha}$, exactly as $K_3$ refuses to pull off $\gamma$. And the counted line: $\rho(K_3)$ has order $2$, so $K_3$'s preimage in the eight-sheet cover is $4$ loops each winding twice; on the right, $4$ primes above $937$ of residue degree $2$, Euler factor $(1 - 937^{-2s})^{-4}$ of $\zeta_{k_{13,61}}$.}
+
+\Kle{Look at your own figure. ``surface spanning $\gamma$, drawn flat'' has the purple ellipse drawn straight through it. The words are struck out by the curve. And up at the top, ``the one pass through the surface:'' runs into the orange $K_3$.}
+
+\Stu{Both true. The label sits at a point where the lower arc of the ellipse passes within a couple of pixels, and the leader text is long enough to reach $K_3$'s left edge. Neither is a rendering accident --- they are fixed coordinates in the SVG that were never checked against the curves.}
+
+\Kle{Now the substantive one. Inside that figure you have written ``$\mathrm{lk}(\gamma, K_3) = 1$''. Is that computed?}
+
+\Stu{No. It is a hardcoded text element in the SVG.}
+
+\Kle{And the top of this tab says, in its navigation line, ``every number computed live''. And the paragraph introducing this ladder says ``every number on the ladder is computed live''.}
+
+\Stu{Then the two statements are in tension and you have found the seam. The intended scope is: the numbers in the prose and the counted lines are computed; the figures are schematic. But a number printed inside a schematic figure is still a number on the ladder, and the blanket claim does not carve it out.}
+
+\Kle{It is not a lie --- $\bar\mu(123) = 1$ is computed, twelve lines below, and the two agree. But the app's entire credibility rests on the distinction between computed and cited, and here it has quietly printed a third category: drawn.}
+
+\Stu{Drawn. That is the right word and the app does not have it.}
+
+\Kle{One more, mathematical. $\mathrm{lk}(\gamma, K_3)$ needs $\gamma$ oriented. Where does the orientation come from?}
+
+\Stu{From the orientations of $\Sigma_1$ and $\Sigma_2$ --- the intersection orientation of the two surfaces. Reverse either surface and $\gamma$ reverses, and the sign of $\bar\mu$ flips, which is the same convention dependence the banner flags. The app never says this. It is a genuine omission: the sign discussion is entirely about component ordering and mirror words, and never about how $\gamma$ inherits a direction.}
+
+\Kle{Add a sentence. It is the kind of thing that costs nothing and buys a reader's trust.}
+
+\begin{knote}
+Rung $3$: identification $\bar\mu = \mathrm{lk}(\gamma, K_3) = $ signed triple points, cited (Cochran 1990; Mellor--Melvin 2003; Morishita ch.\ 4 mod $2$); number from Magnus. Counted line correct: order $2$, $4$ loops winding twice, $(1 - 937^{-2s})^{-4}$. Caught: ``$\mathrm{lk}(\gamma, K_3) = 1$'' is drawn, not computed, inside a tab claiming every number is computed. Third category needed: computed / cited / drawn. Also: $\gamma$'s orientation is never explained --- it comes from the intersection orientation of $\Sigma_1$, $\Sigma_2$. Figure labels collide with the curves.
+\end{knote}
+
+\walkfig{t14-polys}{The $\Delta_{\mathrm{Bor}}$ coefficient grid: every lower coefficient vanishes, the top one is $\bar\mu$.}
+
+\Stu{$\Delta_{\mathrm{Bor}}(t_1,t_2,t_3) = (t_1-1)(t_2-1)(t_3-1)$. Substitute $t_i = 1 + x_i$ and expand live, and you get the grid: constant $0$, all three linear coefficients $0$, all three quadratic coefficients $0$, and the coefficient of $x_1x_2x_3$ equal to $1$, highlighted, labelled $\bar\mu(123)$. Every coefficient below top degree vanishes --- mirroring the vanished pairwise linking --- and the single surviving coefficient is the triple invariant.}
+
+\Kle{Is $\Delta_{\mathrm{Bor}}$ computed?}
+
+\Stu{No. It is cited --- a standard Fox-calculus result, Milnor 1954 for the Borromean case, tables in Kawauchi. The app has no Fox calculus. What is computed is the expansion you are looking at, plus a Torres collapse to $(t-1)^4$ checked against the fibre's $b_1 = 4$ on the Zeta tab.}
+
+\Kle{Then be careful about what the grid proves. You substitute $t_i = 1 + x_i$ into a product of three factors $(t_i - 1)$. That expansion is $x_1x_2x_3$ and nothing else. The grid is not a discovery, it is the distributive law confirming that seven zeros are seven zeros.}
+
+\Stu{That is true. The grid is a display, not a test.}
+
+\Kle{And the interesting claim is the one underneath: that the surviving top coefficient equals $\bar\mu(123)$, computed independently. Except it is not independent, is it? Your $\bar\mu$ came from the Magnus expansion of $[x_1, x_2]$, which you told me is Milnor's model word for this link. And $\Delta_{\mathrm{Bor}}$ is Milnor 1954. Both sides descend from the same paper.}
+
+\Stu{They do. The cross-check has a common ancestor, and I will not claim it is two independent witnesses. What it does check is internal consistency: given Milnor's word and Milnor's polynomial, the app's own arithmetic on both agrees where the theory says it must. If I had made a sign error in the Magnus inversion, the grid would disagree.}
+
+\Kle{That is a test of your code, not of the mathematics. Which is worth having --- I would rather have code I trust --- but the tab presents it as a mathematical cross-check, and the tooltip calls it ``two independent cross-checks''.}
+
+\Stu{Then the word ``independent'' is doing work it has not earned. The Torres collapse against $b_1 = 4$ is genuinely a second constraint; the coefficient statement against $\bar\mu$ is not.}
+
+\Kle{Correct. Downgrade that word and the sentence is true.}
+
+\Stu{The right column, for completeness, says the matching statement --- and hedges harder than the left. The R\'edei symbol is the triple Massey product in Galois cohomology, defined because the cup products vanish, and equal to the arithmetic triple Milnor invariant by Morishita, Compositio Math.\ 140 (2004). But the analogous claim for the arithmetic Alexander series $f_S$ --- that its leading surviving coefficient reports the R\'edei symbol --- is offered as analogy, not theorem, because over $\mathbb{Q}$ the deck group is finite.}
+
+\Kle{That is the correct hedge and I checked the reason on the Dictionary tab: no $\mathbb{Z}^r$ tower over $\mathbb{Q}$ unramified only at your primes. Good. The tab tells the truth about which of its two halves is a theorem.}
+
+\begin{knote}
+Grid is the distributive law, not a test --- he conceded. $\Delta_{\mathrm{Bor}}$ cited (Milnor 1954), no Fox calculus in the app. The ``two independent cross-checks'' claim: the coefficient-versus-$\bar\mu$ check shares its ancestor with the polynomial, so it tests his code, not the mathematics. The Torres collapse against $b_1 = 4$ is the real second constraint. Right column hedges correctly: Morishita 2004 is a theorem, the $f_S$ statement is analogy, and the reason ($f_S$'s deck group finite over $\mathbb{Q}$) is computed on the Dictionary tab.
+\end{knote}
+
+\subsection*{Ladder}
+
+\walkfig{l1-intro}{The Ladder tab heading and its one-sentence intro.}
+
+\Stu{The unipotent ladder. Each level of linking lives in a unipotent matrix group over $\mathbb{F}_2$; the superdiagonal carries the characters, which is the pairwise level, and each deeper diagonal is defined only when everything above it vanishes.}
+
+\Kle{Whose linking?}
+
+\Stu{Both, and the sentence does not say so --- that is the thinnest opening in the app.}
+
+\Kle{And by what map? A matrix group does not contain linking numbers. Something has to map into it. On the Triples tab you had $\rho(K_3)$, so there is a representation somewhere, but it is not named here.}
+
+\Stu{It is named in the cover caption on Triples: $\pi_1$ of the link complement surjects onto $N_3(\mathbb{F}_2)$, meridians going to the generator matrices, and the eight-sheet cover is the one that classifies. On the arithmetic side it is $\rho$ on Frobenius. Neither appears on this tab's opening, and it should --- this is the tab where the object is the group.}
+
+\Kle{And ``characters''. To me a character is a homomorphism to $\mathbb{Z}/2$. Is that what you mean?}
+
+\Stu{Yes --- the mod-$2$ linking number on one side and the Legendre symbol on the other, both as homomorphisms to $\mathbb{Z}/2$. The word is used unexplained here. The tooltip on ``unipotent'' explains the group --- upper triangular with ones on the diagonal, order $2^{n(n-1)/2}$, so $2$, $8$, $64$ for $n = 2, 3, 4$ --- but nothing explains ``character''.}
+
+\walkfig{l2-matrices}{The $N_2$, $N_3$, $N_4$ unipotent matrix displays.}
+
+\Stu{Three cards. $N_2(\mathbb{F}_2) \cong \mathbb{Z}/2$, order $2$, one entry $\chi$, highlighted, always defined. $N_3(\mathbb{F}_2) \cong D_4$, order $8$: superdiagonal $\chi_1$, $\chi_2$ and corner $r$. $N_4(\mathbb{F}_2)$, order $64$: superdiagonal $\chi_1$, $\chi_2$, $\chi_3$, second diagonal $r_{123}$, $r_{234}$, corner $\bar\mu$. The arrows between them are buttons: press the first and it lights the corner of $N_3$ and writes that the corner is defined because the previous level's linking numbers vanished; press the second and it lights all three deeper entries of $N_4$.}
+
+\Kle{Your $N_3$ corner is called $r$ and your $N_4$ corner is called $\bar\mu$. One is R\'edei's letter and one is Milnor's. On the tab whose entire point is that the two sides are the same object, you have written the two sides in different alphabets, one card apart.}
+
+\Stu{That is a real inconsistency and I have no story for it. The $N_4$ second diagonal is $r_{123}$, $r_{234}$ --- arithmetic --- and then the corner above them switches to topology. It should be one language with the other in the tooltip, and the tooltips do carry both.}
+
+\Kle{Second. The three cards are not aligned. $N_2$'s superdiagonal sits lower than $N_3$'s, which sits lower than $N_4$'s. You are asking me to watch a corner move rightward and downward through three pictures, and the pictures themselves are sliding vertically.}
+
+\Stu{The row is a flex container with items centred, so cards of different heights centre on a common midline instead of a common top. Top alignment would put all three matrices' first rows level and the growth would read cleanly.}
+
+\Kle{Now a question. You say the second diagonal of $N_4$ is defined when the superdiagonal vanishes. Justify that the way you justified it for $N_3$.}
+
+\Stu{Same argument one level up. Frobenius, or the meridian image, is only well defined up to conjugation. Conjugating a unitriangular matrix changes an entry on the $k$-th diagonal by products involving entries on shallower diagonals. So an entry is conjugation-invariant exactly when everything above it in that sense vanishes. That is what the tooltip on the ``why?'' link says for $N_3$, and it is the algebraic face of the whole app's slogan: the next invariant is defined because the previous level vanished.}
+
+\Kle{Then the $N_4$ card is not a new theorem, it is the same lemma with more indices. Good --- that is what a ladder should be.}
+
+\begin{knote}
+$N_2, N_3, N_4$: orders $2$, $8$, $64$, $= 2^{n(n-1)/2}$. Definedness argument is uniform: conjugation shifts a deep entry by products of shallower ones, so an entry is invariant exactly when its predecessors vanish. Caught: $N_3$'s corner labelled $r$ (arithmetic), $N_4$'s corner labelled $\bar\mu$ (topological) --- two alphabets on one row, on the tab that exists to say they are one thing. Cards centre-aligned, so the diagonals do not line up across the arrows.
+\end{knote}
+
+\walkfig{l3-frob937}{The Frobenius matrix panel for $q = 937$.}
+
+\Stu{For the pair $(13, 61)$, every odd prime $q$ not dividing $13 \cdot 61$ gets an actual matrix in $N_3(\mathbb{F}_2)$. The superdiagonal entries are its two Legendre symbols, zero for $+1$ and one for $-1$; the corner is its splitting in $k_{13,61}$. At $q = 937$: $(13/937) = (61/937) = +1$, so both superdiagonal entries are zero; then Tonelli--Shanks gives $\sqrt{13} \equiv 386$, so $\alpha \equiv 23 + 6 \cdot 386 \equiv 465 \pmod{937}$, and $465$ is a non-square mod $937$. The corner lights up. Matrix: ones on the diagonal, zeros on the superdiagonal, one in the corner.}
+
+\walkbeat{Klein does the arithmetic on the back of a printout before answering.}
+
+\Kle{$386^2 = 148996$, and $937 \times 159 = 148983$, difference $13$. Your square root is right.}
+
+\Stu{Everything on that panel is computed at the press: two Euler-criterion symbols, and when both vanish, Tonelli--Shanks and one more Legendre symbol.}
+
+\Kle{The matrix you have drawn is the central element of $D_4$ --- zeros on the superdiagonal, one in the corner. Its fixed field is the biquadratic field $\mathbb{Q}(\sqrt{13},\sqrt{61})$. So $937$ should split into four primes down there and each one should stay inert going up to $k_{13,61}$.}
+
+\Stu{And that is what the thread underneath reports, from the other direction: order $2$ by literal powering of the matrix, so the eight-element cover falls into $4$ orbits of length $2$, local factor $(1 - 937^{-2s})^{-4}$. Four primes, residue degree two.}
+
+\Kle{Consistent. And I notice the order is obtained by multiplying the matrix by itself until it is the identity, rather than by a rule.}
+
+\Stu{Deliberately. There is a rule --- identity if everything vanishes, order $4$ if both $\chi$ are $1$, otherwise order $2$ --- and in this app the rule is the test and the powering is the computation, not the other way round.}
+
+\Kle{That is the correct way round. I have seen too many programs that assert the classification and then test it against itself.}
+
+\walkfig{l4-frob107}{The same panel for $q = 107$, and the two-tier domain note.}
+
+\Stu{$q = 107$: $(13/107) = (61/107) = +1$, $\sqrt{13} \equiv 21$, so $\alpha \equiv 23 + 126 \equiv 42 \pmod{107}$, and $42$ is a square. So $107$ splits completely in the degree-$8$ field and Frobenius is the identity matrix: order $1$, eight orbits of length one, local factor $(1 - 107^{-s})^{-8}$.}
+
+\Kle{$21^2 = 441 = 428 + 13$, and $428 = 4 \times 107$. Fine.}
+
+\Stu{Now the caveat, and it is the most careful paragraph on the tab. $107 \equiv 3 \pmod 4$. The corner --- the splitting of $q$ in $k_{13,61}$, a field fixed once and for all --- is defined for every odd unramified $q$ once the superdiagonal vanishes, whatever $q$ is mod $4$. The R\'edei symbol $[13, 61, q]$ is the same number when moreover $q \equiv 1 \pmod 4$. That extra congruence buys the symbol its symmetry and reciprocity, which is what makes it a triple linking number matching $\bar\mu$ --- not the definedness of the corner. So the app's R\'edei routine rejects $q \equiv 3 \pmod 4$ while this matrix does not, and the self-tests pin both behaviours at $q = 107$ on purpose.}
+
+\Kle{That is a genuinely careful distinction and most expositions would blur it. Here is my problem with it. On the topology side there is no congruence. $\bar\mu$ is defined for any link with vanishing pairwise linking, full stop. Your arithmetic side needs an extra hypothesis exactly at the point where you want to call the thing a linking number. So the mirror has a hole in it, and the hole is at the load-bearing spot. What is the topological shadow of $q \equiv 1 \pmod 4$?}
+
+\Stu{The app's answer, on the Dictionary tab, is that $p \equiv 1 \pmod 4$ plays the role of orientability --- it tames ramification at $2$ and at infinity in the quadratic resolvents. That is the analogy it offers, and it is offered as an analogy. My honest answer to your question is that in this app the congruence has no independent topological content. It is a convention that makes the arithmetic side behave, and the app is careful never to claim a topological counterpart for it beyond the word ``orientability''.}
+
+\Kle{Then say that in the domain note. You have written two hundred and fifty words of correct hedging and the reader has to assemble the punchline themselves.}
+
+\Stu{And it is a single unbroken paragraph sitting above the buttons, so a reader arrives at the presets having skimmed it. The two-tier distinction is the second-most important sentence on the tab and it is in the middle of the block.}
+
+\Kle{There is a worse consequence. A visitor presses $q = 107$, sees a matrix, sees ``splits completely'', and reads that as a R\'edei symbol value. Your engine refuses to compute a symbol there. The screen does not refuse anything.}
+
+\Stu{The explanation text does carry the parenthetical --- for $107$ it says the splitting datum is well defined but the symmetric symbol asks for $q \equiv 1 \pmod 4$. But you are right that the matrix is the loud object and the caveat is the quiet one.}
+
+\begin{knote}
+$q = 937$: $\sqrt{13} \equiv 386$ (checked: $386^2 - 13 = 159 \cdot 937$), $\alpha \equiv 465$, non-square, corner $= 1$, central element of $D_4$, order $2$, $(1 - 937^{-2s})^{-4}$ --- consistent with $937$ splitting into $4$ primes in the biquadratic field and staying inert above. $q = 107$: $\sqrt{13} \equiv 21$, $\alpha \equiv 42$, square, identity, $(1 - 107^{-s})^{-8}$. Orders by literal powering, classification rule kept as the test --- correct discipline.
+
+Two-tier domain: corner defined for all odd unramified $q$; the symmetric R\'edei symbol wants $q \equiv 1 \bmod 4$, which buys reciprocity, not definedness. Careful and correct. But: the topology side has no such congruence, so the mirror is asymmetric exactly at the linking-number claim, and he conceded there is no independent topological content --- ``orientability'' is the analogy, nothing more. Caveat buried in a $250$-word block above the buttons.
+\end{knote}
+
+\walkfig{l5-chebotarev}{The Chebotarev tally over all $427$ unramified odd primes below $3000$.}
+
+\Stu{Press the button and the app runs the whole panel above for every odd prime under $3000$ except $13$ and $61$ --- Tonelli--Shanks included whenever both $\chi$ vanish --- and bins each one by its conjugacy class in $D_4$. Five classes: identity, corner, and three $\chi$-patterns. Counts $50$, $47$, $109$, $111$, $110$ out of $427$; observed $0.117$, $0.110$, $0.255$, $0.260$, $0.258$; predicted $1/8$, $1/8$, $1/4$, $1/4$, $1/4$. One millisecond.}
+
+\Kle{Where do the predicted densities come from?}
+
+\Stu{Chebotarev, cited, not proved: each class gets $|C|/|G|$. The identity and the central corner element are singleton classes, so $1/8$ each; the three $\chi$-patterns are classes of size two, so $1/4$ each. One plus one plus two plus two plus two is eight.}
+
+\Kle{Now. Both of your singleton classes came in low --- $50$ and $47$ against an expected $53.4$ --- and all three doubletons came in high. Is that agreement or is that a deficit?}
+
+\Stu{At this cutoff it is noise, and I can put a number on it, which the app cannot. The standard deviation for a singleton class is the square root of $427$ times $1/8$ times $7/8$, about $6.8$. So $50$ is about half a sigma low and $47$ about nine-tenths of a sigma low. Both ordinary.}
+
+\Kle{And the apparent pattern --- two low, three high --- is forced, isn't it. The counts sum to $427$.}
+
+\Stu{Exactly forced. The two singleton deficits are $3.4$ and $6.4$, total $9.75$; the three doubleton surpluses are $2.25$, $4.25$ and $3.25$, total $9.75$. Identically. There is no pattern to explain; the classes are negatively correlated because the total is fixed.}
+
+\Kle{Good. Then here is the criticism, and it is the one I would put at the top of the list for this tab. Your table has no error bar. The caption says ``observed hugs predicted''. ``Hugs'' is a verb, not a measurement. A topologist reading this table has no way to tell whether $0.110$ against $0.125$ is a triumph or a problem --- and you just showed me it takes one line to answer.}
+
+\Stu{There is no sigma anywhere in the app, on this table or any other. Adding one column would turn a verb into a number.}
+
+\Kle{Do it. People believe numbers with error bars and distrust prose that asks them to feel reassured.}
+
+\Stu{The caption is otherwise careful --- it says the equidistribution itself is Chebotarev's theorem, cited not proved, and that the app is a demonstration bench, not a proof. The Q\&A entry says the same thing more bluntly: verifying a density needs primes to infinity, which no browser computes.}
+
+\Kle{That framing I have no quarrel with. Exhibiting instances and calling them instances is honest work. It is the one adjective --- ``hugs'' --- that is doing unearned persuasion.}
+
+\walkbeat{He looks at the caption strip at the bottom of the tab.}
+
+\Kle{Last thing. Your closing line reads $\mathrm{Gal}(k_{13,61}/\mathbb{Q}) \cong D_4 \subset N_3(\mathbb{F}_2)$. But your own card, two screens up, says $N_3(\mathbb{F}_2) \cong D_4$. If they are isomorphic, the inclusion sign is at best vacuous and at worst tells me the Galois group is a proper subgroup.}
+
+\Stu{It is a leftover from the general statement --- for higher $n$ the image does sit properly inside $N_n(\mathbb{F}_2)$ --- but at $n = 3$ it is all of it, and the strip should say $\cong$. Not false, but it undercuts the sentence it is trying to land.}
+
+\Kle{Then it is the last thing anybody reads on this tab, and it is the one that has to be exactly right.}
+
+\begin{knote}
+Tally: $427$ primes below $3000$, counts $50 / 47 / 109 / 111 / 110$ against $1/8, 1/8, 1/4, 1/4, 1/4$. Singleton sigma $\approx 6.8$; deficits are $0.5$ and $0.9$ sigma; the ``two low, three high'' pattern is forced by the fixed total ($9.75$ either way, exactly). He produced all of that on demand --- but the app produces none of it. No error bar anywhere. ``Observed hugs predicted'' is the only weak sentence in an otherwise scrupulous caption. Add a sigma column.
+
+Closing strip writes $D_4 \subset N_3(\mathbb{F}_2)$ where the tab elsewhere asserts $\cong$. Last line on the tab; make it exact.
+
+Overall on these two tabs: the machinery is real and the citations are placed where the theorems are. The recurring failure is not mathematical, it is that the honest qualification is always one layer below the confident claim --- in a tooltip, in a collapsed box, in the middle of a long paragraph. He knows this. He conceded every instance without argument, which is the reason I believe the parts I did not check.
+\end{knote}

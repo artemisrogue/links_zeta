@@ -1,0 +1,101 @@
+\clearpage
+\section*{Post-mortem}
+\addcontentsline{toc}{section}{Post-mortem}
+
+\walkbeat{The laptop is closed. Klein has his notebook open on the table and is going back through it with a pen, not turning pages in order.}
+
+\Kle{Sit down. I want to do this while it is fresh, and I want to separate three things that people always run together: is it correct, is it honest, and is it legible. You did very well on the first, better than most published expositions on the second, and you have a systematic problem on the third.}
+
+\Stu{I would rather have it in that order than the reverse.}
+
+\Kle{Correctness first, because it is the shortest conversation. I attacked the arithmetic in four places and it held every time. The Euler product for $\zeta_{k_{13,61}}$ agreeing with the ideal-sum face to seven decimals is not a coincidence you can fake --- those are genuinely different computations over the same data. The order rule brute-forced over all sixty-four elements of $N_4(\mathbb{F}_2)$ is the right way to present a lemma that nobody wants to check by hand. And $101$ being irregular is a fact about the world that your app found sitting inside its own cast list. That is the best moment in the presentation and you did not oversell it, which is why it landed.}
+
+\Stu{The $101$ was not planted. I want that on the record, because it is the one moment where the dictionary generated a question rather than illustrating an answer.}
+
+\Kle{It is on the record. Now honesty, where you are mostly excellent and where your one real failure lives. Your discipline is that every number is computed at load and everything else carries a name and a year, and that \emph{computed}, \emph{cited}, and \emph{analogy} never trade places. You enforce that almost everywhere --- the Milnor-model gap on $B_4$, the withheld gloss at $(3,7)$, the blank arithmetic cell in the five-component row, the refusal to assert a $449$ factor when the conjugate check fails. Those are not decorations. They are the reason I believed the rest.}
+
+\Stu{And the failure.}
+
+\Kle{On the Experimental tab, in the gap list, you write that $\mathbb{Q}(\sqrt{-3})$ has zero real embeddings and you append the words \emph{computed at right}. Nothing at right computes a signature. That column computes primary associates, cubic residue symbols, and a reciprocity check. The claim is true --- it is imaginary quadratic, a first-year fact --- but the label is false, and it is false on the one tab whose entire subject is the difference between what you checked and what you are repeating. That is the single thing I would fix before you show this to anybody else.}
+
+\Stu{It is a false provenance label, not a false statement, which somehow makes it worse.}
+
+\Kle{Considerably worse, because your test suite cannot catch it. Which brings me to the general point about those one hundred fourteen checks. Fifty-two of them pin rendered prose against the page. That catches drift --- code changing while a sentence stays behind. It cannot catch code and prose being confidently wrong together, and it cannot catch a misattributed citation at all. Your suite would stay green through a wrong year, a wrong author, or a mislabelled provenance. Say that somewhere, because right now the green number invites more trust than it can carry.}
+
+\Stu{The button says sixty-two computational and fifty-two rendered-text pins, but it does not say what the second number cannot do.}
+
+\Kle{Add the sentence. Now legibility, and this is the systematic one. You have a recurring habit: the most load-bearing justification on a screen is the least visible thing on it. Artin-Verdier is the wall your entire premise leans on, and it is inside a hover tooltip --- an unaided reader sees ``behaves three-dimensionally'' followed by a parenthesis. The point that $\gamma$ is analogous to $\varphi_*$ and \emph{not} to Frobenius --- which your own tooltip calls the commonest error in reading the dictionary --- is also in a tooltip. And on the Experimental tab, your shared \texttt{honest} class renders the three longest and most important paragraphs in small, muted, centred italics. The class is named for its epistemic function and styled as a disclaimer.}
+
+\Stu{The styling was meant to signal ``this is a caveat, read carefully.''}
+
+\Kle{It signals ``this is fine print, skip.'' Those are opposite instructions and the typography wins. And it interacts badly with the tab banner: you have quarantined behind ``nothing here is load-bearing'' what I think is the sharpest structural idea in the whole app --- that feeding the Lefschetz formula a ramified generator gives you knot invariants and feeding it Frobenius gives you link invariants and Artin $L$-functions. That is not frontier speculation. That is a clean observation about the two halves of your own app, and it explains what the other seven tabs are doing. The empirical $d$-bit law belongs behind that banner. The pivot does not.}
+
+\Stu{So the banner is measuring the wrong thing. It marks the tab, when it should mark the claims.}
+
+\Kle{Precisely. Mark the claims; you already have a vocabulary for it. Three more, quickly. Your terminology drifts inside single screens --- the same thread is a \emph{$d$-defect}, a \emph{governing bit}, and \emph{the machine-checked depth-four case}, and \emph{depth-four} is never defined while \emph{depth two} is defined ten centimetres away. Second, the trefoil table computes orders for the \emph{branched} cyclic covers and the word branched never appears; a reader who takes ``cyclic covers'' literally computes the wrong object. Third, and this one is a gift rather than a complaint: those orders $3, 4, 3, 1, \infty$ are the Brieskorn spheres $\Sigma(2,3,n)$. The $n = 5$ entry is the Poincare homology sphere. You print it as the integer $1$ and say nothing. Every topologist you show this to will recognise the sequence and wonder why you did not.}
+
+\Stu{That is the payoff I did not know I had.}
+
+\Kle{You have several. The other one is on Pairs: choosing both primes congruent to $3$ mod $4$ makes the $2$-adic Hilbert factor appear as a \emph{term} in the product formula instead of an exception to it --- which is exactly the argument that the $1$ mod $4$ convention is a choice to work where one local term vanishes, not a technicality. Every piece of that is on your screen. It is never assembled into one sentence, so the reader has to build it from the warning line, the product note, and a remark two tabs back.}
+
+\Stu{What would you have me do first?}
+
+\Kle{Fix the false label. Then decide, once, where load-bearing prose lives --- and I would say: never in a tooltip, never in the \texttt{honest} class, never centred and muted. Then unify the vocabulary. The rest is polish, and the polish is good enough that I noticed it. Two things I will say plainly because you have absorbed an hour of criticism without flinching: the surface ladder is the best piece of mathematical exposition in the app, and the three-step rung-two figure is what made the intersection curve finally sit still for me. And your refusals --- the blank cell, the withheld gloss, the model-level caveat --- are what convinced me the numbers were worth checking in the first place.}
+
+\Stu{And the thing you would still refuse to sign.}
+
+\Kle{The depth-three proposal, obviously, which you already label a proposal. And I would not yet say the dictionary explains anything on the topological side. It organises, it predicts where to look, and once --- with $101$ --- it produced a question. That is a real result for an exhibit. It is not a theorem, and your app is careful never to say it is.}
+
+\begin{knote}
+Final. Correct throughout; four attacks, four holds. Honest by construction, one false provenance label (Exp/gap list, ``computed at right''). Systematic legibility fault: load-bearing text lives in tooltips and in the honest class, i.e. the app whispers exactly where it should speak. Vocabulary drifts. Missed payoffs: Brieskorn, and the 2-adic-factor-as-term argument. Best things: the surface ladder, the rung-2 storyboard, the refusals, and $101$. Would I show this to a graduate class? Yes --- after the label is fixed and the tooltips are promoted.
+\end{knote}
+
+\subsection*{The punch list}
+
+Ordered by what Klein would fix first. Every item traces to a specific moment in the walkthrough above.
+
+\textbf{P1 --- honesty defects (fix before the next showing).}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt]
+\item \textbf{False provenance label.} The $\ell = 3$ gap list claims $\mathbb{Q}(\sqrt{-3})$ has zero real embeddings ``computed at right''; nothing computes a signature. Either compute it or restate it as the standard fact it is.
+\item \textbf{The suite oversells itself.} Add one sentence to the self-test panel: the $52$ rendered-text pins detect drift between code and prose, not code and prose being wrong together, and detect nothing about citations.
+\item \textbf{Undisclosed search bounds.} The $(13,17)$ witness scan says ``every one of the $10$ normalized witnesses with $z \le 12$'' but also silently bounds $|y| \le 120$. State the whole box.
+\item \textbf{Typographic equality between computed and asserted rows.} In the Hilbert table, the ``all other places are $+1$'' row is a cited theorem about an infinite family and is set exactly like the two enumerated rows beside it.
+\item \textbf{A degenerate check presented as evidence.} The worked cubic instance is $1 = 1$ with a green tick; a constant-$1$ implementation would render identically. Pick a pair with a nontrivial symbol, and keep the census.
+\end{enumerate}
+
+\textbf{P2 --- load-bearing prose is hidden (the systematic fault).}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt,resume]
+\item \textbf{Promote Artin-Verdier} out of its tooltip into the visible why-box: the trace isomorphism, $\mathbb{G}_m$ as orientation sheaf, and the real-place correction are the justification for the app's premise.
+\item \textbf{Promote the generator distinction} --- $\gamma \sim \varphi_*$, not $\gamma \sim \mathrm{Frob}$ --- into body text. The app's own tooltip calls conflating them the commonest error in reading the dictionary.
+\item \textbf{Restyle the \texttt{honest} class.} Small, muted, centred italics reads as fine print; these are the app's most careful paragraphs. Same treatment, opposite signal.
+\item \textbf{Re-scope the Experimental banner.} Label the claims, not the tab. The ramified/unramified pivot is an observation about the existing seven tabs and should not sit behind ``nothing here is load-bearing''.
+\end{enumerate}
+
+\textbf{P3 --- vocabulary and definitions.}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt,resume]
+\item \textbf{One name per object.} ``$d$-defect'', ``governing bit $d\{p,q\}$'', and ``the machine-checked depth-four case'' are one thread under three names on one screen.
+\item \textbf{Define \emph{depth-four}} where it is used, given that \emph{depth two} is defined in the adjacent column; the natural misreading is ``four components''.
+\item \textbf{Say \emph{branched}.} The trefoil table computes $\#H_1$ of the branched cyclic covers; $M_n$ is never defined and ``branched'' never appears.
+\item \textbf{Define $f_S$ on the Q and A tab}, where it is used twice and defined nowhere.
+\end{enumerate}
+
+\textbf{P4 --- state, navigation, and figures.}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt,resume]
+\item \textbf{Stale canvas at $(3,7)$.} A deliberate refusal to sync renders identically to a forgotten update; say which it is.
+\item \textbf{The Experimental tab is a navigational dead end} --- zero jump buttons back into the tabs whose claims it reframes; the Q and A tab returns the favour by never linking it.
+\item \textbf{Q and A ergonomics.} Fourteen questions, unnumbered, no expand-all, fourteen clicks to read.
+\item \textbf{Figure defects.} The arc figure paints two labels under the blue curve; several $\tilde{X}$ labels render with a displaced combining accent; one certificate is joined with an ASCII hyphen beside a typographic minus.
+\item \textbf{Column balance} on the Experimental generators row: the right column ends halfway, leaving the tab's most delicate prose beside white space.
+\end{enumerate}
+
+\textbf{P5 --- payoffs currently forfeited.}
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt,resume]
+\item \textbf{Name the Brieskorn spheres.} $3, 4, 3, 1, \infty$ are $\Sigma(2,3,n)$; the $1$ is the Poincare homology sphere. Every topologist will recognise the sequence.
+\item \textbf{Assemble the $2$-adic argument} into one sentence on Pairs: both primes $\equiv 3 \pmod 4$ makes the $2$-adic factor a term rather than an exception, which is the real content of the $1$ mod $4$ convention.
+\item \textbf{Flag the degenerate agreement.} The knot-column match is exhibited only where $\lambda = \mu = \nu = 0$; agreement by mutual vanishing deserves the caveat in the display, not just in the surrounding prose.
+\item \textbf{Give the census an error bar.} At $n = 171$, $61:57:53$ sits about $0.65$ standard deviations from uniform; printing one decimal place with no interval claims more than the sample supports, and the self-test pins those three integers as exact constants.
+\end{enumerate}
+
+\walkbeat{Klein closes the notebook and pushes it across the table.}
+
+\Kle{Take the notes. I want the label fixed and the tooltips promoted; the rest you can argue with me about. And put the Brieskorn line in --- that one costs you nothing and buys you the room.}

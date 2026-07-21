@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.9in,top=0.85in,bottom=0.85in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{parskip}
+
+\definecolor{shadecolor}{RGB}{239,236,227}
+\definecolor{sectblue}{RGB}{27,72,120}
+\definecolor{stucol}{RGB}{27,90,140}
+\definecolor{klecol}{RGB}{150,40,30}
+\definecolor{beatgray}{RGB}{110,110,110}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt plus 1pt}
+
+% ---- dialogue ----
+\newcommand{\Stu}[1]{\par\smallskip\noindent\hangindent=1.9em\hangafter=1%
+  \textcolor{stucol}{\textbf{Student.}}~#1\par}
+\newcommand{\Kle}[1]{\par\smallskip\noindent\hangindent=1.9em\hangafter=1%
+  \textcolor{klecol}{\textbf{Klein.}}~#1\par}
+\newcommand{\walkbeat}[1]{\par\smallskip{\centering\small\itshape\textcolor{beatgray}{#1}\par}\smallskip}
+
+% ---- figures ----
+\newcommand{\walkfig}[2]{%
+  \begin{figure}[H]\centering
+  \setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.4pt}%
+  \fcolorbox{black!25}{white}{\includegraphics[width=0.97\linewidth,height=0.56\textheight,keepaspectratio]{img/#1}}\\[4pt]
+  {\footnotesize\itshape #2}
+  \end{figure}}
+
+% ---- Klein's notebook ----
+\newenvironment{knote}%
+  {\begin{snugshade}\small\noindent\textbf{\textcolor{klecol}{Klein's notebook.}}\itshape\ }%
+  {\end{snugshade}}
+
+\renewcommand{\thesection}{\Roman{section}}

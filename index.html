@@ -341,32 +341,43 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <section id="tab-triples" class="tab-panel">
     <p style="max-width:920px;">No two of the Borromean rings are linked — and the three together are inseparable. This tab computes the first invariant that survives that pairwise vanishing, in both languages at once: μ̄(123) through surfaces on the left, the Rédei symbol [13, 61, 937] through Frobenius on the right.</p>
     <div class="small-note" style="margin:0 0 10px;text-align:left;">On this tab: <button type="button" class="jump" onclick="$id('surfaceLadder').scrollIntoView()">the surface ladder</button> · <button type="button" class="jump" onclick="$id('tripleCoverHasse').scrollIntoView({block:'center'})">the tower of covers ↔ field tower</button> — every number computed live.</div>
+
+    <div style="max-width:460px;margin:0 auto 6px;">
+      <canvas id="borroCanvas" width="420" height="340"></canvas>
+      <div class="controls">
+        <label style="font-size:.85rem;color:var(--muted);">Isolate:
+          <select id="isolateSelect" class="ctrl">
+            <option value="none">all three</option>
+            <option value="1">fade K1</option>
+            <option value="2">fade K2</option>
+            <option value="3">fade K3</option>
+          </select>
+        </label>
+        <button class="ctrl" id="borro3dToggle">Toggle 3D view (ellipses)</button>
+      </div>
+      <div id="borro3dWrap" style="display:none;">
+        <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
+        <div class="small-note">Drag or arrow keys to rotate. <button type="button" class="tip" id="fsTooltip" aria-expanded="false" aria-controls="fsExplain">Why ellipses, not circles?</button></div>
+        <div class="small-note" id="fsExplain" style="display:none;">By a theorem of <span class="tt" data-tip="Freedman–Skora (1987). Sketch: a round circle in S³ = ∂B⁴ spans a totally geodesic flat disk in the 4-ball, and two round circles are linked exactly when their disks meet; pairwise unlinked round rings would therefore bound three disjoint disks in B⁴ — which forces every Milnor invariant to vanish, while the Borromean rings have μ̄(123) = ±1, the number this tab computes. Cited: Freedman–Skora, J. Differential Geom. 25 (1987).">Freedman–Skora</span>, the Borromean rings cannot be realized by three round circles in space — these are genuine ellipses (semi-axes a=2, b=1.1), one in each coordinate plane.</div>
+      </div>
+    </div>
+
     <div class="twocol">
       <div class="col topo">
         <h2>Topology</h2>
-        <div class="sub">The <span class="tt tt-left" data-tip="Three rings, no two of which are linked, that nonetheless cannot be pulled apart. Named for the Borromeo family crest; the standard first example of higher-order linking.">Borromean rings</span>: at both crossings between any pair, the same circle is consistently on top — but the "on top" relations chain cyclically (K1 &gt; K2 &gt; K3 &gt; K1), with no consistent global resolution.</div>
-        <canvas id="borroCanvas" width="420" height="340"></canvas>
-        <div class="controls">
-          <label style="font-size:.85rem;color:var(--muted);">Isolate:
-            <select id="isolateSelect" class="ctrl">
-              <option value="none">all three</option>
-              <option value="1">fade K1</option>
-              <option value="2">fade K2</option>
-              <option value="3">fade K3</option>
-            </select>
-          </label>
-          <button class="ctrl" id="borro3dToggle">Toggle 3D view (ellipses)</button>
-        </div>
-        <div id="borro3dWrap" style="display:none;">
-          <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
-          <div class="small-note">Drag or arrow keys to rotate. <button type="button" class="tip" id="fsTooltip" aria-expanded="false" aria-controls="fsExplain">Why ellipses, not circles?</button></div>
-          <div class="small-note" id="fsExplain" style="display:none;">By a theorem of <span class="tt" data-tip="Freedman–Skora (1987). Sketch: a round circle in S³ = ∂B⁴ spans a totally geodesic flat disk in the 4-ball, and two round circles are linked exactly when their disks meet; pairwise unlinked round rings would therefore bound three disjoint disks in B⁴ — which forces every Milnor invariant to vanish, while the Borromean rings have μ̄(123) = ±1, the number this tab computes. Cited: Freedman–Skora, J. Differential Geom. 25 (1987).">Freedman–Skora</span>, the Borromean rings cannot be realized by three round circles in space — these are genuine ellipses (semi-axes a=2, b=1.1), one in each coordinate plane.</div>
-        </div>
-        <div id="topoTripleSteps"></div>
+        <div class="sub">The <span class="tt tt-left" data-tip="Three rings, no two of which are linked, that nonetheless cannot be pulled apart. Named for the Borromeo family crest; the standard first example of higher-order linking.">Borromean rings</span> above: at both crossings between any pair, the same circle is consistently on top — but the "on top" relations chain cyclically (K1 &gt; K2 &gt; K3 &gt; K1), with no consistent global resolution.</div>
       </div>
       <div class="col arith">
         <h2>Arithmetic</h2>
         <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The value rule: [p₁, p₂, q] = <b>+1 if q splits completely in the Rédei field k<sub>p₁,p₂</sub>, −1 if not</b> (steps 3–4 decide which). The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4). Rédei's theorem (1939): it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. Sketch: α·ᾱ = p₂z², so √ᾱ = z√p₂/√α already lies in the field — the extension is Galois — and the same relation picks D₄ over the quaternion group; the congruences are what kill ramification at 2 and ∞. The normalization is load-bearing: scaling the certificate by k twists the symbol by (k/q); redeiSymbol() rejects unnormalized ones. Cited: Rédei, J. reine angew. Math. 180 (1939).">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <div id="topoTripleSteps"></div>
+      </div>
+      <div class="col arith">
         <div id="tripleSteps"></div>
       </div>
     </div>
@@ -471,24 +482,41 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="rung-title">Rung 2 — the curve the vanishing leaves: γ = Σ₁ ∩ Σ₂ ↔ α = 23 + 6√13</div>
         <div class="rung-grid">
           <div class="rung-t">
-            <svg id="rung2Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: the Seifert surface Sigma 1 is a horizontal disk with boundary K1. The surface Sigma 2 is a bowl hanging from the ring K2 above it, and the bowl dips down through the disk. Where the bowl passes through the disk, the two surfaces meet in a closed purple curve labeled gamma equals Sigma 1 intersect Sigma 2.">
-              <path d="M 118 42 C 117 78, 122 106, 134 128 C 146 150, 155 166, 170 174 C 185 166, 194 150, 206 128 C 218 106, 223 78, 222 42 A 52 13 0 0 1 118 42 Z" fill="#2e8b57" fill-opacity="0.13"/>
-              <ellipse cx="170" cy="128" rx="125" ry="34" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
-              <path d="M 118 42 C 117 78, 122 106, 134 128" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-              <path d="M 222 42 C 223 78, 218 106, 206 128" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-              <path d="M 134 128 C 146 150, 155 166, 170 174 C 185 166, 194 150, 206 128" fill="none" stroke="#2e8b57" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.75"/>
-              <ellipse cx="170" cy="42" rx="52" ry="13" fill="#2e8b57" fill-opacity="0.08" stroke="#2e8b57" stroke-width="3"/>
-              <path d="M 134 128 A 36 10 0 0 1 206 128" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="6 5" opacity="0.65"/>
-              <path d="M 134 128 A 36 10 0 0 0 206 128" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
-              <text x="36" y="116" font-size="12" fill="#1b6ca8">Σ₁</text>
-              <text x="272" y="164" font-size="12" fill="#1b6ca8">K₁ = ∂Σ₁</text>
-              <text x="98" y="92" font-size="12" fill="#1e6b41">Σ₂</text>
-              <text x="230" y="38" font-size="12" fill="#1e6b41">K₂ = ∂Σ₂</text>
-              <text x="243" y="120" font-size="12.5" font-weight="bold" fill="#7d3c98">γ = Σ₁ ∩ Σ₂</text>
-              <line x1="240" y1="122" x2="208" y2="126" stroke="#7d3c98" stroke-width="1"/>
-              <text x="170" y="194" font-size="11" fill="#666" text-anchor="middle">the bowl dips through the disk — the crossing is one closed curve</text>
+            <svg id="rung2Fig" viewBox="0 0 680 210" role="img" aria-label="Schematic in three numbered steps. Step 1: the two spanning surfaces separately — a flat disk whose boundary is K1, and a bowl whose rim is K2. Step 2: the bowl is pushed down through the disk; where the bowl's sides pass through the disk they cross it in exactly one closed circle, drawn bold. Step 3: that circle is extracted and shown alone — it is gamma, the intersection of Sigma 1 and Sigma 2, closed because rung 1's punctures cancelled, and not a component of the link.">
+              <line x1="228" y1="14" x2="228" y2="178" stroke="#ddd8ca" stroke-width="1.5"/>
+              <line x1="452" y1="14" x2="452" y2="178" stroke="#ddd8ca" stroke-width="1.5"/>
+              <!-- Step 1: the two surfaces, apart -->
+              <ellipse cx="78" cy="122" rx="60" ry="20" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
+              <text x="70" y="127" font-size="12" fill="#1b6ca8">Σ₁</text>
+              <text x="96" y="156" font-size="11" fill="#1b6ca8">K₁ = ∂Σ₁</text>
+              <path d="M 137 62 C 138 92, 148 114, 168 121 C 188 114, 198 92, 199 62 A 31 8 0 0 1 137 62 Z" fill="#2e8b57" fill-opacity="0.13"/>
+              <path d="M 137 62 C 138 92, 148 114, 168 121 C 188 114, 198 92, 199 62" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <ellipse cx="168" cy="62" rx="31" ry="8" fill="none" stroke="#2e8b57" stroke-width="3"/>
+              <text x="204" y="58" font-size="11" fill="#1e6b41">K₂ = ∂Σ₂</text>
+              <text x="188" y="106" font-size="12" fill="#1e6b41">Σ₂</text>
+              <text x="114" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">1 — the two spanning surfaces</text>
+              <!-- Step 2: pushed together -->
+              <path d="M 302 50 C 302 84, 310 108, 320 124 C 328 138, 333 147, 340 152 C 347 147, 352 138, 360 124 C 370 108, 378 84, 378 50 A 38 9.5 0 0 1 302 50 Z" fill="#2e8b57" fill-opacity="0.12"/>
+              <ellipse cx="340" cy="124" rx="94" ry="25" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
+              <path d="M 302 50 C 302 84, 310 108, 320 124" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 378 50 C 378 84, 370 108, 360 124" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 320 124 C 328 138, 333 147, 340 152 C 347 147, 352 138, 360 124" fill="none" stroke="#2e8b57" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.75"/>
+              <ellipse cx="340" cy="50" rx="38" ry="9.5" fill="none" stroke="#2e8b57" stroke-width="3"/>
+              <path d="M 320 124 A 20 5.5 0 0 1 360 124" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="5 4" opacity="0.7"/>
+              <path d="M 320 124 A 20 5.5 0 0 0 360 124" fill="none" stroke="#7d3c98" stroke-width="4"/>
+              <line x1="395" y1="98" x2="362" y2="121" stroke="#7d3c98" stroke-width="1.2"/>
+              <text x="398" y="94" font-size="12.5" font-weight="bold" fill="#7d3c98">the crossing</text>
+              <text x="262" y="60" font-size="11" fill="#1e6b41">K₂</text>
+              <text x="420" y="152" font-size="11" fill="#1b6ca8">K₁</text>
+              <text x="340" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">2 — pushed together: one circle</text>
+              <!-- Step 3: gamma alone -->
+              <ellipse cx="566" cy="102" rx="52" ry="17" fill="none" stroke="#7d3c98" stroke-width="4"/>
+              <text x="566" y="66" font-size="13" font-weight="bold" fill="#7d3c98" text-anchor="middle">γ = Σ₁ ∩ Σ₂</text>
+              <text x="566" y="142" font-size="10.5" fill="#666" text-anchor="middle">closed — rung 1's ± punctures cancelled;</text>
+              <text x="566" y="155" font-size="10.5" fill="#666" text-anchor="middle">not a component of the link</text>
+              <text x="566" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">3 — γ, extracted</text>
             </svg>
-            <div class="figcap">schematic — Σ₂ drawn as a bowl on K₂ dipping through the disk Σ₁; in general position the two surfaces meet in the closed curve γ (dashed = below Σ₁)</div>
+            <div class="figcap">schematic, in three steps — the two spanning surfaces apart; pushed together (the crossing is one closed circle, bold; dashed = hidden below the disk); and γ pulled out on its own</div>
             <div id="gammaComputed"></div>
             <div>Because every pairwise lk = 0 (rung 1), the surfaces can be pushed off the other components and — in <span class="tt" data-tip="Two surfaces in a 3-manifold can be perturbed to meet transversally; the intersection is then a 1-manifold, and once the boundary punctures cancel (lk = 0) it is a union of closed curves. Standard transversality — cited, not computed; the whyMu box above does the tubing.">general position</span> — Σ₁ and Σ₂ meet in a <b>closed curve</b> γ: the Pairs tab's arc with both boundary ends cancelled, closing into a circle. γ is new — not a component of the link, but the object the vanishing left behind.</div>
           </div>
@@ -628,8 +656,8 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
   </section>
 
     <section id="tab-zeta" class="tab-panel">
-    <p style="max-width:840px;">Everything above is packaged by a zeta function on each side, and the packaging is the same: <b>a sum, resummed as a product, in two different ways.</b> Primes play the role of the periodic orbits of Spec(O<sub>K</sub>) — the Euler product, via Weil's zeta of varieties over finite fields, is what <span class="tt" data-tip="Artin–Mazur (1965): for a self-map f, ζ_f(t) = exp( Σ #Fix(fⁿ)·tⁿ/n ) — a direct imitation of Weil's zeta for varieties over F_q, where f is Frobenius and Fix(fⁿ) is the points over F_{qⁿ}: periodic orbits play primes. When fixed points count homologically with constant index — the hypothesis the orbit face states — one resummation engine turns the iterate sum into a determinant over eigenvalues and a product over periodic orbits: the same three faces as the Dedekind column opposite. Cited: Artin–Mazur, Ann. of Math. 81 (1965).">Artin–Mazur</span> imitated in naming the dynamical zeta — and characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.</p>
-    <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The gallery below then works the zeta at <b>every level of this app's story — two, three and four components</b>, each link paired with its mirror field, closing with a contrast pair for what knotting, as opposed to linking, would add. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
+    <p style="max-width:840px;">Everything the previous tabs computed is packaged by a zeta function on each side, and the packaging is the same: <b>a sum, resummed as a product, in two different ways.</b> Primes play the role of the periodic orbits of Spec(O<sub>K</sub>) — the Euler product, via Weil's zeta of varieties over finite fields, is what <span class="tt" data-tip="Artin–Mazur (1965): for a self-map f, ζ_f(t) = exp( Σ #Fix(fⁿ)·tⁿ/n ) — a direct imitation of Weil's zeta for varieties over F_q, where f is Frobenius and Fix(fⁿ) is the points over F_{qⁿ}: periodic orbits play primes. When fixed points count homologically with constant index — the hypothesis the orbit face states — one resummation engine turns the iterate sum into a determinant over eigenvalues and a product over periodic orbits: the same three faces as the Dedekind column opposite. Cited: Artin–Mazur, Ann. of Math. 81 (1965).">Artin–Mazur</span> imitated in naming the dynamical zeta — and characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.</p>
+    <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The gallery below then works the zeta at <b>every level of this app's story — two, three and four components</b>, each link paired with its mirror field, plus the half-built five-component rung (one column computed, the other an honest blank), closing with a contrast pair for what knotting, as opposed to linking, would add. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
     <div class="thread" id="zetaThread"></div>
     <div class="twocol">
       <div class="col topo">
@@ -650,7 +678,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     </div>
 
     <div class="section-head">The gallery: the zeta worked at every level of linking</div>
-    <div class="small-note" style="text-align:left;margin:0 0 6px;">Four rows, one per level of the story. Each row pairs a link with its mirror field; each card starts closed — open it for the live computation — and leads with its lesson, stated across the links ↔ primes analogy.</div>
+    <div class="small-note" style="text-align:left;margin:0 0 6px;">Five rows, one per level of the story — the fifth deliberately half-built. The first four pair a link with its mirror field; each card starts closed — open it for the live computation — and leads with its lesson, stated across the links ↔ primes analogy.</div>
 
     <div class="zx-row-head">Two components <span class="rh-sub">the pairwise dial: lk mod 2 ↔ the Legendre symbol</span></div>
     <div class="twocol">
@@ -667,8 +695,8 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <details class="zx" id="zxSqrt5">
           <summary><h2>The zeta of an actual arithmetic link: ζ of Q(√5) <span class="zx-hook">— one number, three faces, converging live</span></h2></summary>
           <div class="zx-body">
-            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> a Dedekind zeta is the Pairs tab multiplied out — every Euler factor is a Legendre symbol, a mod-2 linking number; the monodromy zeta opposite runs the same sum-into-product with eigenvalues in place of characters.</div>
-            <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every Euler factor of its zeta is a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> a Dedekind zeta is the Pairs tab multiplied out — every unramified Euler factor is read off a Legendre symbol, a mod-2 linking number; the monodromy zeta opposite runs the same sum-into-product with eigenvalues in place of characters.</div>
+            <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every unramified Euler factor of its zeta is dictated by a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
             <table class="symbolic" id="dedekindFactors"></table>
             <div class="controls">
               <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100" aria-label="summation limit X">
@@ -837,9 +865,9 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
     </div>
 
-    <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">Chebotarev, sampled</div>
+    <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">How often does each matrix appear? — the statistics under the whole app</div>
     <div style="max-width:840px;margin:0 auto;">
-      <p style="font-size:.9rem;">Chebotarev's density theorem (1926, cited): Frobenius classes equidistribute over the conjugacy classes of the Galois group, with density |C|/|G|. For D₄'s five classes the prediction is 1/8, 1/8, 1/4, 1/4, 1/4 — and the matrix machinery above can be run over every prime at once. The bench demonstrates at a finite cutoff; the theorem is about the limit.</p>
+      <p style="font-size:.9rem;">Every prime you feed the box above lands on one of D₄'s five conjugacy classes — identity (splits completely, like 107), corner (the triple level, like 937), or one of the three χ-patterns. Chebotarev's density theorem (1926, cited) says each class captures its fair share of all primes, |C|/|G|: here 1/8, 1/8, 1/4, 1/4, 1/4. This is the engine room of two things this app does: it is why the <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">ζ of k₁₃,₆₁ Euler product</button> meets local factors of each shape in fixed proportions as the cutoff grows, and it is the quantitative face of the Dictionary's "primes are the periodic orbits" — orbits of a flow equidistribute; Frobenius classes do too (the <button type="button" class="jump" onclick="gotoTab('qa')">Q&amp;A tab</button>'s Chebotarev answer states the analogy's limits). The bench demonstrates at a finite cutoff; the theorem is about the limit.</p>
       <button class="ctrl" id="chebRun">Tally every odd unramified prime &lt; 3000</button>
       <div id="chebOut" aria-live="polite" style="margin-top:8px;"></div>
     </div>
@@ -1253,7 +1281,7 @@ function renderPresMat() { // Klein A1: one presentation matrix per side
      det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= ∆₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
   // Arithmetic: the Λ-side at the level the literature pins — size and determinant ideal.
   $id("presMatArith").innerHTML =
-    `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the gallery's first knotted prime — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
+    `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the classical gallery's first knotted prime (the knotted-prime card above) — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
      <div class="eq" style="margin:6px 0;">X<sub>∞</sub><sup>(ω-eigenspace)</sup> ∼ Λ ⁄ ( f₃₇(T) ),&nbsp;&nbsp; ⟨ f₃₇(T) ⟩ = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>f₃₇(T)</td></tr></table>,&nbsp; deg f₃₇ = λ = 1</div>
      Honesty: the matrix's <i>size and determinant ideal</i> are what the cited results pin (char ideal = (L<sub>p</sub>), the Main Conjecture above); its entries need class-group tower data this app does not carry — displayed schematically, said so. The 2×2 twin at left is fully computed.`;
 }
@@ -2621,7 +2649,7 @@ function quadThreadHTML(allNeg, allPos) {
 
 function renderZetaThread(qOrd) { // capstone; factors recomputed live (null: quad symbol undefined)
   $id("zetaThread").innerHTML =
-    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"}; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum. Worked examples below, each with its lesson: the gallery cards cash this capstone out — 3-linked and 4-linked, both sides.`;
+    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Ladder's order-into-orbits reading; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"} — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum. Worked examples below, each with its lesson: the gallery cards cash this capstone out — two- through five-linked plus the contrast pair, both sides at every rung except the fifth, whose arithmetic side is honestly blank.`;
 }
 
 function renderQuadTower() {
@@ -2714,7 +2742,7 @@ function renderBorroZeta() {
     `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link (Stallings 1978: <span class="tt" data-tip="Stallings (1978): the closure of a homogeneous braid is a fibered link, fiber its Bennequin surface. A braid: strands crossing as they descend; σᵢ crosses strands i, i+1 (σᵢ⁻¹ its mirror); the closure ties each bottom to its own top — these rings close (σ₁σ₂⁻¹)³. Homogeneous: each σᵢ keeps one sign — here σ₁ always +, σ₂ always −. Sketch: the Bennequin surface, pushed once around the braid axis, sweeps out the whole complement — a product region — and Stallings' fibration criterion (finitely generated commutator subgroup of π₁) certifies the bundle. Cited: Stallings, Proc. Symp. Pure Math. 32 (1978).">closures of homogeneous braids</span> are fibered; these close (σ₁σ₂⁻¹)³), fiber its <span class="tt" data-tip="Seifert's algorithm on the closed braid: one disk per strand, one twisted band per crossing; for a homogeneous braid this surface is the fiber (Stallings).">Bennequin surface</span>: χ = strands − crossings = 3 − 6 = ${fmtM(chi)} (χ = Euler characteristic here, not this tab's Dirichlet character), so <span class="tt" data-tip="b₁ = rank of H₁ (the H₁ black box above). Why 1 − χ: this surface is connected with boundary — one disk (χ = 1) plus b₁ bands, each dropping χ by 1.">b₁</span> = 1 − (${fmtM(chi)}) = ${b1}.`
     + `<div><b><span class="tt" data-tip="Torres (1953): for a link of r ≥ 2 components, the one-variable Alexander polynomial is (t−1)·Δ_L(t,…,t) up to units — collapse all variables to one and pay a factor (t−1). Proof idea, a sketch: the one-variable polynomial reads H₁ of the total-winding Z-cover; comparing its Wang sequence with the Zʳ-cover's chain complex, all deck variables identified to t, the identification frees exactly one extra copy of the coefficient ring with trivial deck action — the (t−1). Cited: Torres, Ann. of Math. 57 (1953); the collapse is computed live here.">Torres (1953)</span>, live:</b> the one-variable Alexander polynomial of a ≥ 2-component link is (t−1)·Δ<sub>L</sub>(t,…,t). On the Triples grid, tᵢ = t sends each xᵢ ↦ (t−1): summing coefficients by total degree (computed) gives ${dg[topD] === 1 ? "" : fmtM(dg[topD])}(t−1)${supN(topD)}; times (t−1), multiplied out live: (t−1)${supN(one.length - 1)} = ${polyStr1(one)} — coefficients <b>${coefStr}</b>. Hopf sanity: (t−1)·1 = ${polyStr1(hopf)}, degree ${hopf.length - 1} = b₁ of the annulus fiber.</div>`
     + `<div><b>Milnor (1968):</b> for a fibered link the infinite cyclic cover is F × ℝ, so H₁ = H₁(F) with t acting as the monodromy h₁∗ — the one-variable Δ <i>is</i> det(tI − h₁∗) up to units. Here det(tI − h₁∗) = (t−1)⁴ on the b₁ = ${b1} fiber: <b>every eigenvalue is 1</b> — unipotent, entropy 0 (defined below), Lefschetz numbers flat: tr(h₁∗ⁿ) = ${uTr.join(", ")}, … (a stand-in unipotent with this characteristic polynomial, powered live — every quantity used is forced by the eigenvalues alone), against ${fTr.join(", ")}, … below.</div>`
-    + `<div><b>The punchline:</b> this link of unknots has a zeta with <b>no spectral content</b> — everything sits in the Taylor coefficients at t = 1: exactly the μ̄ hierarchy this app computes, Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples')">the Triples grid</button>. <b>Scope:</b> exhibited, not a theorem — unknotted components alone do not force it: the (2,4) torus link (two unknots, lk = 2, fibered) has Δ ≐ (t−1)(t²+1) — eigenvalues ±i ≠ 1 (unit circle: entropy 0, spectral content nonetheless). 'Linking' here names the vanishing-μ̄ story, checked above for this link.</div>`;
+    + `<div><b>The punchline:</b> this link of unknots has a zeta with <b>no spectral content</b> — everything sits in the Taylor coefficients at t = 1: exactly the μ̄ hierarchy this app computes, Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples');var d=$id('deltaBorGrid');if(d)d.scrollIntoView({block:'center'});">the Triples grid</button>. <b>Scope:</b> exhibited, not a theorem — unknotted components alone do not force it: the (2,4) torus link (two unknots, lk = 2, fibered) has Δ ≐ (t−1)(t²+1) — eigenvalues ±i ≠ 1 (unit circle: entropy 0, spectral content nonetheless). 'Linking' here names the vanishing-μ̄ story, checked above for this link.</div>`;
 }
 
 /* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
@@ -2999,7 +3027,7 @@ function renderK1361Worked() {
     + (() => { // Klein F1: the ideal-sum face — same unramified data, summed instead of multiplied
       const { sum, terms } = k1361IdealFace(200, 120000);
       const agree = Math.abs(sum - prod) < 1e-5;
-      return `<div class="step"><b>The ideal-sum face, live:</b> the same ${count} primes, summed instead of multiplied — a(p<sup>k</sup>) = C(k/f + g − 1, g − 1) ideals of norm p<sup>k</sup> when f | k (else 0), extended multiplicatively and summed over the ${terms.toLocaleString()} unramified 200-<span class="tt" data-tip="n is P-smooth when every prime factor of n is ≤ P. Restricting the ideal sum to 200-smooth norms coprime to 13·61 makes it converge to exactly the same truncation as the product face — the two faces then must agree, and the display checks that they do.">smooth</span> norms n ≤ 120000: <span class="eq">Σ a(n)·n<sup>−2</sup> = <b>${sum.toFixed(6)}</b></span> <span class="${agree ? "ok" : "fail"}">${agree ? "— agrees with the product face ✓" : "— disagrees ✗"}</span> (|Σ − ∏| = ${Math.abs(sum - prod).toExponential(1)}). The third face, honestly: Gal(k₁₃,₆₁/Q) ≅ D₄ is <b>nonabelian</b>, so the character face upgrades from Dirichlet L-functions to Artin L-functions — stated (Artin 1931), not computed; the degree-2 cards below run the abelian version.</div>`;
+      return `<div class="step"><b>The ideal-sum face, live:</b> the same ${count} primes, summed instead of multiplied — a(p<sup>k</sup>) = C(k/f + g − 1, g − 1) ideals of norm p<sup>k</sup> when f | k (else 0), extended multiplicatively and summed over the ${terms.toLocaleString()} unramified 200-<span class="tt" data-tip="n is P-smooth when every prime factor of n is ≤ P. Restricting the ideal sum to 200-smooth norms coprime to 13·61 makes it converge to exactly the same truncation as the product face — the two faces then must agree, and the display checks that they do.">smooth</span> norms n ≤ 120000: <span class="eq">Σ a(n)·n<sup>−2</sup> = <b>${sum.toFixed(6)}</b></span> <span class="${agree ? "ok" : "fail"}">${agree ? "— agrees with the product face ✓" : "— disagrees ✗"}</span> (|Σ − ∏| = ${Math.abs(sum - prod).toExponential(1)}). The third face, honestly: Gal(k₁₃,₆₁/Q) ≅ D₄ is <b>nonabelian</b>, so the character face upgrades from Dirichlet L-functions to Artin L-functions — stated (Artin 1923/1930), not computed; the degree-2 cards above, in the two-component row, run the abelian version.</div>`;
     })();
   ttFocusable($id("k1361Worked"));
 }
@@ -3045,8 +3073,8 @@ function renderHopfWorked() {
   const c13 = Number(legendre(5n, 13n)), c29 = Number(legendre(5n, 29n));
   $id("hopfWorked").innerHTML =
     `<div class="step"><div class="head">Face 1 — the monodromy zeta: trivial, and honestly so.</div><div class="eq">The Hopf link is <span class="tt" data-tip="The complement fibers over the circle with fiber the obvious annulus between the two rings (the Hopf band). Fiberedness is a cited classical fact (Stallings 1978 covers it as the smallest homogeneous braid closure, (σ₁)²).">fibered</span>; the fiber is an annulus, H₁ = Z, and the monodromy acts on it by the identity — so det(tI − h₁∗) = t − 1. Torres agrees, computed: (t − 1) · ∆<sub>Hopf</sub>(t, t) = (t − 1) · 1 = t − 1, degree 1 = b₁(annulus). The smallest fibered link has a zeta with no room for anything but linking.</div></div>`
-    + `<div class="step"><div class="head">Face 2 — the cover-orbit factor: the dial, both positions.</div><div class="eq">lk(K₁, K₂) = 1 is odd, so in the double cover of S³ ∖ K₁ the loop K₂ lifts to <b>1 loop winding twice</b> — local factor <b>(1 − t²)⁻¹</b> ↔ (5/13) = ${c13 > 0 ? "+1" : "−1"} (computed live): 13 inert in Q(√5), Euler factor (1 − 13⁻²ˢ)⁻¹. Unlink instead — lk even — and K₂ lifts to <b>2 loops</b>: (1 − t)⁻² ↔ (5/29) = ${c29 > 0 ? "+1" : "−1"} (live): 29 split, (1 − 29⁻ˢ)⁻². <button type="button" class="jump" onclick="gotoTab('pairs')">the lift picture, Pairs tab</button></div></div>`
-    + `<div class="mln">Everything the higher rows do is already here at n = 2: a cover, a loop upstairs, |deck| = (loop count) × (winding) — and the mirror field reading the same dial as e·f·g. The three- and four-component rows below just climb to deeper covers.</div>`;
+    + `<div class="step"><div class="head">Face 2 — the cover-orbit factor: the dial, both positions.</div><div class="eq">lk(K₁, K₂) = 1 is odd, so in the double cover of S³ ∖ K₁ the loop K₂ lifts to <b>1 loop winding twice</b> — local factor <b>(1 − t²)⁻¹</b> ↔ (5/13) = ${c13 > 0 ? "+1" : "−1"} (computed live): 13 inert in Q(√5), Euler factor (1 − 13⁻²ˢ)⁻¹. Unlink instead — lk even — and K₂ lifts to <b>2 loops</b>: (1 − t)⁻² ↔ (5/29) = ${c29 > 0 ? "+1" : "−1"} (live): 29 split, (1 − 29⁻ˢ)⁻². <button type="button" class="jump" onclick="gotoTab('pairs');var d=$id('pairsCoverMini');if(d)d.scrollIntoView({block:'center'});">the lift picture, Pairs tab</button></div></div>`
+    + `<div class="mln">Everything the higher rows do is already here at n = 2: a cover, a loop upstairs, |deck| = (loop count) × (winding) — and the mirror field reading the same dial as e·f·g. The three-, four- and five-component rows below just climb to deeper covers.</div>`;
 }
 
 /* R6 G4 (session B): worked 4-linked zetas. Order rule Node-verified (64/64) before display. */

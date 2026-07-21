@@ -1612,7 +1612,7 @@ function renderTripleSteps() {
 
   const f937 = frobOrderTriple(937n), f107 = frobOrderTriple(107n);
   $id("triplesThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix ρ(Frob<sub>937</sub>) ∈ N₃(F₂) — displayed and powered live on the <button type="button" class="jump" onclick="gotoTab('ladder');$id('frobPreset937').click()">Ladder tab, preset q = 937</button>: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ — this level's version of the Pairs box's two roots of x² − p — that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had the symbol been +1 — as at q = 107, order ${f107.ord}, computed — Frobenius would be trivial: ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
+    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix ρ(Frob<sub>937</sub>) ∈ N₃(F₂) — displayed and powered live on the <button type="button" class="jump" onclick="gotoTab('ladder');$id('frobPreset937').click()">Ladder tab, preset q = 937</button>: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ — this level's version of the Pairs box's two roots of x² − p — that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had Frobenius been trivial instead — as at q = 107, which splits completely in k₁₃,₆₁: order ${f107.ord}, computed; a splitting datum, not a symbol value, since 107 ≡ 3 (mod 4) sits outside the symmetric symbol's domain (the Ladder's domain note) — the count would read ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
     + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology: Δ<sub>Bor</sub> is the same story — by Milnor–Turaev it <i>is</i> the zeta-type invariant (torsion) of the abelian cover, and its surviving top coefficient μ̄(123) is the analogue of the order-2 obstruction at 937.</div>`;
 
   renderTripleHasse();
@@ -2854,6 +2854,14 @@ function runSelfTests() {
       && a.includes("One orbit of period 2") && b.includes("Two orbits of period 1")
       && [a, b].every(s => s.includes("withheld for this pair") && !s.includes("lk is even") && !s.includes("lk is odd"))
       && c.includes("lk is even");
+  });
+
+  t("DOM R4-S2: Triples thread cites 107 via the splitting datum, not a '+1 symbol' (R2-M2 two-tier); redeiSymbol still rejects q = 107", () => {
+    const s = $id("triplesThread").textContent;
+    let threw = false;
+    try { redeiSymbol(13n, 61n, 107n, 23n, 6n, 1n); } catch (e) { threw = /mod 4/.test(e.message); }
+    return threw && s.includes("splits completely in k₁₃,₆₁") && s.includes("splitting datum, not a symbol value")
+      && s.includes("outside the symmetric symbol's domain") && !s.includes("Had the symbol been +1");
   });
 
   const list = $id("testList");

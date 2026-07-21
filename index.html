@@ -194,6 +194,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <tr><td class="t"><span class="tt tt-left" data-tip="A point where the curve K₂ passes through the spanning surface Σ₁, counted with a sign given by orientation.">puncture point</span>, K₂ ∩ Σ₁</td><td class="a">non-split prime, <span class="tt" data-tip="The Frobenius element: the canonical symmetry of a field attached to each unramified prime — the arithmetic analogue of the monodromy loop a meridian traces around a knot. Trivial Frobenius = split = no puncture.">Frob<sub>p₂</sub></span> in Gal(k₁/Q)</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The signed number of times K₂ punctures a surface spanning K₁. Independent of the chosen surface, and symmetric in the two knots.">linking number</span> lk(K₁, K₂) ∈ Z</td><td class="a"><span class="tt" data-tip="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: p₁^((p₂−1)/2) mod p₂. It is a mod-2 linking number.">Legendre symbol</span> (p₁/p₂) ∈ {±1}</td></tr>
       <tr><td class="t">symmetry of lk</td><td class="a"><span class="tt" data-tip="Gauss's theorem: for odd primes p, q ≡ 1 (mod 4), (p/q) = (q/p). In this story it is the statement that the two ends of one global object must agree.">quadratic reciprocity</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="When lk(K₁,K₂) = 0 the two Seifert surfaces, in general position, meet in a closed curve γ = Σ₁ ∩ Σ₂ — the object the vanishing leaves behind; μ̄(123) reads how K₃ threads it. The Triples tab's surface ladder climbs exactly this.">surface intersection</span> γ = Σ₁ ∩ Σ₂, closed since lk = 0</td><td class="a"><span class="tt" data-tip="α = x + y√p₁ from a Rédei-normalized solution of x² − p₁y² − p₂z² = 0 — solvable exactly because (p₁/p₂) = +1. Adjoining √α builds the Rédei field: the cover where γ unwinds (γ ↔ √α; Morishita ch. 8).">Rédei element</span> α, exists since (p₁/p₂) = +1</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series: f_S generates the Alexander (Fitting) ideal over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12). For ℓ ∉ S the deck group — the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} — is finite; at ℓ = 2 the totally real tower is the strictly smaller Z/4 × Z/2. Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] runs over the cyclotomic tower instead, whose deck group really is Z_ℓ but which ramifies at ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the cover — a combinatorial 'zeta function' of the space. Milnor–Turaev: it equals ∆_L up to units.">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
@@ -702,6 +703,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
     </div>
     <div class="ladder-note" id="ladderNote" aria-live="polite">Click an arrow to see what the previous level's vanishing makes available.</div>
+    <div class="small-note" id="ladderSurfaceStitch">The <button type="button" class="jump" onclick="gotoTab('triples');$id('surfaceLadder').scrollIntoView();">Triples tab now climbs this ladder with surfaces in hand</button> — three rungs from Seifert surfaces to what the zeta counts, every number computed live.</div>
 
     <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">The ladder, live: Frobenius as a matrix</div>
     <div style="max-width:840px;margin:0 auto;">
@@ -2223,7 +2225,7 @@ function quadThreadHTML(allNeg, allPos) {
 
 function renderZetaThread(qOrd) { // capstone; factors recomputed live (null: quad symbol undefined)
   $id("zetaThread").innerHTML =
-    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"}; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum.`;
+    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"}; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum. Worked examples below, each with its lesson: the gallery cards cash this capstone out — 3-linked and 4-linked, both sides.`;
 }
 
 function renderQuadTower() {
@@ -3558,6 +3560,20 @@ function runSelfTests() {
       && s.includes("Milnor-model level") && s.includes("Milnor 1957") && s.includes("Morishita ch. 8") && s.includes("Amano 2019")
       && twinOK && !!$q('#b4Worked .jump[onclick*="quadCoverTower"]')
       && $q("#zxB4 .zx-lesson").textContent.includes("the 64-sheet cover hears it");
+  });
+
+  // R6 G5: stitches (session B)
+  t("DOM R6-G5: Ladder sentence + surface-ladder jump; capstone gallery clause appended (R4-T6/R5-K4 pins intact); Dictionary γ ↔ α row, both cells tooltipped", () => {
+    const L = $id("ladderSurfaceStitch");
+    const z = $id("zetaThread").textContent;
+    const row = [...$qa("#tab-dict table.dict tr")].find(r => r.textContent.includes("γ = Σ₁ ∩ Σ₂"));
+    return !!L && L.textContent.includes("climbs this ladder with surfaces in hand")
+      && !!$q('#ladderSurfaceStitch .jump[onclick*="surfaceLadder"]')
+      && z.includes("keep the dials apart: linking at t = 1, knotting in the spectrum")
+      && z.includes("Worked examples below, each with its lesson")
+      && z.includes("computing zeta functions all along")
+      && !!row && row.textContent.includes("Rédei element") && row.textContent.includes("exists since (p₁/p₂) = +1")
+      && !!row.querySelector("td.t [data-tip]") && !!row.querySelector("td.a [data-tip]");
   });
 
   const list = $id("testList");

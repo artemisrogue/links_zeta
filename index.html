@@ -289,7 +289,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="thread" id="pairsThread" style="display:none;"></div>
 
     <div style="max-width:560px;margin:14px auto 0;">
-      <svg id="pairsCoverMini" width="100%" height="150" viewBox="0 0 420 150" role="img" aria-label="Two-box tower: X, the complement of K1, at the bottom; its double cover on top, two sheets — mirroring the quadratic field over Q. Beside the top box: two small loops for the unlinked case, one loop traversed twice for the Hopf case.">
+      <svg id="pairsCoverMini" width="100%" height="150" viewBox="0 0 420 150" role="img" aria-label="Center: a two-box tower — X, the complement of K1, at the bottom, its double cover on top — mirroring the quadratic field over Q. Left panel, the unlinked case: the two sheets of the cover are drawn as two parallel lines, and K2 lifts to two separate loops, one lying on each sheet, projecting two-to-one down to the single loop K2 in the base. Right panel, the Hopf case: one single loop travels along the top sheet, passes down to the bottom sheet, and closes up — one loop winding twice over K2 downstairs.">
 <g font-size="12" text-anchor="middle">
 <rect class="hasse-box cover" x="110" y="10" width="200" height="30"/>
 <text class="hasse-label" x="210" y="24">X̃ — the double cover</text>
@@ -298,14 +298,33 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 <text x="218" y="92" font-size="9.5" fill="#666" text-anchor="start">2 sheets ↔ deg 2: Q(√p)/Q</text>
 <rect class="hasse-box cover" x="140" y="100" width="140" height="26"/>
 <text class="hasse-label" x="210" y="117">X = S³ ∖ K₁</text>
-<circle cx="48" cy="30" r="12" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-<circle cx="80" cy="30" r="12" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-<text x="64" y="60" font-size="9.5" fill="#666">lk even (split):</text>
-<text x="64" y="71" font-size="9.5" fill="#666">K₂ lifts to 2 loops</text>
-<circle cx="352" cy="30" r="15" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-<circle cx="352" cy="30" r="9" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
-<text x="352" y="60" font-size="9.5" fill="#666">lk odd (inert / Hopf):</text>
-<text x="352" y="71" font-size="9.5" fill="#666">1 loop, winds twice</text>
+<!-- left panel: lk even — two lifts, one per sheet -->
+<text x="55" y="13" font-size="8" fill="#767676">the two sheets of X̃</text>
+<line x1="14" y1="22" x2="96" y2="22" stroke="#b5b0a4" stroke-width="1.5"/>
+<line x1="14" y1="42" x2="96" y2="42" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="55" cy="22" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<ellipse cx="55" cy="42" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<line x1="55" y1="52" x2="55" y2="66" stroke="#333" stroke-width="1.2"/>
+<polygon points="51,64 59,64 55,71" fill="#333"/>
+<text x="62" y="62" font-size="8.5" fill="#666" text-anchor="start">2 : 1</text>
+<line x1="14" y1="80" x2="96" y2="80" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="55" cy="80" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<text x="80" y="94" font-size="9" fill="#1e6b41">K₂</text>
+<text x="55" y="110" font-size="9.5" fill="#666">lk even (split):</text>
+<text x="55" y="121" font-size="9.5" fill="#666">K₂ lifts to 2 loops</text>
+<!-- right panel: lk odd — one loop through both sheets -->
+<text x="365" y="13" font-size="8" fill="#767676">the two sheets of X̃</text>
+<line x1="324" y1="22" x2="406" y2="22" stroke="#b5b0a4" stroke-width="1.5"/>
+<line x1="324" y1="42" x2="406" y2="42" stroke="#b5b0a4" stroke-width="1.5"/>
+<path d="M 342 22 A 23 5.5 0 0 1 388 22 C 392 26, 392 38, 388 42 A 23 5.5 0 0 1 342 42 C 338 38, 338 26, 342 22 Z" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<line x1="365" y1="52" x2="365" y2="66" stroke="#333" stroke-width="1.2"/>
+<polygon points="361,64 369,64 365,71" fill="#333"/>
+<text x="372" y="62" font-size="8.5" fill="#666" text-anchor="start">2 : 1</text>
+<line x1="324" y1="80" x2="406" y2="80" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="365" cy="80" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<text x="390" y="94" font-size="9" fill="#1e6b41">K₂</text>
+<text x="365" y="110" font-size="9.5" fill="#666">lk odd (inert / Hopf):</text>
+<text x="365" y="121" font-size="9.5" fill="#666">1 loop, winds twice</text>
 </g>
 </svg>
       <div class="cover-cap" id="pairsCoverCap"></div>
@@ -341,14 +360,14 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div id="topoTripleSteps"></div>
         <div class="banner topo" id="topoTripleBanner"></div>
         <div class="small-note" style="margin-top:10px;">The tower of covers this computation climbs — the mirror of the field tower at right, box for box:</div>
-        <svg id="tripleCoverHasse" width="100%" height="220" viewBox="0 0 420 216" role="img" aria-label="Tower of covers of the complement of K1 union K2: X at the bottom; two double covers X1 and X2, the covers the linking numbers probe; their join X12; on top the 8-sheet Redei cover with deck group D4 — mirroring the field tower at right, box for box.">
+        <svg id="tripleCoverHasse" width="100%" height="220" viewBox="0 0 420 216" role="img" aria-label="Tower of covers of the complement of K1 union K2: X at the bottom; two double covers X1 and X2, the covers the linking numbers probe; their join X12; on top the 8-sheet mod-2 Heisenberg cover, deck group N3 over F2, isomorphic to D4 — a purely topological tower, drawn box for box opposite the field tower at right, which it mirrors.">
 <g font-size="12" text-anchor="middle">
-<rect class="hasse-box cover" x="112" y="8" width="196" height="26"/>
-<text class="hasse-label" x="210" y="25">X̃₁₃,₆₁ — 8-sheet Rédei cover</text>
-<text x="312" y="16" font-style="italic" fill="#666" font-size="10" text-anchor="start">deck = D₄, 8 sheets</text>
-<text x="312" y="28" font-style="italic" fill="#666" font-size="10" text-anchor="start">the k₁₃,₆₁ of the knots</text>
+<rect class="hasse-box cover" x="106" y="8" width="208" height="26"/>
+<text class="hasse-label" x="210" y="25">X̃ — mod-2 Heisenberg cover</text>
+<text x="318" y="16" font-style="italic" fill="#666" font-size="10" text-anchor="start">deck = D₄, 8 sheets</text>
+<text x="318" y="28" font-style="italic" fill="#666" font-size="10" text-anchor="start">mirrors k₁₃,₆₁</text>
 <line x1="210" y1="34" x2="210" y2="62" stroke="#333"/>
-<text x="216" y="46" font-size="9.5" fill="#666" text-anchor="start">2 sheets (the √α level): γ unwinds</text>
+<text x="216" y="46" font-size="9.5" fill="#666" text-anchor="start">2 sheets: γ unwinds here</text>
 <text x="216" y="57" font-size="9.5" fill="#666" text-anchor="start">— exists because lk = 0</text>
 <rect class="hasse-box cover" x="128" y="62" width="164" height="26"/>
 <text class="hasse-label" x="210" y="79">X₁₂ — the (Z/2)² cover</text>
@@ -418,19 +437,24 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="rung-title">Rung 2 — the curve the vanishing leaves: γ = Σ₁ ∩ Σ₂ ↔ α = 23 + 6√13</div>
         <div class="rung-grid">
           <div class="rung-t">
-            <svg id="rung2Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: two translucent Seifert surfaces — Sigma 1 horizontal with boundary K1, Sigma 2 vertical with boundary K2 — meeting in a highlighted closed purple curve labeled gamma equals Sigma 1 intersect Sigma 2.">
-              <ellipse cx="170" cy="120" rx="122" ry="40" fill="#1b6ca8" fill-opacity="0.16" stroke="#1b6ca8" stroke-width="2.5"/>
-              <ellipse cx="170" cy="100" rx="56" ry="76" fill="#2e8b57" fill-opacity="0.16" stroke="#2e8b57" stroke-width="2.5"/>
-              <path d="M 130 118 A 40 13 0 0 1 210 118" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="6 5" opacity="0.65"/>
-              <path d="M 130 118 A 40 13 0 0 0 210 118" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
-              <text x="46" y="106" font-size="12" fill="#1b6ca8">Σ₁</text>
-              <text x="262" y="158" font-size="12" fill="#1b6ca8">K₁</text>
-              <text x="148" y="42" font-size="12" fill="#1e6b41">Σ₂</text>
-              <text x="214" y="44" font-size="12" fill="#1e6b41">K₂</text>
-              <text x="170" y="152" font-size="12.5" font-weight="bold" fill="#7d3c98" text-anchor="middle">γ = Σ₁ ∩ Σ₂</text>
-              <text x="170" y="192" font-size="11" fill="#666" text-anchor="middle">a closed curve — its ends cancelled because both lk = 0</text>
+            <svg id="rung2Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: the Seifert surface Sigma 1 is a horizontal disk with boundary K1. The surface Sigma 2 is a bowl hanging from the ring K2 above it, and the bowl dips down through the disk. Where the bowl passes through the disk, the two surfaces meet in a closed purple curve labeled gamma equals Sigma 1 intersect Sigma 2.">
+              <path d="M 118 42 C 117 78, 122 106, 134 128 C 146 150, 155 166, 170 174 C 185 166, 194 150, 206 128 C 218 106, 223 78, 222 42 A 52 13 0 0 1 118 42 Z" fill="#2e8b57" fill-opacity="0.13"/>
+              <ellipse cx="170" cy="128" rx="125" ry="34" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
+              <path d="M 118 42 C 117 78, 122 106, 134 128" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 222 42 C 223 78, 218 106, 206 128" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 134 128 C 146 150, 155 166, 170 174 C 185 166, 194 150, 206 128" fill="none" stroke="#2e8b57" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.75"/>
+              <ellipse cx="170" cy="42" rx="52" ry="13" fill="#2e8b57" fill-opacity="0.08" stroke="#2e8b57" stroke-width="3"/>
+              <path d="M 134 128 A 36 10 0 0 1 206 128" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="6 5" opacity="0.65"/>
+              <path d="M 134 128 A 36 10 0 0 0 206 128" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <text x="36" y="116" font-size="12" fill="#1b6ca8">Σ₁</text>
+              <text x="272" y="164" font-size="12" fill="#1b6ca8">K₁ = ∂Σ₁</text>
+              <text x="98" y="92" font-size="12" fill="#1e6b41">Σ₂</text>
+              <text x="230" y="38" font-size="12" fill="#1e6b41">K₂ = ∂Σ₂</text>
+              <text x="243" y="120" font-size="12.5" font-weight="bold" fill="#7d3c98">γ = Σ₁ ∩ Σ₂</text>
+              <line x1="240" y1="122" x2="208" y2="126" stroke="#7d3c98" stroke-width="1"/>
+              <text x="170" y="194" font-size="11" fill="#666" text-anchor="middle">the bowl dips through the disk — the crossing is one closed curve</text>
             </svg>
-            <div class="figcap">schematic — the two surfaces, in general position, meet in the closed curve γ</div>
+            <div class="figcap">schematic — Σ₂ drawn as a bowl on K₂ dipping through the disk Σ₁; in general position the two surfaces meet in the closed curve γ (dashed = below Σ₁)</div>
             <div>Because every pairwise lk = 0 (rung 1), the surfaces can be pushed off the other components and — in <span class="tt" data-tip="Two surfaces in a 3-manifold can be perturbed to meet transversally; the intersection is then a 1-manifold, and once the boundary punctures cancel (lk = 0) it is a union of closed curves. Standard transversality — cited, not computed; the whyMu box above does the tubing.">general position</span> — Σ₁ and Σ₂ meet in a <b>closed curve</b> γ: the Pairs tab's arc with both boundary ends cancelled, closing into a circle. γ is new — not a component of the link, but the object the vanishing left behind.</div>
           </div>
           <div class="rung-a" id="rung2Arith"></div>
@@ -442,20 +466,23 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="rung-title">Rung 3 — the triple count: K₃ through γ ↔ [13, 61, 937]</div>
         <div class="rung-grid">
           <div class="rung-t">
-            <svg id="rung3Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: the closed purple curve gamma from rung 2, with the third ring K3 threading through it exactly once; the single triple point of the three Seifert surfaces is marked on gamma.">
-              <ellipse cx="170" cy="120" rx="122" ry="40" fill="#1b6ca8" fill-opacity="0.07"/>
-              <ellipse cx="170" cy="100" rx="56" ry="76" fill="#2e8b57" fill-opacity="0.07"/>
-              <path d="M 130 118 A 40 13 0 0 1 210 118" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="6 5" opacity="0.65"/>
-              <ellipse cx="200" cy="112" rx="38" ry="66" fill="none" stroke="#e67e22" stroke-width="3.5"/>
-              <path d="M 130 118 A 40 13 0 0 0 210 118" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
-              <circle cx="190" cy="129.3" r="5" fill="#f5a623" stroke="#333" stroke-width="1.5"/>
-              <line x1="120" y1="86" x2="187" y2="125" stroke="#767676" stroke-width="1"/>
-              <text x="30" y="82" font-size="11" fill="#333">triple point Σ₁∩Σ₂∩Σ₃</text>
-              <text x="246" y="52" font-size="12" fill="#b35a00">K₃</text>
-              <text x="118" y="142" font-size="12.5" font-weight="bold" fill="#7d3c98">γ</text>
-              <text x="170" y="192" font-size="11" fill="#666" text-anchor="middle">K₃ threads γ exactly once: lk(γ, K₃) = μ̄(123)</text>
+            <svg id="rung3Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: the closed purple curve gamma from rung 2 bounds a lightly shaded surface, drawn flat. The orange ring K3 links gamma once, like a Hopf pair: it passes through the shaded surface at exactly one marked point. That single pass is lk of gamma and K3, which equals the Milnor invariant mu-bar 123.">
+              <ellipse cx="140" cy="112" rx="78" ry="26" fill="#7d3c98" fill-opacity="0.10"/>
+              <path d="M 62 112 A 78 26 0 0 1 152 86.4" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 176 89.5 A 78 26 0 0 1 218 112" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 62 112 A 78 26 0 0 0 218 112" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 163.2 128.6 A 34 64 0 0 1 213 56.6 A 34 64 0 0 1 204.8 173.8 A 34 64 0 0 1 166.6 144" fill="none" stroke="#e67e22" stroke-width="3.5"/>
+              <circle cx="162" cy="112" r="5.5" fill="#f5a623" stroke="#333" stroke-width="1.5"/>
+              <line x1="120" y1="60" x2="158" y2="107" stroke="#767676" stroke-width="1"/>
+              <text x="30" y="52" font-size="11" fill="#333">the one pass through the surface:</text>
+              <text x="30" y="66" font-size="11" fill="#333">lk(γ, K₃) = 1</text>
+              <text x="240" y="52" font-size="12" fill="#b35a00">K₃</text>
+              <text x="46" y="146" font-size="12.5" font-weight="bold" fill="#7d3c98">γ</text>
+              <text x="68" y="124" font-size="10" fill="#7d3c98" opacity="0.85">surface spanning γ</text>
+              <text x="68" y="136" font-size="10" fill="#7d3c98" opacity="0.85">(drawn flat)</text>
+              <text x="170" y="194" font-size="11" fill="#666" text-anchor="middle">K₃ and γ link like a Hopf pair: lk(γ, K₃) = μ̄(123)</text>
             </svg>
-            <div class="figcap">schematic — Σ₃ (spanning K₃) is not drawn; its single crossing with γ is the marked triple point</div>
+            <div class="figcap">schematic — the shaded region stands in for a surface spanning γ; K₃ passes through it once (equivalently: the one triple point where γ crosses Σ₃ — Σ₃ not drawn)</div>
             <div>K₃ passes through the circle γ exactly once — one <span class="tt" data-tip="A point where Σ₁, Σ₂ and Σ₃ all meet at once. With every pairwise lk = 0 the signed count of triple points is well defined and equals lk(γ, K₃) = μ̄(123): Cochran 1990; Mellor–Melvin 2003; mod-2 version Morishita ch. 4 (the identification is cited; the number is computed live via Magnus).">triple point</span> of Σ₁, Σ₂, Σ₃. That reading, μ̄(123) = lk(γ, K₃) = signed count of triple points, is cited (Cochran 1990; Mellor–Melvin 2003; mod 2, Morishita ch. 4); the number itself is computed live in steps 3–4 above: μ̄(123) = <span id="rung3Mu">·</span>.</div>
           </div>
           <div class="rung-a" id="rung3Arith"></div>
@@ -506,29 +533,29 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
         <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
         <div class="small-note" style="margin-top:10px;">The tower of covers, one level up — the mirror of the field tower at right, box for box:</div>
-        <svg id="quadCoverTower" width="100%" height="355" viewBox="0 0 420 350" role="img" aria-label="Tower of covers of the complement of K1 union K2 union K3: X at the bottom; three meridian double covers; two 4-fold covers through the shared component K2; two 8-sheet D4 Redei covers; a 32-sheet join; on top the 64-sheet cover with deck group N4 over F2 — mirroring the field tower at right, at the Milnor-model level.">
+        <svg id="quadCoverTower" width="100%" height="355" viewBox="0 0 420 350" role="img" aria-label="Tower of covers of the complement of K1 union K2 union K3: X at the bottom; three meridian double covers; two 4-fold covers through the shared component K2; two 8-sheet mod-2 Heisenberg covers H12 and H23 with deck group D4; their 32-sheet join; on top the 64-sheet cover with deck group N4 over F2 — a purely topological tower at the Milnor-model level, drawn box for box opposite the field tower at right, which it mirrors.">
 <g font-size="10.5" text-anchor="middle">
 <rect class="hasse-box cover" x="85" y="4" width="250" height="26"/>
 <text class="hasse-label" x="210" y="21">Ỹ — 64-sheet cover, deck N₄(F₂)</text>
 <line x1="210" y1="30" x2="210" y2="59" stroke="#333"/>
-<text x="218" y="49" font-size="9" fill="#666" text-anchor="start">2 sheets (the √θ level)</text>
+<text x="218" y="49" font-size="9" fill="#666" text-anchor="start">2 sheets — the quadruple level</text>
 <rect class="hasse-box cover" x="100" y="59" width="220" height="26"/>
-<text class="hasse-label" x="210" y="76">join of the Rédei covers — 32 sheets</text>
+<text class="hasse-label" x="210" y="76">H₁₂ · H₂₃ — the join, 32 sheets</text>
 <line x1="210" y1="85" x2="125" y2="117" stroke="#333"/>
 <line x1="210" y1="85" x2="295" y2="117" stroke="#333"/>
-<rect class="hasse-box cover" x="53" y="117" width="144" height="26"/>
-<text class="hasse-label" x="125" y="134">X̃₁₂ (D₄, 8 sheets)</text>
-<rect class="hasse-box cover" x="223" y="117" width="144" height="26"/>
-<text class="hasse-label" x="295" y="134">X̃₂₃ (D₄, 8 sheets)</text>
+<rect class="hasse-box cover" x="47" y="117" width="156" height="26"/>
+<text class="hasse-label" x="125" y="134">H₁₂ — Heisenberg, 8 sheets</text>
+<rect class="hasse-box cover" x="217" y="117" width="156" height="26"/>
+<text class="hasse-label" x="295" y="134">H₂₃ — Heisenberg, 8 sheets</text>
 <line x1="125" y1="143" x2="125" y2="173" stroke="#333"/>
 <text x="131" y="162" font-size="9" fill="#666" text-anchor="start">2 sheets (γ₁₂ unwinds)</text>
 <line x1="295" y1="143" x2="295" y2="173" stroke="#333"/>
 <rect class="hasse-box cover" x="55" y="173" width="140" height="34"/>
 <text class="hasse-label" x="125" y="187">X₁₂ — 4 sheets</text>
-<text x="125" y="200" font-size="8.5" font-style="italic" fill="#666">through K₂ — 8081's role</text>
+<text x="125" y="200" font-size="8.5" font-style="italic" fill="#666">through the shared K₂</text>
 <rect class="hasse-box cover" x="225" y="173" width="140" height="34"/>
 <text class="hasse-label" x="295" y="187">X₂₃ — 4 sheets</text>
-<text x="295" y="200" font-size="8.5" font-style="italic" fill="#666">through K₂ — 8081's role</text>
+<text x="295" y="200" font-size="8.5" font-style="italic" fill="#666">through the shared K₂</text>
 <line x1="125" y1="207" x2="80" y2="237" stroke="#333"/>
 <line x1="125" y1="207" x2="210" y2="237" stroke="#333"/>
 <line x1="295" y1="207" x2="210" y2="237" stroke="#333"/>
@@ -1780,7 +1807,7 @@ function renderCoverTwins() {
   const o3 = n3Order(0, 0, mu2);
   const f9 = frobOrderTriple(937n);
   $id("tripleCoverCap").innerHTML =
-    `In X̃: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)}. <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">ζ of k₁₃,₆₁ on the Zeta tab</button>.`;
+    `The top cover X̃ is the <span class="tt" data-tip="A purely topological construction: π₁ of the link complement maps onto N₃(F₂), the group of upper-unitriangular 3×3 matrices over F₂ (≅ D₄), sending meridians to the two generator matrices; the map exists exactly when lk(K₁,K₂) is even, and the corresponding 8-sheet cover is the mod-2 Heisenberg cover. Morishita (chs. 4/8) builds it as the topological mirror of Rédei's field k₁₃,₆₁ — the analogy is his; the cover itself owes nothing to number theory.">mod-2 Heisenberg cover</span> — named for its deck group, not for Rédei; the field k₁₃,₆₁ opposite is its arithmetic <i>mirror</i>, not its definition. In X̃: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)} — <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">ζ of k₁₃,₆₁ on the Zeta tab</button>`;
   // (b) Quads: rho(K4) = corner of N4(F2) with mu-bar(1234) mod 2 (Milnor-model level)
   const q2 = (((computeMagnusTripleCommutator()["1,2,3"] || 0) % 2) + 2) % 2;
   const o4 = matOrderF2([[1, 0, 0, q2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);
@@ -1789,7 +1816,7 @@ function renderCoverTwins() {
     ? `449's factor: the four conjugates disagree this run — nothing asserted (the banner at right rules)`
     : `<b>449's ${64 / w449} orbits of size ${w449}</b> (conjugate symbols recomputed live): factor twins <b>${tFactor(o4, 64)}</b> / <b>${localFactor(449, w449, 64)}</b>`;
   $id("quadCoverCap").innerHTML =
-    `In the top cover: K₄'s preimage is <b>${64 / o4} loops of ${o4 === 2 ? "double length" : "length ×" + o4}</b> — ρ(K₄) sits at the corner of N₄(F₂), entries 0 except μ̄(1234) mod 2 = ${q2} (computed at left; Milnor-model honesty, as the note above), order ${o4} by powering — ↔ ${arith449}.`;
+    `In the top cover: K₄'s preimage is <b>${64 / o4} loops of ${o4 === 2 ? "double length" : "length ×" + o4}</b> — ρ(K₄) sits at the corner of N₄(F₂), entries 0 except μ̄(1234) mod 2 = ${q2} (computed at left; Milnor-model honesty, as the note above), order ${o4} by powering — ↔ ${arith449}. The two Heisenberg covers share the component K₂ the way the two Rédei fields opposite share the prime 8081 — the shared object is what lets the join reach 32 sheets, not 64.`;
   // (c) Pairs: both cases, static by design (state-independent)
   $id("pairsCoverCap").innerHTML =
     `K₂'s preimage upstairs: <b>2 loops</b> when lk(K₁,K₂) is even — split, two primes above — versus <b>1 loop winding twice</b> when lk is odd — inert: the Hopf case, one prime of residue degree 2. Either way loops × winding = 2 = |deck| — and the ζ ↔ Δ box above turns whichever case you compute into its Euler factor, live.`;
@@ -1815,7 +1842,7 @@ function renderSurfaceLadder() {
   const twinJump = $id("tripleCoverHasse")
     ? ` — drawn box-for-box in <button type="button" class="jump" onclick="$id('tripleCoverHasse').scrollIntoView()">the cover tower above</button> —` : " —";
   $id("rung2Count").innerHTML =
-    `<b>What is being counted: nothing yet.</b> This rung builds the <i>counting space</i>: the mod-2 Heisenberg (Rédei) cover of S³ ∖ (K₁ ∪ K₂), with 2³ = ${2 ** 3} sheets and deck group N₃(F₂) ≅ D₄, existing precisely because lk ≡ 0 (Morishita ch. 4/8, cited)${twinJump} opposite the degree-${2 ** 3} field k₁₃,₆₁. Rung 3 counts orbits in it.`;
+    `<b>What is being counted: nothing yet.</b> This rung builds the <i>counting space</i>: the mod-2 Heisenberg cover of S³ ∖ (K₁ ∪ K₂), with 2³ = ${2 ** 3} sheets and deck group N₃(F₂) ≅ D₄, existing precisely because lk ≡ 0 (Morishita ch. 4/8, cited)${twinJump} opposite the degree-${2 ** 3} field k₁₃,₆₁, its arithmetic mirror. Rung 3 counts orbits in it.`;
 
   const c12m = computeMagnusLongitude12()["1,2"] || 0;
   $id("rung3Mu").textContent = String(c12m);
@@ -2611,7 +2638,7 @@ function renderBorroWorked() {
   const o = n3Order(0, 0, mu2);
   $id("borroWorked").innerHTML =
     `<div class="step"><div class="head">Object 1 — the monodromy zeta ζ<sub>h</sub>: lives on the fiber's homology.</div><div class="eq">tr(h₁∗ⁿ) = ${tr.slice(0, 4).join(", ")}, … (powered live, all 4), so both faces multiply out to degree ${K}:<br>exp( Σ 4tⁿ/n ) = ${lhs.join(", ")}<br>(1 − t)⁻⁴ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ${rhs.join(", ")} &nbsp;<span class="${eq ? "ok" : "fail"}">${eq ? "✓ equal, coefficient by coefficient" : "✗"}</span><br><span style="color:var(--muted);font-size:.8rem;">the right side computed as C(n+3,3) = (n+1)(n+2)(n+3)/6 by literal products — polynomial growth: a unipotent zeta has Taylor content only, no spectral growth.</span></div></div>`
-    + `<div class="step"><div class="head">Object 2 — the cover-orbit factor: lives in the covering space upstairs.</div><div class="eq">In the 8-sheet Rédei cover of S³ ∖ (K₁ ∪ K₂), ρ(K₃) = (0, 0, μ̄ mod 2) = (0, 0, ${mu2}) has order ${o} (powered live), so K₃'s preimage is <b>${8 / o} loops, each winding ${o === 2 ? "twice" : o + "×"}</b> — K₃-orbit local factor <b>${tFactor(o, 8)}</b>: the exact topological twin of 937's ${localFactor(937, 2, 8)}.</div></div>`
+    + `<div class="step"><div class="head">Object 2 — the cover-orbit factor: lives in the covering space upstairs.</div><div class="eq">In the 8-sheet mod-2 Heisenberg cover of S³ ∖ (K₁ ∪ K₂), ρ(K₃) = (0, 0, μ̄ mod 2) = (0, 0, ${mu2}) has order ${o} (powered live), so K₃'s preimage is <b>${8 / o} loops, each winding ${o === 2 ? "twice" : o + "×"}</b> — K₃-orbit local factor <b>${tFactor(o, 8)}</b>: the exact topological twin of 937's ${localFactor(937, 2, 8)}.</div></div>`
     + `<div class="mln"><b>Keep them apart — different objects:</b> ζ<sub>h</sub> counts fixed points of the monodromy on H₁ of the fiber; the cover-orbit factor counts K₃'s loop-orbits among the 8 sheets. Both are Borromean bookkeeping, and both are worked above: <button type="button" class="jump" onclick="var d=$id('zxBorro');d.open=true;d.scrollIntoView();">the link-zeta card</button> · <button type="button" class="jump" onclick="gotoTab('triples');$id('tripleCoverHasse').scrollIntoView();">the tower of covers, Triples tab</button>.</div>`;
 }
 
@@ -3430,21 +3457,23 @@ function runSelfTests() {
     return o3 === 2 && 8 / o3 === 4 && o4 === 2 && 64 / o4 === 32
       && matOrderF2([[1, 0], [0, 1]]) === 1 && quad449Ord() === 2;
   });
-  t("DOM R6-G6a: Triples twin — 8-sheet Rédei top box + deck = D₄ note, √α/γ-unwinds edge, linking-probe annotation; caption 4 loops winding twice ↔ 937's 4 primes of residue degree 2, factor twins, Zeta jump + anchor", () => {
+  t("DOM R6-G6a: Triples twin — mod-2 Heisenberg top box (topological name) + deck = D₄ note, γ-unwinds edge, linking-probe annotation; caption 4 loops winding twice ↔ 937's 4 primes of residue degree 2, factor twins, Zeta jump + anchor", () => {
     const s = $id("tripleCoverHasse").textContent, c = $id("tripleCoverCap").textContent;
     return $id("tripleCoverHasse").getAttribute("role") === "img"
-      && s.includes("8-sheet Rédei cover") && s.includes("deck = D₄, 8 sheets") && s.includes("k₁₃,₆₁") && s.includes("of the knots")
+      && s.includes("mod-2 Heisenberg cover") && !s.includes("Rédei cover") && s.includes("deck = D₄, 8 sheets") && s.includes("mirrors k₁₃,₆₁")
       && s.includes("γ unwinds") && s.includes("exists because lk = 0")
+      && c.includes("named for its deck group, not for Rédei")
       && s.includes("the covers the linking") && s.includes("numbers probe")
       && c.includes("4 loops winding twice") && c.includes("937's 4 primes of residue degree 2")
       && c.includes("(1 − t²)⁻⁴") && c.includes("(1 − 937⁻²ˢ)⁻⁴")
       && !!$q('#tripleCoverCap .jump[onclick*="zetaK1361"]') && !!$id("zetaK1361");
   });
-  t("DOM R6-G6b: Quads twin — 64-sheet top with deck N₄(F₂), through-K₂ annotations, Milnor-model label; caption 32 loops of double length ↔ 449's 32 orbits, factor twins (1 − t²)⁻³² / (1 − 449⁻²ˢ)⁻³²", () => {
+  t("DOM R6-G6b: Quads twin — 64-sheet top with deck N₄(F₂), Heisenberg H₁₂/H₂₃ boxes (topological names), through-K₂ annotations, Milnor-model label; caption 32 loops of double length ↔ 449's 32 orbits, factor twins", () => {
     const s = $id("quadCoverTower").textContent, c = $id("quadCoverCap").textContent;
     return $id("quadCoverTower").getAttribute("role") === "img"
       && s.includes("64-sheet cover") && s.includes("N₄(F₂)")
-      && s.includes("through K₂ — 8081's role") && s.includes("Milnor-model")
+      && s.includes("H₁₂ — Heisenberg, 8 sheets") && !s.includes("Rédei") && !s.includes("8081")
+      && s.includes("through the shared K₂") && s.includes("Milnor-model")
       && s.includes("32 sheets") && s.includes("Milnor 1957") && s.includes("Amano 2019")
       && c.includes("32 loops of double length") && c.includes("449's 32 orbits of size 2")
       && c.includes("(1 − t²)⁻³²") && c.includes("(1 − 449⁻²ˢ)⁻³²");

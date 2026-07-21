@@ -1703,14 +1703,12 @@ function b4wPathToPoly(segs) {
 }
 
 function b4wCurves() {
-  // Green ellipse (3000,3960), rx 1000, ry 500
   const G = [];
   for (let i = 0; i < 192; i++) {
     const t = (i / 192) * 2 * Math.PI;
     const q = b4wT(3000 + 1000 * Math.cos(t), 3960 + 500 * Math.sin(t));
     G.push(q);
   }
-  // Yellow stadium: limbs x = 2310/3690, caps r = 690
   const Y = [];
   for (let i = 0; i < 40; i++) Y.push(b4wT(3690, 5260 - (i / 40) * 2600));
   for (let i = 0; i < 48; i++) { const a = -(i / 48) * Math.PI;
@@ -1718,7 +1716,6 @@ function b4wCurves() {
   for (let i = 0; i < 40; i++) Y.push(b4wT(2310, 2660 + (i / 40) * 2600));
   for (let i = 0; i < 48; i++) { const a = Math.PI - (i / 48) * Math.PI;
     Y.push(b4wT(3000 + 690 * Math.cos(a), 5260 + 690 * Math.sin(a))); }
-  // Red rounded diamond (from the SVG path)
   const R = b4wPathToPoly([
     ["C",2163.38,5338.86,2285.28,5460.76,2450.61,5529.24,2623,5529.24],
     ["L",2623,5529.24,2753,5529.24],
@@ -1735,7 +1732,6 @@ function b4wCurves() {
     ["C",1053.76,3960,1053.76,4132.39,1122.24,4297.72,1244.14,4419.62],
     ["L",1244.14,4419.62,2163.38,5338.86],
   ]);
-  // Blue rounded diamond (mirror image)
   const B = b4wPathToPoly([
     ["C",2787.38,5338.86,2909.28,5460.76,3074.61,5529.24,3247,5529.24],
     ["L",3247,5529.24,3377,5529.24],
@@ -1766,7 +1762,6 @@ function b4wSegIntersect(a1, a2, b1, b2) {
   return { pt: { x: a1.x + s * d1.x, y: a1.y + s * d1.y }, ta: d1, tb: d2 };
 }
 
-// over/under from the original SVG's layers.
 const B4W_GY_SPLIT = (850.44 - 0.139 * 3960) * B4W_SCALE; // canvas y of green's center line
 function b4wOverOf(pair, pt) {
   if (pair === "GY") return pt.y > B4W_GY_SPLIT ? "G" : "Y"; // green over on its lower half
@@ -2030,7 +2025,7 @@ function renderQuadSteps() {
 
   const qOrd = allNeg ? 2 : 1; // N4(F2) corner: nontrivial iff all four symbols were -1
   document.getElementById("quadThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, three levels up.</b> 449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : allPos ? "+1" : "?"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's inert bookkeeping, three levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
+    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, two levels up.</b> 449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : allPos ? "+1" : "?"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's inert bookkeeping, two levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
   renderZetaThread(qOrd);
 
   renderMagnus();
@@ -2819,10 +2814,12 @@ function runSelfTests() {
       && b.includes("order 1") && b.includes("(1 − 107⁻ˢ)⁻⁸")
       && c.includes("order 2") && c.includes("(1 − 937⁻²ˢ)⁻⁴");
   });
-  t("DOM R4-T4: Quadruples thread - order 2, 32 orbits of period 2, (1 − 449⁻²ˢ)⁻³², compositum split + inert bookkeeping", () => {
+  t("DOM R4-T4: Quadruples thread - order 2, 32 orbits of period 2, (1 − 449⁻²ˢ)⁻³², compositum split + inert bookkeeping; rung label consistent (two levels up)", () => {
     const s = document.getElementById("quadThread").textContent;
     return s.includes("order 2") && s.includes("32 orbits of period 2") && s.includes("(1 − 449⁻²ˢ)⁻³²")
-      && s.includes("degree-32 compositum") && s.includes("inert bookkeeping");
+      && s.includes("degree-32 compositum") && s.includes("inert bookkeeping")
+      && s.includes("two levels up") && !s.includes("three levels up")
+      && document.getElementById("triplesThread").textContent.includes("one level up");
   });
   t("DOM R4-T2: Pairs thread - split roots 11/18 + (1 − 29⁻ˢ)⁻²; inert 5^6 ≡ 12 ≡ −1 + (1 − 13⁻²ˢ)⁻¹; twin honesty-labeled (state restored)", () => {
     const box = document.getElementById("pairsThread");

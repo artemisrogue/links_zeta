@@ -172,14 +172,13 @@ button.tip{color:inherit;}
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series: f_S generates the Alexander (Fitting) ideal over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12). For ℓ ∉ S the deck group — the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} — is finite; at ℓ = 2 the totally real tower is the strictly smaller Z/4 × Z/2. Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] runs over the cyclotomic tower instead, whose deck group really is Z_ℓ but which ramifies at ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the cover — a combinatorial 'zeta function' of the space. Milnor–Turaev: it equals ∆_L up to units.">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
-      <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes literally play the role of periodic orbits of Spec(O_K): both index the factors of an Euler product. Artin–Mazur named the dynamical zeta function after this analogy.">prime ideals</span></td></tr>
-      <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers. χ(Frob_p) plays the role of an eigenvalue: characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.">characters</span> of the Galois group</td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes literally play the role of periodic orbits of Spec(O_K): both index the factors of an Euler product.">prime ideals</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers; χ(Frob_p) plays the role of an eigenvalue.">characters</span> of the Galois group</td></tr>
     </table>
 
     <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. The taming does not propagate up the tower — the why-box below spells out the S ∪ {∞} convention. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so on the arithmetic side well-definedness is automatic.</div>
     <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry)</button>
     <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2 — p ≡ 1 (mod 4) tames ∞ for the resolvent Q(√p) only, not higher (the quartic subfield of Q(ζ₁₃) is already imaginary). So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ (Morishita, Knots and Primes, ch. 9–12).</div>
-    <div class="small-note">And one more entry, from this app's running example (<button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>): the figure-eight knot's monodromy stretches by the <span style="color:var(--topo);">dilatation φ²</span>, while <span style="color:var(--arith);">φ is the fundamental unit of Q(√5)</span> — the same number on both sides.</div>
 
     <div class="coda">
       <div class="lede">One thread, told twice.</div>
@@ -296,7 +295,7 @@ button.tip{color:inherit;}
       </div>
       <div class="col arith">
         <h2>Arithmetic</h2>
-        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The value rule: [p₁, p₂, q] = <b>+1 if q splits completely in the Rédei field k<sub>p₁,p₂</sub>, −1 if not</b> (steps 3–4 decide which). The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4) — the conditions that keep the extension unramified outside p₁p₂. Rédei's theorem: it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. The normalization is load-bearing: scaling (x,y,z) by k twists the field by √k and multiplies the symbol by (k/q), so redeiSymbol() rejects unnormalized certificates.">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
+        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The value rule: [p₁, p₂, q] = <b>+1 if q splits completely in the Rédei field k<sub>p₁,p₂</sub>, −1 if not</b> (steps 3–4 decide which). The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4) — the conditions that keep the extension unramified outside p₁p₂. Rédei's theorem: it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. The normalization is load-bearing: scaling the certificate by k twists the symbol by (k/q); redeiSymbol() rejects unnormalized ones.">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
         <div id="tripleSteps"></div>
         <div class="banner" id="tripleBanner"></div>
         <svg id="tripleHasse" width="100%" height="190" viewBox="0 0 420 190"></svg>
@@ -368,7 +367,7 @@ button.tip{color:inherit;}
         <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Convention, stated exactly: L(hⁿ) here denotes tr(hⁿ∗ on H₁) alone. The full Lefschetz number Σᵢ(−1)ⁱ tr(hⁿ∗ on Hᵢ) equals 1 − tr(hⁿ∗ on H₁) for the fiber surface — the H₀-term MINUS ours: a sign as well as a constant. So this ζ_h is not the alternating-product Lefschetz zeta; that zeta equals det(I − t·h∗)/(1 − t), i.e. our ζ_h reciprocated, divided by (1 − t). The H₁-only convention is the fibered-knot literature's choice because H₁ is the factor carrying the eigenvalues; the exact bridge is stated here so no sign is hidden.">L(hⁿ)</span>·tⁿ/n ), &nbsp;<span style="font-size:.8rem;color:var(--muted);">where L(hⁿ) := tr(hⁿ∗ on H₁) — the demo's tr(Aⁿ); sign convention in the tooltip</span></div></div>
         <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on <span class="tt" data-tip="H₁ of a space, black-box (the ∆_L standard of the Pairs tab): closed loops up to deformation and merging form an abelian group. For a torus — punctured or not — it is Z², generated by the two core loops; any continuous self-map merges loops linearly, inducing a 2×2 integer matrix h∗. That matrix is all this column uses.">H₁(F;Q)</span></div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
         <div class="small-note">The resummation engine, shown once: −log(1 − x) = Σ<sub>n≥1</sub> xⁿ/n, so for one eigenvalue exp( Σ<sub>n</sub> λⁿtⁿ/n ) = (1 − λt)⁻¹; summing the exponents over eigenvalues is allowed because tr(hⁿ∗) = Σ<sub>j</sub> λ<sub>j</sub>ⁿ. Every sum-into-product identity on this page, in both columns, is this one line — run per eigenvalue, per orbit, or per prime (log of an Euler factor: Σ<sub>n</sub> Np⁻ⁿˢ/n).</div>
-        <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston) is pseudo-Anosov: it stretches along one foliation, contracts along another, and its periodic points are isolated — which is what makes an orbit product converge factor by factor. But pseudo-Anosov alone does NOT suffice for the equality printed here, so the face states its actual hypothesis: h Anosov on the closed torus with both eigenvalues positive (equivalently, the orientations of both invariant foliations preserved), so that every fixed point of every iterate has index −1 — the demo's bookkeeping below. Drop positivity and it fails: −A is Anosov, but on odd iterates every index is +1, so Fix(n) = 5, 5, 20, 45, … while tr − 2 = −5, 5, −20, 45, … — the two sides already differ at t¹. And on the once-punctured fiber F itself H₂(F) = 0, so even the (1−t)² would be wrong — hence the closed-torus scoping, the same one the honesty note below makes for the demo.">Anosov on the closed torus, both eigenvalues positive</span> — the demo's bookkeeping)</div><div class="feq"><span class="tt" data-tip="The orbit product counts every fixed point, so it computes the Artin–Mazur zeta exp(Σ Fix(hⁿ)tⁿ/n) — a different function from the H₁-zeta of the two faces above. With the closed-torus bookkeeping of the demo below, the alternating Lefschetz number is Σ(−1)ⁱtr = 1 − tr(Aⁿ) + 1, and every fixed point of the positive-eigenvalue Anosov Aⁿ has index −1, so the honest count is #Fix(hⁿ) = −(2 − tr(Aⁿ)) = tr(Aⁿ) − 2: the two constants are the H₀ and H₂ traces, the overall sign is the fixed-point index, and their joint contribution is exactly the factor (1−t)² written here, reinstated so that this line is a true equality.">(1−t)²</span>·ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹ &nbsp;<span style="font-size:.8rem;color:var(--muted);">(why (1−t)²? the H₀/H₂ bookkeeping — see the coefficient check in the demo below)</span></div></div>
+        <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston) is pseudo-Anosov: it stretches along one foliation, contracts along another, and its periodic points are isolated — which is what makes an orbit product converge factor by factor. But pseudo-Anosov alone does NOT suffice for the equality printed here — hence the hypothesis this face states, under which every fixed point of every iterate has index −1 — the demo's bookkeeping below. Drop positivity and it fails: −A is Anosov, but on odd iterates every index is +1, so Fix(n) = 5, 5, 20, 45, … while tr − 2 = −5, 5, −20, 45, … — the two sides already differ at t¹. And on the once-punctured fiber F itself H₂(F) = 0, so even the (1−t)² would be wrong — hence the closed-torus scoping, the same one the honesty note below makes for the demo.">Anosov on the closed torus, both eigenvalues positive</span> — the demo's bookkeeping)</div><div class="feq"><span class="tt" data-tip="The orbit product counts every fixed point, so it computes the Artin–Mazur zeta exp(Σ Fix(hⁿ)tⁿ/n) — a different function from the H₁-zeta of the two faces above. With the closed-torus bookkeeping of the demo below, the alternating Lefschetz number is Σ(−1)ⁱtr = 1 − tr(Aⁿ) + 1, and every fixed point of the positive-eigenvalue Anosov Aⁿ has index −1, so the honest count is #Fix(hⁿ) = −(2 − tr(Aⁿ)) = tr(Aⁿ) − 2: the two constants are the H₀ and H₂ traces, the overall sign is the fixed-point index, and their joint contribution is exactly the factor (1−t)² written here, reinstated so that this line is a true equality.">(1−t)²</span>·ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹ &nbsp;<span style="font-size:.8rem;color:var(--muted);">(why (1−t)²? the H₀/H₂ bookkeeping — see the coefficient check in the demo below)</span></div></div>
         <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, Milnor's theorem — in the literature's own convention, about the full alternating-product Lefschetz zeta — reads ζ<sub>Lef</sub>(t) ≐ ∆<sub>K</sub>(t)/(1 − t), Alexander polynomial in the <i>numerator</i>; in the H₁-convention above this is equivalent to ζ<sub>h</sub> ≐ ∆<sub>K</sub>⁻¹, with ∆<sub>K</sub>(t) = det(tI − h∗) the characteristic polynomial of the same eigenvalues; the orbit product — under the same closed-torus, positive-eigenvalue bookkeeping as the face above — then equals (1−t)²·∆<sub>K</sub>(t)⁻¹ up to the same units.</div>
       </div>
       <div class="col arith">
@@ -410,7 +409,7 @@ button.tip{color:inherit;}
         <div class="thread" id="knottedPrime"></div>
       </div>
     </div>
-    <div class="caption-strip">The same √5 on both sides: the knot's monodromy stretches by φ², and φ is the fundamental unit of the field — the eigenvalue of the flow is the unit of the arithmetic. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
+    <div class="caption-strip">The same √5 on both sides: the knot stretches by φ², and φ is the field's fundamental unit. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
 
     <div class="section-head">The polynomials close both loops</div>
     <div class="twocol">
@@ -1953,7 +1952,7 @@ function polyMul1(a, b) {
   for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] += a[i] * b[j];
   return r;
 }
-// Delta_Bor(t,…,t) in u = t-1: sum expandDeltaBor coeffs by total degree
+// Delta_Bor(t,…,t) in u = t-1
 function borDiagCoeffs() {
   const poly = expandDeltaBor(), out = [];
   for (const k in poly) { const d = k.split(",").reduce((s, e) => s + +e, 0); out[d] = (out[d] || 0) + poly[k]; }
@@ -1989,7 +1988,7 @@ function renderBorroZeta() {
   const topD = dg.length - 1;
   const uTr = borUnipotentTraces(4), fTr = fig8Traces(4);
   $id("borroZeta").innerHTML =
-    `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link (Stallings 1978: closures of homogeneous braids are fibered; these close (σ₁σ₂⁻¹)³), fiber its Bennequin surface: χ = strands − crossings = 3 − 6 = ${fmtM(chi)}, so b₁ = 1 − (${fmtM(chi)}) = ${b1}.`
+    `${TB}<b>Linking lives at t = 1.</b> The Borromean rings are a <b>fibered</b> link (Stallings 1978: <span class="tt" data-tip="A braid: strands crossing as they descend; σᵢ crosses strands i, i+1 (σᵢ⁻¹ its mirror). Its closure ties each bottom to its own top, giving a link — these rings close (σ₁σ₂⁻¹)³. Homogeneous: each σᵢ keeps one sign — here σ₁ always +, σ₂ always −.">closures of homogeneous braids</span> are fibered; these close (σ₁σ₂⁻¹)³), fiber its <span class="tt" data-tip="Seifert's algorithm on the closed braid: one disk per strand, one twisted band per crossing; for a homogeneous braid this surface is the fiber (Stallings).">Bennequin surface</span>: χ = strands − crossings = 3 − 6 = ${fmtM(chi)} (χ = Euler characteristic here, not this tab's Dirichlet character), so <span class="tt" data-tip="b₁ = rank of H₁ (the H₁ black box above). Why 1 − χ: this surface is connected with boundary — one disk (χ = 1) plus b₁ bands, each dropping χ by 1.">b₁</span> = 1 − (${fmtM(chi)}) = ${b1}.`
     + `<div><b>Torres (1953), live:</b> the one-variable Alexander polynomial of a ≥ 2-component link is (t−1)·Δ<sub>L</sub>(t,…,t). On the Triples grid, tᵢ = t sends each xᵢ ↦ (t−1): summing coefficients by total degree (computed) gives ${dg[topD] === 1 ? "" : fmtM(dg[topD])}(t−1)${supN(topD)}; times (t−1), multiplied out live: (t−1)${supN(one.length - 1)} = ${polyStr1(one)} — coefficients <b>${coefStr}</b>. Hopf sanity: (t−1)·1 = ${polyStr1(hopf)}, degree ${hopf.length - 1} = b₁ of the annulus fiber.</div>`
     + `<div><b>Milnor (1968):</b> for a fibered link the infinite cyclic cover is F × ℝ, so H₁ = H₁(F) with t acting as the monodromy h₁∗ — the one-variable Δ <i>is</i> det(tI − h₁∗) up to units. Here det(tI − h₁∗) = (t−1)⁴ on the b₁ = ${b1} fiber: <b>every eigenvalue is 1</b> — unipotent, entropy 0, Lefschetz numbers flat: tr(h₁∗ⁿ) = ${uTr.join(", ")}, … (powered live; forced by the eigenvalues), against ${fTr.join(", ")}, … below.</div>`
     + `<div><b>The punchline:</b> a link of unknots has a zeta with <b>no spectral content</b> — everything sits in the Taylor coefficients at t = 1: exactly the μ̄ hierarchy this app computes, Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples')">the Triples grid</button>.</div>`;
@@ -2398,7 +2397,7 @@ function runSelfTests() {
   t("tonelliShanks(13,937) === [386,551]", () => arrEq(tonelliShanks(13n, 937n), [386n, 551n]));
   t("redeiSymbol(13,61,937,[23,6,1]) === -1", () => redeiSymbol(13n, 61n, 937n, 23n, 6n, 1n).value === -1);
 
-  t("redeiSymbol enforces Redei normalization: scaled certificate (115,30,5) rejected (it would flip the symbol by (5/937) = -1)", () => {
+  t("redeiSymbol normalization: scaled certificate (115,30,5) rejected (would flip by (5/937) = -1)", () => {
     let threw = false;
     try { redeiSymbol(13n, 61n, 937n, 115n, 30n, 5n); } catch (e) { threw = /primitive/.test(e.message); }
     return threw && legendre(5n, 937n) === -1
@@ -2424,7 +2423,7 @@ function runSelfTests() {
     return arrEq(sortedVals, sortedExp) && vals.every(v => legendre(v, 449n) === -1);
   });
 
-  t("theta' = 494+225sqrt5+(50+22sqrt5)sqrt101: same defining identity, all four conjugates mod 449 square (OPPOSITE verdict) - rejected: not totally positive", () => {
+  t("theta' = 494+225sqrt5+(50+22sqrt5)sqrt101: same identity, OPPOSITE verdict mod 449 - rejected: not totally positive", () => {
     const [r, s] = quadThetaIdentity(494n, 225n, 50n, 22n);
     if (r !== 0n || s !== 0n) return false; // passes the identity
     if (quadThetaTotallyPositive(494, 225, 50, 22)) return false; // fails positivity
@@ -2451,7 +2450,7 @@ function runSelfTests() {
     return (s["1,2,3"] || 0) === 1 && (s["2,1,3"] || 0) === -1;
   });
 
-  t("Magnus display fully pinned: deg<=3 support is exactly {1, +X1X2X3, -X2X1X3, -X3X1X2, +X3X2X1}, each |c| = 1; rendered magnusBox text matches", () => {
+  t("Magnus display pinned: deg<=3 support exactly {1, +X1X2X3, -X2X1X3, -X3X1X2, +X3X2X1}, |c| = 1; magnusBox text matches", () => {
     const s = computeMagnusTripleCommutator();
     if ((s[""] || 0) !== 1) return false;
     if ((s["1,2,3"] || 0) !== 1 || (s["2,1,3"] || 0) !== -1 || (s["3,1,2"] || 0) !== -1 || (s["3,2,1"] || 0) !== 1) return false;
@@ -2468,7 +2467,7 @@ function runSelfTests() {
     return keys.length === 1 && poly["1,1,1"] === 1;
   });
 
-  t("both = 3 (mod 4) is order-dependent: (3/7) = -1 but (7/3) = +1 - why the Pairs banner attaches no Hopf/unlink gloss in that class", () => legendre(3n, 7n) === -1 && legendre(7n, 3n) === 1);
+  t("both = 3 (mod 4) order-dependent: (3/7) = -1, (7/3) = +1 - no Hopf/unlink gloss in that class", () => legendre(3n, 7n) === -1 && legendre(7n, 3n) === 1);
 
   t("Hilbert product formula: product over places === 1 for (5,29) and (5,13)", () => {
     function hilbertProduct(p, q) {
@@ -2478,7 +2477,7 @@ function runSelfTests() {
     return hilbertProduct(5n, 29n) === 1 && hilbertProduct(5n, 13n) === 1;
   });
 
-  t("Hilbert product for (3,7): 2-adic factor -1, (p/q)(q/p) = -1, full product still 1 - the panel's conclusion strings track the v = 2 factor", () => {
+  t("Hilbert (3,7): 2-adic factor -1, (p/q)(q/p) = -1, product still 1 - conclusion strings track v = 2", () => {
     const two = Number((3n - 1n) / 2n % 2n) * Number((7n - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
     return two === -1 && legendre(3n, 7n) * legendre(7n, 3n) === -1
       && two * legendre(3n, 7n) * legendre(7n, 3n) === 1;
@@ -2512,7 +2511,7 @@ function runSelfTests() {
     return fixFace.every((c, i) => Math.abs(c - orbFace[i]) < 1e-6);
   });
 
-  t("fig-8: the two zetas are distinct and differ by exactly (1-t)^2: orbit zeta === (1-t)^2 * H1-zeta, coefficient by coefficient", () => {
+  t("fig-8: orbit zeta === (1-t)^2 * H1-zeta, coefficient by coefficient", () => {
     const { sumFace, fixFace } = fig8Data();
     const cross = sumFace.map((c, i) => c - 2 * (sumFace[i - 1] || 0) + (sumFace[i - 2] || 0));
     return cross.every((c, i) => Math.abs(c - fixFace[i]) < 1e-6)
@@ -2572,14 +2571,14 @@ function runSelfTests() {
       && parseIntegerInput(" 107 ") === 107n;
   });
 
-  t("certificate-dependence closed: [13,61,269] = -1 via normalized (23,6,1); k=2 exploit (46,12,2), which would report +1 since (2/269) = -1, is rejected", () => {
+  t("certificate-dependence: [13,61,269] = -1 via (23,6,1); k=2 exploit (46,12,2) would report +1 ((2/269) = -1) - rejected", () => {
     let threw = false;
     try { redeiSymbol(13n, 61n, 269n, 46n, 12n, 2n); } catch (e) { threw = /primitive/.test(e.message); }
     return threw && legendre(2n, 269n) === -1
       && redeiSymbol(13n, 61n, 269n, 23n, 6n, 1n).value === -1;
   });
 
-  t("definedness enforced: [13,61,7] rejected (7 !== 1 mod 4); (5,13) has (5/13) = -1 and only the imprimitive (0,0,0) 'certificate', also rejected", () => {
+  t("definedness: [13,61,7] rejected (7 !== 1 mod 4); (5,13): (5/13) = -1, imprimitive (0,0,0) certificate rejected", () => {
     let a = false, b = false;
     try { redeiSymbol(13n, 61n, 7n, 23n, 6n, 1n); } catch (e) { a = /mod 4/.test(e.message); }
     try { redeiSymbol(5n, 13n, 29n, 0n, 0n, 0n); } catch (e) { b = /primitive/.test(e.message); }
@@ -2801,7 +2800,7 @@ function runSelfTests() {
       && s.includes("two levels up") && !s.includes("three levels up")
       && $id("triplesThread").textContent.includes("one level up");
   });
-  t("DOM R4-T2: Pairs thread - split roots 11/18 + (1 − 29⁻ˢ)⁻²; inert 5^6 ≡ 12 ≡ −1 + (1 − 13⁻²ˢ)⁻¹; twin honesty-labeled; handoff glossed (state restored)", () => {
+  t("DOM R4-T2: Pairs thread - split 11/18 + (1 − 29⁻ˢ)⁻²; inert 5^6 ≡ 12 + (1 − 13⁻²ˢ)⁻¹; twin honesty; handoff glossed (state restored)", () => {
     const box = $id("pairsThread");
     const saved = box.innerHTML, savedDisp = box.style.display;
     renderPairsThread(5n, 29n, 1);
@@ -2826,7 +2825,7 @@ function runSelfTests() {
       && $q("#tab-dict .coda").textContent.includes("boxes track");
   });
 
-  t("DOM R4-S1: both ≡ 3 mod 4 — Pairs thread withholds the lk-parity gloss both ways ((3,7) inert, (7,3) split), matching the R2-M3 banner (state restored)", () => {
+  t("DOM R4-S1: both ≡ 3 mod 4 — lk-parity gloss withheld both ways ((3,7) inert, (7,3) split), per R2-M3 banner (state restored)", () => {
     const box = $id("pairsThread"), s0 = box.innerHTML, d0 = box.style.display;
     renderPairsThread(3n, 7n, -1); const a = box.textContent;
     renderPairsThread(7n, 3n, 1); const b = box.textContent;
@@ -2915,6 +2914,12 @@ function runSelfTests() {
       && s.includes("λ = its degree") && s.includes("same letter, different object")
       && s.includes("Kummer's criterion") && s.includes("Iwasawa's theorem")
       && s.includes("eigenspace of Galois on the p-part");
+  });
+  t("DOM R5-N3: braid-closure/Bennequin/b₁ tooltips in the Borromean box; χ Euler-vs-character disclaimer visible", () => {
+    return !!$q('#borroZeta [data-tip*="σᵢ crosses strands"]')
+      && !!$q('#borroZeta [data-tip*="one disk per strand"]')
+      && !!$q('#borroZeta [data-tip*="dropping χ by 1"]')
+      && $id("borroZeta").textContent.includes("Euler characteristic here, not this tab's Dirichlet character");
   });
 
   const list = $id("testList");

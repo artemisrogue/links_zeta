@@ -530,7 +530,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="twocol">
       <div class="col topo">
         <div class="poly-demo">
-          <div class="eq"><span class="tt tt-left" data-tip="The multivariable Alexander polynomial of the Borromean rings — cited, not computed: a standard Fox-calculus result (Borromean case Milnor 1954; tables in Kawauchi). The app has no Fox calculus; what IS computed live: the expansion below, the Torres collapse to (t−1)⁴, and the fibered identity det(tI − h₁∗) on the Zeta cards — three independent cross-checks of this fixture.">∆<sub>Bor</sub>(t₁,t₂,t₃)</span> = (t₁−1)(t₂−1)(t₃−1)</div>
+          <div class="eq"><span class="tt tt-left" data-tip="The multivariable Alexander polynomial of the Borromean rings — cited, not computed: a standard Fox-calculus result (Borromean case Milnor 1954; tables in Kawauchi). The app has no Fox calculus; what IS computed live: the expansion below (its top coefficient against the independently Magnus-computed μ̄), the Torres collapse to (t−1)⁴ against the fiber's b₁ = 4 — two independent cross-checks — plus a consistency restatement through the Zeta cards' stand-in monodromy, which shares this fixture's characteristic polynomial and so cannot vote against it.">∆<sub>Bor</sub>(t₁,t₂,t₃)</span> = (t₁−1)(t₂−1)(t₃−1)</div>
           <div style="margin-top:6px;">Substituting t<sub>i</sub> = 1 + x<sub>i</sub> and expanding live:</div>
           <div class="coef-grid" id="deltaBorGrid"></div>
           <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point. This polynomial is the link's own zeta — see <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxBorro');if(d){d.open=true;d.scrollIntoView();}">The zeta of a link</button>, Zeta tab.</div>
@@ -872,7 +872,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </details>
       <details class="zx qa-item">
         <summary><h2>Everything in this app is mod 2 — essential, or just the smallest case you could get away with?</h2></summary>
-        <div class="zx-body"><div style="margin-top:8px;">The smallest honest case — with one essential asymmetry underneath it. The knot side has the full integers (lk ∈ Z, μ̄ ∈ Z; the Magnus coefficients are computed over Z before any reduction), while Gal(Q(√p)/Q) has order 2, so the Legendre symbol is genuinely a mod-2 linking number — the "Why is the value group only {±1}?" why-box on <button type='button' class='jump' onclick='gotoTab("pairs")'>Pairs</button> makes the down-conversion explicit. The framework generalizes: ℓ-th power residue symbols and mod-ℓ Milnor invariants run the same ladder (Morishita 2012, ch. 8), though Rédei's construction itself is quadratic — and ℓ = 2 keeps the deck groups at orders 2, 8, 64, small enough for the app to power every matrix literally. What <i>is</i> essential rather than convenient: over Q no Z<sup>r</sup> deck group <i>unramified at the p<sub>i</sub></i> exists — the whyFS box on the <button type='button' class='jump' onclick='gotoTab("dict")'>Dictionary tab</button> computes the f<sub>S</sub> deck group finite (Z/4 × Z/4 for S = {13, 61}, ℓ = 2) — so an integer-valued arithmetic linking number has nowhere <i>unramified</i> to live. The one Z<sub>p</sub>-tower Q does have — the cyclotomic one the knotted-prime card runs on — ramifies at p itself (fracture 4 below).</div></div>
+        <div class="zx-body"><div style="margin-top:8px;">The smallest honest case — with one essential asymmetry underneath it. The knot side has the full integers (lk ∈ Z, μ̄ ∈ Z; the Magnus coefficients are computed over Z before any reduction), while Gal(Q(√p)/Q) has order 2, so the Legendre symbol is genuinely a mod-2 linking number — the "Why is the value group only {±1}?" why-box on <button type='button' class='jump' onclick='gotoTab("pairs")'>Pairs</button> makes the down-conversion explicit. The framework generalizes: ℓ-th power residue symbols and mod-ℓ Milnor invariants run the same ladder (Morishita 2012, ch. 8), though Rédei's construction itself is quadratic — and ℓ = 2 keeps the deck groups at orders 2, 8, 64, small enough for the app to power every matrix literally. What <i>is</i> essential rather than convenient: over Q no Z<sup>r</sup> deck group <i>ramified only at the p<sub>i</sub></i> — unramified outside them, like the covers opposite — exists: the whyFS box on the <button type='button' class='jump' onclick='gotoTab("dict")'>Dictionary tab</button> computes the f<sub>S</sub> deck group finite (Z/4 × Z/4 for S = {13, 61}, ℓ = 2) — so an integer-valued arithmetic linking number has nowhere ramified-only-along-the-link to live. The one Z<sub>p</sub>-tower Q does have — the cyclotomic one the knotted-prime card runs on — ramifies at p itself (fracture 4 below).</div></div>
       </details>
       <details class="zx qa-item">
         <summary><h2>Why the Borromean rings, and why (13, 61, 937) — are these examples cherry-picked?</h2></summary>
@@ -996,14 +996,15 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   if (z === undefined) z = 1n;
   for (const [name, v] of [["p1", p1], ["p2", p2], ["q", q]])
     if (!isPrimeSmall(v)) throw new Error(`${name} = ${v} is not prime — the symbol is only defined for primes`);
+  // Definedness first (depends only on the primes) — so out-of-domain probes hear the
+  // real reason before any certificate-shape complaint (Klein-review follow-up).
+  if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
   const identity = x * x - p1 * y * y - p2 * z * z;
   if (identity !== 0n) throw new Error(`Rédei identity fails: residual ${identity}`);
   const g = bigGcd(bigGcd(x, y), z);
   if (g !== 1n) throw new Error(`certificate not primitive: gcd(x,y,z) = ${g}`);
   if (y % 2n !== 0n) throw new Error(`normalization fails: y = ${y} must be even`);
   if (((x - y) % 4n + 4n) % 4n !== 1n) throw new Error(`normalization fails: x − y ≡ ${((x - y) % 4n + 4n) % 4n} (mod 4), need 1`);
-  // Definedness: all ≡ 1 (mod 4), pairwise +1.
-  if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
   if (legendre(p1, p2) !== 1) throw new Error(`(${p1}/${p2}) != 1`);
   if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
   if (legendre(p2, q) !== 1) throw new Error(`(${p2}/${q}) != 1`);
@@ -1209,7 +1210,7 @@ function renderGammaComputed() {
       ${pd.map(p => `<circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="4.5" fill="#f5a623" stroke="#333" stroke-width="1.2"/><text x="${p.xy[0] + 7}" y="${p.xy[1] - 6}" font-size="12" font-weight="bold" fill="#333">${p.sign > 0 ? "+" : "−"}</text>`).join("")}
       <text x="30" y="26" font-size="12" fill="#1b6ca8">K₁, Σ₁ (z = 0)</text>
       <text x="236" y="26" font-size="12" fill="#1e6b41">K₂, Σ₂ (x = 0)</text>
-      <text x="170" y="182" font-size="11" fill="#666" text-anchor="middle">computed: Σ₁ ∩ Σ₂ = segment y ∈ [${y0.toFixed(2)}, ${y1.toFixed(2)}], ends = the two ± punctures</text>
+      <text x="170" y="182" font-size="10" fill="#666" text-anchor="middle">computed: Σ₁ ∩ Σ₂ = y ∈ [${y0.toFixed(2).replace("-", "−")}, ${y1.toFixed(2)}] — ends = the ± punctures</text>
     </svg>
     <div class="figcap"><b>computed, not schematic</b> — the standard ellipse position (the 3D view's own coordinates) with flat spanning disks: the intersection segment is sampled numerically and its endpoints land exactly on K₁'s two cancelling punctures through Σ₂ (signs from dx/dt, computed). The why-box's tubing trades the punctured ends for a closed curve — this figure computes the <i>before</i>, the cartoon above draws the <i>after</i>.</div>`;
 }
@@ -1258,9 +1259,15 @@ function renderPresMat() { // Klein A1: one presentation matrix per side
 }
 function runCertCockpit() { // Klein F4: the (p1,p2,q,x,y,z) door to redeiSymbol's rejection taxonomy
   const out = $id("ccOut");
-  const vals = ["ccP1", "ccP2", "ccQ", "ccX", "ccY", "ccZ"].map(id => parseIntegerInput($id(id).value));
-  if (vals.some(v => v === null)) { out.innerHTML = `<span style="color:var(--bad);">Enter plain decimal integers (at most 9 digits).</span>`; return; }
-  const [p1, p2, q, x, y, z] = vals;
+  const primes = ["ccP1", "ccP2", "ccQ"].map(id => parseIntegerInput($id(id).value));
+  // Certificate coordinates may be negative (some pairs have no normalized certificate with x > 0);
+  // the engine accepts any sign — only the primes must be positive.
+  const coords = ["ccX", "ccY", "ccZ"].map(id => {
+    const raw = String($id(id).value).trim();
+    return /^-?\d{1,9}$/.test(raw) ? BigInt(raw) : null;
+  });
+  if (primes.some(v => v === null) || coords.some(v => v === null)) { out.innerHTML = `<span style="color:var(--bad);">Primes: plain positive integers; certificate x, y, z: integers, sign allowed (at most 9 digits).</span>`; return; }
+  const [p1, p2, q] = primes, [x, y, z] = coords;
   try {
     const r = redeiSymbol(p1, p2, q, x, y, z);
     out.innerHTML = `<b>[${p1}, ${p2}, ${q}] = ${r.value > 0 ? "+1" : "−1"}</b> — q ${r.value > 0 ? "splits completely" : "does not split completely"} in k<sub>${p1},${p2}</sub> (conjugates ${r.vals.join(", ")} mod ${q}, both Legendre ${r.value > 0 ? "+1" : "−1"}). Every check passed: identity, primitivity, Rédei normalization, definedness, primality.`;
@@ -1276,7 +1283,7 @@ function renderFiveWorked() {
   const o = matOrderF2(M5);
   $id("fiveWorked").innerHTML =
     `<div class="step"><div class="head">The invariant, live.</div><div class="eq">ℓ₅ = [[[x₁,x₂],x₃],x₄] — Milnor's model, one commutator deeper than B₄ — expanded through the same Magnus machinery (truncation degree 5, already in this page): coefficient of X₁X₂X₃X₄ = <b>${c}</b>, lower coefficients ${low12}, ${low123} — so μ̄(12345) = ${c} at the model level, the app's B₄ honesty standard one rung up.</div></div>`
-    + `<div class="step"><div class="head">The counting space, live.</div><div class="eq">ρ(K₅) sits at the corner of N₅(F₂) — order of the group: 2¹⁰ = 1024; powering the 5×5 matrix literally gives order <b>${o}</b>. In the 1024-sheet cover, K₅'s preimage is <b>${1024 / o} loops of double length</b> — K₅-orbit factor <b>(1 − t²)⁻⁵¹²</b>: the twin the arithmetic column cannot yet produce.</div></div>`;
+    + `<div class="step"><div class="head">The counting space, live.</div><div class="eq">ρ(K₅) sits at the corner of N₅(F₂) — order of the group: 2¹⁰ = ${2 ** 10}; powering the 5×5 matrix literally gives order <b>${o}</b>. In the ${2 ** 10}-sheet cover, K₅'s preimage is <b>${2 ** 10 / o} loops of ${o === 2 ? "double length" : "length ×" + o}</b> — K₅-orbit factor <b>${tFactor(o, 2 ** 10)}</b>: the twin the arithmetic column cannot yet produce.</div></div>`;
 }
 
 function polyMul(A, B) {
@@ -1987,7 +1994,10 @@ $id("borro3dToggle").addEventListener("click", () => {
   const showing = wrap.style.display !== "none";
   if (showing) { wrap.style.display = "none"; return; }
   wrap.style.display = "block";
-  if (threeLoaded) { if (!borro3dState) initBorro3D(); }
+  if (threeLoaded) {
+    if (fallback3d) { $id("borro3dContainer").innerHTML = ""; fallback3d = null; borro3dState = null; } // CDN arrived late: retire the fallback before the real view
+    if (!borro3dState) initBorro3D();
+  }
   else if (!fallback3d) { fallback3d = initBorro3DFallback(); } // offline or still loading: honest, self-contained
 });
 $id("fsTooltip").addEventListener("click", e => {
@@ -2989,7 +2999,7 @@ function renderK1361Worked() {
     + (() => { // Klein F1: the ideal-sum face — same unramified data, summed instead of multiplied
       const { sum, terms } = k1361IdealFace(200, 120000);
       const agree = Math.abs(sum - prod) < 1e-5;
-      return `<div class="step"><b>The ideal-sum face, live:</b> the same 44 primes, summed instead of multiplied — a(p<sup>k</sup>) = C(k/f + g − 1, g − 1) ideals of norm p<sup>k</sup> when f | k (else 0), extended multiplicatively and summed over the ${terms.toLocaleString()} unramified 200-<span class="tt" data-tip="n is P-smooth when every prime factor of n is ≤ P. Restricting the ideal sum to 200-smooth norms coprime to 13·61 makes it converge to exactly the same truncation as the product face — the two faces then must agree, and the display checks that they do.">smooth</span> norms n ≤ 120000: <span class="eq">Σ a(n)·n<sup>−2</sup> = <b>${sum.toFixed(6)}</b></span> <span class="${agree ? "ok" : "fail"}">${agree ? "— agrees with the product face ✓" : "— disagrees ✗"}</span> (|Σ − ∏| = ${Math.abs(sum - prod).toExponential(1)}). The third face, honestly: Gal(k₁₃,₆₁/Q) ≅ D₄ is <b>nonabelian</b>, so the character face upgrades from Dirichlet L-functions to Artin L-functions — stated (Artin 1931), not computed; the degree-2 cards below run the abelian version.</div>`;
+      return `<div class="step"><b>The ideal-sum face, live:</b> the same ${count} primes, summed instead of multiplied — a(p<sup>k</sup>) = C(k/f + g − 1, g − 1) ideals of norm p<sup>k</sup> when f | k (else 0), extended multiplicatively and summed over the ${terms.toLocaleString()} unramified 200-<span class="tt" data-tip="n is P-smooth when every prime factor of n is ≤ P. Restricting the ideal sum to 200-smooth norms coprime to 13·61 makes it converge to exactly the same truncation as the product face — the two faces then must agree, and the display checks that they do.">smooth</span> norms n ≤ 120000: <span class="eq">Σ a(n)·n<sup>−2</sup> = <b>${sum.toFixed(6)}</b></span> <span class="${agree ? "ok" : "fail"}">${agree ? "— agrees with the product face ✓" : "— disagrees ✗"}</span> (|Σ − ∏| = ${Math.abs(sum - prod).toExponential(1)}). The third face, honestly: Gal(k₁₃,₆₁/Q) ≅ D₄ is <b>nonabelian</b>, so the character face upgrades from Dirichlet L-functions to Artin L-functions — stated (Artin 1931), not computed; the degree-2 cards below run the abelian version.</div>`;
     })();
   ttFocusable($id("k1361Worked"));
 }
@@ -3448,7 +3458,9 @@ function runSelfTests() {
       && fb.includes("missing") && fb.includes("N₅(F₂)") && fb.includes("blank"))) return false;
     const heads = [...$qa("#tab-zeta .zx-row-head")].map(e => e.textContent);
     if (!heads.some(h => h.includes("Five components"))) return false;
-    if (!$id("ccOut").textContent.includes("[5, 29, 109] = +1")) return false;
+    // State-robust: assert the load snapshot and the engine, never the live cockpit output.
+    if (!CCOUT_AT_LOAD.includes("[5, 29, 109] = +1")) return false;
+    if (redeiSymbol(5n, 29n, 109n, 7n, 2n, 1n).value !== 1) return false;
     let rejected = false;
     try { redeiSymbol(5n, 29n, 109n, 21n, 6n, 3n); } catch (e) { rejected = /primitive|gcd/.test(e.message); }
     return rejected;
@@ -3463,7 +3475,7 @@ function runSelfTests() {
     const pt = $id("presMatTopo").textContent, pa = $id("presMatArith").textContent, g = $id("gammaComputed").textContent;
     return pt.includes("tI − A") && pt.includes("t² − 3t + 1") && pt.includes("∆₄₁ ✓")
       && pa.includes("λ = 1") && pa.includes("deg f₃₇ = λ = 1") && pa.includes("class-group tower data this app does not carry")
-      && g.includes("computed, not schematic") && g.includes("the two ± punctures");
+      && g.includes("computed, not schematic") && g.includes("the ± punctures");
   });
   t("Klein A4 pure: Chebotarev tally over the 427 unramified odd primes < 3000 — id 50, corner 47, χ-classes 109/111/110 (observed hugs 1/8,1/8,1/4,1/4,1/4)", () => {
     const { counts, total } = chebotarevTally(3000);
@@ -4129,11 +4141,19 @@ renderGammaComputed();
 $id("chebRun").addEventListener("click", renderChebTally);
 ttFocusable();
 
+// R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
+const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
+const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once
+const CCOUT_AT_LOAD = $id("ccOut").textContent; // cockpit's seeded verdict, captured once (state-robust pin)
+runSelfTests();
+$id("testsPanel").classList.remove("open");
+
 /* Klein B5: deep links — #tab=zeta&open=zxK1361,zxHopf&goto=zetaK1361 (presenter choreography, one click per beat). */
 (function deepLink() {
   const h = location.hash.replace(/^#/, "");
   if (!h) return;
-  const params = Object.fromEntries(h.split("&").map(kv => kv.split("=").map(decodeURIComponent)));
+  const dec = s => { try { return decodeURIComponent(s); } catch (e) { return s; } }; // malformed %-escapes must not abort the boot tail
+  const params = Object.fromEntries(h.split("&").map(kv => kv.split("=").map(dec)));
   if (params.tab) try { gotoTab(params.tab); } catch (e) { }
   if (params.open) params.open.split(",").forEach(id => { const d = $id(id); if (d && d.tagName === "DETAILS") d.open = true; });
   const target = params.goto || (params.open || "").split(",")[0];
@@ -4168,11 +4188,6 @@ document.addEventListener("keydown", e => {
   });
   tabs.forEach(b => b.addEventListener("click", () => setTimeout(sync, 0)));
 })();
-// R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
-const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
-const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once
-runSelfTests();
-$id("testsPanel").classList.remove("open");
 
 </script>
 </body>

@@ -604,6 +604,13 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <div id="borroWorked"></div>
           </div>
         </details>
+        <details class="zx" id="zxB4">
+          <summary><h2>ζ of B₄ — worked at the model level <span class="zx-hook">— the 64-sheet cover hears what every pair and triple misses</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> the quadruple symbol is invisible to every pair and triple — yet the 64-sheet cover hears it: 32 double loops on one side, 32 primes of residue degree 2 on the other.</div>
+            <div id="b4Worked"></div>
+          </div>
+        </details>
         <details class="zx" id="zxFig8">
           <summary><h2>Contrast: what knotting adds — the figure-eight knot <span class="zx-hook">— eigenvalues pushed off 1: the spectral dial</span></h2></summary>
           <div class="zx-body">
@@ -641,6 +648,13 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> every local factor is Frobenius orbit bookkeeping — f = ord ρ(Frob<sub>p</sub>), 8 = f·g — and the triple symbol decides 937's; the whole product feels it.</div>
             <div id="k1361Worked"></div>
+          </div>
+        </details>
+        <details class="zx" id="zx449">
+          <summary><h2>ζ of the degree-64 field K — worked at 449 <span class="zx-hook">— one corner entry, thirty-two Euler factors of the same shape</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> the N₄(F₂) order rule does the counting on both sides — it powers Frob<sub>p</sub> in Gal(K/Q) exactly as it powers ρ(K₄) in the deck group of the cover: one matrix group, primes and loops alike.</div>
+            <div id="quad449Worked"></div>
           </div>
         </details>
         <details class="zx" id="zxKnotted">
@@ -2599,6 +2613,80 @@ function renderBorroWorked() {
     + `<div class="mln"><b>Keep them apart — different objects:</b> ζ<sub>h</sub> counts fixed points of the monodromy on H₁ of the fiber; the cover-orbit factor counts K₃'s loop-orbits among the 8 sheets. Both are Borromean bookkeeping, and both are worked above: <button type="button" class="jump" onclick="var d=$id('zxBorro');d.open=true;d.scrollIntoView();">the link-zeta card</button> · <button type="button" class="jump" onclick="gotoTab('triples');$id('tripleCoverHasse').scrollIntoView();">the tower of covers, Triples tab</button>.</div>`;
 }
 
+/* R6 G4 (session B): worked 4-linked zetas. Order rule Node-verified (64/64) before display. */
+function n4Matrix(c1, c2, c3, r1, r2, qq) { // entries: superdiag chi1..3, second diag r123, r234, corner q
+  return [[1, c1, r1, qq], [0, 1, c2, r2], [0, 0, 1, c3], [0, 0, 0, 1]];
+}
+function n4RulePredict(c1, c2, c3, r1, r2, qq) {
+  // M = I + N; char 2: M^2 = I + N^2, N^4 = 0. N^2 entries: (1,3) = c1c2, (2,4) = c2c3, (1,4) = c1r2 XOR r1c3.
+  const nsq = (c1 & c2) | (c2 & c3) | ((c1 & r2) ^ (r1 & c3));
+  return nsq ? 4 : (c1 | c2 | c3 | r1 | r2 | qq) ? 2 : 1;
+}
+function n4RuleCheck() { // rule vs literal powering, all 64 elements
+  let ok = 0;
+  for (let b = 0; b < 64; b++) {
+    const e = [b & 1, (b >> 1) & 1, (b >> 2) & 1, (b >> 3) & 1, (b >> 4) & 1, (b >> 5) & 1];
+    if (matOrderF2(n4Matrix(...e)) === n4RulePredict(...e)) ok++;
+  }
+  return ok;
+}
+function n4ChiCases() { // per chi pattern: the set of orders over the 8 (r123, r234, q) fillings
+  const out = [];
+  for (let c = 0; c < 8; c++) {
+    const c1 = c & 1, c2 = (c >> 1) & 1, c3 = (c >> 2) & 1;
+    const set = new Set();
+    for (let r = 0; r < 8; r++) set.add(matOrderF2(n4Matrix(c1, c2, c3, r & 1, (r >> 1) & 1, (r >> 2) & 1)));
+    out.push({ c1, c2, c3, orders: [...set].sort() });
+  }
+  return out;
+}
+function renderQuad449Worked() {
+  const checked = n4RuleCheck();
+  const caseRows = n4ChiCases().map(({ c1, c2, c3, orders }) => {
+    const key = orders.join(",");
+    const verdict =
+      key === "4" ? "4 — regardless of the r-entries: the χ-products already make N² ≠ 0"
+      : key === "2" ? "2 — whatever the r-entries: N² = 0 identically, N ≠ 0"
+      : key === "2,4" ? `<b>2 or 4 — needs the r-entries</b>: N²'s corner is ${c1 && c3 ? "r₂₃₄ ⊕ r₁₂₃" : c1 ? "r₂₃₄" : "r₁₂₃"}`
+      : "<b>1 or 2 — needs the r- and corner entries</b>: 2 iff any of r₁₂₃, r₂₃₄, q is nonzero";
+    return `<tr><td class="k">(${c1}, ${c2}, ${c3})</td><td class="v">${verdict}</td></tr>`;
+  }).join("");
+  // 449, three-branch honesty (R4-S3): everything recomputed live; assert nothing on disagreement
+  const c449 = [legendre(5n, 449n), legendre(8081n, 449n), legendre(101n, 449n)];
+  const r123 = redeiSymbol(5n, 8081n, 449n, 241n, 100n, 1n).value;
+  const r234 = redeiSymbol(101n, 8081n, 449n, 1009n, 100n, 1n).value;
+  const w = quad449Ord();
+  const lower0 = c449.every(l => l === 1) && r123 === 1 && r234 === 1;
+  let worked;
+  if (!lower0) {
+    worked = `The lower levels did not all vanish this run — the worked case's hypotheses fail; nothing asserted at 449 (the Quadruples banner rules).`;
+  } else if (w === null) {
+    worked = `χ and r all vanish (computed), but the four conjugates of θ disagree this run — the symbol is undefined: no corner, no order, no Euler factor asserted at 449 (the Quadruples banner rules).`;
+  } else {
+    const corner = w === 2 ? 1 : 0;
+    const ord = matOrderF2(n4Matrix(0, 0, 0, 0, 0, corner));
+    worked = `χ = (0, 0, 0) — (5/449), (8081/449), (101/449) all +1, computed — and r₁₂₃ = r₂₃₄ = 0 — [5, 8081, 449] = [101, 8081, 449] = +1, computed: every entry of N vanishes except possibly the corner. The quadruple symbol, recomputed from the four conjugates of θ mod 449: ${w === 2 ? "−1 → corner q = 1" : "+1 → corner q = 0"}. By the rule (N² = 0${corner ? ", N ≠ 0" : " and N = 0"}) and by powering (computed): <b>order ${ord}</b> — <b>${64 / ord} orbits of size ${ord}</b>, local factor <b>${localFactor(449, ord, 64)}</b>${ord === 2 ? " — the thread's R4 factor, now derived from the rule" : " — split bookkeeping at the top level"}.`;
+  }
+  $id("quad449Worked").innerHTML =
+    `<div class="step"><div class="head">The order rule of N₄(F₂) — stated, then brute-forced.</div><div class="eq">Write M = I + N, N carrying χ₁, χ₂, χ₃ (superdiagonal), r₁₂₃, r₂₃₄ (second diagonal), q (corner). In characteristic 2, (I + N)² = I + N² and N⁴ = 0, and N² has exactly three entries that can survive: (1,3) = χ₁χ₂, &nbsp; (2,4) = χ₂χ₃, &nbsp; (1,4) = χ₁r₂₃₄ ⊕ r₁₂₃χ₃. <b>Order: 4 iff N² ≠ 0; else 2 iff N ≠ 0; else 1.</b> &nbsp; <span class="${checked === 64 ? "ok" : "fail"}">${checked === 64 ? "rule checked over all 64 elements: OK ✓" : `rule FAILED brute force: ${checked}/64`}</span> <span style="color:var(--muted);font-size:.8rem;">(every element literally powered, live)</span></div></div>`
+    + `<div class="sub">f by χ-cases — the honest table: each row's verdict is the computed set of orders over the eight (r₁₂₃, r₂₃₄, q) fillings. Where f is not determined, the row says exactly which deeper entry it needs — definedness tracked, the Ladder's discipline.</div>`
+    + `<table class="symbolic" id="n4CasesTable"><tr><th>(χ₁, χ₂, χ₃)</th><th>f = ord ρ(Frob<sub>p</sub>), by the rule</th></tr>${caseRows}</table>`
+    + `<div class="step"><div class="head">The worked prime: 449.</div><div class="eq">${worked}</div></div>`
+    + `<div class="mln">Why no full Euler product on this card: for a general prime p the r-entries — its splitting data in the two Rédei octics — are not computable from this app's data; only the structure (the rule, the eight χ-cases) and the worked prime are shown. Unramified local rule, for the record: (1 − p<sup>−fs</sup>)<sup>−64/f</sup> with f = ord ρ(Frob<sub>p</sub>) in N₄(F₂).</div>`;
+}
+function renderB4Worked() {
+  const mu = computeMagnusTripleCommutator()["1,2,3"] || 0;
+  const mu2 = ((mu % 2) + 2) % 2;
+  const ord = matOrderF2(n4Matrix(0, 0, 0, 0, 0, mu2));
+  const w = quad449Ord();
+  const twin = w === 2 ? `the exact twin of the 449 card's ${localFactor(449, 2, 64)} (conjugate symbols recomputed live)`
+    : w === 1 ? `449 splits completely this run — no inert twin on the arithmetic side; the model's μ̄ stands alone`
+    : `449's twin not asserted this run (the conjugates disagree — the Quadruples banner rules)`;
+  $id("b4Worked").innerHTML =
+    `<div class="step"><div class="head">The invariant, then the count.</div><div class="eq">μ̄(1234) = ${mu} — the coefficient of X₁X₂X₃ in the Magnus expansion of ℓ₄ = [[x₁,x₂],x₃], computed live (the Quadruples tab's own machinery). It places ρ(K₄) at the corner of N₄(F₂): entries (χ, r) all 0, corner μ̄ mod 2 = ${mu2}. Powered live: <b>order ${ord}</b>. In the 64-sheet cover, K₄'s preimage is therefore <b>${64 / ord} loops of ${ord === 2 ? "double length" : "length ×" + ord}</b> — |G| = count × size — K₄-orbit local factor <b>${tFactor(ord, 64)}</b>: ${twin}.</div></div>`
+    + `<div class="mln"><b>Honesty — worked at the Milnor-model level</b>, the app's B₄ standard: μ̄(1234) is computed for Milnor's model B₄ (cited: Milnor 1957; Morishita ch. 8; Amano 2019), not read off the drawn diagram (the Quadruples tab's honesty note). The tower this counts in: <button type="button" class="jump" onclick="gotoTab('quads');$id('quadCoverTower').scrollIntoView();">the 64-sheet cover, Quadruples tab</button>.</div>`;
+}
+
 function buildMat(size, cells) {
   const table = $el("table");
   table.className = "mat";
@@ -3433,6 +3521,45 @@ function runSelfTests() {
       && !!$q('#borroWorked .jump[onclick*="tripleCoverHasse"]');
   });
 
+  // R6 G4: worked 4-linked zetas (session B)
+  t("R6-G4a pure: N4(F2) order rule brute-forced over all 64 elements; χ-case sets — (0,0,0):{1,2}, (0,1,0):{2}, (1,0,0)/(0,0,1)/(1,0,1):{2,4}, (1,1,0)/(0,1,1)/(1,1,1):{4}", () => {
+    if (n4RuleCheck() !== 64) return false;
+    const want = { "0,0,0": "1,2", "1,0,0": "2,4", "0,1,0": "2", "1,1,0": "4", "0,0,1": "2,4", "1,0,1": "2,4", "0,1,1": "4", "1,1,1": "4" };
+    return n4ChiCases().every(({ c1, c2, c3, orders }) => want[[c1, c2, c3].join(",")] === orders.join(","));
+  });
+  t("DOM R6-G4a: 449 card — rule OK line; 8 honest χ-case rows ('needs the r-entries' where computed multi-valued); worked branch tracks live symbols (R4-S3/R3-S2); no-Euler-product clause", () => {
+    const s = $id("quad449Worked").textContent;
+    if (!s.includes("rule checked over all 64 elements: OK")) return false;
+    const rows = [...$qa("#n4CasesTable tr")].slice(1);
+    if (rows.length !== 8) return false;
+    if (!(rows[0].textContent.includes("1 or 2 — needs the r- and corner entries")
+      && rows[1].textContent.includes("2 or 4 — needs the r-entries") && rows[1].textContent.includes("r₂₃₄")
+      && rows[2].textContent.includes("2 — whatever the r-entries")
+      && rows[4].textContent.includes("2 or 4 — needs the r-entries") && rows[4].textContent.includes("r₁₂₃")
+      && rows[5].textContent.includes("r₂₃₄ ⊕ r₁₂₃")
+      && rows[3].textContent.includes("4 — regardless") && rows[7].textContent.includes("4 — regardless"))) return false;
+    const w = quad449Ord();
+    const branchOK = w === 2 ? s.includes("32 orbits of size 2") && s.includes("(1 − 449⁻²ˢ)⁻³²") && s.includes("−1 → corner q = 1")
+      : w === 1 ? s.includes("64 orbits of size 1") && s.includes("(1 − 449⁻ˢ)⁻⁶⁴")
+      : s.includes("no corner, no order, no Euler factor asserted") && !s.includes("449⁻");
+    return branchOK && s.includes("not computable from this app's data");
+  });
+  t("R6-G4b pure: μ̄(1234) = 1 via Magnus of [[x₁,x₂],x₃]; corner matrix of N₄(F₂) has order 2 by literal powering; 64/2 = 32", () => {
+    const mu = computeMagnusTripleCommutator()["1,2,3"] || 0;
+    return mu === 1 && matOrderF2(n4Matrix(0, 0, 0, 0, 0, 1)) === 2
+      && 64 / matOrderF2(n4Matrix(0, 0, 0, 0, 0, 1)) === 32;
+  });
+  t("DOM R6-G4b: B4 card — μ̄(1234) = 1 live; 32 loops of double length + (1 − t²)⁻³²; Milnor-model label + citations; 449-twin clause tracks live symbols; Quads tower jump; lesson", () => {
+    const s = $id("b4Worked").textContent;
+    const w = quad449Ord();
+    const twinOK = w === 2 ? s.includes("(1 − 449⁻²ˢ)⁻³²")
+      : w === 1 ? s.includes("no inert twin") : s.includes("not asserted this run");
+    return s.includes("μ̄(1234) = 1") && s.includes("32 loops of double length") && s.includes("(1 − t²)⁻³²")
+      && s.includes("Milnor-model level") && s.includes("Milnor 1957") && s.includes("Morishita ch. 8") && s.includes("Amano 2019")
+      && twinOK && !!$q('#b4Worked .jump[onclick*="quadCoverTower"]')
+      && $q("#zxB4 .zx-lesson").textContent.includes("the 64-sheet cover hears it");
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
@@ -3473,6 +3600,8 @@ renderDedekind();
 renderKnottedPrime();
 renderK1361Worked();
 renderBorroWorked();
+renderQuad449Worked();
+renderB4Worked();
 initLadder();
 renderFrobenius(107n);
 ttFocusable();

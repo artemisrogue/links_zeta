@@ -411,6 +411,8 @@
       </div>
     </div>
 
+    <div class="thread" id="pairsThread" style="display:none;"></div>
+
     <div class="caption-strip">An intersection count: how many times does one object puncture the other's spanning surface / field.</div>
   </section>
 
@@ -1019,6 +1021,28 @@ document.getElementById("pairsLiftBtn").addEventListener("click", () => {
 
 function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
 
+// R4 thread helpers: superscript digits; the local Euler factor (1 − q^(−ord·s))^(−deg/ord).
+function supN(n) { return String(n).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join(""); }
+function localFactor(q, ord, deg) { return `(1 − ${q}⁻${ord === 1 ? "" : supN(ord)}ˢ)⁻${supN(deg / ord)}`; }
+
+function renderPairsThread(p, q, sym) {
+  const box = document.getElementById("pairsThread");
+  if (sym !== 1 && sym !== -1) { box.style.display = "none"; return; }
+  box.style.display = "";
+  const e = (q - 1n) / 2n;
+  const pw = powmod(p, e, q); // ±1 by Euler's criterion, computed
+  let orbits;
+  if (sym === 1) {
+    const r = tonelliShanks(p, q);
+    orbits = `Split: both roots exist mod ${q} — ${r[0]} and ${r[1]} = −${r[0]}, computed — and Frobenius fixes each: r<sup>${q}</sup> = (r²)<sup>${e}</sup>·r = ${p}<sup>${e}</sup>·r = r, since ${p}<sup>${e}</sup> ≡ ${pw} (mod ${q}). <b>Two orbits of period 1</b>: local factor ${localFactor(q, 1, 2)} = (1−t)⁻¹(1−t)⁻¹.`;
+  } else {
+    orbits = `Inert: the roots live upstairs in F<sub>${q}²</sub>, and Frobenius swaps them: r<sup>${q}</sup> = (r²)<sup>${e}</sup>·r = ${p}<sup>${e}</sup>·r = −r, since ${p}<sup>${e}</sup> ≡ ${pw} ≡ −1 (mod ${q}), computed. <b>One orbit of period 2</b>: local factor ${localFactor(q, 2, 2)} = (1−t)⁻¹(1+t)⁻¹.`;
+  }
+  box.innerHTML = `<span class="thread-badge">ζ ↔ Δ</span><b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ): split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>.`
+    + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The covering-space coset argument, standard: K₂ lifts to a loop iff its class maps to 0 under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; the components of its preimage are the cosets of the image subgroup — even lk gives two disjoint lifts, odd lk one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`;
+  ttFocusable(box);
+}
+
 function renderLegendreTable(p, q) {
   const warn = document.getElementById("pairsWarn");
   const table = document.getElementById("legendreTable");
@@ -1033,6 +1057,7 @@ function renderLegendreTable(p, q) {
       : "Enter two distinct odd primes — Euler's criterion presumes an odd prime modulus.";
     // Hypotheses failed: nothing below may be computed or typeset.
     renderHilbertTable(p, q, null, null);
+    renderPairsThread(p, q, null);
     return;
   } else if (isOneMod4(p) && isOneMod4(q)) {
     warn.style.color = "var(--muted)";
@@ -1050,6 +1075,7 @@ function renderLegendreTable(p, q) {
   if (err) {
     table.innerHTML = `<tr><td colspan="2" class="fail">${err}</td></tr>`;
     renderHilbertTable(p, q, null, null);
+    renderPairsThread(p, q, null);
     return;
   }
   const bothThree = !isOneMod4(p) && !isOneMod4(q);
@@ -1080,6 +1106,7 @@ function renderLegendreTable(p, q) {
     banner.innerHTML = `<b>0</b> — ${q} <span class="tt" data-tip="The prime divides the discriminant: it 'branches' in the field, like a singular point of the covering. Excluded by the p ≡ 1 (mod 4), p ≠ q convention.">ramifies</span> in Q(√${p}).`;
   }
   renderHilbertTable(p, q, pq, qp);
+  renderPairsThread(p, q, pq);
   ttFocusable();
 }
 
@@ -2734,6 +2761,23 @@ function runSelfTests() {
   });
 
   // R4 thread DOM assertions (user-directed pedagogy round)
+  t("R4-T2 arithmetic: Euler witnesses for the orbit story - 5^6 mod 13 = 12 (Frobenius swaps the roots), 5^14 mod 29 = 1 (fixes them), roots of x^2-5 mod 29 = {11,18}, 11^2 mod 29 = 5", () => {
+    return powmod(5n, 6n, 13n) === 12n && powmod(5n, 14n, 29n) === 1n
+      && arrEq(tonelliShanks(5n, 29n), [11n, 18n]) && (11n * 11n) % 29n === 5n;
+  });
+  t("DOM R4-T2: Pairs thread - (5,29) split shows computed roots 11/18, two period-1 orbits, (1 − 29⁻ˢ)⁻²; (5,13) inert shows 5^6 ≡ 12 ≡ −1, one period-2 orbit, (1 − 13⁻²ˢ)⁻¹; topology twin honesty-labeled (state restored)", () => {
+    const box = document.getElementById("pairsThread");
+    const saved = box.innerHTML, savedDisp = box.style.display;
+    renderPairsThread(5n, 29n, 1);
+    const s = box.textContent;
+    const okSplit = s.includes("11 and 18") && s.includes("Two orbits of period 1") && s.includes("(1 − 29⁻ˢ)⁻²");
+    renderPairsThread(5n, 13n, -1);
+    const s2 = box.textContent;
+    const okInert = s2.includes("≡ 12 ≡ −1 (mod 13)") && s2.includes("One orbit of period 2")
+      && s2.includes("(1 − 13⁻²ˢ)⁻¹") && s2.includes("cited reasoning, not computed");
+    box.innerHTML = saved; box.style.display = savedDisp;
+    return okSplit && okInert;
+  });
   t("DOM R4-T1: Dictionary thread box states the destination (Delta_L and zeta_K, char poly of a symmetry, sum refactored as product, Zeta tab cashes out); coda points at it", () => {
     const b = document.getElementById("threadDict");
     const badge = b && b.querySelector(".thread-badge");

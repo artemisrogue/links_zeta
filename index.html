@@ -197,6 +197,10 @@
   }
   .coda .lede{ font-weight:600; font-style:italic; }
 
+  /* R4: the thread device — one box per tab tracking the zeta ↔ Delta destination */
+  .thread{ margin:14px 0; padding:10px 14px; background:#fff; border:1px solid var(--line); border-left:4px solid #2b2b25; border-radius:5px; font-size:.9rem; }
+  .thread-badge{ display:inline-block; font-size:.72rem; letter-spacing:.6px; border:1px solid #2b2b25; border-radius:3px; padding:0 6px; margin-right:8px; background:#efece3; color:#2b2b25; white-space:nowrap; }
+
   /* Ladder matrices */
   .matrices{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; margin:20px 0; }
   .matrix-card{ text-align:center; }
@@ -306,6 +310,8 @@
     <button class="why-toggle" data-why="whyKnots">Why are primes like knots at all? (Mazur's observation)</button>
     <div class="why-box" id="whyKnots">Each prime is secretly a circle: the Galois group of the finite field F<sub>p</sub> is Ẑ — exactly the profinite fundamental group of the circle S¹ — so Spec F<sub>p</sub> is a circle in disguise. And the space it sits in, Spec Z, behaves 3-dimensionally (étale cohomological dimension 3, by Artin–Verdier duality). A circle inside a 3-space is a knot — Mazur's observation, and the reason the table below is a dictionary rather than a coincidence.</div>
 
+    <div class="thread" id="threadDict"><span class="thread-badge">ζ ↔ Δ</span><b>Where this is going.</b> Every level of this dictionary is bookkeeping for one pair of objects: the Alexander polynomial Δ<sub>L</sub> of a link and the zeta function ζ<sub>K</sub> of a number field (both defined in the table below). Each is the characteristic polynomial of a symmetry acting on a cover — the monodromy on the fiber, Frobenius on the field — computed as a sum (over iterates / over ideals) that refactors as a product (over periodic orbits / over primes; over eigenvalues / over characters). Each tab computes one more piece of them; the Zeta tab cashes everything out. Boxes wearing this badge carry the thread.</div>
+
     <table class="dict">
       <tr><th class="t">Topology</th><th class="a">Arithmetic</th></tr>
       <tr><td class="t">link L = K₁ ∪ ⋯ ∪ K_r ⊂ <span class="tt" data-tip="The 3-sphere: ordinary 3-space plus one point at infinity — the standard closed home for knots and links.">S³</span></td><td class="a">set of primes S = {p₁, …, p_r} ⊂ <span class="tt" data-tip="The 'space of all primes': in Grothendieck's geometry Z becomes a space whose points are the primes. Why knots, precisely? Each point Spec F_p is a circle in disguise — its Galois group Ẑ is exactly the profinite fundamental group of S¹ — and Spec Z behaves 3-dimensionally (étale cohomological dimension 3, by Artin–Verdier duality). A circle inside a 3-space is a knot (Mazur's observation).">Spec Z</span>, each ≡ 1 (mod 4)</td></tr>
@@ -327,7 +333,7 @@
 
     <div class="coda">
       <div class="lede">One thread, told twice.</div>
-      An intersection count (linking number / Legendre symbol), symmetric because its two values are the two ends of a single global object (an arc / an adèlic product). When the count vanishes everywhere, the intersection object closes up (a closed curve / the Rédei extension) and its interaction with the third participant becomes the triple invariant (μ̄(123) / [p₁,p₂,p₃]) — well defined exactly because the lower level vanished. And a polynomial (∆<sub>L</sub> / f<sub>S</sub>) records the hierarchy as its surviving low-order coefficients, while being — by Milnor–Turaev and the Main Conjecture respectively — the zeta function of the relevant cover: a sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters.
+      An intersection count (linking number / Legendre symbol), symmetric because its two values are the two ends of a single global object (an arc / an adèlic product). When the count vanishes everywhere, the intersection object closes up (a closed curve / the Rédei extension) and its interaction with the third participant becomes the triple invariant (μ̄(123) / [p₁,p₂,p₃]) — well defined exactly because the lower level vanished. And a polynomial (∆<sub>L</sub> / f<sub>S</sub>) records the hierarchy as its surviving low-order coefficients, while being — by Milnor–Turaev and the Main Conjecture respectively — the zeta function of the relevant cover: a sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters — the pair (Δ<sub>L</sub>, ζ<sub>K</sub>) the ζ ↔ Δ boxes track, tab by tab, to the Zeta tab.
     </div>
     <div class="caption-strip">Walk the tabs left to right: each level's invariant is defined because the previous level vanished.</div>
   </section>
@@ -2725,6 +2731,17 @@ function runSelfTests() {
       && document.querySelector("#matN3 td[data-pos='1,0']").style.color === grey
       && (!fm || fm.style.color === grey)
       && getComputedStyle(document.querySelector(".tt")).borderBottomColor === grey;
+  });
+
+  // R4 thread DOM assertions (user-directed pedagogy round)
+  t("DOM R4-T1: Dictionary thread box states the destination (Delta_L and zeta_K, char poly of a symmetry, sum refactored as product, Zeta tab cashes out); coda points at it", () => {
+    const b = document.getElementById("threadDict");
+    const badge = b && b.querySelector(".thread-badge");
+    return !!badge && badge.textContent.includes("ζ ↔ Δ") && b.textContent.includes("Where this is going")
+      && b.textContent.includes("Alexander polynomial") && b.textContent.includes("zeta function")
+      && b.textContent.includes("characteristic polynomial of a symmetry")
+      && b.textContent.includes("Zeta tab cashes everything out")
+      && document.querySelector("#tab-dict .coda").textContent.includes("boxes track");
   });
 
   const list = document.getElementById("testList");

@@ -586,7 +586,6 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
     </div>
 
-    <span id="zetaK1361"></span>
     <div class="section-head">The mechanism, live — a gallery of worked examples</div>
     <div class="small-note" style="text-align:left;margin:0 0 6px;">Each example is a closed card: open it for the live computation. Every card leads with its lesson, stated across the links ↔ primes analogy.</div>
     <div class="twocol">
@@ -596,6 +595,13 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores everything in the Taylor coefficients at t = 1 — the μ̄ hierarchy — exactly where the prime side keeps its linking: in symbol-controlled Euler factors, never in a spectrum.</div>
             <div class="thread" id="borroZeta" style="margin-top:8px;"></div>
+          </div>
+        </details>
+        <details class="zx" id="zxBorroWorked">
+          <summary><h2>ζ of the Borromean rings — worked <span class="zx-hook">— two zetas of one link: fiber homology, then covering-space orbits</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> unipotent monodromy stores linking in Taylor coefficients — and the cover-orbit factor (1 − t²)⁻⁴ is literally the same bookkeeping as 937's Euler factor (1 − 937⁻²ˢ)⁻⁴, |G| = count × size on both sides.</div>
+            <div id="borroWorked"></div>
           </div>
         </details>
         <details class="zx" id="zxFig8">
@@ -627,6 +633,14 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
               <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
             </div>
             <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
+          </div>
+        </details>
+        <span id="zetaK1361"></span>
+        <details class="zx" id="zxK1361">
+          <summary><h2>ζ of k₁₃,₆₁ — the Borromean field, worked <span class="zx-hook">— eleven local factors read off one matrix, then multiplied out</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> every local factor is Frobenius orbit bookkeeping — f = ord ρ(Frob<sub>p</sub>), 8 = f·g — and the triple symbol decides 937's; the whole product feels it.</div>
+            <div id="k1361Worked"></div>
           </div>
         </details>
         <details class="zx" id="zxKnotted">
@@ -1750,7 +1764,7 @@ function renderCoverTwins() {
   const o3 = n3Order(0, 0, mu2);
   const f9 = frobOrderTriple(937n);
   $id("tripleCoverCap").innerHTML =
-    `In X̃: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)}. <button type="button" class="jump" onclick="gotoTab('zeta');var a=$id('zetaK1361');if(a)a.scrollIntoView();">ζ of k₁₃,₆₁ on the Zeta tab</button>.`;
+    `In X̃: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)}. <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">ζ of k₁₃,₆₁ on the Zeta tab</button>.`;
   // (b) Quads: rho(K4) = corner of N4(F2) with mu-bar(1234) mod 2 (Milnor-model level)
   const q2 = (((computeMagnusTripleCommutator()["1,2,3"] || 0) % 2) + 2) % 2;
   const o4 = matOrderF2([[1, 0, 0, q2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);
@@ -2518,6 +2532,71 @@ function renderKnottedPrime() {
           : `<b>8081 is irregular — knotted</b> at ${idx.map(k => `B<sub>${k}</sub>`).join(", ")} (${dt} ms).`;
       });
   });
+}
+
+/* R6 G3 (session B): worked 3-linked zetas, both sides. Every number computed at runtime;
+   reference values Node-verified against the orchestrator's table before pinning. */
+function k1361FrobData(p) { // Frobenius data at any unramified prime, p = 2 included
+  if (p === 2n) {
+    // 2 is unramified in k13,61 (Rédei's normalization; cited on the card). Its Frobenius
+    // restricted to Q(√d), d ≡ 1 (mod 4): split iff d ≡ 1 (mod 8) — computed from 13, 61 mod 8.
+    const chi1 = 13n % 8n === 1n ? 0 : 1, chi2 = 61n % 8n === 1n ? 0 : 1;
+    const oA = n3Order(chi1, chi2, 0), oB = n3Order(chi1, chi2, 1);
+    return oA === oB ? { q: 2n, chi1, chi2, r: null, ord: oA } : { err: "corner-dependent order at 2?" };
+  }
+  return frobOrderTriple(p);
+}
+function k1361PartialEuler(s, X) { // ∏ over unramified p ≤ X of (1 − p^{−fs})^{−8/f}
+  let prod = 1, count = 0;
+  for (let n = 2n; n <= BigInt(X); n++) {
+    if (!isPrimeSmall(n) || n === 13n || n === 61n) continue;
+    const f = k1361FrobData(n).ord;
+    prod *= Math.pow(1 - Math.pow(Number(n), -f * s), -(8 / f));
+    count++;
+  }
+  return { prod, count };
+}
+function renderK1361Worked() {
+  const ps = [2n, 3n, 5n, 7n, 11n, 17n, 19n, 23n, 29n, 107n, 937n];
+  const pm = v => v ? "−1" : "+1";
+  const rows = ps.map(p => {
+    const d = k1361FrobData(p);
+    const f = d.ord, g = 8 / f;
+    const dag = p % 4n === 3n && d.r !== null;
+    let pair, corner;
+    if (p === 2n) {
+      pair = `13 ≡ ${13n % 8n}, 61 ≡ ${61n % 8n} (mod 8): 2 inert in both quadratics <span class="tt" data-tip="For d ≡ 1 (mod 4), 2 splits in Q(√d) iff d ≡ 1 (mod 8) — the standard criterion, applied live to 13 and 61. That 2 is unramified in the full degree-8 field at all is Rédei's normalization (cited: Rédei 1939; Morishita chs. 4/8) — the y-even, x − y ≡ 1 (mod 4) conditions the Triples tab checks.">(why?)</span>`;
+      corner = "∗";
+    } else {
+      pair = `(13/${p}) = ${pm(d.chi1)}, (61/${p}) = ${pm(d.chi2)}`;
+      corner = d.r === null ? "∗" : `α ${d.r ? "non-square" : "square"} mod ${p} → ${d.r}`;
+    }
+    const orb = p === 937n ? `4 orbits of size 2 — the triple symbol's −1`
+      : p === 107n ? `8 orbits of size 1 — splits completely`
+      : `${g} orbit${g > 1 ? "s" : ""} of size ${f}`;
+    return `<tr><td class="k">${p}${dag ? " †" : ""}</td><td class="v">${pair}</td><td class="v">${corner}</td><td class="v">${f}</td><td class="v">${orb}</td><td class="v">${localFactor(p, f, 8)}</td></tr>`;
+  }).join("");
+  const { prod, count } = k1361PartialEuler(2, 200);
+  $id("k1361Worked").innerHTML =
+    `<div class="sub">The local rule at every unramified p — that is every p except 13 and 61, <b>2 and ∞ included</b> (k₁₃,₆₁/Q is unramified outside {13, 61} by Rédei's normalization — cited: Rédei 1939; Morishita chs. 4/8): e = 1, so f·g = 8 reads as <b>the 8 embeddings falling into g = 8/f Frobenius orbits of size f = ord ρ(Frob<sub>p</sub>)</b>, local factor (1 − p<sup>−fs</sup>)<sup>−8/f</sup>. Each row below powers the Ladder tab's matrix, live.</div>`
+    + `<table class="symbolic" id="k1361Table"><tr><th>p</th><th>pairwise level, computed</th><th>corner r</th><th>f = ord ρ(Frob<sub>p</sub>)</th><th>orbit picture</th><th>local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table>`
+    + `<div class="mln">∗ = superdiagonal nonzero: the corner is basis-dependent there (Ladder tab), but the order is not — powered both ways, it agrees. † p ≡ 3 (mod 4): the corner is a <b>splitting datum</b> in the fixed field k₁₃,₆₁ — defined for any odd unramified q — not a symmetric Rédei symbol value, which asks for q ≡ 1 (mod 4) (the Ladder's domain note).</div>`
+    + `<div class="step"><b>Multiplied out, live — the partial Euler product at s = 2:</b> <span class="eq">∏<sub>p ≤ 200 unramified</sub> (1 − p<sup>−2f(p)</sup>)<sup>−8/f(p)</sup> = <b>${prod.toFixed(6)}</b></span> (${count} primes, six decimals). Honesty: the two ramified factors — p = 13 and p = 61 — are omitted; their Euler-factor form is not asserted here. The 937 row is the Triples tab's ${localFactor(937, 2, 8)}: one triple symbol, felt by the whole product.</div>`;
+  ttFocusable($id("k1361Worked"));
+}
+function renderBorroWorked() {
+  const K = 8;
+  const tr = borUnipotentTraces(K);
+  const lhs = expOfPowerSum(tr, K).map(Math.round);
+  const rhs = [];
+  for (let n = 0; n <= K; n++) rhs.push(((n + 1) * (n + 2) * (n + 3)) / 6); // C(n+3,3) by literal products
+  const eq = lhs.every((c, i) => c === rhs[i]);
+  const mu2 = (((computeMagnusLongitude12()["1,2"] || 0) % 2) + 2) % 2;
+  const o = n3Order(0, 0, mu2);
+  $id("borroWorked").innerHTML =
+    `<div class="step"><div class="head">Object 1 — the monodromy zeta ζ<sub>h</sub>: lives on the fiber's homology.</div><div class="eq">tr(h₁∗ⁿ) = ${tr.slice(0, 4).join(", ")}, … (powered live, all 4), so both faces multiply out to degree ${K}:<br>exp( Σ 4tⁿ/n ) = ${lhs.join(", ")}<br>(1 − t)⁻⁴ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ${rhs.join(", ")} &nbsp;<span class="${eq ? "ok" : "fail"}">${eq ? "✓ equal, coefficient by coefficient" : "✗"}</span><br><span style="color:var(--muted);font-size:.8rem;">the right side computed as C(n+3,3) = (n+1)(n+2)(n+3)/6 by literal products — polynomial growth: a unipotent zeta has Taylor content only, no spectral growth.</span></div></div>`
+    + `<div class="step"><div class="head">Object 2 — the cover-orbit factor: lives in the covering space upstairs.</div><div class="eq">In the 8-sheet Rédei cover of S³ ∖ (K₁ ∪ K₂), ρ(K₃) = (0, 0, μ̄ mod 2) = (0, 0, ${mu2}) has order ${o} (powered live), so K₃'s preimage is <b>${8 / o} loops, each winding ${o === 2 ? "twice" : o + "×"}</b> — K₃-orbit local factor <b>${tFactor(o, 8)}</b>: the exact topological twin of 937's ${localFactor(937, 2, 8)}.</div></div>`
+    + `<div class="mln"><b>Keep them apart — different objects:</b> ζ<sub>h</sub> counts fixed points of the monodromy on H₁ of the fiber; the cover-orbit factor counts K₃'s loop-orbits among the 8 sheets. Both are Borromean bookkeeping, and both are worked above: <button type="button" class="jump" onclick="var d=$id('zxBorro');d.open=true;d.scrollIntoView();">the link-zeta card</button> · <button type="button" class="jump" onclick="gotoTab('triples');$id('tripleCoverHasse').scrollIntoView();">the tower of covers, Triples tab</button>.</div>`;
 }
 
 function buildMat(size, cells) {
@@ -3312,6 +3391,48 @@ function runSelfTests() {
       && $id("zetaThread").textContent.includes("keep the dials apart: linking at t = 1, knotting in the spectrum");
   });
 
+  // R6 G3: worked 3-linked zetas (session B); reference values Node-verified from extracted machinery
+  t("R6-G3a pure: k13,61 f-table — f(2)=4, f(3)=2, f(5)=2, f(7)=4, f(11)=4, f(17)=f(19)=f(23)=f(29)=2, f(107)=1, f(937)=2; partial Euler product s=2, p≤200 = 1.0673950922954751 ± 1e-6 over 44 primes", () => {
+    const want = { 2: 4, 3: 2, 5: 2, 7: 4, 11: 4, 17: 2, 19: 2, 23: 2, 29: 2, 107: 1, 937: 2 };
+    const { prod, count } = k1361PartialEuler(2, 200);
+    return Object.keys(want).every(p => k1361FrobData(BigInt(p)).ord === want[p])
+      && count === 44 && Math.abs(prod - 1.0673950922954751) < 1e-6;
+  });
+  t("DOM R6-G3a: k13,61 card — 11 rows, each factor = live localFactor(p, ord, 8); 937/107 orbit glosses; product displayed = computed to 6 decimals; ramified-omitted clause; two-tier dagger note", () => {
+    const ps = [2, 3, 5, 7, 11, 17, 19, 23, 29, 107, 937];
+    const rows = [...$qa("#k1361Table tr")].slice(1);
+    if (rows.length !== 11) return false;
+    const ok = ps.every((p, i) => rows[i].cells[0].textContent.startsWith(String(p))
+      && rows[i].textContent.includes(localFactor(p, k1361FrobData(BigInt(p)).ord, 8)));
+    const s = $id("k1361Worked").textContent;
+    return ok && rows[10].textContent.includes("4 orbits of size 2 — the triple symbol's −1")
+      && rows[9].textContent.includes("splits completely")
+      && s.includes(k1361PartialEuler(2, 200).prod.toFixed(6))
+      && s.includes("p = 13 and p = 61 — are omitted")
+      && s.includes("splitting datum") && s.includes("q ≡ 1 (mod 4)")
+      && $q("#zxK1361 .zx-lesson").textContent.includes("the whole product feels it")
+      && !!$id("zetaK1361");
+  });
+  t("R6-G3b pure: exp(Σ 4tⁿ/n) = (1 − t)⁻⁴ coefficient by coefficient — 1,4,10,20,35,56,84,120,165 = C(n+3,3) by literal products; traces all 4", () => {
+    const e = expOfPowerSum(borUnipotentTraces(8), 8);
+    const b = []; for (let n = 0; n <= 8; n++) b.push(((n + 1) * (n + 2) * (n + 3)) / 6);
+    return borUnipotentTraces(8).every(x => x === 4)
+      && e.every((c, i) => Math.abs(c - b[i]) < 1e-9)
+      && b[4] === 35 && b[8] === 165;
+  });
+  t("DOM R6-G3b: worked Borromean card — both coefficient rows + ✓ equal; (1 − t²)⁻⁴ twin of (1 − 937⁻²ˢ)⁻⁴; 4 loops winding twice; objects kept distinct; jumps to link-zeta card and Triples tower", () => {
+    const s = $id("borroWorked").textContent;
+    return s.includes("1, 4, 10, 20, 35, 56, 84, 120, 165")
+      && s.includes("✓ equal, coefficient by coefficient")
+      && s.includes("C(n+3,3) = (n+1)(n+2)(n+3)/6")
+      && s.includes("4 loops, each winding twice")
+      && s.includes("(1 − t²)⁻⁴") && s.includes("(1 − 937⁻²ˢ)⁻⁴")
+      && s.includes("Keep them apart — different objects:")
+      && s.includes("fixed points of the monodromy on H₁") && s.includes("loop-orbits among the 8 sheets")
+      && !!$q('#borroWorked .jump[onclick*="zxBorro"]')
+      && !!$q('#borroWorked .jump[onclick*="tripleCoverHasse"]');
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
@@ -3350,6 +3471,8 @@ renderBorroZeta();
 renderLefschetz();
 renderDedekind();
 renderKnottedPrime();
+renderK1361Worked();
+renderBorroWorked();
 initLadder();
 renderFrobenius(107n);
 ttFocusable();

@@ -177,6 +177,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
   <button class="tab-btn" data-tab="quads">Quadruples</button>
   <button class="tab-btn" data-tab="zeta">Zeta</button>
   <button class="tab-btn" data-tab="qa">Q&amp;A</button>
+  <button class="tab-btn" data-tab="experimental">Experimental</button>
 </nav>
 
 <div id="ttReadout" class="vh" aria-live="polite"></div>
@@ -938,6 +939,61 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="caption-strip">Every answer points back into the app — theorem, computation, or analogy, always labeled which.</div>
   </section>
 
+    <section id="tab-experimental" class="tab-panel">
+    <div class="honest" style="max-width:940px;margin:0 auto 16px;"><b>Frontier tab — read the labels.</b> Nothing here is load-bearing for the other seven tabs. Each claim below is marked <b>theorem</b>, <b>computed live</b>, <b>empirical</b> (machine-checked but not derived), or <b>proposal / conjectural</b>. Two threads: what the zeta function counts when you change the <i>generator</i> — the knot/link split — and what happens to the whole dictionary at ℓ = 3. Source: this laboratory's note <i>Seifert Surfaces, Triple Linking, and Lefschetz Zeta Functions</i> (§§3–4) and its ℓ = 3 program.</div>
+
+    <div class="section-head">1. Which generator does the zeta count? — the knot/link split</div>
+    <p style="max-width:940px;">One formula, ζ<sub>f</sub>(s) = exp(Σ L(fⁿ)sⁿ/n) = ∏<sub>i</sub> det(1 − s·f<sub>∗</sub>|H<sub>i</sub>)<sup>(−1)<sup>i+1</sup></sup>, runs the entire dictionary — but it runs it <b>twice, with two different generators</b>, and the app's other tabs quietly use both. Which one you feed it decides whether you are doing knot theory or link theory.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Ramified generator — the knot story</h2>
+        <div class="sub">Feed ζ the <b>monodromy</b> φ<sub>∗</sub> of a fibered knot acting on H₁ of its fiber — a local, ramified generator, the meridian's action. <b>Theorem</b> (Milnor 1968): the answer is the Alexander polynomial, ∆<sub>K</sub>(t) = det(t·id − φ<sub>∗</sub>). The whole tower of cyclic covers is then controlled by its values: #H₁(M<sub>n</sub>) = ∏<sub>ζⁿ=1</sub>|∆<sub>K</sub>(ζ)| (infinite when some ∆<sub>K</sub>(ζ) = 0).</div>
+        <div id="expTrefoil"></div>
+      </div>
+      <div class="col arith">
+        <h2>Ramified generator — the arithmetic twin</h2>
+        <div class="sub">Feed the identical formula the topological generator <b>γ</b> of a Z<sub>p</sub>-extension acting on the Iwasawa module H<sub>∞</sub> = lim← Cl(k<sub>n</sub>)⊗Z<sub>p</sub>. <b>Theorem</b> (Iwasawa): you get the Iwasawa polynomial I<sub>p</sub>(T) = det(T·id − (γ−1)) up to p<sup>μ</sup>, with the matching asymptotic #H<sub>n</sub> = p<sup>λn+μpⁿ+ν</sup>. γ is analogous to <b>φ<sub>∗</sub></b> — both generate a local, ramified tower — <span class="tt" data-tip="Morishita flags this explicitly: γ is NOT analogous to Frobenius. Frobenius is the generator of an unramified local extension — the loop around a puncture disjoint from the branch locus — while γ and φ_* generate the ramified tower itself. Conflating them is the commonest error in reading the dictionary, and it is exactly what separates the knot column from the link column on this tab.">not to Frobenius</span>.</div>
+        <div id="expIwasawa"></div>
+      </div>
+    </div>
+
+    <div class="thread" id="expPivot"></div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Unramified generator — the link story</h2>
+        <div class="sub">Everything above is <b>depth two</b>: one cover, one generator, pairwise data only. It says nothing about μ̄(123). Higher linking needs the other generator — <b>Frobenius</b>, unramified, the loop around a puncture <i>disjoint</i> from the branch locus. That is what the Rédei symbol pairs against √α, and what the Triples tab has been computing all along.</div>
+        <div id="expRedeiEx"></div>
+      </div>
+      <div class="col arith">
+        <h2>Artin L = the Lefschetz zeta of Frobenius</h2>
+        <div class="sub"><b>Theorem</b> (definitional): for a Galois representation ρ cut from a tower, L(s,ρ) = ∏<sub>p</sub> det(1 − ρ(Frob<sub>p</sub>)p<sup>−s</sup>)<sup>−1</sup> <i>is</i> ζ<sub>Frob</sub>(s) — the same Lefschetz formula, Frobenius in the seat. So the link-type invariants and the Artin L-functions are the same object read two ways, and the question becomes: <b>where inside an L-function does the triple symbol sit?</b></div>
+        <div id="expDbit"></div>
+      </div>
+    </div>
+
+    <div class="honest" style="max-width:940px;margin:14px auto 0;"><b>Two honest cracks, stated because they are load-bearing.</b> (i) <b>The indeterminacy does not match.</b> Milnor's torsion ≐ ∆<sub>K</sub> holds up to Z[t,t⁻¹]<sup>×</sup> = {±tⁿ} — a tiny group; the Main Conjecture's "up to units" is up to Λ<sup>×</sup> (Λ = Z<sub>p</sub>[[T]], every series with unit constant term) — enormously larger. The triangle repeats, its slack does not, and this note does not know a reason it should. (ii) <b>The depth-three statement is a proposal, not a theorem.</b> The reading below is offered as a reading: that the order of vanishing of the Artin L-function of the tower generated by the arithmetic Seifert surface √α is the number-theoretic analogue of Cochran's derived invariant, and that the Rédei symbol sits inside such an order of vanishing one rung below the machine-checked depth-four case.</div>
+
+    <div class="section-head">2. The mod-3 rung — cubic residues, μ₃, and N₃(F₃)</div>
+    <p style="max-width:940px;">Every symbol in this app is mod 2: values in {±1}, double covers, deck groups D₄ and N₄(F₂). The framework is not restricted to ℓ = 2 — ℓ-th power residue symbols and mod-ℓ Milnor invariants run the same ladder (<span class="tt" data-tip="Morishita, Knots and Primes, ch. 8, develops mod-ℓ Milnor invariants and the ℓ-th power residue symbols; Kim–Morishita treat the ℓ = 3 triple symbols. Cited, not computed: the app implements the ℓ = 3 pairwise arithmetic below, not the general theory.">Morishita ch. 8; Kim–Morishita</span>). Here is what actually changes at ℓ = 3, computed where computable and flagged where not.</p>
+    <div id="expCubicTable"></div>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology mod 3</h2>
+        <div id="expMod3Topo"></div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic mod 3 — Z[ω], computed live</h2>
+        <div id="expCubicWorked"></div>
+      </div>
+    </div>
+    <div id="expCubicCensus" style="max-width:940px;margin:12px auto 0;"></div>
+
+    <div class="honest" style="max-width:940px;margin:14px auto 0;"><b>What breaks at ℓ = 3 — the honest gap list.</b> (i) <b>No Rédei construction.</b> Rédei's α is quadratic by design: it comes from a conic x² − p₁y² − p₂z² = 0. The ℓ = 3 analogue needs a degree-3 Kummer relative-norm solver, which this app does not have — so the mod-3 <i>triple</i> symbol is described here, never computed. (ii) <b>The defect has nowhere at infinity to live.</b> At ℓ = 2 the governing bit d{p,q} is a <i>sign</i> — a real place, totally real versus totally imaginary. The ℓ = 3 base field is k = Q(ζ₃) = Q(√−3), <b>imaginary quadratic: zero real embeddings</b> (computed at right). There is no real place for a sign to sit in, so the laboratory's conjecture is that the defect <i>migrates</i> to the ramified prime λ = (√−3) above 3 — a λ-adic d<sub>λ</sub> replacing an archimedean sign. <b>Conjectural</b>, and the crux of the ℓ = 3 program. (iii) <b>The honesty ladder.</b> ℓ = 2 is proven (Legendre, Rédei, Amano, and the one machine-checked depth-four law); the ℓ = 3 migration to d<sub>λ</sub> is conjectural; the p-adic founding conjecture behind both is speculative. This tab exists to keep those three tiers visibly apart.</div>
+
+    <div class="caption-strip">Two generators, two stories: ramified φ<sub>∗</sub>/γ counts knots, unramified Frobenius counts links — and at ℓ = 3 the ladder's first rung computes while its defect goes looking for a place to live.</div>
+  </section>
+
 </main>
 
 <footer>
@@ -1285,6 +1341,157 @@ function renderPresMat() { // Klein A1: one presentation matrix per side
      <div class="eq" style="margin:6px 0;">X<sub>∞</sub><sup>(ω-eigenspace)</sup> ∼ Λ ⁄ ( f₃₇(T) ),&nbsp;&nbsp; ⟨ f₃₇(T) ⟩ = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>f₃₇(T)</td></tr></table>,&nbsp; deg f₃₇ = λ = 1</div>
      Honesty: the matrix's <i>size and determinant ideal</i> are what the cited results pin (char ideal = (L<sub>p</sub>), the Main Conjecture above); its entries need class-group tower data this app does not carry — displayed schematically, said so. The 2×2 twin at left is fully computed.`;
 }
+/* ===== EXPERIMENTAL TAB =====
+   Two frontier threads, everything below computed at runtime or labelled cited/conjectural.
+   (a) the knot/link split: which generator the Lefschetz formula is fed;
+   (b) the mod-3 rung: Eisenstein arithmetic, cubic residue symbols, and what breaks. */
+
+function trefoilH1Cover(n) { // #H1(M_n) = prod over n-th roots of unity of |Delta(z)|, Delta = t^2 - t + 1
+  let prod = 1;
+  for (let k = 0; k < n; k++) {
+    const th = 2 * Math.PI * k / n, re = Math.cos(th), im = Math.sin(th);
+    const d_re = (re * re - im * im) - re + 1, d_im = (2 * re * im) - im;
+    const mag = Math.hypot(d_re, d_im);
+    if (mag < 1e-9) return Infinity; // Delta vanishes at a root of unity: the cover has infinite H1
+    prod *= mag;
+  }
+  return Math.round(prod);
+}
+function renderExpTrefoil() {
+  const rows = [2, 3, 4, 5, 6].map(n => {
+    const h = trefoilH1Cover(n);
+    const v2 = (h === Infinity) ? "—" : String(((x) => { let v = 0, m = x; while (m % 2 === 0 && m > 0) { m /= 2; v++; } return v; })(h));
+    return `<tr><td class="k">${n}</td><td class="v">${h === Infinity ? "∞" : h}</td><td class="v">${(n & (n - 1)) === 0 ? v2 : ""}</td></tr>`;
+  }).join("");
+  $id("expTrefoil").innerHTML =
+    `<div class="step"><div class="head">The trefoil, worked live.</div><div class="eq">Fibered over S¹, fiber a once-punctured torus, monodromy the SL₂(Z) matrix [[1,1],[−1,0]] — characteristic polynomial <b>∆(t) = t² − t + 1</b> (cited: Milnor's identification; the cover orders below are computed from it here).</div></div>`
+    + `<table class="symbolic"><tr><th>n</th><th>#H₁(M<sub>n</sub>) = ∏<sub>ζⁿ=1</sub>|∆(ζ)|</th><th>v₂ (2-power n)</th></tr>${rows}</table>`
+    + `<div class="mln">Read the last column: along the 2-power tower the orders are 3, 3 — <b>never divisible by 2</b>, so v₂ ≡ 0. That is the degenerate λ = μ = ν = 0 instance of the Iwasawa asymptotic opposite, and it is why the arithmetic match is with <i>v<sub>p</sub></i>(#H₁(M<sub>pⁿ</sub>)) and not with the integer itself — #H₁ need not be a p-power at all. At n = 6 the order is infinite: ∆ = Φ₆ vanishes at a primitive 6th root of unity (computed — the ∞ above is the zero being detected, not a special case).</div>`;
+}
+function renderExpIwasawa() {
+  $id("expIwasawa").innerHTML =
+    `<div class="step"><div class="head">The same formula, the other ramified generator.</div><div class="eq">#H<sub>n</sub> = p<sup>λn + μpⁿ + ν</sup> — and the topological quantity it matches is v<sub>p</sub>(#H₁(M<sub>pⁿ</sub>)), the valuation column at left, not the order. For the trefoil at p = 2 that column is identically 0: λ = μ = ν = 0, the asymptotic in its degenerate case.</div></div>`
+    + `<div class="mln"><b>Why this is the knot column and not the link column:</b> both φ<sub>∗</sub> and γ generate the tower they act on — they are ramified, local generators, the meridian and its arithmetic double. Neither sees any second component. Everything in this row is depth two: one cover, one generator, pairwise data only. The Alexander and Iwasawa polynomials are, in this precise sense, <b>knot invariants on both sides of the mirror</b>.</div>`;
+}
+function renderExpPivot() {
+  $id("expPivot").innerHTML =
+    `${TB}<b>The pivot — where linking actually enters.</b> Change the generator, change the subject. Feed the Lefschetz formula the <b>ramified</b> generator (φ<sub>∗</sub>, γ) and it returns ∆<sub>K</sub> and I<sub>p</sub>: knot-type, depth two, blind to μ̄(123). Feed it the <b>unramified</b> generator — Frobenius, the loop around a puncture disjoint from the branch locus — and the same formula is an Artin L-function, which is where the Rédei symbol and every higher-linking invariant in this app already live. `
+    + `<div class="tln">↔ the app, read back: the Pairs and Triples tabs pair against <b>Frobenius</b> (link column, unramified); the Zeta tab's fig-8 monodromy card and the knotted-prime card's Iwasawa polynomial use <b>φ<sub>∗</sub> and γ</b> (knot column, ramified). Same formula, two seats — a distinction Morishita flags explicitly and which the other tabs use without naming.</div>`;
+}
+function renderExpRedeiEx() {
+  const cert = [-15n, 4n, 1n];
+  let out;
+  try {
+    const r = redeiSymbol(13n, 17n, 53n, ...cert);
+    const pw = [[13n, 17n], [13n, 53n], [17n, 53n]].map(([a, b]) => `(${a}/${b}) = ${legendre(a, b) > 0 ? "+1" : "−1"}`).join(", ");
+    out = `<div class="step"><div class="head">A second Borromean prime triple, computed live: (13, 17, 53).</div><div class="eq">Pairwise: ${pw} — all +1, the arithmetic unlink (and all three ≡ 1 mod 4). Rédei witness (x, y, z) = (${cert.join(", ")}), normalized: identity ${(-15n) * (-15n) - 13n * 16n - 17n} ✓, y even, x − y ≡ 1 (mod 4). Conjugates of α mod 53: ${r.vals.join(", ")}, both Legendre ${r.value > 0 ? "+1" : "−1"} → <b>[13, 17, 53] = ${r.value > 0 ? "+1" : "−1"}</b>.</div></div>`
+      + `<div class="mln">Pairwise unlinked, triply linked — the same shape as the app's own (13, 61, 937), reached through a different certificate, and it is <b>Frob₅₃ paired against √α</b> that decides it: the unramified generator, doing link theory.</div>`;
+  } catch (e) { out = `<div class="mln">certificate rejected: ${e.message}</div>`; }
+  $id("expRedeiEx").innerHTML = out;
+}
+function renderExpDbit() {
+  const s13 = Math.sqrt(13);
+  const sgn = (x, y) => { const a = x + y * s13, b = x - y * s13; return { a, b, both: a > 0 && b > 0 ? "totally positive" : (a < 0 && b < 0 ? "totally negative" : "mixed") }; };
+  const norm = (x, y, z) => { const g = (p, q) => q ? g(q, p % q) : Math.abs(p); return g(g(x, y), z) === 1 && y % 2 === 0 && (((x - y) % 4) + 4) % 4 === 1; };
+  // the app's own pair, its own shipped certificate
+  const own = sgn(23, 6);
+  // (13,17): scan normalized witnesses and compare with the note's illustrative one
+  let tot = 0, neg = 0, pos = 0;
+  for (let z = 1; z <= 12; z++) for (let y = -120; y <= 120; y++) {
+    const s = 13 * y * y + 17 * z * z, x0 = Math.round(Math.sqrt(s));
+    if (x0 * x0 !== s) continue;
+    for (const x of [x0, -x0]) {
+      if (x === 0 || y === 0 || !norm(x, y, z)) continue;
+      tot++; const q = sgn(x, y); if (q.both === "totally negative") neg++; else if (q.both === "totally positive") pos++;
+    }
+  }
+  const ill = sgn(9, 1);
+  $id("expDbit").innerHTML =
+    `<div class="step"><div class="head">The one machine-checked instance — <b>empirical</b>, not derived.</div><div class="eq">The laboratory reports, on <b>8091 pairs</b>: a governing bit d{p,q} ∈ {1, 3} defined by the sign of the Rédei witness α (d = 1 when F<sub>p,q</sub> = Q(√p, √q, √α) is totally real, d = 3 when totally imaginary) matches an <i>a priori independent</i> analytic invariant — the order of vanishing of the Artin L-function: <b>d = 1 ⟺ ord<sub>s=0</sub> L(s, ρ<sub>p,q</sub>) = 2</b> (a Stark rank), <b>d = 3 ⟺ ord = 0</b>. The equality of two independently-defined quantities is the empirical claim; no derivation is asserted.</div></div>`
+    + `<div class="step"><div class="head">This app's own pair, computed live.</div><div class="eq">(13, 61) with its shipped normalized certificate (23, 6, 1): α = 23 + 6√13 = ${own.a.toFixed(3)}, ᾱ = ${own.b.toFixed(3)} — <b>${own.both}</b>, so k₁₃,₆₁ is totally real and the bit reads <b>d{13, 61} = 1</b>.</div></div>`
+    + `<div class="mln"><b>A caution this app found while checking, and states rather than hides:</b> the sign is only well defined once Rédei's normalization is imposed. For (13, 17) every one of the <b>${tot}</b> normalized witnesses with z ≤ 12 gives α <b>totally negative</b> (${neg} negative, ${pos} positive — computed just now), i.e. d = 3; while the illustrative witness (9, 1, 2) quoted in the source note is primitive and non-degenerate but <b>not</b> Rédei-normalized (y is odd — <span class="tt" data-tip="Run redeiSymbol(13n, 17n, 53n, 9n, 1n, 2n) in this page's console: it throws 'normalization fails: y = 1 must be even'. The certificate cockpit on the Triples tab reports the same refusal. The engine will not evaluate an unnormalized witness, because the field — and hence the symbol and the sign — depends on the normalization.">this app's engine rejects it</span>) and gives α = ${ill.a.toFixed(3)}, ᾱ = ${ill.b.toFixed(3)} — <b>${ill.both}</b>, i.e. d = 1. Same pair, opposite bit. The invariant is fine; the definition needs the normalization clause, and mere primitivity is not enough.</div>`;
+}
+
+/* ---- mod 3: Eisenstein integers Z[ω], ω² = −ω − 1 ---- */
+const eisN = (a, b) => a * a - a * b + b * b;
+const eisMul = (u, v) => [u[0] * v[0] - u[1] * v[1], u[0] * v[1] + u[1] * v[0] - u[1] * v[1]];
+const EIS_UNITS = [[1, 0], [-1, 0], [0, 1], [0, -1], [-1, -1], [1, 1]]; // ±1, ±ω, ±ω²
+function eisPrimeAbove(p) { for (let a = -60; a <= 60; a++) for (let b = -60; b <= 60; b++) if (eisN(a, b) === p) return [a, b]; return null; }
+function eisPrimary(pi) { // Ireland–Rosen normalization: a ≡ 2, b ≡ 0 (mod 3)
+  for (const u of EIS_UNITS) { const q = eisMul(pi, u); if (((q[0] % 3) + 3) % 3 === 2 && ((q[1] % 3) + 3) % 3 === 0) return q; }
+  return null;
+}
+function cubicChar(piPrimary, alpha, p) { // χ_π(α) = ω^k, computed in the residue field F_p
+  const P = BigInt(p), [a, b] = piPrimary.map(BigInt), [c, d] = alpha.map(BigInt);
+  const m = ((-a * powmod(((b % P) + P) % P, P - 2n, P)) % P + P) % P; // ω mod π
+  if ((m * m + m + 1n) % P !== 0n) return null;
+  const A = ((c + d * m) % P + P) % P;
+  const chi = powmod(A, (P - 1n) / 3n, P);
+  for (let k = 0n; k < 3n; k++) if (powmod(m, k, P) === chi) return { k: Number(k), m, chi };
+  return null;
+}
+const omegaPow = k => k === 0 ? "1" : (k === 1 ? "ω" : "ω²");
+function renderExpCubicTable() {
+  const rows = [
+    ["value group of the symbol", "{±1} = μ₂", "<b>μ₃ = {1, ω, ω²}</b>"],
+    ["base field with the roots of unity", "Q (μ₂ ⊂ Q)", "<b>k = Q(ζ₃) = Q(√−3)</b>"],
+    ["orientability convention on primes", "p ≡ 1 (mod 4)", "<b>p ≡ 1 (mod 3)</b> — so p splits in k"],
+    ["normalization of the generator", "x − y ≡ 1 (mod 4) (Rédei)", "<b>primary</b>: π ≡ 2 (mod 3) in Z[ω]"],
+    ["cover the pairwise symbol probes", "double cover", "<b>3-fold cyclic cover</b>"],
+    ["reciprocity", "quadratic (Gauss)", "<b>cubic (Eisenstein)</b> — checked below"],
+    ["triple-level deck group", "N₃(F₂) ≅ D₄, order 8", "<b>N₃(F₃), order 27</b>, center Z/3"],
+    ["Chebotarev share per class at the centre", "1/2 each", "<b>1/3 each</b>"],
+    ["triple-symbol construction", "Rédei's conic (proven)", "<span style='color:var(--bad);'>none here — needs a degree-3 Kummer solver</span>"],
+    ["where the d-defect lives", "the real place (a sign)", "<span style='color:var(--bad);'>no real place — conjecturally λ = (√−3)</span>"],
+  ].map(([k, a, b]) => `<tr><td class="k">${k}</td><td class="v">${a}</td><td class="v">${b}</td></tr>`).join("");
+  $id("expCubicTable").innerHTML =
+    `<table class="symbolic" style="max-width:940px;margin:0 auto 14px;"><tr><th>what changes</th><th>ℓ = 2 (the rest of this app)</th><th>ℓ = 3 (this tab)</th></tr>${rows}</table>`;
+}
+function renderExpMod3Topo() {
+  const rows = [0, 1, 2, 3, 4].map(lk => {
+    const d = lk % 3 === 0 ? 1 : 3;
+    return `<tr><td class="k">${lk}</td><td class="v">${d}</td><td class="v">${3 / d} loop${3 / d > 1 ? "s" : ""}, winding ${d}</td><td class="v">(1 − t${d === 1 ? "" : "³"})⁻${3 / d === 1 ? "¹" : "³"}</td></tr>`;
+  }).join("");
+  $id("expMod3Topo").innerHTML =
+    `<div class="sub">Nothing changes in kind — only the modulus. In the <b>3-fold cyclic cover</b> of S³ ∖ K₁ a loop with monodromy of order d has 3/d preimage components, each winding d times; the dial is now lk mod 3, with <b>three</b> positions instead of two. |deck| = 3 = loops × winding throughout (computed):</div>`
+    + `<table class="symbolic"><tr><th>lk(K₁,K₂)</th><th>order of ρ(K₂)</th><th>preimage of K₂</th><th>orbit factor</th></tr>${rows}</table>`
+    + `<div class="mln">The higher rung, described not computed: μ̄(123) <b>mod 3</b> lands at the corner of N₃(F₃) (order 27, centre Z/3) exactly as μ̄(123) mod 2 lands at the corner of N₃(F₂) ≅ D₄ — Morishita's mod-ℓ Milnor invariants, cited. The app has no mod-3 Magnus pipeline, so no number is asserted here.</div>`;
+}
+function renderExpCubicWorked() {
+  const P = [7, 61];
+  const pi = P.map(p => ({ p, raw: eisPrimeAbove(p), pr: eisPrimary(eisPrimeAbove(p)) }));
+  const fmt = e => `${String(e[0]).replace("-", "−")} ${e[1] < 0 ? "−" : "+"} ${Math.abs(e[1])}ω`;
+  const c12 = cubicChar(pi[0].pr, pi[1].pr, pi[0].p), c21 = cubicChar(pi[1].pr, pi[0].pr, pi[1].p);
+  const recip = c12 && c21 && c12.k === c21.k;
+  $id("expCubicWorked").innerHTML =
+    `<div class="sub">Both primes ≡ 1 (mod 3), so both split in Z[ω]; each factor is normalized to its <b>primary</b> associate (the ℓ = 3 stand-in for Rédei's mod-4 clause) — all computed at load:</div>`
+    + `<table class="symbolic"><tr><th>p</th><th>π above p</th><th>primary associate</th><th>N(π)</th><th>π ≡ 2, 0 (mod 3)?</th></tr>`
+    + pi.map(e => `<tr><td class="k">${e.p}</td><td class="v">${fmt(e.raw)}</td><td class="v"><b>${fmt(e.pr)}</b></td><td class="v">${eisN(...e.pr)}</td><td class="v">${((e.pr[0] % 3) + 3) % 3} , ${((e.pr[1] % 3) + 3) % 3} ✓</td></tr>`).join("")
+    + `</table>`
+    + `<div class="step"><div class="head">The cubic residue symbol — the mod-3 linking number.</div><div class="eq">χ<sub>π</sub>(α) ≡ α<sup>(N(π)−1)/3</sup> (mod π), valued in μ₃. Computed in the residue field (ω ↦ ${c12 ? c12.m : "?"} mod 7, a root of x² + x + 1):<br>
+      χ<sub>π₇</sub>(π₆₁) = <b>${c12 ? omegaPow(c12.k) : "?"}</b> &nbsp;&nbsp; χ<sub>π₆₁</sub>(π₇) = <b>${c21 ? omegaPow(c21.k) : "?"}</b> &nbsp; <span class="${recip ? "ok" : "fail"}">${recip ? "— equal ✓ cubic reciprocity" : "✗"}</span><br>
+      <span style="color:var(--muted);font-size:.8rem;">both trivial: 7 and 61 are <i>cubically unlinked</i> — 61 is a cube mod 7 and 7 is a cube mod 61, the mod-3 analogue of a Legendre symbol +1.</span></div></div>`
+    + `<div class="mln">Symmetry is what earns the name <i>linking number</i>: for primary primes cubic reciprocity gives χ<sub>π</sub>(θ) = χ<sub>θ</sub>(π) (Eisenstein — cited; the instance above is computed, and the census below runs it over every pair in a range).</div>`;
+}
+function renderExpCubicCensus() {
+  const ps = [7, 13, 31, 37, 43, 61, 67, 73, 79, 97, 103, 109, 127, 139, 151, 157, 163, 181, 193];
+  const pr = {}; ps.forEach(p => pr[p] = eisPrimary(eisPrimeAbove(p)));
+  let ok = 0, bad = 0; const dist = [0, 0, 0];
+  for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) {
+    const A = cubicChar(pr[ps[i]], pr[ps[j]], ps[i]), B = cubicChar(pr[ps[j]], pr[ps[i]], ps[j]);
+    if (A && B && A.k === B.k) { ok++; dist[A.k]++; } else bad++;
+  }
+  const tot = ok + bad;
+  $id("expCubicCensus").innerHTML =
+    `<div class="step"><div class="head">Cubic reciprocity and the ⅓ prediction, over every pair in a range — computed at load.</div><div class="eq">All ${ps.length} primes ≡ 1 (mod 3) below 200, primary-normalized, all <b>${tot}</b> unordered pairs: reciprocity χ<sub>π</sub>(θ) = χ<sub>θ</sub>(π) holds <b>${ok}/${tot}</b><span class="${bad === 0 ? "ok" : "fail"}"> ${bad === 0 ? "✓" : "✗ " + bad + " failures"}</span>. Value distribution — 1 : ω : ω² = <b>${dist[0]} : ${dist[1]} : ${dist[2]}</b> (${dist.map(d => (d / tot * 100).toFixed(1) + "%").join(" / ")}), against the Chebotarev prediction of <b>⅓ each</b>.</div></div>`
+    + `<div class="mln">The same equidistribution the Ladder tab tallies at ℓ = 2, one modulus up: there the classes of D₄, here the three values of μ₃. The laboratory's ℓ = 3 census runs the <i>triple</i> version — 120k triple symbols against the ⅓/⅓/⅓ prediction at the centre of N₃(F₃) — which this app cannot compute (no mod-3 triple-symbol construction exists here; see the gap list below).</div>`;
+}
+function renderExperimental() {
+  renderExpTrefoil(); renderExpIwasawa(); renderExpPivot(); renderExpRedeiEx(); renderExpDbit();
+  renderExpCubicTable(); renderExpMod3Topo(); renderExpCubicWorked(); renderExpCubicCensus();
+  ttFocusable($id("tab-experimental"));
+}
+
 function runCertCockpit() { // Klein F4: the (p1,p2,q,x,y,z) door to redeiSymbol's rejection taxonomy
   const out = $id("ccOut");
   const primes = ["ccP1", "ccP2", "ccQ"].map(id => parseIntegerInput($id(id).value));
@@ -3510,6 +3717,53 @@ function runSelfTests() {
     return total === 427 && counts.id === 50 && counts.corner === 47
       && counts["10"] === 109 && counts["01"] === 111 && counts["11"] === 110;
   });
+  // Experimental tab: the knot/link generator split, and the mod-3 rung
+  t("EXP pure: trefoil cyclic-cover orders from ∆ = t² − t + 1 — #H₁(M₂,₃,₄,₅) = 3, 4, 3, 1 and infinite at n = 6 (∆ = Φ₆ vanishes); v₂ ≡ 0 along the 2-power tower", () => {
+    return trefoilH1Cover(2) === 3 && trefoilH1Cover(3) === 4 && trefoilH1Cover(4) === 3
+      && trefoilH1Cover(5) === 1 && trefoilH1Cover(6) === Infinity
+      && trefoilH1Cover(2) % 2 === 1 && trefoilH1Cover(4) % 2 === 1; // odd ⇒ v₂ = 0 ⇒ λ = μ = ν = 0
+  });
+  t("EXP pure: Eisenstein primary normalization — π₇ = −1 − 3ω and π₆₁ = −4 − 9ω have norms 7, 61 and are ≡ (2, 0) mod 3", () => {
+    const a = eisPrimary(eisPrimeAbove(7)), b = eisPrimary(eisPrimeAbove(61));
+    const primary = e => ((e[0] % 3) + 3) % 3 === 2 && ((e[1] % 3) + 3) % 3 === 0;
+    return eisN(...a) === 7 && eisN(...b) === 61 && primary(a) && primary(b)
+      && a[0] === -1 && a[1] === -3 && b[0] === -4 && b[1] === -9;
+  });
+  t("EXP pure: cubic residue symbol χ_{π₇}(π₆₁) = χ_{π₆₁}(π₇) = 1 (7 and 61 cubically unlinked); ω ↦ 2 mod 7 satisfies x² + x + 1", () => {
+    const A = eisPrimary(eisPrimeAbove(7)), B = eisPrimary(eisPrimeAbove(61));
+    const c1 = cubicChar(A, B, 7), c2 = cubicChar(B, A, 61);
+    return !!c1 && !!c2 && c1.k === 0 && c2.k === 0 && c1.m === 2n && (c1.m * c1.m + c1.m + 1n) % 7n === 0n;
+  });
+  t("EXP pure: cubic reciprocity over all 171 pairs of primes ≡ 1 (mod 3) below 200 — 171/171, values 1:ω:ω² = 61:57:53 (≈ ⅓ each)", () => {
+    const ps = [7, 13, 31, 37, 43, 61, 67, 73, 79, 97, 103, 109, 127, 139, 151, 157, 163, 181, 193];
+    const pr = {}; ps.forEach(p => pr[p] = eisPrimary(eisPrimeAbove(p)));
+    let ok = 0, bad = 0; const dist = [0, 0, 0];
+    for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) {
+      const A = cubicChar(pr[ps[i]], pr[ps[j]], ps[i]), B = cubicChar(pr[ps[j]], pr[ps[i]], ps[j]);
+      if (A && B && A.k === B.k) { ok++; dist[A.k]++; } else bad++;
+    }
+    return ok === 171 && bad === 0 && dist[0] === 61 && dist[1] === 57 && dist[2] === 53;
+  });
+  t("EXP pure: (13, 17, 53) is a second Borromean prime triple — pairwise Legendre all +1, [13,17,53] = −1 on the normalized witness (−15, 4, 1); the note's (9,1,2) is rejected as unnormalized", () => {
+    const pw = [[13n, 17n], [13n, 53n], [17n, 53n]].every(([a, b]) => legendre(a, b) === 1);
+    const r = redeiSymbol(13n, 17n, 53n, -15n, 4n, 1n);
+    let rejected = false;
+    try { redeiSymbol(13n, 17n, 53n, 9n, 1n, 2n); } catch (e) { rejected = /y = 1 must be even/.test(e.message); }
+    return pw && r.value === -1 && rejected;
+  });
+  t("DOM EXP: tab renders both threads — trefoil orders + ∞, the generator pivot, the d-bit caution (normalization-sensitive sign), cubic reciprocity ✓, and the ℓ=2 vs ℓ=3 table", () => {
+    const tre = $id("expTrefoil").textContent, piv = $id("expPivot").textContent;
+    const dbit = $id("expDbit").textContent, cub = $id("expCubicWorked").textContent;
+    const cen = $id("expCubicCensus").textContent, tab = $id("expCubicTable").textContent;
+    return tre.includes("∞") && tre.includes("λ = μ = ν = 0")
+      && piv.includes("ramified") && piv.includes("Frobenius") && piv.includes("Artin")
+      && dbit.includes("8091") && dbit.includes("empirical") && dbit.includes("d{13, 61} = 1")
+      && dbit.includes("Same pair, opposite bit")
+      && cub.includes("cubic reciprocity") && cub.includes("cubically unlinked")
+      && cen.includes("171/171") && cen.includes("⅓ each")
+      && tab.includes("μ₃") && tab.includes("N₃(F₃), order 27") && tab.includes("no real place")
+      && $qa("#tab-experimental .honest").length >= 3;
+  });
   t("Klein C8 pure: irregularIndicesAsync chunk bookkeeping, driven synchronously across the 599-row boundary — 691 → [12, 200], equal to the synchronous twin", () => {
     let got = null, ticks = 0;
     irregularIndicesAsync(691, () => { ticks++; }, idx => { got = idx; }, f => f());
@@ -3684,7 +3938,7 @@ function runSelfTests() {
   t("DOM R3-A2: tab roles wired; exactly one aria-selected, flipping on activation", () => {
     if ($q("nav.tabs").getAttribute("role") !== "tablist") return false;
     const btns = [...$qa(".tab-btn")];
-    if (btns.length !== 7 || !btns.every(b => b.getAttribute("role") === "tab" && b.getAttribute("aria-controls") === "tab-" + b.dataset.tab
+    if (btns.length !== 8 || !btns.every(b => b.getAttribute("role") === "tab" && b.getAttribute("aria-controls") === "tab-" + b.dataset.tab
       && $id("tab-" + b.dataset.tab).getAttribute("role") === "tabpanel"
       && $id("tab-" + b.dataset.tab).getAttribute("aria-labelledby") === b.id)) return false;
     const sel = () => btns.filter(b => b.getAttribute("aria-selected") === "true");
@@ -4166,6 +4420,7 @@ initLadder();
 renderFrobenius(107n);
 renderPresMat();
 renderGammaComputed();
+renderExperimental();
 $id("chebRun").addEventListener("click", renderChebTally);
 ttFocusable();
 

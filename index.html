@@ -468,6 +468,8 @@
       </div>
     </div>
 
+    <div class="thread" id="triplesThread"></div>
+
     <div class="caption-strip">Vanishing is not emptiness — it is what makes the next invariant well defined.</div>
   </section>
 
@@ -1613,6 +1615,11 @@ function renderTripleSteps() {
   const banner = document.getElementById("tripleBanner");
   banner.innerHTML = `<b>[13, 61, 937] = ${result.value > 0 ? "+1" : "−1"}</b> — no two linked, all three linked: the arithmetic Borromean rings.`;
 
+  const f937 = frobOrderTriple(937n), f107 = frobOrderTriple(107n);
+  document.getElementById("triplesThread").innerHTML =
+    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had the symbol been +1 — as at q = 107, order ${f107.ord}, computed — Frobenius would be trivial: ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
+    + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology: Δ<sub>Bor</sub> is the same story — by Milnor–Turaev it <i>is</i> the zeta-type invariant (torsion) of the abelian cover, and its surviving top coefficient μ̄(123) is the analogue of the order-2 obstruction at 937.</div>`;
+
   renderTripleHasse();
   ttFocusable();
 }
@@ -2329,6 +2336,19 @@ function frobeniusMatrix1361(q) {
   return { q, chi1, chi2, r: l1 === 1 ? 0 : 1, rt, v1, v2 };
 }
 
+// R4: order of [[1,a,c],[0,1,b],[0,0,1]] over F2 by literal powering (the (chi1,chi2) rule is a TEST).
+function n3Mul(X, Y) { return X.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s ^ (X[i][k] & Y[k][j]), 0))); }
+function n3Order(a, b, c) {
+  const M = [[1, a, c], [0, 1, b], [0, 0, 1]];
+  let P = M, n = 1;
+  while (P.flat().join("") !== "100010001") { P = n3Mul(P, M); n++; if (n > 8) throw new Error("order > 8?"); }
+  return n;
+}
+function frobOrderTriple(q) { // reuses frobeniusMatrix1361: legendre + the Redei evaluation, no duplicated certificate logic
+  const f = frobeniusMatrix1361(q);
+  return f.err ? f : { ...f, ord: n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r) };
+}
+
 function renderFrobenius(q) {
   const warn = document.getElementById("frobWarn");
   const mat = document.getElementById("frobMatrix");
@@ -2764,6 +2784,18 @@ function runSelfTests() {
   t("R4-T2 arithmetic: Euler witnesses for the orbit story - 5^6 mod 13 = 12 (Frobenius swaps the roots), 5^14 mod 29 = 1 (fixes them), roots of x^2-5 mod 29 = {11,18}, 11^2 mod 29 = 5", () => {
     return powmod(5n, 6n, 13n) === 12n && powmod(5n, 14n, 29n) === 1n
       && arrEq(tonelliShanks(5n, 29n), [11n, 18n]) && (11n * 11n) % 29n === 5n;
+  });
+  t("R4-T3: frobOrderTriple by matrix powering - ord(937) = 2, ord(107) = 1; n3Order matches the (chi1,chi2) rule on all 8 elements of N3(F2)", () => {
+    if (frobOrderTriple(937n).ord !== 2 || frobOrderTriple(107n).ord !== 1) return false;
+    for (const a of [0, 1]) for (const b of [0, 1]) for (const c of [0, 1])
+      if (n3Order(a, b, c) !== ((a || b || c) ? (a && b ? 4 : 2) : 1)) return false;
+    return true;
+  });
+  t("DOM R4-T3: Triples thread renders order 2, 4 orbits of period 2, (1 − 937⁻²ˢ)⁻⁴, the order-1 contrast (1 − 107⁻ˢ)⁻⁸, and the Milnor-Turaev mirror line", () => {
+    const s = document.getElementById("triplesThread").textContent;
+    return s.includes("order 2") && s.includes("4 orbits of period 2") && s.includes("(1 − 937⁻²ˢ)⁻⁴")
+      && s.includes("order 1") && s.includes("8 fixed points") && s.includes("(1 − 107⁻ˢ)⁻⁸")
+      && s.includes("Milnor–Turaev") && s.includes("μ̄(123)");
   });
   t("DOM R4-T2: Pairs thread - (5,29) split shows computed roots 11/18, two period-1 orbits, (1 − 29⁻ˢ)⁻²; (5,13) inert shows 5^6 ≡ 12 ≡ −1, one period-2 orbit, (1 − 13⁻²ˢ)⁻¹; topology twin honesty-labeled (state restored)", () => {
     const box = document.getElementById("pairsThread");

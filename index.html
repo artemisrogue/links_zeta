@@ -789,7 +789,6 @@ function drawOrientationArrow(ctx, p, dir, color) {
   ctx.restore();
 }
 
-// arrow at angle theta on a CCW-parametrized circle
 function circleArrow(ctx, circle, theta, color) {
   const p = { x: circle.cx + circle.r * Math.cos(theta), y: circle.cy + circle.r * Math.sin(theta) };
   drawOrientationArrow(ctx, p, { x: -Math.sin(theta), y: Math.cos(theta) }, color);
@@ -840,7 +839,6 @@ function computeMagnusTripleCommutator() {
   return mgCommutator(C12, C12inv, M3, M3inv);
 }
 
-// polys keyed by exponent vector "e1,e2,e3"
 function polyMul(A, B) {
   const R = {};
   for (const ka in A) {
@@ -856,14 +854,13 @@ function polyMul(A, B) {
   return R;
 }
 function expandDeltaBor() {
-  // (t1-1)(t2-1)(t3-1) with ti = 1+xi  =>  x1 * x2 * x3
+  // (t1-1)(t2-1)(t3-1), ti = 1+xi
   const f1 = { "1,0,0": 1 }; // (1+x1) - 1 = x1
   const f2 = { "0,1,0": 1 };
   const f3 = { "0,0,1": 1 };
   return polyMul(polyMul(f1, f2), f3);
 }
 
-// .tt: button semantics; re-run after renders.
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
     el.setAttribute("tabindex", "0");
@@ -877,7 +874,6 @@ window.gotoTab = function (name) {
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
-// .tt pin/close wiring; tip mirrors into #ttReadout.
 function ttAnnounce(t) {
   document.getElementById("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
@@ -885,7 +881,6 @@ function ttAnnounce(t) {
 function ttSet(t, open) {
   t.classList.toggle("tt-open", open);
   t.setAttribute("aria-expanded", String(open));
-  // near top, pinned tips open downward
   t.classList.toggle("tt-below", open && t.getBoundingClientRect().top < 340);
   if (open) ttAnnounce(t);
 }
@@ -1023,7 +1018,6 @@ document.getElementById("pairsLiftBtn").addEventListener("click", () => {
 
 function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
 
-// R4: superscript digits + local Euler factor builder.
 function supN(n) { return String(n).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join(""); }
 function localFactor(q, ord, deg) { return `(1 − ${q}⁻${ord === 1 ? "" : supN(ord)}ˢ)⁻${supN(deg / ord)}`; }
 
@@ -1172,7 +1166,6 @@ document.getElementById("preset513").addEventListener("click", () => {
   setPairsTopology(true);    // −1: the Hopf pair
 });
 
-// arc figure (Fig. 2)
 const arcCanvas = document.getElementById("arcCanvas");
 const actx = arcCanvas.getContext("2d");
 let arcPulseT = 0;
@@ -1336,7 +1329,6 @@ function renderArcFigureUnlinked() {
 
 function arcAnimLoop() {
   arcPulseT += 0.03;
-  // redraw when visible; reduced-motion skips
   if (!REDUCED_MOTION.matches && document.getElementById("tab-pairs").classList.contains("active")) {
     renderArcFigure();
   }
@@ -1423,7 +1415,7 @@ function borroComputeLk() {
   return out; // {"12":0,"13":0,"23":0} expected
 }
 
-// Magnus expansion of the longitude [x1,x2] — mu(123).
+// Magnus expansion of [x1,x2]
 function computeMagnusLongitude12() {
   const X1 = mgGen(1), X2 = mgGen(2);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 };
@@ -1617,7 +1609,7 @@ function renderTripleSteps() {
 
   const f937 = frobOrderTriple(937n), f107 = frobOrderTriple(107n);
   document.getElementById("triplesThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had the symbol been +1 — as at q = 107, order ${f107.ord}, computed — Frobenius would be trivial: ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
+    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix ρ(Frob<sub>937</sub>) ∈ N₃(F₂) — displayed and powered live on the <button type="button" class="jump" onclick="gotoTab('ladder');document.getElementById('frobPreset937').click()">Ladder tab, preset q = 937</button>: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ — this level's version of the Pairs box's two roots of x² − p — that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had the symbol been +1 — as at q = 107, order ${f107.ord}, computed — Frobenius would be trivial: ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
     + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology: Δ<sub>Bor</sub> is the same story — by Milnor–Turaev it <i>is</i> the zeta-type invariant (torsion) of the abelian cover, and its surviving top coefficient μ̄(123) is the analogue of the order-2 obstruction at 937.</div>`;
 
   renderTripleHasse();
@@ -1625,7 +1617,6 @@ function renderTripleSteps() {
 }
 
 function renderTripleHasse() {
-  // Hasse diamond up to k_{13,61}.
   const svg = document.getElementById("tripleHasse");
   svg.innerHTML = `
 <g font-size="12" text-anchor="middle">
@@ -2053,7 +2044,6 @@ function renderZetaThread(qOrd) { // capstone; factors recomputed live
 }
 
 function renderQuadTower() {
-  // Partial lattice Q → K (deg 64).
   const svg = document.getElementById("quadTower");
   svg.innerHTML = `
 <g font-size="10.5" text-anchor="middle">
@@ -2800,11 +2790,13 @@ function runSelfTests() {
       if (n3Order(a, b, c) !== ((a || b || c) ? (a && b ? 4 : 2) : 1)) return false;
     return true;
   });
-  t("DOM R4-T3: Triples thread - order 2, 4 orbits of period 2, (1 − 937⁻²ˢ)⁻⁴; contrast (1 − 107⁻ˢ)⁻⁸; Milnor-Turaev mirror", () => {
+  t("DOM R4-T3: Triples thread - order 2, 4 orbits of period 2, (1 − 937⁻²ˢ)⁻⁴; contrast (1 − 107⁻ˢ)⁻⁸; Milnor-Turaev mirror; matrix named + Ladder jump", () => {
     const s = document.getElementById("triplesThread").textContent;
     return s.includes("order 2") && s.includes("4 orbits of period 2") && s.includes("(1 − 937⁻²ˢ)⁻⁴")
       && s.includes("order 1") && s.includes("8 fixed points") && s.includes("(1 − 107⁻ˢ)⁻⁸")
-      && s.includes("Milnor–Turaev") && s.includes("μ̄(123)");
+      && s.includes("Milnor–Turaev") && s.includes("μ̄(123)")
+      && s.includes("ρ(Frob937) ∈ N₃(F₂)") && s.includes("two roots of x² − p")
+      && !!document.querySelector('#triplesThread .jump[onclick*="ladder"]');
   });
   t("DOM R4-T6: Zeta capstone factors match the Triples/Quadruples boxes; demo notes back-point to the Pairs box", () => {
     const z = document.getElementById("zetaThread").textContent, N = [...document.querySelectorAll("#tab-zeta .small-note")];

@@ -198,6 +198,8 @@
   .coda .lede{ font-weight:600; font-style:italic; }
 
   /* R4 thread device */
+  .tln{ color:var(--topo); font-size:.8rem; margin-top:6px; }
+  .mln{ color:var(--muted); font-size:.8rem; margin-top:4px; }
   .thread{ margin:14px 0; padding:10px 14px; background:#fff; border:1px solid var(--line); border-left:4px solid #2b2b25; border-radius:5px; font-size:.9rem; }
   .thread-badge{ display:inline-block; font-size:.72rem; letter-spacing:.6px; border:1px solid #2b2b25; border-radius:3px; padding:0 6px; margin-right:8px; background:#efece3; color:#2b2b25; white-space:nowrap; }
 
@@ -628,6 +630,10 @@
 "use strict";
 
 function $id(id) { return document.getElementById(id); }
+function $q(s) { return document.querySelector(s); }
+function $qa(s) { return document.querySelectorAll(s); }
+function $el(t) { return document.createElement(t); }
+const TB = '<span class="thread-badge">ζ ↔ Δ</span>';
 
 function powmod(a, e, m) {
   a = ((a % m) + m) % m;
@@ -872,7 +878,7 @@ function ttFocusable(root) {
 }
 
 window.gotoTab = function (name) {
-  const btn = document.querySelector(`.tab-btn[data-tab="${name}"]`);
+  const btn = $q(`.tab-btn[data-tab="${name}"]`);
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
@@ -887,7 +893,7 @@ function ttSet(t, open) {
   if (open) ttAnnounce(t);
 }
 function ttCloseAll(except) {
-  document.querySelectorAll(".tt.tt-open").forEach(el => { if (el !== except) ttSet(el, false); });
+  $qa(".tt.tt-open").forEach(el => { if (el !== except) ttSet(el, false); });
 }
 document.addEventListener("click", e => {
   const t = e.target.closest(".tt");
@@ -905,8 +911,8 @@ document.addEventListener("keydown", e => {
 });
 
 // ARIA tablist wiring
-document.querySelector("nav.tabs").setAttribute("role", "tablist");
-document.querySelectorAll(".tab-btn").forEach(btn => {
+$q("nav.tabs").setAttribute("role", "tablist");
+$qa(".tab-btn").forEach(btn => {
   const n = btn.dataset.tab;
   btn.id = "tabbtn-" + n;
   btn.setAttribute("role", "tab");
@@ -916,15 +922,15 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
   p.setAttribute("role", "tabpanel");
   p.setAttribute("aria-labelledby", btn.id);
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    $qa(".tab-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+    $qa(".tab-panel").forEach(p => p.classList.remove("active"));
     btn.classList.add("active");
     btn.setAttribute("aria-selected", "true");
     $id("tab-" + btn.dataset.tab).classList.add("active");
   });
 });
 
-document.querySelectorAll(".why-toggle").forEach(btn => {
+$qa(".why-toggle").forEach(btn => {
   btn.addEventListener("click", () => {
     $id(btn.dataset.why).classList.toggle("open");
   });
@@ -965,9 +971,9 @@ function renderPairs() {
     const aAngles = pts.map(p => angleOnCircle(A, p));
     const bAngles = pts.map(p => angleOnCircle(B, p));
     if (!pairsState.linked) {
-      underB = bAngles;                       // A always on top
+      underB = bAngles; // A always on top
     } else {
-      underB = [bAngles[0]];                  // alternating
+      underB = [bAngles[0]]; // alternating
       underA = [aAngles[1]];
     }
   }
@@ -994,7 +1000,7 @@ $id("pairsToggleBtn").addEventListener("click", () => {
   $id("pairsLiftNote").textContent = " ";
   updatePairsLabels();
   renderPairs();
-  renderArcFigure();   // keep the symmetry figure in step
+  renderArcFigure(); // keep the symmetry figure in step
 });
 
 $id("pairsLiftBtn").addEventListener("click", () => {
@@ -1036,10 +1042,10 @@ function renderPairsThread(p, q, sym) {
   } else {
     orbits = `Inert: the roots live upstairs in F<sub>${q}²</sub>, and Frobenius swaps them: r<sup>${q}</sup> = (r²)<sup>${e}</sup>·r = ${p}<sup>${e}</sup>·r = −r, since ${p}<sup>${e}</sup> ≡ ${pw} ≡ −1 (mod ${q}), computed. <b>One orbit of period 2</b>: local factor ${localFactor(q, 2, 2)} = (1−t)⁻¹(1+t)⁻¹.`;
   }
-  box.innerHTML = `<span class="thread-badge">ζ ↔ Δ</span><b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors — the per-prime pieces — of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ), Riemann's zeta (the K = Q case) times a twin series built from exactly these ±1 symbols: split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>.`
+  box.innerHTML = `${TB}<b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors — the per-prime pieces — of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ), Riemann's zeta (the K = Q case) times a twin series built from exactly these ±1 symbols: split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>.`
     + (!isOneMod4(p) && !isOneMod4(q)
-      ? `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology: <b>withheld for this pair</b> — both primes ≡ 3 (mod 4), so this symbol is order-dependent, (${p}/${q}) = −(${q}/${p}), while lk is symmetric: per the banner above, no lk-parity gloss (R2-M3). The Euler factor stands — it reads ${q}'s splitting in the fixed field Q(√${p}), where the ordering is part of the data.</div>`
-      : `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The coset argument, standard: K₂ lifts to a loop iff its class dies under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; preimage components = cosets of the image subgroup — even lk: two disjoint lifts; odd lk: one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`);
+      ? `<div class="tln">↔ topology: <b>withheld for this pair</b> — both primes ≡ 3 (mod 4), so this symbol is order-dependent, (${p}/${q}) = −(${q}/${p}), while lk is symmetric: per the banner above, no lk-parity gloss. The Euler factor stands — it reads ${q}'s splitting in the fixed field Q(√${p}), where the ordering is part of the data.</div>`
+      : `<div class="tln">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The coset argument, standard: K₂ lifts to a loop iff its class dies under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; preimage components = cosets of the image subgroup — even lk: two disjoint lifts; odd lk: one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`);
   ttFocusable(box);
 }
 
@@ -1087,7 +1093,7 @@ function renderLegendreTable(p, q) {
       : (pq === qp ? '<span class="ok">(p/q) = (q/p) ✓</span>' : '<span class="fail">(p/q) ≠ (q/p) ?!</span>')],
   ];
   for (const [k, v] of rows) {
-    const tr = document.createElement("tr");
+    const tr = $el("tr");
     tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td>`;
     table.appendChild(tr);
   }
@@ -1128,11 +1134,11 @@ function renderHilbertTable(p, q, pq, qp) {
   ];
   const product = two * pq * qp;
   for (const [k, v, why] of rows) {
-    const tr = document.createElement("tr");
+    const tr = $el("tr");
     tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td><td style="color:var(--muted);font-size:.8rem;">${why}</td>`;
     table.appendChild(tr);
   }
-  const tr = document.createElement("tr");
+  const tr = $el("tr");
   tr.innerHTML = `<td class="k"><b>∏<sub>v</sub> (p,q)<sub>v</sub></b></td><td class="v ${product === 1 ? "ok" : "fail"}">${product > 0 ? "+1 ✓" : "−1 ✗"}</td><td style="color:var(--muted);font-size:.8rem;">${two === 1 ? "forces (p/q)(q/p) = 1" : "forces (p/q)(q/p) = −1 — the −1 is the v = 2 factor"}</td>`;
   table.appendChild(tr);
   note.textContent = two === 1
@@ -1162,12 +1168,12 @@ function setPairsTopology(linked) {
 $id("preset529").addEventListener("click", () => {
   $id("pInput").value = 5; $id("qInput").value = 29;
   renderLegendreTable(5n, 29n);
-  setPairsTopology(false);   // +1: the unlinked pair — sync the topology panel
+  setPairsTopology(false); // +1: the unlinked pair — sync the topology panel
 });
 $id("preset513").addEventListener("click", () => {
   $id("pInput").value = 5; $id("qInput").value = 13;
   renderLegendreTable(5n, 13n);
-  setPairsTopology(true);    // −1: the Hopf pair
+  setPairsTopology(true); // −1: the Hopf pair
 });
 
 const arcCanvas = $id("arcCanvas");
@@ -1235,19 +1241,19 @@ function renderArcFigure() {
   actx.stroke();
 
   actx.strokeStyle = "#2e8b57";
-  arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140);   // visible 3/4
+  arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140); // visible 3/4
   actx.stroke();
   actx.save();
   actx.globalAlpha = 0.4;
   actx.setLineDash([6, 5]);
   actx.lineWidth = 2.5;
-  arcPathFromParam(K2of, Math.PI, 1.5 * Math.PI, 50);   // hidden quarter
+  arcPathFromParam(K2of, Math.PI, 1.5 * Math.PI, 50); // hidden quarter
   actx.stroke();
   actx.restore();
 
   // Sigma1 ∩ Sigma2: (0,0,0) -> (1,0,0)
-  const P2 = arcProj(0, 0, 0);   // where K2 pierces Sigma1
-  const P1 = arcProj(1, 0, 0);   // where K1 pierces Sigma2
+  const P2 = arcProj(0, 0, 0); // where K2 pierces Sigma1
+  const P1 = arcProj(1, 0, 0); // where K1 pierces Sigma2
   actx.strokeStyle = "#333";
   actx.lineWidth = 3.5;
   actx.beginPath();
@@ -1459,7 +1465,7 @@ function renderTopoTripleSteps() {
   });
 
   for (const s of steps) {
-    const div = document.createElement("div");
+    const div = $el("div");
     div.className = "step";
     div.innerHTML = `<div class="head">${s.head}</div><div class="eq">${s.body}</div>`;
     container.appendChild(div);
@@ -1471,7 +1477,7 @@ function renderTopoTripleSteps() {
 
 let threeLoaded = false, threeFailed = false;
 (function loadThree() {
-  const s = document.createElement("script");
+  const s = $el("script");
   s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
   s.onload = () => { threeLoaded = true; };
   s.onerror = () => { threeFailed = true; $id("borro3dToggle").style.display = "none"; };
@@ -1600,7 +1606,7 @@ function renderTripleSteps() {
   });
 
   for (const s of steps) {
-    const div = document.createElement("div");
+    const div = $el("div");
     div.className = "step";
     div.innerHTML = `<div class="head">${s.head}</div><div class="eq">${s.body}</div>`;
     container.appendChild(div);
@@ -1612,8 +1618,8 @@ function renderTripleSteps() {
 
   const f937 = frobOrderTriple(937n), f107 = frobOrderTriple(107n);
   $id("triplesThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix ρ(Frob<sub>937</sub>) ∈ N₃(F₂) — displayed and powered live on the <button type="button" class="jump" onclick="gotoTab('ladder');$id('frobPreset937').click()">Ladder tab, preset q = 937</button>: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ — this level's version of the Pairs box's two roots of x² − p — that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had Frobenius been trivial instead — as at q = 107, which splits completely in k₁₃,₆₁: order ${f107.ord}, computed; a splitting datum, not a symbol value, since 107 ≡ 3 (mod 4) sits outside the symmetric symbol's domain (the Ladder's domain note) — the count would read ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
-    + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology: Δ<sub>Bor</sub> is the same story — by Milnor–Turaev it <i>is</i> the zeta-type invariant (torsion) of the abelian cover, and its surviving top coefficient μ̄(123) is the analogue of the order-2 obstruction at 937.</div>`;
+    `${TB}<b>The thread, one level up.</b> 937's Frobenius in Gal(k₁₃,₆₁/Q) ≅ D₄ has <b>order ${f937.ord}</b>, computed by powering its matrix ρ(Frob<sub>937</sub>) ∈ N₃(F₂) — displayed and powered live on the <button type="button" class="jump" onclick="gotoTab('ladder');$id('frobPreset937').click()">Ladder tab, preset q = 937</button>: the pairwise +1's carry it past the biquadratic level, the Rédei −1 stops it short of splitting completely. On the 8 embeddings of k₁₃,₆₁ — this level's version of the Pairs box's two roots of x² − p — that is ${8 / f937.ord} orbits of period ${f937.ord}, so the local factor of ζ<sub>k₁₃,₆₁</sub> at 937 is ${localFactor(937, f937.ord, 8)}. Had Frobenius been trivial instead — as at q = 107, which splits completely in k₁₃,₆₁: order ${f107.ord}, computed; a splitting datum, not a symbol value, since 107 ≡ 3 (mod 4) sits outside the symmetric symbol's domain (the Ladder's domain note) — the count would read ${8 / f107.ord} fixed points, ${localFactor(107, f107.ord, 8)}.`
+    + `<div class="tln">↔ topology: Δ<sub>Bor</sub> is the same story — by Milnor–Turaev it <i>is</i> the zeta-type invariant (torsion) of the abelian cover, and its surviving top coefficient μ̄(123) is the analogue of the order-2 obstruction at 937.</div>`;
 
   renderTripleHasse();
   ttFocusable();
@@ -1656,7 +1662,7 @@ function renderDeltaBorGrid() {
   grid.innerHTML = "";
   for (const [key, label] of monomials) {
     const c = poly[key] || 0;
-    const div = document.createElement("div");
+    const div = $el("div");
     const isTop = key === "1,1,1";
     div.className = "coef-cell" + (c === 0 ? " zero" : "") + (isTop && c !== 0 ? " top" : "");
     div.innerHTML = `${label}<br><b>${c}</b>${isTop && c === 1 ? " = μ̄(123)" : ""}`;
@@ -1778,7 +1784,7 @@ function b4wCrossings() {
   if (b4wCache) return b4wCache;
   const curves = b4wCurves();
   const names = ["G", "Y", "R", "B"];
-  const crossings = [];      // {pair, i, j, pt, ti, tj, over}
+  const crossings = []; // {pair, i, j, pt, ti, tj, over}
   const counts = {};
   for (let a = 0; a < 4; a++) for (let b = a + 1; b < 4; b++) {
     const i = names[a], j = names[b];
@@ -1960,7 +1966,7 @@ function renderQuadSteps() {
     return `${d.label} &nbsp; — &nbsp; ${d.x}² − ${d.p1}·${d.y}² − ${d.p2} = <span class="${resid === 0n ? "ok" : "fail"}">${resid.toString()}</span>`
       + ` &nbsp; <span class="${norm ? "ok" : "fail"}">${norm ? "normalized ✓" : "NOT normalized ✗"}</span>`;
   }).join("<br>");
-  identityLines += `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">"normalized" = Rédei's three conditions on (x,y,z): gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4) — what makes the field, hence the symbol, independent of the certificate.</div>`;
+  identityLines += `<div class="mln">"normalized" = Rédei's three conditions on (x,y,z): gcd(x,y,z) = 1, y even, x − y ≡ 1 (mod 4) — what makes the field, hence the symbol, independent of the certificate.</div>`;
   steps.push({ head: `2. Rédei elements (identity + <span class="tt tt-left" data-tip="Rédei's normalization of the certificate (x,y,z): gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4). Only among normalized solutions is the Rédei field — hence the symbol — independent of the certificate; redeiSymbol() enforces this, and the check is displayed here, computed live.">normalization</span> checks)`, body: identityLines });
 
   const tripleResults = [];
@@ -1972,7 +1978,7 @@ function renderQuadSteps() {
   steps.push({
     head: "2b. Triple Rédei symbols — all vanish (+1): the triple level is trivial",
     body: tripleResults.map(t => `${t.label} = ${t.value > 0 ? "+1" : "−1"}`).join(" &nbsp; ")
-      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Note the first two entries: [5, 8081, 101] and [5, 101, 8081] are the <i>same three primes in different orders</i>, computed through two entirely different Rédei elements (α = 241+100√5 versus 11+2√5) — and they agree. That is <span class="tt" data-tip="Rédei's symbol is invariant under all permutations of its three entries — the arithmetic mirror of μ̄'s symmetry properties. Stated by Rédei (1939), but his symmetry argument is regarded as incomplete; the first complete proofs are modern (Corsman 2007; Stevenhagen), and mod 2 it also follows from Morishita's μ̄-identification (2004), the Triples tab's citation. The computation here exhibits one transposition instance live, not all of S₃.">Rédei reciprocity</span>, witnessed live.</div>`
+      + `<div class="mln">Note the first two entries: [5, 8081, 101] and [5, 101, 8081] are the <i>same three primes in different orders</i>, computed through two entirely different Rédei elements (α = 241+100√5 versus 11+2√5) — and they agree. That is <span class="tt" data-tip="Rédei's symbol is invariant under all permutations of its three entries — the arithmetic mirror of μ̄'s symmetry properties. Stated by Rédei (1939), but his symmetry argument is regarded as incomplete; the first complete proofs are modern (Corsman 2007; Stevenhagen), and mod 2 it also follows from Morishita's μ̄-identification (2004), the Triples tab's citation. The computation here exhibits one transposition instance live, not all of S₃.">Rédei reciprocity</span>, witnessed live.</div>`
   });
 
   const thetaX = 25n, c5 = 2n, c101 = 2n;
@@ -1988,7 +1994,7 @@ function renderQuadSteps() {
     body: `rational part: ${ratPart.toString()} − ${alphaX} = <span class="${ratCheck === 0n ? "ok" : "fail"}">${ratCheck.toString()}</span>`
       + `<br>√5-coefficient: ${sqrt5Coef.toString()} − ${alphaY} = <span class="${sqrt5Check === 0n ? "ok" : "fail"}">${sqrt5Check.toString()}</span>`
       + `<br>totally positive (K unramified at ∞): embeddings ≈ {${thetaEmb.map(v => v.toFixed(2)).join(", ")}} <span class="${thetaPos ? "ok" : "fail"}">${thetaPos ? "all > 0 ✓" : "NOT totally positive ✗"}</span>`
-      + `<div style="color:var(--muted);font-size:.8rem;margin-top:4px;">Why check positivity? The identity alone does not pin θ down: other solutions of X² − 101Z² = α pass it yet certify the <i>opposite</i> verdict — exhibited and rejected in the self-tests. Total positivity (with Amano's 2-adic normalization, cited not computed) excludes them; that is what makes the bracket below a function of the four primes alone (Amano's independence theorem).</div>`
+      + `<div class="mln">Why check positivity? The identity alone does not pin θ down: other solutions of X² − 101Z² = α pass it yet certify the <i>opposite</i> verdict — exhibited and rejected in the self-tests. Total positivity (with Amano's 2-adic normalization, cited not computed) excludes them; that is what makes the bracket below a function of the four primes alone (Amano's independence theorem).</div>`
   });
 
   const roots5 = tonelliShanks(5n, 449n);
@@ -2014,7 +2020,7 @@ function renderQuadSteps() {
   });
 
   for (const st of steps) {
-    const div = document.createElement("div");
+    const div = $el("div");
     div.className = "step";
     div.innerHTML = `<div class="head">${st.head}</div><div class="eq">${st.body}</div>`;
     container.appendChild(div);
@@ -2023,19 +2029,25 @@ function renderQuadSteps() {
   const banner = $id("quadBanner");
   banner.innerHTML = `<b><span class="tt" data-tip="The 4-ary notation asserts the value depends on the four primes alone, not on θ: that is Amano's independence theorem, under the step-3 conditions — the identity alone would not justify it (see the rejected exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : allPos ? "+1" : "?"}</b> — ${allNeg ? "no two linked, no three linked, all four linked: the arithmetic B₄." : allPos ? "449 splits completely in K: unlinked at the fourth level." : "the four conjugates disagree — the symbol is undefined."}`;
 
-  const qOrd = allNeg ? 2 : 1; // N4(F2) corner: nontrivial iff all four symbols were -1
-  $id("quadThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, two levels up.</b> 449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : allPos ? "+1" : "?"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's inert bookkeeping, two levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
-  renderZetaThread(qOrd);
+  $id("quadThread").innerHTML = quadThreadHTML(allNeg, allPos);
+  renderZetaThread(allNeg ? 2 : allPos ? 1 : null);
 
   renderMagnus();
   renderQuadTower();
   ttFocusable();
 }
 
-function renderZetaThread(qOrd) { // capstone; factors recomputed live
+// R4-S3: follow the banner — assert nothing definite when the symbol is undefined.
+function quadThreadHTML(allNeg, allPos) {
+  const pre = `${TB}<b>The thread, two levels up.</b> `;
+  if (!allNeg && !allPos) return pre + `The four conjugates disagree — the symbol is undefined (banner above) — so no Frobenius order, orbit count, or Euler factor is asserted at 449.`;
+  const qOrd = allNeg ? 2 : 1; // N4(F2) corner: nontrivial iff all four symbols are -1
+  return pre + `449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : "+1"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's ${allNeg ? "inert" : "split"} bookkeeping, two levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
+}
+
+function renderZetaThread(qOrd) { // capstone; factors recomputed live (null: quad symbol undefined)
   $id("zetaThread").innerHTML =
-    `<span class="thread-badge">ζ ↔ Δ</span><b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${localFactor(449, qOrd, 64)} at 449; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas.`;
+    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"}; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas.`;
 }
 
 function renderQuadTower() {
@@ -2086,7 +2098,7 @@ function renderQuadTower() {
 /* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
 
 const FIG8_A = [[2, 1], [1, 1]];
-const FIG8_K = 8;   // series truncation degree
+const FIG8_K = 8; // series truncation degree
 
 function fig8Traces(count) {
   // literal matrix powers (the recurrence is a TEST)
@@ -2138,7 +2150,7 @@ function fig8Data() {
   };
   for (let d = 1; d <= FIG8_K; d++) {
     if (orb[d - 1] <= 0) continue;
-    const f = new Array(FIG8_K + 1).fill(0); f[0] = 1;   // (1 − t^d)^{−o_d}
+    const f = new Array(FIG8_K + 1).fill(0); f[0] = 1; // (1 − t^d)^{−o_d}
     for (let k = 1; d * k <= FIG8_K; k++) {
       let c = 1;
       for (let i = 1; i <= k; i++) c = c * (orb[d - 1] - 1 + i) / i;
@@ -2243,12 +2255,12 @@ function renderDedekind() {
 $id("dedekindN").addEventListener("input", renderDedekind);
 
 function buildMat(size, cells) {
-  const table = document.createElement("table");
+  const table = $el("table");
   table.className = "mat";
   for (let r = 0; r < size; r++) {
-    const tr = document.createElement("tr");
+    const tr = $el("tr");
     for (let c = 0; c < size; c++) {
-      const td = document.createElement("td");
+      const td = $el("td");
       const key = `${r},${c}`;
       if (r === c) td.textContent = "1";
       else if (r < c && cells[key]) {
@@ -2290,18 +2302,18 @@ function initLadder() {
 }
 function withId(el, id) { el.id = id; return el; }
 
-document.querySelectorAll(".arrow-btn").forEach(btn => {
+$qa(".arrow-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const idx = btn.dataset.arrow;
-    document.querySelectorAll("table.mat td").forEach(td => td.classList.remove("lit"));
+    $qa("table.mat td").forEach(td => td.classList.remove("lit"));
     const note = $id("ladderNote");
     if (idx === "0") {
-      const td = document.querySelector("#matN3 td[data-pos='0,2']");
+      const td = $q("#matN3 td[data-pos='0,2']");
       if (td) td.classList.add("lit");
       note.textContent = "The corner entry r (Rédei/triple level) of N₃ is defined because the previous level's linking numbers vanished.";
     } else {
       ["0,2", "1,3", "0,3"].forEach(pos => {
-        const td = document.querySelector(`#matN4 td[data-pos='${pos}']`);
+        const td = $q(`#matN4 td[data-pos='${pos}']`);
         if (td) td.classList.add("lit");
       });
       note.textContent = "The second diagonal (triple levels) and the corner μ̄ (quadruple level) of N₄ are defined because the previous level vanished.";
@@ -2374,7 +2386,7 @@ function renderFrobenius(q) {
   const oA = n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r), oB = n3Order(f.chi1, f.chi2, f.r === null ? 1 : f.r);
   const ordNote = f.r === null ? ` (<span class="tt" data-tip="Conjugation preserves order, and with χ ≠ 0 both corner values give the same count — computed both ways: ${oA} = ${oB}. Rule, self-tested on all 8 elements: identity iff all vanish; order 4 iff χ₁ = χ₂ = 1; else 2.">why well-defined?</span>)` : "";
   exp.innerHTML = `<div class="step" style="margin:0;">${text}</div>`
-    + `<div class="thread" style="margin:8px 0 0;"><span class="thread-badge">ζ ↔ Δ</span>ρ(Frob<sub>${q}</sub>) has <b>order ${oA}</b>, computed by powering the matrix${ordNote}: the 8-element cover falls into ${8 / oA} orbit${8 / oA > 1 ? "s" : ""} of length ${oA} — local factor ${localFactor(q, oA, 8)}. These matrices are the deck groups of the covers whose zeta functions the Pairs/Triples/Quadruples boxes compute; the matrix order <i>is</i> the period of q's orbit.</div>`;
+    + `<div class="thread" style="margin:8px 0 0;">${TB}ρ(Frob<sub>${q}</sub>) has <b>order ${oA}</b>, computed by powering the matrix${ordNote}: the 8-element cover falls into ${8 / oA} orbit${8 / oA > 1 ? "s" : ""} of length ${oA} — local factor ${localFactor(q, oA, 8)}. These matrices are the deck groups of the covers whose zeta functions the Pairs/Triples/Quadruples boxes compute; the matrix order <i>is</i> the period of q's orbit.</div>`;
   ttFocusable();
 }
 
@@ -2444,13 +2456,13 @@ function runSelfTests() {
 
   t("theta' = 494+225sqrt5+(50+22sqrt5)sqrt101: same defining identity, all four conjugates mod 449 square (OPPOSITE verdict) - rejected: not totally positive", () => {
     const [r, s] = quadThetaIdentity(494n, 225n, 50n, 22n);
-    if (r !== 0n || s !== 0n) return false;                        // passes the identity
-    if (quadThetaTotallyPositive(494, 225, 50, 22)) return false;  // fails positivity
-    if (!quadThetaTotallyPositive(25, 2, 2, 0)) return false;      // real theta passes
+    if (r !== 0n || s !== 0n) return false; // passes the identity
+    if (quadThetaTotallyPositive(494, 225, 50, 22)) return false; // fails positivity
+    if (!quadThetaTotallyPositive(25, 2, 2, 0)) return false; // real theta passes
     const conj = [];
     for (const r5 of [118n, 331n]) for (const r101 of [185n, 264n])
       conj.push((((494n + 225n * r5) + (50n + 22n * r5) * r101) % 449n + 449n) % 449n);
-    return conj.every(v => legendre(v, 449n) === 1);               // all squares: verdict flipped
+    return conj.every(v => legendre(v, 449n) === 1); // all squares: verdict flipped
   });
 
   t("theta'' = -(10+sqrt101)^2*theta: same identity, mod-449 INVISIBLE ((-1/449) = +1, symbols all -1), totally negative (imaginary field, ramified at infinity) - positivity rejects it", () => {
@@ -2642,26 +2654,26 @@ function runSelfTests() {
     return ok;
   });
   t("DOM: orbit-product face states its sufficient hypothesis (Anosov, closed torus, positive eigenvalues), tooltip carries the -A counterexample", () => {
-    const f = [...document.querySelectorAll("#tab-zeta .zeta-face .fname")].find(e => e.textContent.includes("Product over periodic orbits"));
+    const f = [...$qa("#tab-zeta .zeta-face .fname")].find(e => e.textContent.includes("Product over periodic orbits"));
     if (!f || !f.textContent.includes("Anosov on the closed torus, both eigenvalues positive")) return false;
     const tip = f.querySelector("[data-tip]");
     return !!tip && tip.getAttribute("data-tip").includes("−A is Anosov") && tip.getAttribute("data-tip").includes("index is +1");
   });
   t("DOM: Redei reciprocity tooltip (rendered in #quadSteps) hedges the 1939 provenance and scopes the live evidence to one transposition", () => {
-    return [...document.querySelectorAll("#quadSteps [data-tip]")].some(el => {
+    return [...$qa("#quadSteps [data-tip]")].some(el => {
       const s = el.getAttribute("data-tip");
       return s.includes("Stated by Rédei (1939)") && s.includes("Corsman 2007") && s.includes("Stevenhagen")
         && s.includes("Morishita") && s.includes("one transposition instance");
     });
   });
   t("DOM: Main Conjecture attribution carries the parity hypothesis (Mazur-Wiles odd l; l = 2 by Greither)", () => {
-    const demo = [...document.querySelectorAll("#tab-zeta .poly-demo")].find(d => d.textContent.includes("Iwasawa Main Conjecture"));
+    const demo = [...$qa("#tab-zeta .poly-demo")].find(d => d.textContent.includes("Iwasawa Main Conjecture"));
     if (!demo || !demo.textContent.includes("Mazur–Wiles; ℓ = 2 by Greither")) return false;
     const tip = demo.querySelector('[data-tip*="Greither (1992)"]');
     return !!tip && tip.getAttribute("data-tip").includes("odd ℓ");
   });
   t("DOM: f_S tooltip states the archimedean convention (S with infinity) and the totally real Z/4 x Z/2 contrast", () => {
-    return [...document.querySelectorAll("#tab-dict [data-tip]")].some(el => {
+    return [...$qa("#tab-dict [data-tip]")].some(el => {
       const s = el.getAttribute("data-tip");
       return s.includes("unramified outside S ∪ {∞}") && s.includes("Z/4 × Z/2");
     });
@@ -2681,7 +2693,7 @@ function runSelfTests() {
     return q.includes("does not pin θ down") && q.includes("opposite") && q.includes("Amano's independence theorem");
   });
   t("DOM R3-N3: iterate face defines L(h^n) visibly (= tr on H1 = tr(A^n)); orbit face cross-references the (1-t)^2 check", () => {
-    const faces = [...document.querySelectorAll("#tab-zeta .zeta-face")];
+    const faces = [...$qa("#tab-zeta .zeta-face")];
     const sum = faces.find(f => f.textContent.includes("Sum over iterates"));
     const orb = faces.find(f => f.textContent.includes("Product over periodic orbits"));
     return !!sum && sum.textContent.includes("where L(hⁿ) := tr(hⁿ∗ on H₁)") && sum.textContent.includes("tr(Aⁿ)")
@@ -2693,22 +2705,22 @@ function runSelfTests() {
       && b.textContent.includes("Artin–Verdier") && b.textContent.includes("A circle inside a 3-space is a knot");
   });
   t("DOM R3-N5: Redei value rule visible on Triples (+1 iff q splits completely) and echoed at quad step 5", () => {
-    const sub = document.querySelector("#tab-triples .col.arith .sub");
+    const sub = $q("#tab-triples .col.arith .sub");
     const q = $id("quadSteps").textContent;
     return !!sub && sub.textContent.includes("+1 if q splits completely") && q.includes("+1 = splits completely");
   });
   t("DOM R3-N6: Ladder cell tips use the .tt affordance, no bare titles; 'why deg 32' is visible text", () => {
-    const td = document.querySelector("#matN4 td[data-pos='0,2']");
+    const td = $q("#matN4 td[data-pos='0,2']");
     if (!td || !td.classList.contains("tt") || td.getAttribute("tabindex") !== "0") return false;
     if (!(td.getAttribute("data-tip") || "").includes("Triple level for (1,2,3)") || td.getAttribute("title")) return false;
-    if ([...document.querySelectorAll("table.mat td[title]")].length !== 0) return false;
-    return [...document.querySelectorAll("#tab-quads .small-note")].some(n => n.textContent.includes("8·8/2 = 32"));
+    if ([...$qa("table.mat td[title]")].length !== 0) return false;
+    return [...$qa("#tab-quads .small-note")].some(n => n.textContent.includes("8·8/2 = 32"));
   });
 
   // R3 a11y DOM assertions (amendment 3)
   const ga = (id, a) => $id(id).getAttribute(a);
   t("DOM R3-A1: .tt has button semantics; Enter pins and fills the readout; Escape closes; header names the keys", () => {
-    const el = document.querySelector("#tab-dict .tt");
+    const el = $q("#tab-dict .tt");
     if (!el || el.getAttribute("role") !== "button" || el.getAttribute("tabindex") !== "0"
       || el.getAttribute("aria-expanded") !== "false") return false;
     el.focus({ preventScroll: true });
@@ -2719,11 +2731,11 @@ function runSelfTests() {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
     const closed = !el.classList.contains("tt-open") && el.getAttribute("aria-expanded") === "false";
     el.blur();
-    return open && closed && document.querySelector("header p").textContent.includes("Enter/Space pins too, Esc closes");
+    return open && closed && $q("header p").textContent.includes("Enter/Space pins too, Esc closes");
   });
   t("DOM R3-A2: tablist/tab/tabpanel roles wired; exactly one aria-selected=true, flipping on activation", () => {
-    if (document.querySelector("nav.tabs").getAttribute("role") !== "tablist") return false;
-    const btns = [...document.querySelectorAll(".tab-btn")];
+    if ($q("nav.tabs").getAttribute("role") !== "tablist") return false;
+    const btns = [...$qa(".tab-btn")];
     if (btns.length !== 6 || !btns.every(b => b.getAttribute("role") === "tab" && b.getAttribute("aria-controls") === "tab-" + b.dataset.tab
       && $id("tab-" + b.dataset.tab).getAttribute("role") === "tabpanel"
       && $id("tab-" + b.dataset.tab).getAttribute("aria-labelledby") === b.id)) return false;
@@ -2745,11 +2757,11 @@ function runSelfTests() {
   });
   t("DOM R3-A4: aria-live=polite on result surfaces; role=alert on both warn fields", () => {
     return ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
-      && document.querySelector(".euler-vals").getAttribute("aria-live") === "polite"
+      && $q(".euler-vals").getAttribute("aria-live") === "polite"
       && ga("pairsWarn", "role") === "alert" && ga("frobWarn", "role") === "alert";
   });
   t("DOM R3-A5: jumps and the ellipse toggle are real buttons; select/slider named; 3D note offers arrow keys", () => {
-    const jumps = [...document.querySelectorAll(".jump")];
+    const jumps = [...$qa(".jump")];
     if (jumps.length < 3 || !jumps.every(el => el.tagName === "BUTTON" && el.type === "button")) return false;
     const fs = $id("fsTooltip");
     if (fs.tagName !== "BUTTON" || ga("fsTooltip", "aria-controls") !== "fsExplain") return false;
@@ -2761,15 +2773,15 @@ function runSelfTests() {
     return toggled && ga("fsTooltip", "aria-expanded") === was
       && (ga("deleteSelect", "aria-label") || "").length > 0
       && ga("dedekindN", "aria-label") === "summation limit N"
-      && document.querySelector("#borro3dWrap .small-note").textContent.includes("arrow keys");
+      && $q("#borro3dWrap .small-note").textContent.includes("arrow keys");
   });
   t("DOM R3-A6: vanished entries and the .tt affordance meet contrast — zeros and dotted underline at #767676", () => {
     const grey = "rgb(118, 118, 118)";
-    const fm = document.querySelector("#frobMatrix td[style]");
-    return getComputedStyle(document.querySelector("#deltaBorGrid .coef-cell.zero")).color === grey
-      && document.querySelector("#matN3 td[data-pos='1,0']").style.color === grey
+    const fm = $q("#frobMatrix td[style]");
+    return getComputedStyle($q("#deltaBorGrid .coef-cell.zero")).color === grey
+      && $q("#matN3 td[data-pos='1,0']").style.color === grey
       && (!fm || fm.style.color === grey)
-      && getComputedStyle(document.querySelector(".tt")).borderBottomColor === grey;
+      && getComputedStyle($q(".tt")).borderBottomColor === grey;
   });
 
   // R4 thread DOM assertions (user-directed pedagogy round)
@@ -2789,10 +2801,10 @@ function runSelfTests() {
       && s.includes("order 1") && s.includes("8 fixed points") && s.includes("(1 − 107⁻ˢ)⁻⁸")
       && s.includes("Milnor–Turaev") && s.includes("μ̄(123)")
       && s.includes("ρ(Frob937) ∈ N₃(F₂)") && s.includes("two roots of x² − p")
-      && !!document.querySelector('#triplesThread .jump[onclick*="ladder"]');
+      && !!$q('#triplesThread .jump[onclick*="ladder"]');
   });
   t("DOM R4-T6: Zeta capstone factors match the Triples/Quadruples boxes; demo notes back-point to the Pairs box", () => {
-    const z = $id("zetaThread").textContent, N = [...document.querySelectorAll("#tab-zeta .small-note")];
+    const z = $id("zetaThread").textContent, N = [...$qa("#tab-zeta .small-note")];
     const f3 = "(1 − 937⁻²ˢ)⁻⁴", f4 = "(1 − 449⁻²ˢ)⁻³²";
     return z.includes("computing zeta functions all along") && z.includes(f3) && z.includes(f4)
       && $id("triplesThread").textContent.includes(f3)
@@ -2841,7 +2853,7 @@ function runSelfTests() {
       && b.textContent.includes("Lefschetz zeta of a monodromy")
       && b.textContent.includes("zeta of its own cover up to units")
       && b.textContent.includes("Zeta tab cashes everything out")
-      && document.querySelector("#tab-dict .coda").textContent.includes("boxes track");
+      && $q("#tab-dict .coda").textContent.includes("boxes track");
   });
 
   t("DOM R4-S1: both ≡ 3 mod 4 — Pairs thread withholds the lk-parity gloss both ways ((3,7) inert, (7,3) split), matching the R2-M3 banner (state restored)", () => {
@@ -2864,10 +2876,24 @@ function runSelfTests() {
       && s.includes("outside the symmetric symbol's domain") && !s.includes("Had the symbol been +1");
   });
 
+  t("DOM R4-S3: quadThread tracks the banner — '?' asserts no factor; all-+1: order 1/split; live = all-−1 branch; capstone null-honest (state restored)", () => {
+    const u = quadThreadHTML(false, false), sp = quadThreadHTML(false, true);
+    if (!(u.includes("symbol is undefined") && !u.includes("local factor") && !u.includes("449⁻") && !u.includes("orbits of period"))) return false;
+    if (!(sp.includes("order 1") && sp.includes("64 orbits of period 1") && sp.includes("(1 − 449⁻ˢ)⁻⁶⁴") && sp.includes("split bookkeeping") && !sp.includes("inert"))) return false;
+    const d = $el("div");
+    d.innerHTML = quadThreadHTML(true, false);
+    if ($id("quadThread").textContent !== d.textContent) return false;
+    const z = $id("zetaThread"), z0 = z.innerHTML;
+    renderZetaThread(null);
+    const ok = z.textContent.includes("undefined this run, not asserted") && !z.textContent.includes("449⁻");
+    z.innerHTML = z0;
+    return ok;
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
-    const li = document.createElement("li");
+    const li = $el("li");
     li.className = r.ok ? "pass" : "fail";
     li.textContent = (r.ok ? "✔ " : "✘ ") + r.name;
     list.appendChild(li);

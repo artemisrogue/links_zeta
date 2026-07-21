@@ -197,7 +197,7 @@
   }
   .coda .lede{ font-weight:600; font-style:italic; }
 
-  /* R4: the thread device — one box per tab tracking the zeta ↔ Delta destination */
+  /* R4 thread device */
   .thread{ margin:14px 0; padding:10px 14px; background:#fff; border:1px solid var(--line); border-left:4px solid #2b2b25; border-radius:5px; font-size:.9rem; }
   .thread-badge{ display:inline-block; font-size:.72rem; letter-spacing:.6px; border:1px solid #2b2b25; border-radius:3px; padding:0 6px; margin-right:8px; background:#efece3; color:#2b2b25; white-space:nowrap; }
 
@@ -511,6 +511,7 @@
     <section id="tab-zeta" class="tab-panel">
     <p style="max-width:840px;">Everything above is packaged by a zeta function on each side, and the packaging is the same: <b>a sum, resummed as a product, in two different ways.</b> Primes are the periodic orbits of Spec(O<sub>K</sub>) — the Euler product, via Weil's zeta of varieties over finite fields, is what Artin–Mazur imitated in naming the dynamical zeta — and characters diagonalize Frobenius exactly as eigenvalues diagonalize the monodromy.</p>
     <p style="max-width:840px; font-size:.9rem; color:var(--muted);"><b>Which zeta is which:</b> three distinct objects appear on this page and they are related by <i>analogy, not equality</i> — the <span style="color:var(--topo);">Lefschetz (dynamical) zeta of a monodromy</span> on the left, the <span style="color:var(--arith);">Dedekind zeta of a number field</span> on the right, and, at the bottom, the Alexander polynomial and Iwasawa polynomial, each of which <i>equals a zeta of its own cover up to units</i> (Milnor–Turaev; the Main Conjecture). What the two columns share is the mechanism: one sum, two product resummations. The live demos below run <b>both</b> columns on this app's smallest genuine examples: the monodromy of the figure-eight knot on the left, and K = Q(√5) — the quadratic resolvent that opened the Pairs tab — on the right. (At K = Q everything collapses to Riemann's ζ, e.g. ζ(2) = π²/6: the zeta of the empty link, before any primes are distinguished.)</p>
+    <div class="thread" id="zetaThread"></div>
     <div class="twocol">
       <div class="col topo">
         <h2>Lefschetz zeta of a <span class="tt tt-left" data-tip="For a fibered link the complement fibers over the circle: F is the fiber surface, and h is the twist you accumulate going once around the link — the monodromy.">monodromy</span> h : F → F</h2>
@@ -536,7 +537,7 @@
         <div class="sub">Why this belongs here: 4₁ is a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by the matrix A — this is the h : F → F of the left column above, for a real knot.">fibered knot</span>; its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]], with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 ≈ 2.618. Note λ = φ², the square of the golden ratio — remember this when you look at the right panel.">dilatation λ = (3+√5)/2</span>. Two zeta functions are computed below: the two H₁-faces of ζ_h, which agree coefficient by coefficient, and the orbit face, which is the Artin–Mazur zeta — equal to (1−t)²·ζ_h, and shown below to be exactly that, also coefficient by coefficient.</div>
         <table class="symbolic" id="lefschetzTable"></table>
         <div class="step" id="lefschetzFaces"></div>
-        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t), the Alexander polynomial of the figure-eight knot — its zeta function <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix acting on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, which is all the zeta faces use, is identical. Bonus arithmetic inside the topology: the traces are the even-indexed Lucas numbers L₂ₙ, the zeta coefficients the even-indexed Fibonacci numbers F₂ₙ. The orbit-face check verifies the exponential–product identity <i>plus</i> the integrality of the Möbius counts — whole-number orbit counts are precisely the statement that iterates organize into closed orbits.</div>
+        <div class="small-note">Milnor's theorem, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t), the Alexander polynomial of the figure-eight knot — its zeta function <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix acting on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, which is all the zeta faces use, is identical. Bonus arithmetic inside the topology: the traces are the even-indexed Lucas numbers L₂ₙ, the zeta coefficients the even-indexed Fibonacci numbers F₂ₙ. The orbit-face check verifies the exponential–product identity <i>plus</i> the integrality of the Möbius counts — whole-number orbit counts are precisely the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
       </div>
       <div class="col arith">
         <h2>The zeta of an actual arithmetic link: ζ of Q(√5)</h2>
@@ -551,7 +552,7 @@
           <div><div class="lbl">∏<sub>p≤N</sub> (Euler factors from χ)</div><div class="num" id="dedekindProd">—</div></div>
           <div><div class="lbl">ζ(2)·L(2,χ₅) (character faces)</div><div class="num" id="dedekindZL">—</div></div>
         </div>
-        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor.</div>
+        <div class="small-note">Three faces of ζ<sub>Q(√5)</sub>(2), converging together: the ideal sum (norms counted by the splitting recipe — the tooltip above), the Euler product over primes, and the character product ζ·L — the arithmetic "eigenvalue" factorization: two characters (trivial and χ₅) here, exactly as the biquadratic fields of the earlier tabs have four. The prime 13 contributes the inert factor (1−13⁻⁴)⁻¹: <i><button type="button" class="jump" onclick="gotoTab('pairs')">the Hopf pair of the Pairs tab</button>, sitting inside a zeta function</i> — and 29, the unlinked preset, sits beside it as a split factor: the Pairs box's local factors, multiplied together.</div>
       </div>
     </div>
     <div class="caption-strip">The same √5 on both sides: the knot's monodromy stretches by φ², and φ is the fundamental unit of the field — the eigenvalue of the flow is the unit of the arithmetic. Orbits ↔ primes, eigenvalues ↔ characters, made literal.</div>
@@ -637,7 +638,7 @@ function powmod(a, e, m) {
   return result;
 }
 
-// Euler's criterion. Returns +1, -1, or 0.
+// Euler's criterion: +1, -1, or 0.
 function legendre(a, p) {
   a = ((a % p) + p) % p;
   if (a === 0n) return 0;
@@ -647,7 +648,7 @@ function legendre(a, p) {
   throw new Error(`legendre(${a},${p}): p not an odd prime`);
 }
 
-// Returns the two roots [r, p-r] sorted ascending.
+// two roots [r, p-r], sorted.
 function tonelliShanks(n, p) {
   n = ((n % p) + p) % p;
   if (n === 0n) return [0n, 0n];
@@ -688,7 +689,7 @@ function bigGcd(a, b) {
   return a;
 }
 
-// [p1,p2,q]; certificate must be Redei-NORMALIZED (gcd 1, y even, x-y = 1 mod 4): scaling by k multiplies the value by (k/q).
+// [p1,p2,q]; certificate must be Redei-NORMALIZED: scaling by k multiplies the value by (k/q).
 function redeiSymbol(p1, p2, q, x, y, z) {
   if (z === undefined) z = 1n;
   const identity = x * x - p1 * y * y - p2 * z * z;
@@ -697,7 +698,7 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   if (g !== 1n) throw new Error(`certificate not primitive: gcd(x,y,z) = ${g}`);
   if (y % 2n !== 0n) throw new Error(`normalization fails: y = ${y} must be even`);
   if (((x - y) % 4n + 4n) % 4n !== 1n) throw new Error(`normalization fails: x − y ≡ ${((x - y) % 4n + 4n) % 4n} (mod 4), need 1`);
-  // Definedness: all three ≡ 1 (mod 4), all pairwise symbols +1.
+  // Definedness: all ≡ 1 (mod 4), pairwise +1.
   if (p1 % 4n !== 1n || p2 % 4n !== 1n || q % 4n !== 1n) throw new Error(`Rédei symbol needs p1 ≡ p2 ≡ q ≡ 1 (mod 4)`);
   if (legendre(p1, p2) !== 1) throw new Error(`(${p1}/${p2}) != 1`);
   if (legendre(p1, q) !== 1) throw new Error(`(${p1}/${q}) != 1`);
@@ -709,14 +710,14 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   return { roots, vals, value: legs[0], identity };
 }
 
-function isPrimeSmall(n) { // trial division, fine for teaching-scale inputs
+function isPrimeSmall(n) { // trial division
   if (n < 2n) return false;
   if (n % 2n === 0n) return n === 2n;
   for (let d = 3n; d * d <= n; d += 2n) if (n % d === 0n) return false;
   return true;
 }
 
-// Plain decimal integers, 9 digits max (rejects "1e5", "1.5", "-7").
+// Plain decimal integers, 9 digits max.
 function parseIntegerInput(raw) {
   raw = String(raw).trim();
   if (!/^[0-9]{1,9}$/.test(raw)) return null;
@@ -842,7 +843,7 @@ function computeMagnusTripleCommutator() {
   return mgCommutator(C12, C12inv, M3, M3inv);
 }
 
-// polynomials in x1,x2,x3 with exponent-vector keys "e1,e2,e3"
+// polys keyed by exponent vector "e1,e2,e3"
 function polyMul(A, B) {
   const R = {};
   for (const ka in A) {
@@ -865,7 +866,7 @@ function expandDeltaBor() {
   return polyMul(polyMul(f1, f2), f3);
 }
 
-// .tt terms: tab stop + button semantics; re-run after renders.
+// .tt: button semantics; re-run after renders.
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
     el.setAttribute("tabindex", "0");
@@ -879,7 +880,7 @@ window.gotoTab = function (name) {
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
-// pin: click/Enter/Space; close: outside/re-toggle/Escape; tip mirrors into #ttReadout.
+// .tt pin/close wiring; tip mirrors into #ttReadout.
 function ttAnnounce(t) {
   document.getElementById("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
@@ -909,7 +910,7 @@ document.addEventListener("keydown", e => {
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
 
-// ARIA tablist wiring (buttons stay in Tab order)
+// ARIA tablist wiring
 document.querySelector("nav.tabs").setAttribute("role", "tablist");
 document.querySelectorAll(".tab-btn").forEach(btn => {
   const n = btn.dataset.tab;
@@ -1025,7 +1026,7 @@ document.getElementById("pairsLiftBtn").addEventListener("click", () => {
 
 function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
 
-// R4 thread helpers: superscript digits; the local Euler factor (1 − q^(−ord·s))^(−deg/ord).
+// R4: superscript digits + local Euler factor builder.
 function supN(n) { return String(n).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join(""); }
 function localFactor(q, ord, deg) { return `(1 − ${q}⁻${ord === 1 ? "" : supN(ord)}ˢ)⁻${supN(deg / ord)}`; }
 
@@ -1043,7 +1044,7 @@ function renderPairsThread(p, q, sym) {
     orbits = `Inert: the roots live upstairs in F<sub>${q}²</sub>, and Frobenius swaps them: r<sup>${q}</sup> = (r²)<sup>${e}</sup>·r = ${p}<sup>${e}</sup>·r = −r, since ${p}<sup>${e}</sup> ≡ ${pw} ≡ −1 (mod ${q}), computed. <b>One orbit of period 2</b>: local factor ${localFactor(q, 2, 2)} = (1−t)⁻¹(1+t)⁻¹.`;
   }
   box.innerHTML = `<span class="thread-badge">ζ ↔ Δ</span><b>The thread — this pair's Euler factor, live.</b> Frobenius x ↦ x<sup>${q}</sup> acts on the two roots of x² − ${p}. ${orbits} With t = ${q}⁻ˢ these are exactly the Euler factors of ζ<sub>Q(√${p})</sub> = ζ(s)·L(s, χ): split ⇒ (1−t)⁻², inert ⇒ (1−t)⁻¹(1+t)⁻¹ = (1−t²)⁻¹ — assembled into the full zeta on the <button type="button" class="jump" onclick="gotoTab('zeta')">Zeta tab</button>.`
-    + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The covering-space coset argument, standard: K₂ lifts to a loop iff its class maps to 0 under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; the components of its preimage are the cosets of the image subgroup — even lk gives two disjoint lifts, odd lk one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`;
+    + `<div style="color:var(--topo);font-size:.8rem;margin-top:6px;">↔ topology (cited reasoning, not computed): in the double cover of the K₁-complement — the cover this symbol mirrors — the preimage of K₂ is <span class="tt tt-left" data-tip="The coset argument, standard: K₂ lifts to a loop iff its class dies under π₁ → Z/2, i.e. iff lk(K₁,K₂) is even; preimage components = cosets of the image subgroup — even lk: two disjoint lifts; odd lk: one curve traversing K₂ twice.">two disjoint copies when lk is even</span> (two period-1 orbits of the deck action), one connected curve double-covering K₂ when lk is odd (one period-2 orbit). The same bookkeeping — and it is what the Lefschetz zeta of the deck transformation records.</div>`;
   ttFocusable(box);
 }
 
@@ -1095,7 +1096,7 @@ function renderLegendreTable(p, q) {
     tr.innerHTML = `<td class="k">${k}</td><td class="v">${v}</td>`;
     table.appendChild(tr);
   }
-  // Linking gloss only where (p/q) = (q/p): both ≡ 3 (mod 4) is order-dependent.
+  // Gloss only where (p/q) = (q/p) (R2-M3).
   const noGloss = `. <b>No linking gloss here</b>: with both primes ≡ 3 (mod 4) the symbol is order-dependent — (${p}/${q}) = −(${q}/${p}), swap the inputs and the banner flips — while lk is symmetric (proved twice on this tab). The Hopf/unlink dictionary is reserved for pairs with a prime ≡ 1 (mod 4).`;
   if (pq === 1) {
     banner.classList.add("topo");
@@ -1174,7 +1175,7 @@ document.getElementById("preset513").addEventListener("click", () => {
   setPairsTopology(true);    // −1: the Hopf pair
 });
 
-// arc figure (papers' Fig. 2)
+// arc figure (Fig. 2)
 const arcCanvas = document.getElementById("arcCanvas");
 const actx = arcCanvas.getContext("2d");
 let arcPulseT = 0;
@@ -1193,7 +1194,7 @@ const ARC_TEXT = {
   }
 };
 
-// Hopf link, axonometric; disks meet in (x,0,0), 0 <= x <= 1.
+// Hopf link; disks meet in (x,0,0), 0<=x<=1.
 function arcProj(x, y, z) {
   return { X: 130 + 110 * x + 30 * y, Y: 150 - 95 * z + 26 * y };
 }
@@ -1239,7 +1240,7 @@ function renderArcFigure() {
   arcPathFromParam(K1of, 0, 2 * Math.PI, 180);
   actx.stroke();
 
-  // K2: quarter (pi, 3pi/2) dives BELOW Sigma1 -> dashed + faint.
+  // K2's hidden quarter: dashed + faint.
   actx.strokeStyle = "#2e8b57";
   arcPathFromParam(K2of, -Math.PI / 2, Math.PI, 140);   // visible 3/4
   actx.stroke();
@@ -1247,7 +1248,7 @@ function renderArcFigure() {
   actx.globalAlpha = 0.4;
   actx.setLineDash([6, 5]);
   actx.lineWidth = 2.5;
-  arcPathFromParam(K2of, Math.PI, 1.5 * Math.PI, 50);   // hidden quarter, under the disk
+  arcPathFromParam(K2of, Math.PI, 1.5 * Math.PI, 50);   // hidden quarter
   actx.stroke();
   actx.restore();
 
@@ -1338,7 +1339,7 @@ function renderArcFigureUnlinked() {
 
 function arcAnimLoop() {
   arcPulseT += 0.03;
-  // redraw when visible; skip under reduced motion
+  // redraw when visible; reduced-motion skips
   if (!REDUCED_MOTION.matches && document.getElementById("tab-pairs").classList.contains("active")) {
     renderArcFigure();
   }
@@ -1404,7 +1405,7 @@ document.getElementById("isolateSelect").addEventListener("change", (e) => {
   renderBorro();
 });
 
-// lk = (sum of signs)/2, sign = cross(over-, under-tangent); y-down coords mirror the picture — harmless, only zero totals asserted.
+// lk = (sum of signs)/2; y-down coords harmless — only zero totals asserted.
 function borroComputeLk() {
   const circles = borroCircles();
   const ids = ["1", "2", "3"];
@@ -1425,7 +1426,7 @@ function borroComputeLk() {
   return out; // {"12":0,"13":0,"23":0} expected
 }
 
-// Magnus expansion of the longitude [x1,x2] of K3 — Milnor's mu(123).
+// Magnus expansion of the longitude [x1,x2] — mu(123).
 function computeMagnusLongitude12() {
   const X1 = mgGen(1), X2 = mgGen(2);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 };
@@ -1535,7 +1536,7 @@ function initBorro3D() {
     }
     return pts;
   }
-  const colors = [0x1b6ca8, 0x2e8b57, 0xe67e22]; // match the 2D ring colors K1/K2/K3
+  const colors = [0x1b6ca8, 0x2e8b57, 0xe67e22]; // 2D ring colors
   ["xy", "yz", "zx"].forEach((plane, idx) => {
     const geom = new THREE.BufferGeometry().setFromPoints(ellipseCurve(plane));
     const mat = new THREE.LineBasicMaterial({ color: colors[idx], linewidth: 2 });
@@ -1627,7 +1628,7 @@ function renderTripleSteps() {
 }
 
 function renderTripleHasse() {
-  // Diamond: Q < Q(√13), Q(√61) < Q(√13,√61) < k_{13,61}.
+  // Hasse diamond up to k_{13,61}.
   const svg = document.getElementById("tripleHasse");
   svg.innerHTML = `
 <g font-size="12" text-anchor="middle">
@@ -1709,12 +1710,12 @@ function b4wPathToPoly(segs) {
     if (s[0] === "C") b4wSampleCubic(pt(s, 1), pt(s, 3), pt(s, 5), pt(s, 7), 24, pts);
     else b4wSampleLine(pt(s, 1), pt(s, 3), 24, pts);
   }
-  pts.pop(); // closing point duplicates the start
+  pts.pop(); // drop duplicated start
   return pts.map(p => b4wT(p.x, p.y));
 }
 
 function b4wCurves() {
-  // Green: ellipse center (3000,3960), rx 1000, ry 500
+  // Green ellipse (3000,3960), rx 1000, ry 500
   const G = [];
   for (let i = 0; i < 192; i++) {
     const t = (i / 192) * 2 * Math.PI;
@@ -1777,7 +1778,7 @@ function b4wSegIntersect(a1, a2, b1, b2) {
   return { pt: { x: a1.x + s * d1.x, y: a1.y + s * d1.y }, ta: d1, tb: d2 };
 }
 
-// over/under rules read off the original SVG's layers.
+// over/under from the original SVG's layers.
 const B4W_GY_SPLIT = (850.44 - 0.139 * 3960) * B4W_SCALE; // canvas y of green's center line
 function b4wOverOf(pair, pt) {
   if (pair === "GY") return pt.y > B4W_GY_SPLIT ? "G" : "Y"; // green over on its lower half
@@ -1818,7 +1819,6 @@ function b4wCrossings() {
   return b4wCache;
 }
 
-// pair lk = (sum of signs)/2; sign = cross(t_over, t_under).
 function b4wComputeLk() {
   const { crossings, counts } = b4wCrossings();
   const sums = { GY: 0, RY: 0, BY: 0, RB: 0 };
@@ -1863,7 +1863,7 @@ function renderB4() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const { curves, crossings } = b4wCrossings();
 
-  // gap where UNDER (never against a deleted curve)
+  // gap where UNDER
   const gaps = { G: [], Y: [], R: [], B: [] };
   for (const c of crossings) {
     if (b4wDeleted === c.i || b4wDeleted === c.j) continue;
@@ -1885,7 +1885,7 @@ function renderB4() {
   lbl("B", 330, 150);
   lbl("G", 175, 232);
 
-  // orientation arrows (indices chosen off-crossing)
+  // arrows (indices off-crossing)
   const arrowIdx = { G: 12, Y: 5, R: 30, B: 30 };
   for (const name of ["G", "Y", "R", "B"]) {
     if (b4wDeleted === name) continue;
@@ -2040,17 +2040,23 @@ function renderQuadSteps() {
   const banner = document.getElementById("quadBanner");
   banner.innerHTML = `<b><span class="tt" data-tip="The 4-ary notation asserts the value depends on the four primes alone, not on θ: that is Amano's independence theorem, under the step-3 conditions — the identity alone would not justify it (see the rejected exploits in the self-tests).">[5, 8081, 101, 449]</span> = ${allNeg ? "−1" : allPos ? "+1" : "?"}</b> — ${allNeg ? "no two linked, no three linked, all four linked: the arithmetic B₄." : allPos ? "449 splits completely in K: unlinked at the fourth level." : "the four conjugates disagree — the symbol is undefined."}`;
 
-  const qOrd = allNeg ? 2 : 1; // corner of N4(F2): nontrivial iff all four conjugate symbols came out -1 above
+  const qOrd = allNeg ? 2 : 1; // N4(F2) corner: nontrivial iff all four symbols were -1
   document.getElementById("quadThread").innerHTML =
     `<span class="thread-badge">ζ ↔ Δ</span><b>The thread, three levels up.</b> 449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : allPos ? "+1" : "?"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's inert bookkeeping, three levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
+  renderZetaThread(qOrd);
 
   renderMagnus();
   renderQuadTower();
   ttFocusable();
 }
 
+function renderZetaThread(qOrd) { // capstone; factors recomputed live
+  document.getElementById("zetaThread").innerHTML =
+    `<span class="thread-badge">ζ ↔ Δ</span><b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Quadruples box's ${localFactor(449, qOrd, 64)} at 449; the Ladder's order-into-orbits reading — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas.`;
+}
+
 function renderQuadTower() {
-  // Partial lattice: Q to K (deg 64) via the two D₄ octics and compositum.
+  // Partial lattice Q → K (deg 64).
   const svg = document.getElementById("quadTower");
   svg.innerHTML = `
 <g font-size="10.5" text-anchor="middle">
@@ -2095,7 +2101,7 @@ function renderQuadTower() {
 </g>`;
 }
 
-/* fig-8 monodromy A = [[2,1],[1,1]] on H1; all zeta faces computed, Fix = tr−2, o_d by Möbius. */
+/* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
 
 const FIG8_A = [[2, 1], [1, 1]];
 const FIG8_K = 8;   // series truncation degree
@@ -2138,7 +2144,7 @@ function fig8Data() {
     for (let d = 1; d <= n; d++) if (n % d === 0) s += fig8Mobius(n / d) * fix[d - 1];
     orb.push(s / n);
   }
-  // face 1 vs face 2 (integer recurrence)
+  // faces 1 vs 2
   const sumFace = expOfPowerSum(tr, FIG8_K);
   const eigFace = [1, 3];
   for (let m = 2; m <= FIG8_K; m++) eigFace.push(3 * eigFace[m - 1] - eigFace[m - 2]);
@@ -2196,7 +2202,7 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
 }
 
-/* ζ of Q(√5): χ(n) = (n/5); a(p^k) = k+1 (split), [k even] (inert), 1 (p = 5); multiplicative. */
+/* zeta of Q(sqrt5): the a(n) recipe is displayed in the ideal-sum tooltip. */
 
 function chi5(n) { return n % 5 === 0 ? 0 : Number(legendre(BigInt(n), 5n)); }
 
@@ -2238,7 +2244,7 @@ function renderDedekind() {
   document.getElementById("dedekindIdeal").textContent = ideal.toFixed(8);
   document.getElementById("dedekindProd").textContent = prod.toFixed(8);
   document.getElementById("dedekindZL").textContent = zl.toFixed(8);
-  // sample Euler factors, symbols computed live
+  // sample Euler factors, live
   const rows = [
     [5n, "ramified — the surface's own boundary", "(1 − 5⁻ˢ)⁻¹"],
     [11n, null, null],
@@ -2339,7 +2345,7 @@ function frobeniusMatrix1361(q) {
   return { q, chi1, chi2, r: l1 === 1 ? 0 : 1, rt, v1, v2 };
 }
 
-// R4: order of [[1,a,c],[0,1,b],[0,0,1]] over F2 by literal powering (the (chi1,chi2) rule is a TEST).
+// R4: N3(F2) order by literal powering (the (chi1,chi2) rule is a TEST).
 function n3Mul(X, Y) { return X.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s ^ (X[i][k] & Y[k][j]), 0))); }
 function n3Order(a, b, c) {
   const M = [[1, a, c], [0, 1, b], [0, 0, 1]];
@@ -2347,7 +2353,7 @@ function n3Order(a, b, c) {
   while (P.flat().join("") !== "100010001") { P = n3Mul(P, M); n++; if (n > 8) throw new Error("order > 8?"); }
   return n;
 }
-function frobOrderTriple(q) { // reuses frobeniusMatrix1361: legendre + the Redei evaluation, no duplicated certificate logic
+function frobOrderTriple(q) { // reuses frobeniusMatrix1361 (no duplicated certificate logic)
   const f = frobeniusMatrix1361(q);
   return f.err ? f : { ...f, ord: n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r) };
 }
@@ -2386,7 +2392,7 @@ function renderFrobenius(q) {
     text = `(13/${q}) = (61/${q}) = +1 — pairwise invisible — but α ≡ 23 + 6·${f.rt} ≡ ${f.v1} (mod ${q}) is a <b>non-square</b> mod ${q}: the corner lights up. ${tail}`;
   }
   const oA = n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r), oB = n3Order(f.chi1, f.chi2, f.r === null ? 1 : f.r);
-  const ordNote = f.r === null ? ` (<span class="tt" data-tip="Why the order is well-defined here: conjugation preserves order, and with χ ≠ 0 both corner values give the same power count — computed both ways just now: ${oA} = ${oB}. Observed rule, self-tested on all 8 elements: identity iff all entries vanish; order 4 iff χ₁ = χ₂ = 1; else order 2.">why well-defined?</span>)` : "";
+  const ordNote = f.r === null ? ` (<span class="tt" data-tip="Conjugation preserves order, and with χ ≠ 0 both corner values give the same count — computed both ways: ${oA} = ${oB}. Rule, self-tested on all 8 elements: identity iff all vanish; order 4 iff χ₁ = χ₂ = 1; else 2.">why well-defined?</span>)` : "";
   exp.innerHTML = `<div class="step" style="margin:0;">${text}</div>`
     + `<div class="thread" style="margin:8px 0 0;"><span class="thread-badge">ζ ↔ Δ</span>ρ(Frob<sub>${q}</sub>) has <b>order ${oA}</b>, computed by powering the matrix${ordNote}: the 8-element cover falls into ${8 / oA} orbit${8 / oA > 1 ? "s" : ""} of length ${oA} — local factor ${localFactor(q, oA, 8)}. These matrices are the deck groups of the covers whose zeta functions the Pairs/Triples/Quadruples boxes compute; the matrix order <i>is</i> the period of q's orbit.</div>`;
   ttFocusable();
@@ -2787,23 +2793,33 @@ function runSelfTests() {
   });
 
   // R4 thread DOM assertions (user-directed pedagogy round)
-  t("R4-T2 arithmetic: Euler witnesses for the orbit story - 5^6 mod 13 = 12 (Frobenius swaps the roots), 5^14 mod 29 = 1 (fixes them), roots of x^2-5 mod 29 = {11,18}, 11^2 mod 29 = 5", () => {
+  t("R4-T2 pure: 5^6 mod 13 = 12 (swap), 5^14 mod 29 = 1 (fix), roots of x^2-5 mod 29 = {11,18}", () => {
     return powmod(5n, 6n, 13n) === 12n && powmod(5n, 14n, 29n) === 1n
       && arrEq(tonelliShanks(5n, 29n), [11n, 18n]) && (11n * 11n) % 29n === 5n;
   });
-  t("R4-T3: frobOrderTriple by matrix powering - ord(937) = 2, ord(107) = 1; n3Order matches the (chi1,chi2) rule on all 8 elements of N3(F2)", () => {
+  t("R4-T3: ord(937) = 2, ord(107) = 1 by matrix powering; n3Order matches the (chi1,chi2) rule on all 8 elements", () => {
     if (frobOrderTriple(937n).ord !== 2 || frobOrderTriple(107n).ord !== 1) return false;
     for (const a of [0, 1]) for (const b of [0, 1]) for (const c of [0, 1])
       if (n3Order(a, b, c) !== ((a || b || c) ? (a && b ? 4 : 2) : 1)) return false;
     return true;
   });
-  t("DOM R4-T3: Triples thread renders order 2, 4 orbits of period 2, (1 − 937⁻²ˢ)⁻⁴, the order-1 contrast (1 − 107⁻ˢ)⁻⁸, and the Milnor-Turaev mirror line", () => {
+  t("DOM R4-T3: Triples thread - order 2, 4 orbits of period 2, (1 − 937⁻²ˢ)⁻⁴; contrast (1 − 107⁻ˢ)⁻⁸; Milnor-Turaev mirror", () => {
     const s = document.getElementById("triplesThread").textContent;
     return s.includes("order 2") && s.includes("4 orbits of period 2") && s.includes("(1 − 937⁻²ˢ)⁻⁴")
       && s.includes("order 1") && s.includes("8 fixed points") && s.includes("(1 − 107⁻ˢ)⁻⁸")
       && s.includes("Milnor–Turaev") && s.includes("μ̄(123)");
   });
-  t("DOM R4-T5: Ladder order display - q=7 ((13/7) = (61/7) = -1): order 4, 2 orbits of length 4, (1 − 7⁻⁴ˢ)⁻²; q=107 order 1, (1 − 107⁻ˢ)⁻⁸; q=937 order 2, (1 − 937⁻²ˢ)⁻⁴ (state restored)", () => {
+  t("DOM R4-T6: Zeta capstone factors match the Triples/Quadruples boxes; demo notes back-point to the Pairs box", () => {
+    const z = document.getElementById("zetaThread").textContent, N = [...document.querySelectorAll("#tab-zeta .small-note")];
+    const f3 = "(1 − 937⁻²ˢ)⁻⁴", f4 = "(1 − 449⁻²ˢ)⁻³²";
+    return z.includes("computing zeta functions all along") && z.includes(f3) && z.includes(f4)
+      && document.getElementById("triplesThread").textContent.includes(f3)
+      && document.getElementById("quadThread").textContent.includes(f4)
+      && z.includes("Main Conjecture")
+      && N.some(n => n.textContent.includes("same orbit bookkeeping as the Pairs box"))
+      && N.some(n => n.textContent.includes("Pairs box's local factors, multiplied together"));
+  });
+  t("DOM R4-T5: Ladder - q=7: order 4, 2 orbits of length 4, (1 − 7⁻⁴ˢ)⁻²; q=107 order 1; q=937 order 2 (state restored)", () => {
     const exp = document.getElementById("frobExplain"), mat = document.getElementById("frobMatrix"), warn = document.getElementById("frobWarn");
     const s0 = [exp.innerHTML, mat.innerHTML, warn.textContent];
     const grab = q => { renderFrobenius(q); return exp.textContent; };
@@ -2814,12 +2830,12 @@ function runSelfTests() {
       && b.includes("order 1") && b.includes("(1 − 107⁻ˢ)⁻⁸")
       && c.includes("order 2") && c.includes("(1 − 937⁻²ˢ)⁻⁴");
   });
-  t("DOM R4-T4: Quadruples thread - order 2 in N4(F2), 32 orbits of period 2, (1 − 449⁻²ˢ)⁻³², tied to the degree-32 compositum split and the Pairs inert bookkeeping", () => {
+  t("DOM R4-T4: Quadruples thread - order 2, 32 orbits of period 2, (1 − 449⁻²ˢ)⁻³², compositum split + inert bookkeeping", () => {
     const s = document.getElementById("quadThread").textContent;
     return s.includes("order 2") && s.includes("32 orbits of period 2") && s.includes("(1 − 449⁻²ˢ)⁻³²")
       && s.includes("degree-32 compositum") && s.includes("inert bookkeeping");
   });
-  t("DOM R4-T2: Pairs thread - (5,29) split shows computed roots 11/18, two period-1 orbits, (1 − 29⁻ˢ)⁻²; (5,13) inert shows 5^6 ≡ 12 ≡ −1, one period-2 orbit, (1 − 13⁻²ˢ)⁻¹; topology twin honesty-labeled (state restored)", () => {
+  t("DOM R4-T2: Pairs thread - split roots 11/18 + (1 − 29⁻ˢ)⁻²; inert 5^6 ≡ 12 ≡ −1 + (1 − 13⁻²ˢ)⁻¹; twin honesty-labeled (state restored)", () => {
     const box = document.getElementById("pairsThread");
     const saved = box.innerHTML, savedDisp = box.style.display;
     renderPairsThread(5n, 29n, 1);
@@ -2832,7 +2848,7 @@ function runSelfTests() {
     box.innerHTML = saved; box.style.display = savedDisp;
     return okSplit && okInert;
   });
-  t("DOM R4-T1: Dictionary thread box states the destination (Delta_L and zeta_K, char poly of a symmetry, sum refactored as product, Zeta tab cashes out); coda points at it", () => {
+  t("DOM R4-T1: Dictionary thread box states the destination; coda points at it", () => {
     const b = document.getElementById("threadDict");
     const badge = b && b.querySelector(".thread-badge");
     return !!badge && badge.textContent.includes("ζ ↔ Δ") && b.textContent.includes("Where this is going")

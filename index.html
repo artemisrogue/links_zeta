@@ -421,6 +421,19 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <button class="why-toggle" data-why="whyMu">How is μ̄(123) defined? (intersect first, then count)</button>
     <div class="why-box" id="whyMu">Because every pairwise lk = 0, each Seifert surface Σᵢ can be chosen disjoint from the other two components (punctures come in cancelling pairs; tube them away). Then Σ₁ ∩ Σ₂ has no boundary at all — it survives as a <b>closed curve</b> — and its intersection with Σ₃, rather than its boundary, becomes the well-defined count: μ̄(123) = Σ sign(p) over p ∈ (Σ₁∩Σ₂) ∩ Σ₃, independent of all choices (Milnor) — because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.</div>
 
+    <div class="section-head">Bring your own triple — the certificate cockpit</div>
+    <p style="max-width:920px;font-size:.92rem;">Honesty first: the pair (13, 61) above is pinned because the app ships Rédei's normalized certificate (23, 6, 1) as data — <b>it verifies certificates, it does not search for them</b>. This cockpit takes yours: primes p₁, p₂, q and a certificate (x, y, z) with x² − p₁y² − p₂z² = 0. The engine enforces every definedness and normalization check and says exactly which one fails — the rejection taxonomy is the teaching point. Seeded with a fresh triple: (5, 29, 109), certificate (7, 2, 1).</p>
+    <div class="calc-row" style="flex-wrap:wrap;">
+      <label>p₁ = <input type="number" id="ccP1" value="5" style="width:70px;"></label>
+      <label>p₂ = <input type="number" id="ccP2" value="29" style="width:70px;"></label>
+      <label>q = <input type="number" id="ccQ" value="109" style="width:80px;"></label>
+      <label>x = <input type="number" id="ccX" value="7" style="width:70px;"></label>
+      <label>y = <input type="number" id="ccY" value="2" style="width:70px;"></label>
+      <label>z = <input type="number" id="ccZ" value="1" style="width:70px;"></label>
+      <button class="ctrl primary" id="ccRun">Run [p₁, p₂, q]</button>
+    </div>
+    <div class="small-note" id="ccOut" aria-live="polite" style="text-align:left;min-height:2.2em;"></div>
+
     <div class="section-head" id="surfaceLadder">Climbing the ladder with surfaces — what the zeta counts</div>
     <p style="max-width:920px;font-size:.92rem;color:var(--muted);">The columns above say <i>what</i> the invariants are; this ladder says <i>what they count</i>. Left rail: the surfaces of the Borromean rings, rung by rung. Right rail: the same climb for (13, 61, 937). Each rung closes with the count its zeta function records — sheets of a cover and loops upstairs on the left, primes above and residue degrees on the right. The figures are <b>schematic</b> — honest cartoons of the general-position picture, not computed embeddings — while every number on the ladder is computed live.</p>
     <div class="sladder" id="sladderBox">
@@ -476,6 +489,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
               <text x="170" y="194" font-size="11" fill="#666" text-anchor="middle">the bowl dips through the disk — the crossing is one closed curve</text>
             </svg>
             <div class="figcap">schematic — Σ₂ drawn as a bowl on K₂ dipping through the disk Σ₁; in general position the two surfaces meet in the closed curve γ (dashed = below Σ₁)</div>
+            <div id="gammaComputed"></div>
             <div>Because every pairwise lk = 0 (rung 1), the surfaces can be pushed off the other components and — in <span class="tt" data-tip="Two surfaces in a 3-manifold can be perturbed to meet transversally; the intersection is then a 1-manifold, and once the boundary punctures cancel (lk = 0) it is a union of closed curves. Standard transversality — cited, not computed; the whyMu box above does the tubing.">general position</span> — Σ₁ and Σ₂ meet in a <b>closed curve</b> γ: the Pairs tab's arc with both boundary ends cancelled, closing into a circle. γ is new — not a component of the link, but the object the vanishing left behind.</div>
           </div>
           <div class="rung-a" id="rung2Arith"></div>
@@ -723,6 +737,22 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
     </div>
 
+    <div class="zx-row-head">Five components <span class="rh-sub">the half-built rung: one column computes today, the other names its missing theorem</span></div>
+    <div class="twocol">
+      <div class="col topo">
+        <details class="zx" id="zxFive">
+          <summary><h2>μ̄(12345) and the 1024-sheet cover — computed <span class="zx-hook">— the topology column of the next rung, running today</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> the ladder does not stop — the five-component model longitude is one commutator deeper, the deck group one matrix size up; only the arithmetic mirror is missing, and what it is missing is a theorem, not a computation.</div>
+            <div id="fiveWorked"></div>
+          </div>
+        </details>
+      </div>
+      <div class="col arith">
+        <div class="honest" id="fiveBlank" style="margin-top:0;"><b>The missing rung, left honestly blank.</b> No quintuple symbol exists to compute: the analogue of Amano's independence theorem for [p₁, …, p₅] — a normalization making the bracket a function of the five primes alone, reading splitting in a degree-1024 field with Gal ≅ N₅(F₂) — is not in the literature this app cites. Until that theorem exists, this cell stays blank rather than pretend; the closing answers of the <button type="button" class="jump" onclick="gotoTab('qa')">Q&amp;A tab</button> state the problem. This blank is the app's one citation to an absence — the citation style one hopes goes stale.</div>
+      </div>
+    </div>
+
     <div class="zx-row-head">The contrast pair <span class="rh-sub">what knotting — as opposed to linking — adds: the spectral dial, on both sides</span></div>
     <div class="twocol">
       <div class="col topo">
@@ -754,9 +784,11 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="twocol">
       <div class="col topo">
         <div class="poly-demo"><b>Milnor–Turaev:</b> the <span class="tt tt-left" data-tip="An alternating product of determinants from the chain complex of the infinite cover — a 'sum over the cover' reorganized multiplicatively, which is exactly what a zeta function is. Proof idea for τ ≐ Δ, a sketch: compute the torsion from the CW structure of a Wirtinger presentation — the twisted boundary map is literally the Alexander matrix, so the defining determinant is the polynomial; Turaev pinned down the sign and unit ambiguities. Cited: Milnor, Ann. of Math. 76 (1962); Turaev, Russian Math. Surveys 41 (1986).">Milnor–Reidemeister torsion</span> of the Z<sup>r</sup>-cover satisfies τ<sub>L</sub> ≐ ∆<sub>L</sub> — the Alexander polynomial <i>is</i> the zeta function of the link exterior. Concretely <span class="tt tt-left" data-tip="Both values cited, not computed — standard Fox-calculus results (Hopf and Borromean cases: Milnor 1954; tables in Kawauchi). Cross-checked live where they are consumed: the Torres collapse and the fibered determinant identities on the Zeta cards, and the Hopf sanity line (t−1)·1 = t−1.">τ<sub>Hopf</sub> ≐ 1 and τ<sub>Bor</sub> ≐ (t₁−1)(t₂−1)(t₃−1)</span>, with μ̄(123) its leading Taylor coefficient at (1,1,1).</div>
+        <div class="poly-demo" id="presMatTopo"></div>
       </div>
       <div class="col arith">
         <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the annihilator of the Iwasawa module — the arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial.">characteristic ideal</span> of the cyclotomic Iwasawa module — the knot-side Λ = Z<sub>ℓ</sub>[[T]] story, see the f<sub>S</sub> why-box under the Dictionary table — is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — the analytic side of the Main Conjecture, which equates it (up to units) with the algebraically built Iwasawa polynomial: characteristic ideal = (L_p). Proof idea, a sketch: Ribet's method industrialized — congruences between Eisenstein series and cusp forms manufacture enough unramified extensions to make the class-group side at least as large as the L-function predicts, and the analytic class number formula caps the total, forcing equality. Proven over Q by Mazur–Wiles (Invent. Math. 76, 1984) for odd ℓ; the case ℓ = 2 — the one prime every computation in this app instantiates — is Greither (1992).">p-adic L-function</span>, f<sub>Λ</sub> ≐ L<sub>p</sub> (Mazur–Wiles; ℓ = 2 by Greither; the subscript Λ keeps this characteristic power series apart from the residue degree f in the local-factor tables above) — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
+        <div class="poly-demo" id="presMatArith"></div>
       </div>
     </div>
   </section>
@@ -803,6 +835,13 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <table class="mat" id="frobMatrix"></table>
         <div id="frobExplain" style="max-width:420px;font-size:.88rem;" aria-live="polite"></div>
       </div>
+    </div>
+
+    <div class="section-head" style="max-width:840px;margin-left:auto;margin-right:auto;">Chebotarev, sampled</div>
+    <div style="max-width:840px;margin:0 auto;">
+      <p style="font-size:.9rem;">Chebotarev's density theorem (1926, cited): Frobenius classes equidistribute over the conjugacy classes of the Galois group, with density |C|/|G|. For D₄'s five classes the prediction is 1/8, 1/8, 1/4, 1/4, 1/4 — and the matrix machinery above can be run over every prime at once. The bench demonstrates at a finite cutoff; the theorem is about the limit.</p>
+      <button class="ctrl" id="chebRun">Tally every odd unramified prime &lt; 3000</button>
+      <div id="chebOut" aria-live="polite" style="margin-top:8px;"></div>
     </div>
 
     <div class="caption-strip">Gal(k₁₃,₆₁/Q) ≅ D₄ ⊂ N₃(F₂); Gal(K/Q) ≅ N₄(F₂) for Amano's quadruple. The ladder is the mirror, group by group.</div>
@@ -977,6 +1016,18 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   return { roots, vals, value: legs[0], identity };
 }
 
+// (p,q)_2 for odd p, q by genuine 2-adic solvability: a primitive zero of z² = px² + qy²
+// mod 8 (odd squares lift 8-adically — Hensel). Independent of reciprocity, unlike the
+// closed form (−1)^{ε(p)ε(q)}, which the UI shows only as a cross-check.
+function hilbert2adic(p, q) {
+  const pm = Number(((p % 8n) + 8n) % 8n), qm = Number(((q % 8n) + 8n) % 8n);
+  for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) for (let z = 0; z < 8; z++) {
+    if (x % 2 === 0 && y % 2 === 0 && z % 2 === 0) continue;
+    if (((z * z - pm * x * x - qm * y * y) % 8 + 8) % 8 === 0) return 1;
+  }
+  return -1;
+}
+
 function isPrimeSmall(n) { // trial division
   if (n < 2n) return false;
   if (n % 2n === 0n) return n === 2n;
@@ -1106,6 +1157,126 @@ function computeMagnusTripleCommutator() {
   const u12 = { ...C12 }; delete u12[""];
   const C12inv = mgInvOnePlusU(u12);
   return mgCommutator(C12, C12inv, M3, M3inv);
+}
+function computeMagnusL5() { // Klein F2: one commutator deeper — [[[x1,x2],x3],x4], within the existing degree-5 truncation
+  const C123 = computeMagnusTripleCommutator();
+  const u = { ...C123 }; delete u[""];
+  const X4 = mgGen(4);
+  return mgCommutator(C123, mgInvOnePlusU(u), { "": 1, ...X4 }, mgInvOnePlusU(X4));
+}
+/* Klein A2: one COMPUTED surface picture. Standard ellipse position (the 3D view's own
+   coordinates: semi-axes 2 and 1.1, one ellipse per coordinate plane), flat spanning
+   disks. Everything below is numerically computed at load: the intersection segment of
+   the two disks, its endpoints, and the signed punctures of K1 through Sigma2. */
+function gammaComputedData() {
+  const a = 2, b = 1.1, S = 200;
+  // K1 in z = 0: (a cos t, b sin t, 0); Sigma1 = flat disk. K2 in x = 0: (0, a cos t, b sin t); Sigma2 = flat disk.
+  // Disk1 ∩ Disk2 lies on the line x = z = 0; sample it and keep points inside BOTH disks.
+  const inside1 = (x, y) => (x * x) / (a * a) + (y * y) / (b * b) <= 1 + 1e-12;
+  const inside2 = (y, z) => (y * y) / (a * a) + (z * z) / (b * b) <= 1 + 1e-12;
+  const seg = [];
+  for (let i = 0; i <= S; i++) {
+    const y = -2.2 + 4.4 * i / S;
+    if (inside1(0, y) && inside2(y, 0)) seg.push(y);
+  }
+  const y0 = seg[0], y1 = seg[seg.length - 1];
+  // Punctures of K1 through Sigma2: K1 hits x = 0 at t = π/2, 3π/2; sign = sign of dx/dt = −a sin t.
+  const punctures = [Math.PI / 2, 3 * Math.PI / 2].map(t => ({
+    y: b * Math.sin(t), sign: -a * Math.sin(t) > 0 ? +1 : -1,
+    inSigma2: inside2(b * Math.sin(t), 0),
+  }));
+  return { a, b, y0, y1, punctures, len: y1 - y0 };
+}
+function renderGammaComputed() {
+  const { a, b, y0, y1, punctures } = gammaComputedData();
+  // Oblique projection: y horizontal, z vertical, x receding.
+  const cx = 170, cy = 96, s = 62;
+  const P = (x, y, z) => [cx + s * (y + 0.38 * x), cy - s * (z - 0.30 * x)];
+  const path = pts => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " Z";
+  const E1 = [], E2 = [];
+  for (let i = 0; i < 72; i++) {
+    const t = 2 * Math.PI * i / 72;
+    E1.push(P(a * Math.cos(t), b * Math.sin(t), 0));
+    E2.push(P(0, a * Math.cos(t), b * Math.sin(t)));
+  }
+  const s0 = P(0, y0, 0), s1 = P(0, y1, 0);
+  const pd = punctures.map(p => ({ xy: P(0, p.y, 0), sign: p.sign }));
+  $id("gammaComputed").innerHTML =
+    `<svg viewBox="0 0 340 190" role="img" aria-label="Computed figure: the two standard ellipses with flat spanning disks; the numerically computed intersection segment of the disks runs between the two computed puncture points of K1 through Sigma2, whose signs are plus and minus — the raw general-position picture whose tubing produces the closed curve gamma.">
+      <path d="${path(E1)}" fill="#1b6ca8" fill-opacity="0.10" stroke="#1b6ca8" stroke-width="2.5"/>
+      <path d="${path(E2)}" fill="#2e8b57" fill-opacity="0.10" stroke="#2e8b57" stroke-width="2.5"/>
+      <line x1="${s0[0]}" y1="${s0[1]}" x2="${s1[0]}" y2="${s1[1]}" stroke="#7d3c98" stroke-width="4"/>
+      ${pd.map(p => `<circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="4.5" fill="#f5a623" stroke="#333" stroke-width="1.2"/><text x="${p.xy[0] + 7}" y="${p.xy[1] - 6}" font-size="12" font-weight="bold" fill="#333">${p.sign > 0 ? "+" : "−"}</text>`).join("")}
+      <text x="30" y="26" font-size="12" fill="#1b6ca8">K₁, Σ₁ (z = 0)</text>
+      <text x="236" y="26" font-size="12" fill="#1e6b41">K₂, Σ₂ (x = 0)</text>
+      <text x="170" y="182" font-size="11" fill="#666" text-anchor="middle">computed: Σ₁ ∩ Σ₂ = segment y ∈ [${y0.toFixed(2)}, ${y1.toFixed(2)}], ends = the two ± punctures</text>
+    </svg>
+    <div class="figcap"><b>computed, not schematic</b> — the standard ellipse position (the 3D view's own coordinates) with flat spanning disks: the intersection segment is sampled numerically and its endpoints land exactly on K₁'s two cancelling punctures through Σ₂ (signs from dx/dt, computed). The why-box's tubing trades the punctured ends for a closed curve — this figure computes the <i>before</i>, the cartoon above draws the <i>after</i>.</div>`;
+}
+function chebotarevTally(X) { // Klein A4: class-by-class Frobenius counts to cutoff X
+  const counts = { id: 0, corner: 0, "10": 0, "01": 0, "11": 0 }; let total = 0;
+  for (let q = 3; q < X; q += 2) {
+    const bq = BigInt(q);
+    if (!isPrimeSmall(bq) || q === 13 || q === 61) continue;
+    const f = frobeniusMatrix1361(bq);
+    if (f.err) continue;
+    const key = (f.chi1 || f.chi2) ? `${f.chi1}${f.chi2}` : (f.r === 0 ? "id" : "corner");
+    counts[key]++; total++;
+  }
+  return { counts, total };
+}
+function renderChebTally() {
+  const t0 = performance.now();
+  const { counts, total } = chebotarevTally(3000);
+  const ms = (performance.now() - t0).toFixed(0);
+  const rows = [
+    ["identity (splits completely — like 107)", "id", "1/8", 0.125],
+    ["corner r = 1 (the triple level — like 937)", "corner", "1/8", 0.125],
+    ["χ = (1,0)", "10", "1/4", 0.25], ["χ = (0,1)", "01", "1/4", 0.25], ["χ = (1,1) — order 4", "11", "1/4", 0.25],
+  ];
+  $id("chebOut").innerHTML =
+    `<table class="symbolic"><tr><th>class</th><th>count</th><th>observed</th><th>Chebotarev</th></tr>`
+    + rows.map(([label, k, pred, pv]) => `<tr><td class="k">${label}</td><td class="v">${counts[k]}</td><td class="v">${(counts[k] / total).toFixed(3)}</td><td class="v">${pred} = ${pv.toFixed(3)}</td></tr>`).join("")
+    + `</table><div class="small-note" style="text-align:left;">${total} unramified odd primes &lt; 3000, tallied in ${ms} ms — every row is the Ladder machinery run per prime (Tonelli–Shanks included for the χ = 0 cases). Observed hugs predicted at a finite cutoff; the equidistribution itself is Chebotarev's theorem, cited not proved — the app is the demonstration bench.</div>`;
+}
+function renderPresMat() { // Klein A1: one presentation matrix per side
+  // Topology: fibered case — the Alexander module IS presented by tI − h₁∗ (Milnor 1968).
+  // det computed by literal polynomial arithmetic: (t−2)(t−1) − (−1)(−1).
+  const mul = (a, b) => { const r = new Array(a.length + b.length - 1).fill(0); a.forEach((x, i) => b.forEach((y, j) => r[i + j] += x * y)); return r; };
+  const sub = (a, b) => { const r = a.slice(); b.forEach((x, i) => r[i] = (r[i] || 0) - x); return r; };
+  const det = sub(mul([-2, 1], [-1, 1]), [1]); // coefficients of det(tI − A), constant first
+  const ok = det.length === 3 && det[0] === 1 && det[1] === -3 && det[2] === 1;
+  $id("presMatTopo").innerHTML =
+    `<b>The module itself, presented.</b> For a fibered knot the Alexander module — H₁ of the infinite cyclic cover as a Z[t, t⁻¹]-module — is <i>presented by the matrix tI − h₁∗</i> (Milnor 1968: the cover is F × ℝ). For 4₁, with h₁∗ = A = [[2,1],[1,1]]:
+     <div class="eq" style="margin:6px 0;">H₁(X̃∞) ≅ Z[t,t⁻¹]² ⁄ (tI − A),&nbsp;&nbsp; tI − A = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>t−2</td><td>−1</td></tr><tr><td>−1</td><td>t−1</td></tr></table></div>
+     det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= ∆₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
+  // Arithmetic: the Λ-side at the level the literature pins — size and determinant ideal.
+  $id("presMatArith").innerHTML =
+    `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the gallery's first knotted prime — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
+     <div class="eq" style="margin:6px 0;">X<sub>∞</sub><sup>(ω-eigenspace)</sup> ∼ Λ ⁄ ( f₃₇(T) ),&nbsp;&nbsp; ⟨ f₃₇(T) ⟩ = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>f₃₇(T)</td></tr></table>,&nbsp; deg f₃₇ = λ = 1</div>
+     Honesty: the matrix's <i>size and determinant ideal</i> are what the cited results pin (char ideal = (L<sub>p</sub>), the Main Conjecture above); its entries need class-group tower data this app does not carry — displayed schematically, said so. The 2×2 twin at left is fully computed.`;
+}
+function runCertCockpit() { // Klein F4: the (p1,p2,q,x,y,z) door to redeiSymbol's rejection taxonomy
+  const out = $id("ccOut");
+  const vals = ["ccP1", "ccP2", "ccQ", "ccX", "ccY", "ccZ"].map(id => parseIntegerInput($id(id).value));
+  if (vals.some(v => v === null)) { out.innerHTML = `<span style="color:var(--bad);">Enter plain decimal integers (at most 9 digits).</span>`; return; }
+  const [p1, p2, q, x, y, z] = vals;
+  try {
+    const r = redeiSymbol(p1, p2, q, x, y, z);
+    out.innerHTML = `<b>[${p1}, ${p2}, ${q}] = ${r.value > 0 ? "+1" : "−1"}</b> — q ${r.value > 0 ? "splits completely" : "does not split completely"} in k<sub>${p1},${p2}</sub> (conjugates ${r.vals.join(", ")} mod ${q}, both Legendre ${r.value > 0 ? "+1" : "−1"}). Every check passed: identity, primitivity, Rédei normalization, definedness, primality.`;
+  } catch (e) {
+    out.innerHTML = `<span style="color:var(--bad);">Rejected — ${e.message}.</span> <span style="color:var(--muted);">This refusal is the engine enforcing well-definedness, not a bug: fix the certificate or the primes and the door opens.</span>`;
+  }
+}
+function renderFiveWorked() {
+  const s5 = computeMagnusL5();
+  const c = s5["1,2,3,4"] || 0;
+  const low12 = s5["1,2"] || 0, low123 = s5["1,2,3"] || 0;
+  const M5 = [...Array(5)].map((_, i) => [...Array(5)].map((_, j) => i === j ? 1 : (i === 0 && j === 4 ? (((c % 2) + 2) % 2) : 0)));
+  const o = matOrderF2(M5);
+  $id("fiveWorked").innerHTML =
+    `<div class="step"><div class="head">The invariant, live.</div><div class="eq">ℓ₅ = [[[x₁,x₂],x₃],x₄] — Milnor's model, one commutator deeper than B₄ — expanded through the same Magnus machinery (truncation degree 5, already in this page): coefficient of X₁X₂X₃X₄ = <b>${c}</b>, lower coefficients ${low12}, ${low123} — so μ̄(12345) = ${c} at the model level, the app's B₄ honesty standard one rung up.</div></div>`
+    + `<div class="step"><div class="head">The counting space, live.</div><div class="eq">ρ(K₅) sits at the corner of N₅(F₂) — order of the group: 2¹⁰ = 1024; powering the 5×5 matrix literally gives order <b>${o}</b>. In the 1024-sheet cover, K₅'s preimage is <b>${1024 / o} loops of double length</b> — K₅-orbit factor <b>(1 − t²)⁻⁵¹²</b>: the twin the arithmetic column cannot yet produce.</div></div>`;
 }
 
 function polyMul(A, B) {
@@ -1385,10 +1556,14 @@ function renderHilbertTable(p, q, pq, qp) {
     note.textContent = "Enter valid primes on the Arithmetic panel above.";
     return;
   }
-  const two = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
+  // Klein C3/F3: (p,q)_2 computed by genuine 2-adic solvability — a primitive zero of
+  // z² = px² + qy² mod 8 (Hensel: odd squares lift from mod 8) — NOT by the reciprocity-
+  // equivalent closed form, which is displayed only as the cross-check so the ✓ can fail.
+  const two = hilbert2adic(p, q);
+  const twoClosed = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
   const rows = [
     ["v = ∞", "+1", "both p, q > 0"],
-    ["v = 2", two > 0 ? "+1" : "−1", `(−1)<sup>((p−1)/2)·((q−1)/2)</sup>`],
+    ["v = 2", two > 0 ? "+1" : "−1", `computed: primitive solvability of z² ≡ px² + qy² (mod 8) — 512 triples enumerated; odd squares lift 8-adically (Hensel). Closed form (−1)<sup>((p−1)/2)·((q−1)/2)</sup> = ${twoClosed > 0 ? "+1" : "−1"} ${two === twoClosed ? "— agrees ✓ (an independent check: that formula is reciprocity-equivalent, so it never gets to vote here)" : "— DISAGREES ✗"}`],
     ["v ∉ {2, p, q, ∞}", "+1", "both are local units"],
     [`v = ${p}`, qp > 0 ? "+1" : "−1", `(${q}/${p}): mod ${p} the px² term dies, forcing z² ≡ ${q}y² (y a unit) — solvable iff ${q} is a square mod ${p}; Hensel lifts the converse`],
     [`v = ${q}`, pq > 0 ? "+1" : "−1", `(${p}/${q}): the same argument mod ${q}`],
@@ -1746,21 +1921,74 @@ let threeLoaded = false, threeFailed = false;
   const s = $el("script");
   s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
   s.onload = () => { threeLoaded = true; };
-  s.onerror = () => { threeFailed = true; $id("borro3dToggle").style.display = "none"; };
+  s.onerror = () => { threeFailed = true; }; // Klein F5/D11: keep the button; a no-network fallback renders instead
   document.head.appendChild(s);
 })();
+
+/* Klein F5: self-contained canvas fallback — three rotating ellipses, no library.
+   Same standard position as the real view (semi-axes 2 and 1.1, one per coordinate plane). */
+let fallback3d = null;
+function initBorro3DFallback() {
+  const box = $id("borro3dContainer");
+  box.innerHTML = "";
+  const cv = document.createElement("canvas");
+  cv.width = 420; cv.height = 340; cv.style.width = "100%";
+  box.appendChild(cv);
+  const ctx = cv.getContext("2d");
+  const st = { rx: 0.45, ry: 0.55 };
+  const colors = ["#1b6ca8", "#2e8b57", "#c0392b"];
+  function draw() {
+    ctx.clearRect(0, 0, 420, 340);
+    const cx = 210, cy = 170, sc = 78;
+    const rot = (p) => { // rotate about y by st.ry then x by st.rx
+      let [x, y, z] = p;
+      let x1 = x * Math.cos(st.ry) + z * Math.sin(st.ry), z1 = -x * Math.sin(st.ry) + z * Math.cos(st.ry);
+      let y1 = y * Math.cos(st.rx) - z1 * Math.sin(st.rx), z2 = y * Math.sin(st.rx) + z1 * Math.cos(st.rx);
+      return [x1, y1, z2];
+    };
+    const a = 2, b = 1.1;
+    const ell = [
+      t => [a * Math.cos(t), b * Math.sin(t), 0],
+      t => [0, a * Math.cos(t), b * Math.sin(t)],
+      t => [b * Math.sin(t), 0, a * Math.cos(t)],
+    ];
+    ell.forEach((f, i) => {
+      ctx.beginPath();
+      for (let k = 0; k <= 90; k++) {
+        const p = rot(f(2 * Math.PI * k / 90));
+        const X = cx + sc * p[0], Y = cy - sc * p[1];
+        k ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y);
+      }
+      ctx.strokeStyle = colors[i]; ctx.lineWidth = 3; ctx.stroke();
+    });
+    ctx.fillStyle = "#767676"; ctx.font = "11px serif";
+    ctx.fillText("offline fallback — no depth sorting; drag or arrow keys to rotate", 60, 330);
+  }
+  draw();
+  let dragging = false, px = 0, py = 0;
+  cv.addEventListener("mousedown", e => { dragging = true; px = e.clientX; py = e.clientY; });
+  window.addEventListener("mousemove", e => { if (!dragging) return; st.ry += (e.clientX - px) / 120; st.rx += (e.clientY - py) / 120; px = e.clientX; py = e.clientY; draw(); });
+  window.addEventListener("mouseup", () => { dragging = false; });
+  cv.tabIndex = 0;
+  cv.setAttribute("role", "img");
+  cv.setAttribute("aria-label", "Fallback 3D view: the three standard ellipses, rotatable with arrow keys.");
+  cv.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft") { st.ry -= 0.1; draw(); e.preventDefault(); }
+    if (e.key === "ArrowRight") { st.ry += 0.1; draw(); e.preventDefault(); }
+    if (e.key === "ArrowUp") { st.rx -= 0.1; draw(); e.preventDefault(); }
+    if (e.key === "ArrowDown") { st.rx += 0.1; draw(); e.preventDefault(); }
+  });
+  return true;
+}
 
 let borro3dState = null;
 $id("borro3dToggle").addEventListener("click", () => {
   const wrap = $id("borro3dWrap");
-  if (!threeLoaded) {
-    if (threeFailed) { alert("3D view unavailable offline (three.js CDN failed to load)."); return; }
-    alert("3D library still loading — try again in a moment.");
-    return;
-  }
   const showing = wrap.style.display !== "none";
-  wrap.style.display = showing ? "none" : "block";
-  if (!showing && !borro3dState) initBorro3D();
+  if (showing) { wrap.style.display = "none"; return; }
+  wrap.style.display = "block";
+  if (threeLoaded) { if (!borro3dState) initBorro3D(); }
+  else if (!fallback3d) { fallback3d = initBorro3DFallback(); } // offline or still loading: honest, self-contained
 });
 $id("fsTooltip").addEventListener("click", e => {
   const el = $id("fsExplain");
@@ -2757,8 +2985,35 @@ function renderK1361Worked() {
     `<div class="sub">The local rule at every unramified p — that is every p except 13 and 61, <b>2 and ∞ included</b> (k₁₃,₆₁/Q is unramified outside {13, 61} by Rédei's normalization — cited: Rédei 1939; Morishita chs. 4/8): e = 1, so f·g = 8 reads as <b>the 8 embeddings falling into g = 8/f Frobenius orbits of size f = ord ρ(Frob<sub>p</sub>)</b>, local factor (1 − p<sup>−fs</sup>)<sup>−8/f</sup>. Each row below powers the Ladder tab's matrix, live.</div>`
     + `<table class="symbolic" id="k1361Table"><tr><th>p</th><th>pairwise level, computed</th><th>corner r</th><th>f = ord ρ(Frob<sub>p</sub>)</th><th>orbit picture</th><th>local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table>`
     + `<div class="mln">∗ = superdiagonal nonzero: the corner is basis-dependent there (Ladder tab), but the order is not — powered both ways, it agrees. † p ≡ 3 (mod 4): the corner is a <b>splitting datum</b> in the field k₁₃,₆₁ itself (fixed once and for all) — defined for any odd unramified q — not a symmetric Rédei symbol value, which asks for q ≡ 1 (mod 4) (the Ladder's domain note).</div>`
-    + `<div class="step"><b>Multiplied out, live — the partial Euler product at s = 2:</b> <span class="eq">∏<sub>p ≤ 200 unramified</sub> (1 − p<sup>−2f(p)</sup>)<sup>−8/f(p)</sup> = <b>${prod.toFixed(6)}</b></span> (${count} primes, six decimals). Honesty: the two ramified factors — p = 13 and p = 61 — are omitted; their Euler-factor form is not asserted here. The 937 row is the Triples tab's ${localFactor(937, 2, 8)}: one triple symbol, felt by the whole product.</div>`;
+    + `<div class="step"><b>Multiplied out, live — the partial Euler product at s = 2:</b> <span class="eq">∏<sub>p ≤ 200 unramified</sub> (1 − p<sup>−2f(p)</sup>)<sup>−8/f(p)</sup> = <b>${prod.toFixed(6)}</b></span> (${count} primes, six decimals). Honesty: the two ramified factors — p = 13 and p = 61 — are omitted; their Euler-factor form is not asserted here. The 937 row is the Triples tab's ${localFactor(937, 2, 8)}: one triple symbol, felt by the whole product.</div>`
+    + (() => { // Klein F1: the ideal-sum face — same unramified data, summed instead of multiplied
+      const { sum, terms } = k1361IdealFace(200, 120000);
+      const agree = Math.abs(sum - prod) < 1e-5;
+      return `<div class="step"><b>The ideal-sum face, live:</b> the same 44 primes, summed instead of multiplied — a(p<sup>k</sup>) = C(k/f + g − 1, g − 1) ideals of norm p<sup>k</sup> when f | k (else 0), extended multiplicatively and summed over the ${terms.toLocaleString()} unramified 200-<span class="tt" data-tip="n is P-smooth when every prime factor of n is ≤ P. Restricting the ideal sum to 200-smooth norms coprime to 13·61 makes it converge to exactly the same truncation as the product face — the two faces then must agree, and the display checks that they do.">smooth</span> norms n ≤ 120000: <span class="eq">Σ a(n)·n<sup>−2</sup> = <b>${sum.toFixed(6)}</b></span> <span class="${agree ? "ok" : "fail"}">${agree ? "— agrees with the product face ✓" : "— disagrees ✗"}</span> (|Σ − ∏| = ${Math.abs(sum - prod).toExponential(1)}). The third face, honestly: Gal(k₁₃,₆₁/Q) ≅ D₄ is <b>nonabelian</b>, so the character face upgrades from Dirichlet L-functions to Artin L-functions — stated (Artin 1931), not computed; the degree-2 cards below run the abelian version.</div>`;
+    })();
   ttFocusable($id("k1361Worked"));
+}
+function k1361IdealFace(P, N) { // Klein F1: Dirichlet face over P-smooth unramified norms ≤ N
+  const binom = (n, k) => { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; };
+  let vals = new Float64Array(N + 1); vals[1] = 1;
+  for (let q = 2; q <= P; q++) {
+    if (!isPrimeSmall(BigInt(q)) || q === 13 || q === 61) continue;
+    const f = k1361FrobData(BigInt(q)).ord, g = 8 / f;
+    const nv = new Float64Array(N + 1);
+    for (let n = 1; n <= N; n++) {
+      if (vals[n] === 0) continue;
+      nv[n] += vals[n];
+      let pk = 1;
+      for (let k = 1; ; k++) {
+        pk *= q; if (n * pk > N) break;
+        if (k % f === 0) nv[n * pk] += vals[n] * binom(k / f + g - 1, g - 1);
+      }
+    }
+    vals = nv;
+  }
+  let sum = 0, terms = 0;
+  for (let n = 1; n <= N; n++) if (vals[n]) { sum += vals[n] / (n * n); terms++; }
+  return { sum, terms };
 }
 function renderBorroWorked() {
   const K = 8;
@@ -3105,18 +3360,19 @@ function runSelfTests() {
 
   t("both = 3 (mod 4) order-dependent: (3/7) = -1, (7/3) = +1 - no Hopf/unlink gloss in that class", () => legendre(3n, 7n) === -1 && legendre(7n, 3n) === 1);
 
-  t("Hilbert product formula: product over places === 1 for (5,29) and (5,13)", () => {
-    function hilbertProduct(p, q) {
-      const two = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
-      return two * legendre(p, q) * legendre(q, p);
-    }
+  t("Hilbert product formula: product over places === 1 for (5,29) and (5,13) — v = 2 factor by mod-8 enumeration, not the closed form (Klein C3)", () => {
+    const hilbertProduct = (p, q) => hilbert2adic(p, q) * legendre(p, q) * legendre(q, p);
     return hilbertProduct(5n, 29n) === 1 && hilbertProduct(5n, 13n) === 1;
   });
 
-  t("Hilbert (3,7): 2-adic factor -1, (p/q)(q/p) = -1, product still 1 - conclusion strings track v = 2", () => {
-    const two = Number((3n - 1n) / 2n % 2n) * Number((7n - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
-    return two === -1 && legendre(3n, 7n) * legendre(7n, 3n) === -1
-      && two * legendre(3n, 7n) * legendre(7n, 3n) === 1;
+  t("Hilbert (3,7): enumerated 2-adic factor -1, (p/q)(q/p) = -1, product still 1; enumeration === closed form on all odd prime pairs < 60 (independence check)", () => {
+    if (!(hilbert2adic(3n, 7n) === -1 && legendre(3n, 7n) * legendre(7n, 3n) === -1
+      && hilbert2adic(3n, 7n) * legendre(3n, 7n) * legendre(7n, 3n) === 1)) return false;
+    const ps = [3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n, 41n, 43n, 47n, 53n, 59n];
+    return ps.every(p => ps.every(q => {
+      const closed = Number((p - 1n) / 2n % 2n) * Number((q - 1n) / 2n % 2n) % 2 === 0 ? 1 : -1;
+      return hilbert2adic(p, q) === closed;
+    }));
   });
 
   t("fig-8 monodromy: tr(A^n) = 3tr(A^{n-1}) - tr(A^{n-2}); tr = 3,7,18,...,103682 (Lucas)", () => {
@@ -3175,6 +3431,44 @@ function runSelfTests() {
     // Klein D2: tolerance tightened from 5e-3 (was ~25x looser than the measured error).
     const { ideal, prod, zl } = dedekindValues(3000);
     return Math.abs(ideal - zl) < 1e-3 && Math.abs(prod - zl) < 1e-3 && Math.abs(ideal - prod) < 1e-3;
+  });
+  t("Klein F1 pure: ideal-sum face agrees with the pinned Euler product — Σ a(n)n⁻² over 200-smooth unramified n ≤ 120000 within 1e-5 of 1.0673950922954751", () => {
+    const { sum } = k1361IdealFace(200, 120000);
+    return Math.abs(sum - 1.0673950922954751) < 1e-5;
+  });
+  t("Klein F2 pure: μ̄(12345) = 1 at the model level (coefficient of X₁X₂X₃X₄ in [[[x₁,x₂],x₃],x₄]), lower coefficients 0; 5×5 corner has order 2 in N₅(F₂); 1024/2 = 512", () => {
+    const s5 = computeMagnusL5();
+    const M5 = [...Array(5)].map((_, i) => [...Array(5)].map((_, j) => i === j ? 1 : (i === 0 && j === 4 ? 1 : 0)));
+    return (s5["1,2,3,4"] || 0) === 1 && (s5["1,2"] || 0) === 0 && (s5["1,2,3"] || 0) === 0
+      && matOrderF2(M5) === 2 && 1024 / matOrderF2(M5) === 512;
+  });
+  t("DOM Klein F2/F4: five-component half-rung (worked topology + honest blank naming N₅(F₂)); cockpit seeded (5,29,109;7,2,1) = +1 and rejecting a scaled certificate", () => {
+    const fw = $id("fiveWorked").textContent, fb = $id("fiveBlank").textContent;
+    if (!(fw.includes("512 loops of double length") && fw.includes("(1 − t²)⁻⁵¹²")
+      && fb.includes("missing") && fb.includes("N₅(F₂)") && fb.includes("blank"))) return false;
+    const heads = [...$qa("#tab-zeta .zx-row-head")].map(e => e.textContent);
+    if (!heads.some(h => h.includes("Five components"))) return false;
+    if (!$id("ccOut").textContent.includes("[5, 29, 109] = +1")) return false;
+    let rejected = false;
+    try { redeiSymbol(5n, 29n, 109n, 21n, 6n, 3n); } catch (e) { rejected = /primitive|gcd/.test(e.message); }
+    return rejected;
+  });
+  t("Klein A2 pure: computed surface picture — Σ₁ ∩ Σ₂ segment ends exactly at K₁'s two punctures through Σ₂ (y = ±1.1), signs cancel, both punctures inside Σ₂", () => {
+    const d = gammaComputedData();
+    return Math.abs(d.y0 + 1.1) < 1e-9 && Math.abs(d.y1 - 1.1) < 1e-9 && Math.abs(d.len - 2.2) < 1e-9
+      && d.punctures.length === 2 && d.punctures[0].sign + d.punctures[1].sign === 0
+      && d.punctures.every(p => p.inSigma2);
+  });
+  t("DOM Klein A1/A2: presentation matrices rendered (det = t² − 3t + 1 ✓ live; Λ-side 1×1 at cited level); computed-γ figure present with honesty caption", () => {
+    const pt = $id("presMatTopo").textContent, pa = $id("presMatArith").textContent, g = $id("gammaComputed").textContent;
+    return pt.includes("tI − A") && pt.includes("t² − 3t + 1") && pt.includes("∆₄₁ ✓")
+      && pa.includes("λ = 1") && pa.includes("deg f₃₇ = λ = 1") && pa.includes("class-group tower data this app does not carry")
+      && g.includes("computed, not schematic") && g.includes("the two ± punctures");
+  });
+  t("Klein A4 pure: Chebotarev tally over the 427 unramified odd primes < 3000 — id 50, corner 47, χ-classes 109/111/110 (observed hugs 1/8,1/8,1/4,1/4,1/4)", () => {
+    const { counts, total } = chebotarevTally(3000);
+    return total === 427 && counts.id === 50 && counts.corner === 47
+      && counts["10"] === 109 && counts["01"] === 111 && counts["11"] === 110;
   });
   t("Klein C8 pure: irregularIndicesAsync chunk bookkeeping, driven synchronously across the 599-row boundary — 691 → [12, 200], equal to the synchronous twin", () => {
     let got = null, ticks = 0;
@@ -3598,7 +3892,7 @@ function runSelfTests() {
       && $id("rung3Count").textContent.includes("4 loops, each winding twice")
       && $id("rung3Count").textContent.includes("(1 − 937⁻²ˢ)⁻⁴")
       && figs.every(id => $id(id).getAttribute("role") === "img" && ($id(id).getAttribute("aria-label") || "").length > 30)
-      && $qa("#sladderBox .figcap").length === 3
+      && $qa("#sladderBox .figcap").length === 4 // three schematics + Klein A2's computed figure
       && [...$qa("#sladderBox .figcap")].every(e => e.textContent.includes("schematic"));
   });
 
@@ -3672,11 +3966,12 @@ function runSelfTests() {
       && txt.includes("Mazur") && txt.includes("Artin–Verdier") && txt.includes("Chebotarev")
       && txt.includes("It is not a functor");
   });
-  t("DOM organic: gallery spine stratified by component count — four row heads (two/three/four/contrast) and the Hopf card worked live", () => {
+  t("DOM organic: gallery spine stratified by component count — five row heads (two/three/four/five/contrast) and the Hopf card worked live", () => {
     const heads = [...$qa("#tab-zeta .zx-row-head")].map(e => e.textContent);
-    return heads.length === 4
+    return heads.length === 5
       && heads[0].includes("Two components") && heads[1].includes("Three components")
-      && heads[2].includes("Four components") && heads[3].includes("knotting")
+      && heads[2].includes("Four components") && heads[3].includes("Five components")
+      && heads[4].includes("knotting")
       && $id("hopfWorked").textContent.includes("1 loop winding twice")
       && $id("hopfWorked").textContent.includes("(1 − 13⁻²ˢ)⁻¹")
       && $id("hopfWorked").textContent.includes("(1 − 29⁻ˢ)⁻²")
@@ -3822,11 +4117,57 @@ renderKnottedPrime();
 renderK1361Worked();
 renderBorroWorked();
 renderHopfWorked();
+renderFiveWorked();
+$id("ccRun").addEventListener("click", runCertCockpit);
+runCertCockpit(); // seeded (5, 29, 109; 7, 2, 1) — computed at load like everything else
 renderQuad449Worked();
 renderB4Worked();
 initLadder();
 renderFrobenius(107n);
+renderPresMat();
+renderGammaComputed();
+$id("chebRun").addEventListener("click", renderChebTally);
 ttFocusable();
+
+/* Klein B5: deep links — #tab=zeta&open=zxK1361,zxHopf&goto=zetaK1361 (presenter choreography, one click per beat). */
+(function deepLink() {
+  const h = location.hash.replace(/^#/, "");
+  if (!h) return;
+  const params = Object.fromEntries(h.split("&").map(kv => kv.split("=").map(decodeURIComponent)));
+  if (params.tab) try { gotoTab(params.tab); } catch (e) { }
+  if (params.open) params.open.split(",").forEach(id => { const d = $id(id); if (d && d.tagName === "DETAILS") d.open = true; });
+  const target = params.goto || (params.open || "").split(",")[0];
+  if (target && $id(target)) setTimeout(() => $id(target).scrollIntoView({ block: "start" }), 60);
+})();
+
+/* Klein B6: 't' runs the suite and shows it — the closing beat, one keystroke. */
+document.addEventListener("keydown", e => {
+  if (e.key !== "t" || e.ctrlKey || e.metaKey || e.altKey) return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return;
+  $id("runTestsBtn").click();
+  $id("runTestsBtn").scrollIntoView({ block: "start" });
+});
+
+/* Klein D12: roving tabindex on the tablist — one tab stop, arrows move between tabs. */
+(function rovingTabs() {
+  const tabs = [...$qa(".tab-btn")];
+  const sync = () => tabs.forEach(b => b.tabIndex = b.classList.contains("active") ? 0 : -1);
+  sync();
+  $q("nav.tabs").addEventListener("keydown", e => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    let j = null;
+    if (e.key === "ArrowRight") j = (i + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") j = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = tabs.length - 1;
+    if (j === null) return;
+    e.preventDefault();
+    tabs[j].click(); tabs[j].focus(); sync();
+  });
+  tabs.forEach(b => b.addEventListener("click", () => setTimeout(sync, 0)));
+})();
 // R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
 const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
 const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once

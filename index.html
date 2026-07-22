@@ -237,6 +237,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> Δ<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series: f_S generates the Alexander (Fitting) ideal over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12). For ℓ ∉ S the deck group — the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} — is finite; at ℓ = 2 the totally real tower is the strictly smaller Z/4 × Z/2. Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] runs over the cyclotomic tower instead, whose deck group really is Z_ℓ but which ramifies at ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the infinite cover — a combinatorial zeta of the space: a sum over cells, reorganized multiplicatively. Milnor–Turaev: for a link exterior this Reidemeister torsion equals the Alexander polynomial up to units (for a knot, up to a t − 1 factor). Proof idea, a sketch: compute the torsion from the CW structure of a Wirtinger presentation — the twisted boundary map is literally the Alexander matrix, so the defining determinant is the polynomial; Turaev pinned down the sign and unit ambiguities. Cited: Milnor, Ann. of Math. 76 (1962); Turaev, Russian Math. Surveys 41 (1986).">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of a closed 3-manifold. It is 1 exactly when the manifold is a homology sphere. For the n-fold cyclic cover of S³ branched over a knot, Fox's formula computes it as the resultant of the Alexander polynomial with tⁿ − 1 — the Torsion orders row of the Zeta tab does exactly this for the trefoil, live.">order of H₁(M, Z)</span> — 1 iff a homology sphere</td><td class="a"><span class="tt" data-tip="The class number h = |Cl(K)|, the order of the ideal class group. It is 1 exactly when the ring of integers has unique factorization. Kummer's criterion gives the divisibility p | h(Q(ζ_p)) iff p is irregular, which this app does compute; h itself is cited, not computed — class numbers are outside this app's engine, as the Amano step 0 note also says. Cl(K) ↔ H₁(M) is the standard dictionary entry (Mazur; Morishita ch. 3).">class number h = |Cl(K)|</span> — 1 iff unique factorization</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes index the Euler factors of ζ_K exactly as closed orbits index the factors of a dynamical zeta — that much is literal. The identification of Spec F_p with a circle behind it is Mazur's analogy (the why-box below).">prime ideals</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers; χ(Frob_p) plays the role of an eigenvalue.">characters</span> of the Galois group</td></tr>
     </table>
@@ -867,6 +868,34 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="poly-demo" id="presMatArith"></div>
       </div>
     </div>
+    <div class="zx-row-head">Torsion orders <span class="rh-sub">the class number, and the one place the mirror is visibly not symmetric</span></div>
+    <div class="twocol">
+      <div class="col topo">
+        <details class="zx" id="zxCovers">
+          <summary><h2>The topological class number — branched cyclic covers of the trefoil <span class="zx-hook">— and one of them is the Poincaré sphere</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> |H₁| of a cover is the topological class number, and here it is computed from the same determinant the card opposite the figure-eight reads as a fixed-point count — one quantity, two readings.</div>
+            <div class="sub">Let M<sub>n</sub> be the n-fold cyclic cover of S³ <b>branched</b> over the trefoil. <span class="tt tt-left" data-tip="Fox's formula (Fox 1956; the classical case goes back to Weber): |H1(Mn)| = |Res(Delta(t), t^n - 1)| = the product of Delta over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed.">Fox's formula</span> gives |H₁(M<sub>n</sub>)| as the resultant of Δ with t<sup>n</sup> − 1. The trefoil is fibered with monodromy A = [[1, −1], [1, 0]], so the resultant collapses to |det(A<sup>n</sup> − I)| = |2 − tr(A<sup>n</sup>)|, and tr(A<sup>n</sup>) obeys s<sub>n</sub> = s<sub>n−1</sub> − s<sub>n−2</sub> read straight off Δ<sub>3₁</sub> = t² − t + 1. Integer arithmetic throughout — no floating point.</div>
+            <table class="symbolic" id="coversTable" aria-label="Orders of the first homology of the n-fold cyclic covers of the 3-sphere branched over the trefoil, with the Brieskorn sphere each one is."></table>
+            <div class="step" id="coversNote"></div>
+            <div class="small-note">These are the <span class="tt" data-tip="Sigma(2,3,n), the link of the singularity x^2 + y^3 + z^n = 0. The n-fold cyclic cover of S^3 branched over the trefoil is exactly this Brieskorn sphere. Cited, not computed.">Brieskorn spheres</span> Σ(2, 3, n) — and Σ(2, 3, 5), the one with |H₁| = 1, is the <span class="tt" data-tip="The Poincare homology sphere: the unique homology 3-sphere with finite non-trivial fundamental group, of order 120. A class-number-one manifold in this dictionary. Cited, not computed.">Poincaré homology sphere</span>.</div>
+            <div class="thread" id="coversThread"></div>
+          </div>
+        </details>
+      </div>
+      <div class="col arith">
+        <details class="zx" id="zxClassNo">
+          <summary><h2>The class number — and what this app can and cannot compute of it <span class="zx-hook">— h itself is cited; p | h is computed</span></h2></summary>
+          <div class="zx-body">
+            <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> Cl(K) ↔ H₁(M) is the dictionary entry; h = 1 mirrors "homology sphere". But the two sides are not equally answerable, and that asymmetry is the point of this row.</div>
+            <div class="sub">Under the standard correspondence (Mazur; Morishita ch. 3) the ideal class group Cl(K) plays the part of H₁(M, Z), so the class number h = |Cl(K)| is the arithmetic order opposite. <b>Cited, not computed:</b> class numbers are outside this app's engine — the same limit Amano step 0 hits when it needs h(Q(√5)) = 1. What this app <i>does</i> compute is a divisibility: by <span class="tt" data-tip="Kummer's criterion: p divides the class number of Q(zeta_p) exactly when p divides the numerator of one of the Bernoulli numbers B_2, B_4, ..., B_{p-3} — that is, exactly when p is irregular. The Bernoulli side is computed live in the card above; the criterion itself is cited.">Kummer's criterion</span>, p | h(Q(ζ<sub>p</sub>)) exactly when p is irregular — which is the Bernoulli computation the regular-vs-irregular card above runs live, and why 101 is flagged there.</div>
+            <div class="step" id="classNoNote"></div>
+            <div class="thread" id="classNoThread"></div>
+          </div>
+        </details>
+      </div>
+    </div>
+      <div class="caption-strip">Where the mirror stops being symmetric. Topologically we can say exactly which of these covers have class number one — those with gcd(n, 6) = 1, checked live opposite. Arithmetically, "which fields have class number one" is Gauss's class number problem: settled for imaginary quadratics only in the 1960s, and open in general. The dictionary carries the definition across; it does not carry the answer.</div>
       <div class="caption-strip">One sum, resummed as a product, twice — and the polynomial each side calls its own is that product read back. Everything earlier in this app was a coefficient of one of these.</div>
   </section>
 
@@ -3064,6 +3093,54 @@ function fig8Data() {
   return { tr, fix, orb, sumFace, eigFace, fixFace, orbFace };
 }
 
+// Trefoil branched cyclic covers. Delta_3_1 = t^2 - t + 1, so the monodromy trace
+// obeys s_n = s_{n-1} - s_{n-2} with s_0 = 2, s_1 = 1, and Fox's formula collapses to
+// |H1(M_n)| = |det(A^n - I)| = |2 - s_n|. All integers; 0 means H1 is infinite.
+const COVERS_N = 9;
+function coversData() {
+  const s = [2, 1];
+  for (let n = 2; n <= COVERS_N; n++) s.push(s[n - 1] - s[n - 2]);
+  const rows = [];
+  for (let n = 2; n <= COVERS_N; n++) {
+    const ord = Math.abs(2 - s[n]);
+    rows.push({ n, trace: s[n], ord, infinite: ord === 0, g: gcdInt(n, 6) });
+  }
+  return rows;
+}
+function gcdInt(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+function renderCovers() {
+  const rows = coversData();
+  const head = `<tr><th scope="col">n</th><th scope="col">tr(Aⁿ)</th><th scope="col">|H₁(M<sub>n</sub>)| = |2 − tr(Aⁿ)|</th><th scope="col">Σ(2, 3, n)</th><th scope="col">gcd(n, 6)</th></tr>`;
+  const body = rows.map(r => {
+    const ordCell = r.infinite
+      ? `<b>∞</b> <span class="mln">(not a rational homology sphere)</span>`
+      : `<b>${r.ord}</b>${r.ord === 1 ? ` <span class="ok">homology sphere</span>` : ""}`;
+    // Name every row (the cover IS Sigma(2,3,n)); only n = 5 gets the further
+    // identification, which is the one diffeomorphism type this app will assert.
+    const name = `Σ(2, 3, ${r.n})` + (r.n === 5 ? ' <span class="ok">= Poincaré sphere</span>' : "");
+    return `<tr><td>${r.n}</td><td>${r.trace}</td><td>${ordCell}</td><td>${name}</td><td>${r.g}</td></tr>`;
+  }).join("");
+  $id("coversTable").innerHTML = head + body;
+
+  const ones = rows.filter(r => r.ord === 1).map(r => r.n);
+  const coprime = rows.filter(r => r.g === 1).map(r => r.n);
+  const law = ones.length === coprime.length && ones.every((v, i) => v === coprime[i]);
+  $id("coversNote").innerHTML =
+    `<b>Computed over n = 2…${COVERS_N}:</b> |H₁| = 1 exactly at n = ${ones.join(", ")}, and gcd(n, 6) = 1 exactly at n = ${coprime.join(", ")} `
+    + `<span class="${law ? "ok" : "fail"}">${law ? "✓ the two lists agree" : "✗"}</span>. `
+    + `So the homology spheres among these covers are precisely those with gcd(n, 6) = 1 — a complete answer, in one line, to "which of these have class number one".`;
+  $id("coversThread").innerHTML =
+    `<b>ζ ↔ Δ</b> The order in the middle column is |det(Aⁿ − I)| — the very determinant the `
+    + `<button type="button" class="jump" onclick="gotoTab('zeta')">figure-eight card</button> above evaluates as its Lefschetz fixed-point count Fix(hⁿ). `
+    + `One determinant, two readings: a count of fixed points there, an order of a torsion group here. That is the whole content of "the zeta function knows the homology".`;
+  $id("classNoNote").innerHTML =
+    `<b>Computed here:</b> nothing new — this card's arithmetic is the divisibility p | h(Q(ζ<sub>p</sub>)) ⇔ p irregular, and the Bernoulli witness for it is already computed in the card above `
+    + `(101 is irregular at B₆₈). <b>Not computed:</b> h itself, for any field. The app says so wherever h appears.`;
+  $id("classNoThread").innerHTML =
+    `<b>ζ ↔ Δ</b> Both sides are orders of the group the zeta function's special behaviour measures — |H₁| through Fox's resultant, h through the class number formula's leading coefficient at s = 0. `
+    + `Two ingredients of that formula do <i>not</i> transport: the regulator has only a subtle analogue (Turaev's Alexander regulator), and √|d<sub>K</sub>| has none at all. Naming what fails to cross is part of reading the dictionary honestly.`;
+}
+
 function renderLefschetz() {
   const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
   const table = $id("lefschetzTable");
@@ -3207,7 +3284,7 @@ function renderKnottedPrime() {
   $id("knottedPrime").innerHTML =
     `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12): a knot's Alexander polynomial ↔ a prime's <span class="tt" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1956): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, Abh. Hamburg 20 (1956); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
     + `<div>The cast, judged at load (${ms} ms):</div>`
-    + `<table class="symbolic" id="knottedTable" aria-label="Orders of the first homology of the branched cyclic covers, comparing the unknotted and knotted arithmetic columns.">${cast.map(row).join("")}</table>`
+    + `<table class="symbolic" id="knottedTable" aria-label="The cast of primes used in this app, each judged regular or irregular by Kummer's criterion, with the Bernoulli index witnessing any irregularity.">${cast.map(row).join("")}</table>`
     + `<div><b>The jewel:</b> 101 — one of Amano's four quadruple primes — is <b>knotted</b>: the app contained a knotted prime all along, and the linking story never noticed. Independent dials: the ℓ = 2 linking tower of {5, 8081, 101, 449} and the p = 101 cyclotomic tower are different covers of different things.</div>`
     + `<div class="mln">The classical gallery, computed: ${gal.map(([p, idx]) => `${p} (${idx.map(k => `B<sub>${k}</sub>`).join(", ")})`).join(", ")}.</div>`
     + `<div class="controls"><button class="ctrl" id="check8081">check 8081</button><span class="small-note" id="verdict8081" aria-live="polite"></span></div>`;
@@ -4283,12 +4360,13 @@ function runSelfTests() {
       && txt.includes("Mazur") && txt.includes("Artin–Verdier") && txt.includes("Chebotarev")
       && txt.includes("It is not a functor");
   });
-  t("DOM organic: gallery spine stratified by component count — five row heads (two/three/four/five/contrast) and the Hopf card worked live", () => {
+  t("DOM organic: gallery spine stratified by component count — six row heads (two/three/four/five/contrast/torsion) and the Hopf card worked live", () => {
     const heads = [...$qa("#tab-zeta .zx-row-head")].map(e => e.textContent);
-    return heads.length === 5
+    return heads.length === 6
       && heads[0].includes("Two components") && heads[1].includes("Three components")
       && heads[2].includes("Four components") && heads[3].includes("Five components")
-      && heads[4].includes("knotting")
+      && heads[4].includes("knotting") && heads[5].includes("Torsion orders")
+      && $qa("#tab-zeta details.zx").length >= 12
       && $id("hopfWorked").textContent.includes("1 loop winding twice")
       && $id("hopfWorked").textContent.includes("(1 − 13⁻²ˢ)⁻¹")
       && $id("hopfWorked").textContent.includes("(1 − 29⁻ˢ)⁻²")
@@ -4414,6 +4492,39 @@ function runSelfTests() {
     return ($id("pairsStale").textContent.trim() !== "") === !boxesMatch;
   });
 
+  t("Fox–Weber: |H₁| of the trefoil's branched covers, two independent ways, and the gcd law", () => {
+    // Route 1: literal 2x2 integer matrix powering, then det(A^n - I). This never
+    // touches the trace recurrence the renderer uses.
+    const mul = (X, Y) => [[X[0][0] * Y[0][0] + X[0][1] * Y[1][0], X[0][0] * Y[0][1] + X[0][1] * Y[1][1]],
+                           [X[1][0] * Y[0][0] + X[1][1] * Y[1][0], X[1][0] * Y[0][1] + X[1][1] * Y[1][1]]];
+    const A = [[1, -1], [1, 0]];
+    const byMatrix = n => { let M = [[1, 0], [0, 1]]; for (let k = 0; k < n; k++) M = mul(M, A);
+      return Math.abs((M[0][0] - 1) * (M[1][1] - 1) - M[0][1] * M[1][0]); };
+    // Route 2: Fox–Weber as stated — the product of Δ over the n-th roots of unity,
+    // in complex floating point, which shares no arithmetic with either integer route.
+    const byRoots = n => {
+      let re = 1, im = 0;
+      for (let j = 0; j < n; j++) {
+        const th = 2 * Math.PI * j / n, c = Math.cos(th), sN = Math.sin(th);
+        // Δ(z) = z² − z + 1 at z = e^{iθ}
+        const dr = Math.cos(2 * th) - c + 1, di = Math.sin(2 * th) - sN;
+        [re, im] = [re * dr - im * di, re * di + im * dr];
+      }
+      return Math.hypot(re, im);
+    };
+    const rows = coversData();
+    if (rows.length < 8) return false;
+    for (const r of rows) {
+      if (byMatrix(r.n) !== r.ord) return false;                    // integer route agrees
+      if (Math.abs(byRoots(r.n) - r.ord) > 1e-6) return false;      // Fox–Weber agrees
+      if ((r.ord === 1) !== (gcdInt(r.n, 6) === 1)) return false;   // the gcd law
+    }
+    // and the table on screen shows those orders
+    const shown = $id("coversTable").textContent;
+    return rows.every(r => shown.includes(r.infinite ? "∞" : String(r.ord)))
+      && shown.includes("Poincaré") && $id("coversNote").textContent.includes("✓");
+  });
+
   t("DOM: no tooltip carries markup — data-tip renders as plain text via content: attr()", () => {
     // .tt::after uses content: attr(data-tip), so any <i>/<b>/<sub> inside the
     // attribute is printed literally on screen. Five tooltips shipped that way
@@ -4460,6 +4571,7 @@ renderDeltaBorGrid();
 renderQuadSteps();
 renderB4();
 renderBorroZeta();
+renderCovers();
 renderLefschetz();
 renderDedekind();
 renderKnottedPrime();

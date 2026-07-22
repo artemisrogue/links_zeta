@@ -601,7 +601,21 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="small-note" id="b4WordNote" style="min-height:2.6em;" aria-live="polite">Delete K₁, K₂, or K₃ — algebraically, set its meridian xᵢ = 1 — and the word below, ℓ₄ = [[x₁,x₂],x₃] (K₄'s longitude in Milnor's model B₄, written in the meridians x₁, x₂, x₃ of the other three), collapses to 1: the algebraic shadow of the deletion — it says the Milnor data vanish, while the sublinks' actual triviality (every 3-sublink, every pair) is the model's construction, as the honesty note below says of the drawing. Deleting K₄ is different: ℓ₄ is K₄'s own longitude, so there is no x₄ to set — the word leaves with its component. Yet the four together are inseparable.</div>
         <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
         <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
-        <div class="small-note" style="margin-top:10px;">The tower of covers, one level up — the mirror of the field tower at right, box for box:</div>
+        
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">Amano's quadruple (5, 8081, 101, 449), computed live.</div>
+        <div id="quadSteps"></div>
+        <div class="banner" id="quadBanner"></div>
+        <div class="thread" id="quadThread"></div>
+        
+      </div>
+    </div>
+
+    <div class="small-note" style="margin-top:14px;">The tower of covers, one level up, drawn against the tower of fields — box for box, the same subgroup lattice read through the Galois correspondence. Both figures start at the same height so the rows can be compared directly.</div>
+    <div class="twocol">
+      <div class="col topo">
         <svg id="quadCoverTower" width="100%" height="355" viewBox="0 0 420 350" role="img" aria-label="Tower of covers of the complement of K1 union K2 union K3: X at the bottom; three meridian double covers; two 4-fold covers through the shared component K2; two 8-sheet mod-2 Heisenberg covers H12 and H23 with deck group D4; their 32-sheet join; on top the 64-sheet cover with deck group N4 over F2 — a purely topological tower at the Milnor-model level, drawn box for box opposite the field tower at right, which it mirrors.">
 <g font-size="10.5" text-anchor="middle">
 <rect class="hasse-box cover" x="85" y="4" width="250" height="26"/>
@@ -649,15 +663,11 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="small-note" id="quadCoverCorr">The lattice of intermediate covers mirrors the subgroup lattice of the deck group — <span class="tt" data-tip="Covering-space theory, standard (cited, not computed): covers of X are governed by π₁ exactly as extensions are governed by Gal — subgroups ↔ intermediate covers, index ↔ sheet count, normal subgroups ↔ Galois covers with quotient deck group (e.g. Hatcher §1.3; Morishita chs. 2–4 runs this dictionary for knots and primes).">the Galois correspondence, both sides</span> — the same lattice as the fields opposite: only the invariant-carrying covers are drawn, exactly matching the fields kept at right.</div>
       </div>
       <div class="col arith">
-        <h2>Arithmetic</h2>
-        <div class="sub">Amano's quadruple (5, 8081, 101, 449), computed live.</div>
-        <div id="quadSteps"></div>
-        <div class="banner" id="quadBanner"></div>
-        <div class="thread" id="quadThread"></div>
         <svg id="quadTower" width="100%" height="340" viewBox="0 0 420 335"></svg>
         <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played on the <button type="button" class="jump" onclick="gotoTab('triples')">Triples tab</button>); θ lives in their <span class="tt" data-tip="The compositum of two fields: the smallest field containing both — the field-side join, mirroring the join of the two Heisenberg covers in the tower opposite.">compositum</span>, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield — so 8·8/2 = 32.</div>
       </div>
     </div>
+
     <div class="caption-strip">When the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</div>
   </section>
 
@@ -1187,6 +1197,22 @@ function mgInvOnePlusU(u) {
 }
 function mgCommutator(A, Ainv, B, Binv) { return mgMul(mgMul(A, B), mgMul(Ainv, Binv)); }
 
+function magnusTripleWithKilled(killed) {
+  // Set the deleted component's meridian to 1 (its Magnus image becomes the constant series)
+  // and re-expand l4 = [[x1,x2],x3] from scratch. Every coefficient must vanish.
+  const one = { "": 1 };
+  const M = i => (i === killed ? { ...one } : { "": 1, ...mgGen(i) });
+  const Minv = i => (i === killed ? { ...one } : mgInvOnePlusU(mgGen(i)));
+  const C12 = mgCommutator(M(1), Minv(1), M(2), Minv(2));
+  const u12 = { ...C12 }; delete u12[""];
+  return mgCommutator(C12, mgInvOnePlusU(u12), M(3), Minv(3));
+}
+function magnusCollapseReport(killed) {
+  const s4 = magnusTripleWithKilled(killed);
+  const terms = Object.keys(s4).filter(k => k !== "");
+  const full = computeMagnusTripleCommutator();
+  return { trivial: terms.length === 0, terms, before: full["1,2,3"] || 0 };
+}
 function computeMagnusTripleCommutator() {
   const X1 = mgGen(1), X2 = mgGen(2), X3 = mgGen(3);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 }, M3 = { "": 1, ...X3 };
@@ -1417,8 +1443,12 @@ $qa(".tab-btn").forEach(btn => {
 });
 
 $qa(".why-toggle").forEach(btn => {
+  // expose disclosure state and target (the pattern #fsTooltip already uses)
+  btn.setAttribute("aria-controls", btn.dataset.why);
+  btn.setAttribute("aria-expanded", String($id(btn.dataset.why).classList.contains("open")));
   btn.addEventListener("click", () => {
-    $id(btn.dataset.why).classList.toggle("open");
+    const open = $id(btn.dataset.why).classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
   });
 });
 
@@ -1664,6 +1694,7 @@ $id("computeLegendre").addEventListener("click", () => {
   }
 });
 function setPairsTopology(linked) {
+  { const n = $id("pairsSyncNote"); if (n) n.textContent = ""; } // any deliberate change of the drawing retires the not-syncing note
   pairsState.linked = linked;
   pairsState.liftOffset = 0;
   $id("pairsLiftNote").textContent = " ";
@@ -2546,8 +2577,16 @@ const B4W_DELETE_TEXT = {
 const B4W_HOME_TEXT = $id("b4WordNote").textContent; // pins the static note
 $id("deleteBtn").addEventListener("click", () => {
   b4wDeleted = B4W_SELMAP[$id("deleteSelect").value];
-  $id("b4WordNote").textContent =
-    B4W_DELETE_TEXT[b4wDeleted] + " The figure's documented property: “cutting any loop releases the other three.”";
+  const idx = { G: 1, Y: 2, R: 3 }[b4wDeleted]; // B = K4 is the component the word belongs to, not a letter in it
+  let collapse = "";
+  if (idx) { // perform the collapse the note promises rather than asserting it
+    const rep = magnusCollapseReport(idx);
+    collapse = ` <span class="mln"><b>Computed just now:</b> set x<sub>${idx}</sub> = 1 in ℓ₄ = [[x₁,x₂],x₃] and re-expand from scratch — the X₁X₂X₃ coefficient goes <b>${rep.before} → 0</b>, and every other term vanishes with it (${rep.terms.length} non-constant terms survive), so ℓ₄ ≡ 1 <span class="${rep.trivial ? "ok" : "fail"}">${rep.trivial ? "✓" : "✗"}</span>. That is the Brunnian collapse in the algebra: K₄'s longitude stops being a commutator the moment any one of its three letters dies.</span>`;
+  } else if (b4wDeleted === "B") {
+    collapse = ` <span class="mln"><b>Note:</b> K₄ is the component ℓ₄ <i>is the longitude of</i>, so deleting it removes the word rather than a letter in it. What is left is the 3-component sublink, and Milnor's link is Brunnian: every proper sublink is the unlink, so there is nothing left to measure.</span>`;
+  }
+  $id("b4WordNote").innerHTML =
+    B4W_DELETE_TEXT[b4wDeleted] + " The figure's documented property: “cutting any loop releases the other three.”" + collapse;
   renderB4();
 });
 $id("restoreBtn").addEventListener("click", () => {
@@ -3249,7 +3288,7 @@ function withId(el, id) { el.id = id; return el; }
 $qa(".arrow-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const idx = btn.dataset.arrow;
-    $qa("table.mat td").forEach(td => td.classList.remove("lit"));
+    $qa("#matN3 td, #matN4 td").forEach(td => td.classList.remove("lit")); // scoped: N2's chi cell is a PERMANENT marker built at load, not a transient highlight
     const note = $id("ladderNote");
     if (idx === "0") {
       const td = $q("#matN3 td[data-pos='0,2']");

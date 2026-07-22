@@ -836,7 +836,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <summary><h2>Contrast: what knotting adds — the figure-eight knot <span class="zx-hook">— eigenvalues pushed off 1: the spectral dial</span></h2></summary>
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> knotting moves the spectrum — dilatation φ², entropy log φ² &gt; 0 — and its arithmetic mirror is the irregular prime in the card opposite, whose Iwasawa polynomial gains genuine degree. Linking touches neither spectrum.</div>
-            <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the regular-vs-irregular card opposite.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent Borromean cards in the three-component row above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
+            <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the regular-vs-irregular card opposite.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent Borromean cards in the three-component row above. Both H₁-faces of ζ<sub>h</sub> and the orbit face (Artin–Mazur, = (1−t)²·ζ<sub>h</sub>) are verified below, coefficient by coefficient.</div>
             <table class="symbolic" id="lefschetzTable" aria-label="Lefschetz fixed-point count for the figure-eight (4₁) monodromy: trace, fixed points, and primitive orbits by iterate."></table>
             <div class="step" id="lefschetzFaces"></div>
             <div class="small-note"><span class="tt" data-tip="Milnor (1968): for a fibered link the infinite cyclic cover is F × ℝ, so Δ(t) ≐ det(tI − h₁∗) — the Alexander polynomial is the characteristic polynomial of the monodromy. The determinant on this line is that theorem, instantiated and computed.">Milnor's theorem</span>, live: det(tI − A) = t² − 3t + 1 = Δ<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
@@ -3077,10 +3077,10 @@ function renderLefschetz() {
     `<div class="head">Two zetas, three identities, coefficient by coefficient (degrees 0…${FIG8_K}):</div>
      <div class="eq">${rows[0][0]} = ${fmt(sumFace)}<br>${rows[1][0]} = ${fmt(eigFace)}
        &nbsp;<span class="${eq1 ? "ok" : "fail"}">${eq1 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues: the two faces of ζ_h (the coefficients are F₂, F₄, F₆, …)</span><br>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues: the two faces of ζ<sub>h</sub> (the coefficients are F₂, F₄, F₆, …)</span><br>
       ${rows2[0][0]} = ${fmt(fixFace)}<br>${rows2[1][0]} = ${fmt(orbFace)}
        &nbsp;<span class="${eq2 ? "ok" : "fail"}">${eq2 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta (this product runs over periods d, with o_d the table's primitive-orbit count; grouping the orbit-indexed face-3 product ∏<sub>γ</sub> by period |γ| = d — the letter γ indexing orbits here, not the Triples curve — gives exactly one factor (1 − t<sup>d</sup>)<sup>−o<sub>d</sub></sup> per period)</span><br>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta (this product runs over periods d, with o<sub>d</sub> the table's primitive-orbit count; grouping the orbit-indexed face-3 product ∏<sub>γ</sub> by period |γ| = d — the letter γ indexing orbits here, not the Triples curve — gives exactly one factor (1 − t<sup>d</sup>)<sup>−o<sub>d</sub></sup> per period)</span><br>
       (1−t)²·(H₁ face) = ${fmt(cross)}
        &nbsp;<span class="${eq3 ? "ok" : "fail"}">${eq3 ? "✓ equals the orbit face" : "✗"}</span>
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
@@ -3139,7 +3139,7 @@ function renderDedekind() {
     [29n, null, null],
   ];
   const table = $id("dedekindFactors");
-  table.innerHTML = `<tr><th scope="col">p</th><th scope="col">χ(p) = (5/p), live</th><th scope="col">Euler factor of ζ_K at p</th></tr>` + rows.map(([p, note, factor]) => {
+  table.innerHTML = `<tr><th scope="col">p</th><th scope="col">χ(p) = (5/p), live</th><th scope="col">Euler factor of ζ<sub>K</sub> at p</th></tr>` + rows.map(([p, note, factor]) => {
     if (note !== null) return `<tr><td class="k">${p}</td><td class="v">0</td><td class="v">${factor} <span style="color:var(--muted);font-size:.8rem;">${note}</span></td></tr>`;
     const c = legendre(5n, p);
     const f = c === 1 ? `(1 − ${p}⁻ˢ)⁻² <span style="color:var(--muted);font-size:.8rem;">split: two primes above ${p} — unlinked</span>`

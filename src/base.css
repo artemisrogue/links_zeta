@@ -153,6 +153,21 @@ svg text.acc{font-family:Cambria,"Times New Roman",serif;}
 .tt.tt-open::after{pointer-events:auto;overflow-y:auto;max-height:55vh;}
 .tt.tt-below:hover::after,.tt.tt-below:focus::after,.tt.tt-below.tt-open::after{bottom:auto;top:calc(100% + 7px);}
 .tt.tt-below:hover::before,.tt.tt-below:focus::before,.tt.tt-below.tt-open::before{bottom:auto;top:calc(100% + 1px);border-top-color:transparent;border-bottom-color:#2b2b25;}
+/* .tt-katex: an opt-in tooltip variant that can host real typeset math (KaTeX), not just
+   plain text -- a ::after pseudo-element can only ever hold a text string via content:attr(),
+   so this needs a real child node. Only takes effect once .katex-on is added by JS, which only
+   happens after KaTeX has actually loaded (see shared/tooltips.js ttKatexUpgrade); until then
+   a .tt-katex element is pixel-identical to a plain .tt, using the rules above unchanged. */
+.tt.tt-katex.katex-on::after,.tt.tt-katex.katex-on::before{content:none;}
+.tt-katex .tt-bubble{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 7px);width:250px;background:#2b2b25;color:#f5f2e8;font-size:.78rem;font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;padding:8px 11px;border-radius:5px;z-index:50;line-height:1.4;text-align:left;white-space:normal;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.tt-katex .tt-bubble::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-6px;border:6px solid transparent;border-top-color:#2b2b25;}
+.tt.tt-katex.katex-on:hover>.tt-bubble,.tt.tt-katex.katex-on:focus>.tt-bubble,.tt.tt-katex.katex-on.tt-open>.tt-bubble{display:block;}
+.tt.tt-katex.katex-on.tt-open>.tt-bubble{pointer-events:auto;overflow-y:auto;max-height:55vh;}
+.tt.tt-katex.tt-left .tt-bubble{left:0;transform:none;}
+.tt.tt-katex.tt-right .tt-bubble{left:auto;right:0;transform:none;}
+.tt.tt-katex.tt-below .tt-bubble{bottom:auto;top:calc(100% + 7px);}
+.tt.tt-katex.tt-below .tt-bubble::before{bottom:auto;top:-6px;border-top-color:transparent;border-bottom-color:#2b2b25;}
+.tt-bubble .katex{font-size:1.05em;}
 .why-box{margin-top:10px;font-size:.88rem;padding:10px 14px;border-left:3px solid var(--line);background:#fafaf6;display:none;}
 .why-box.open{display:block;}
 .why-toggle{font-size:.8rem;color:var(--muted);cursor:pointer;text-decoration:underline dotted;background:none;border:none;font-family:inherit;}

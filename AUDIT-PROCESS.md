@@ -103,6 +103,26 @@ ones). When you add one:
   re-read the *whole* sentence, not just the diff — and where the app draws a figure showing
   the same fact (a tower diagram, a table), cross-check the fixed sentence against the figure
   before shipping.
+- **CSS pseudo-elements (`::after`/`::before`) can't host injected child DOM.** The `.tt`
+  tooltip's box is `content: attr(data-tip)` on a `::after` — pure text, by construction. Real
+  rendered content (KaTeX output, or anything else needing actual child elements) needs a real
+  DOM node, not a pseudo-element. `.tt-katex` (added in the KaTeX pilot) works around this by
+  adding a genuine child `<span class="tt-bubble">` instead, gated behind a `.katex-on` class
+  that's only added once KaTeX has actually rendered into it — see `shared/tooltips.js`
+  `ttKatexUpgrade()`.
+- **LaTeX inside a JS template literal needs every backslash doubled.** `\bigl`, `\Delta`,
+  `\mathbb{Z}` etc. all start with `\`, and JS string/template-literal escaping treats some of
+  those as real escape sequences (`\b` is backspace) and silently drops the backslash on
+  unrecognized ones — either way the LaTeX corrupts silently, no error. Static HTML attributes
+  (`data-latex="..."` in a `.html` file) don't have this problem; only LaTeX embedded in a
+  `.js` file's template-literal string does. Verified end-to-end (not just by inspection) by an
+  independent fact-check agent tracing the actual runtime string KaTeX receives.
+- **Two tooltips can share the exact same visible label text across different tabs.** Both the
+  Dictionary tab and the Zeta tab have a `.tt` reading "Iwasawa polynomial" (different
+  `data-tip`, same label). A `querySelector`/`find` keyed on visible text alone will silently
+  grab whichever one is first in DOM order — usually the wrong one if you wanted a specific
+  tab's copy. Scope the query to the tab's `<section>` (e.g. `#tab-zeta .tt`), not the whole
+  document, whenever text content isn't provably unique.
 
 ## Verification checklist for any fix in this project
 

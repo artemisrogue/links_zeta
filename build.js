@@ -30,6 +30,7 @@ const tabSections = TAB_ORDER.map((t) => trimTrailingNewline(read("tabs", `${t}.
 const scriptParts = [
   read("shared", "utils.js"),
   read("shared", "tooltips.js"),
+  read("shared", "katex-loader.js"),
   ...TAB_ORDER.map((t) => read("tabs", `${t}.js`)),
   read("shared", "boot.js"),
   read("shared", "selftest.js"),

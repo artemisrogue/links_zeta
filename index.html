@@ -160,6 +160,21 @@ svg text.acc{font-family:Cambria,"Times New Roman",serif;}
 .tt.tt-open::after{pointer-events:auto;overflow-y:auto;max-height:55vh;}
 .tt.tt-below:hover::after,.tt.tt-below:focus::after,.tt.tt-below.tt-open::after{bottom:auto;top:calc(100% + 7px);}
 .tt.tt-below:hover::before,.tt.tt-below:focus::before,.tt.tt-below.tt-open::before{bottom:auto;top:calc(100% + 1px);border-top-color:transparent;border-bottom-color:#2b2b25;}
+/* .tt-katex: an opt-in tooltip variant that can host real typeset math (KaTeX), not just
+   plain text -- a ::after pseudo-element can only ever hold a text string via content:attr(),
+   so this needs a real child node. Only takes effect once .katex-on is added by JS, which only
+   happens after KaTeX has actually loaded (see shared/tooltips.js ttKatexUpgrade); until then
+   a .tt-katex element is pixel-identical to a plain .tt, using the rules above unchanged. */
+.tt.tt-katex.katex-on::after,.tt.tt-katex.katex-on::before{content:none;}
+.tt-katex .tt-bubble{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 7px);width:250px;background:#2b2b25;color:#f5f2e8;font-size:.78rem;font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;padding:8px 11px;border-radius:5px;z-index:50;line-height:1.4;text-align:left;white-space:normal;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.tt-katex .tt-bubble::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-6px;border:6px solid transparent;border-top-color:#2b2b25;}
+.tt.tt-katex.katex-on:hover>.tt-bubble,.tt.tt-katex.katex-on:focus>.tt-bubble,.tt.tt-katex.katex-on.tt-open>.tt-bubble{display:block;}
+.tt.tt-katex.katex-on.tt-open>.tt-bubble{pointer-events:auto;overflow-y:auto;max-height:55vh;}
+.tt.tt-katex.tt-left .tt-bubble{left:0;transform:none;}
+.tt.tt-katex.tt-right .tt-bubble{left:auto;right:0;transform:none;}
+.tt.tt-katex.tt-below .tt-bubble{bottom:auto;top:calc(100% + 7px);}
+.tt.tt-katex.tt-below .tt-bubble::before{bottom:auto;top:-6px;border-top-color:transparent;border-bottom-color:#2b2b25;}
+.tt-bubble .katex{font-size:1.05em;}
 .why-box{margin-top:10px;font-size:.88rem;padding:10px 14px;border-left:3px solid var(--line);background:#fafaf6;display:none;}
 .why-box.open{display:block;}
 .why-toggle{font-size:.8rem;color:var(--muted);cursor:pointer;text-decoration:underline dotted;background:none;border:none;font-family:inherit;}
@@ -875,7 +890,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <summary><h2>The topological class number — branched cyclic covers of the trefoil <span class="zx-hook">— and one of them is the Poincaré sphere</span></h2></summary>
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> |H₁| of a cover is the topological class number, and here it is computed from the same determinant the card opposite the figure-eight reads as a fixed-point count — one quantity, two readings.</div>
-            <div class="sub">Let M<sub>n</sub> be the n-fold cyclic cover of S³ <b>branched</b> over the trefoil. <span class="tt tt-left" data-tip="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): |H1(Mn)| = |Res(Delta(t), t^n - 1)| = the product of Delta over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed.">Fox's formula</span> gives |H₁(M<sub>n</sub>)| as the resultant of Δ with t<sup>n</sup> − 1. The trefoil is fibered with monodromy A = [[1, −1], [1, 0]], so the resultant collapses to |det(A<sup>n</sup> − I)| = |2 − tr(A<sup>n</sup>)|, and tr(A<sup>n</sup>) obeys s<sub>n</sub> = s<sub>n−1</sub> − s<sub>n−2</sub> read straight off Δ<sub>3₁</sub> = t² − t + 1. Integer arithmetic throughout — no floating point.</div>
+            <div class="sub">Let M<sub>n</sub> be the n-fold cyclic cover of S³ <b>branched</b> over the trefoil. <span class="tt tt-left tt-katex" data-tip="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): |H1(Mn)| = |Res(Delta(t), t^n - 1)| = the product of Delta over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed." data-latex-html="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): <span class='katex-frag' data-latex='\bigl|H_1(M_n)\bigr| \;=\; \bigl|\operatorname{Res}\bigl(\Delta(t),\, t^n-1\bigr)\bigr|'>|H1(Mn)| = |Res(Delta(t), t^n - 1)|</span> = the product of &Delta; over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed.">Fox's formula</span> gives |H₁(M<sub>n</sub>)| as the resultant of Δ with t<sup>n</sup> − 1. The trefoil is fibered with monodromy A = [[1, −1], [1, 0]], so the resultant collapses to |det(A<sup>n</sup> − I)| = |2 − tr(A<sup>n</sup>)|, and tr(A<sup>n</sup>) obeys s<sub>n</sub> = s<sub>n−1</sub> − s<sub>n−2</sub> read straight off Δ<sub>3₁</sub> = t² − t + 1. Integer arithmetic throughout — no floating point.</div>
             <table class="symbolic" id="coversTable" aria-label="Orders of the first homology of the n-fold cyclic covers of the 3-sphere branched over the trefoil, with the Brieskorn manifold Sigma(2,3,n) each one is — a homology sphere exactly when gcd(n,6) = 1."></table>
             <div class="step" id="coversNote"></div>
             <div class="small-note">These are the <span class="tt" data-tip="Sigma(2,3,n), the link of the singularity x^2 + y^3 + z^n = 0. The n-fold cyclic cover of S^3 branched over the trefoil is exactly this Brieskorn manifold. It is a homology SPHERE only when gcd(n,6) = 1, i.e. when 2, 3 and n are pairwise coprime — which is the law computed above. Cited, not computed.">Brieskorn manifolds</span> Σ(2, 3, n) — homology spheres exactly at the gcd(n, 6) = 1 rows, which here are n = 5 and n = 7. Of those, Σ(2, 3, 5) is the <span class="tt" data-tip="The Poincare homology sphere: the unique homology 3-sphere with finite non-trivial fundamental group, of order 120. A class-number-one manifold in this dictionary. Cited, not computed.">Poincaré homology sphere</span>.</div>
@@ -1463,6 +1478,57 @@ document.addEventListener("keydown", e => {
   const t = e.target.closest ? e.target.closest(".tt") : null;
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
+
+// Upgrades .tt-katex tooltips to real typeset math. The caller (katex-loader.js)
+// only calls this once KaTeX has actually loaded, but the guard below is repeated
+// here too -- this function must be unconditionally safe to call, not just safe
+// when called correctly, since a .tt-katex element with no .katex-on class is
+// byte-for-byte what the CSS already renders for a plain .tt, off data-tip --
+// degrade by omission, not by a separate fallback code path that could itself
+// have a bug.
+function ttKatexUpgrade() {
+  if (typeof katex === "undefined") return;
+  $qa(".tt-katex").forEach(t => {
+    if (t.classList.contains("katex-on")) return; // idempotent
+    const html = t.getAttribute("data-latex-html");
+    if (!html) return;
+    const bubble = $el("span");
+    bubble.className = "tt-bubble";
+    bubble.setAttribute("aria-hidden", "true"); // ttAnnounce still reads plain data-tip for AT
+    bubble.innerHTML = html;
+    t.appendChild(bubble);
+    bubble.querySelectorAll(".katex-frag").forEach(frag => {
+      const src = frag.getAttribute("data-latex");
+      if (src) katex.render(src, frag, { throwOnError: false });
+    });
+    t.classList.add("katex-on");
+  });
+}
+
+/* Loads KaTeX from CDN for the .tt-katex tooltip variant, mirroring the three.js
+   loader pattern (see tabs/triples.js loadThree): unpinned CDN fetch, onload gates
+   on the library object actually existing (a captive-portal or wrong-content 200
+   still fires onload), onerror just leaves the flag unset. No fallback renderer is
+   needed here the way three.js has one -- .tt-katex tooltips already degrade to a
+   plain .tt (data-tip only) by simply never calling ttKatexUpgrade(). */
+let katexLoaded = false, katexFailed = false;
+
+(function loadKatex() {
+  const link = $el("link");
+  link.rel = "stylesheet";
+  link.href = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css";
+  document.head.appendChild(link);
+
+  const s = $el("script");
+  s.src = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js";
+  s.onload = () => {
+    katexLoaded = typeof katex !== "undefined";
+    katexFailed = !katexLoaded;
+    if (katexLoaded) ttKatexUpgrade();
+  };
+  s.onerror = () => { katexFailed = true; };
+  document.head.appendChild(s);
+})();
 
 // (no dedicated JS for this tab)
 
@@ -3354,7 +3420,7 @@ function renderKnottedPrime() {
     ? `regular — <span style="color:var(--good);">unknotted</span>: ${p - 3 <= 2 ? "B₂" : `B₂, B₄, …, B<sub>${p - 3}</sub> all`} ≢ 0 (mod ${p}); trivial Iwasawa polynomial, λ = 0`
     : `<b>irregular — <span style="color:var(--arith);">knotted</span></b>: ${idx.map(k => `B<sub>${k}</sub> ≡ 0 (mod ${p})`).join(", ")}`}</td></tr>`;
   $id("knottedPrime").innerHTML =
-    `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12, 1st ed.): a knot's Alexander polynomial ↔ a prime's <span class="tt" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1959): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, On Γ-extensions of algebraic number fields, Bull. Amer. Math. Soc. 65 (1959), 183–226 (the 1956 Hamburg note under his name is a different, unrelated result); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
+    `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12, 1st ed.): a knot's Alexander polynomial ↔ a prime's <span class="tt tt-katex" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower." data-latex-html="Iwasawa's own characteristic polynomial over <span class='katex-frag' data-latex='\\Lambda = \\mathbb{Z}_p[[T]]'>Λ = Z_p[[T]]</span> — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1959): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, On Γ-extensions of algebraic number fields, Bull. Amer. Math. Soc. 65 (1959), 183–226 (the 1956 Hamburg note under his name is a different, unrelated result); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
     + `<div>The cast, judged at load (${ms} ms):</div>`
     + `<table class="symbolic" id="knottedTable" aria-label="The cast of primes used in this app, each judged regular or irregular by Kummer's criterion, with the Bernoulli index witnessing any irregularity.">${cast.map(row).join("")}</table>`
     + `<div><b>The jewel:</b> 101 — one of Amano's four quadruple primes — is <b>knotted</b>: the app contained a knotted prime all along, and the linking story never noticed. Independent dials: the ℓ = 2 linking tower of {5, 8081, 101, 449} and the p = 101 cyclotomic tower are different covers of different things.</div>`
@@ -4911,6 +4977,54 @@ function runSelfTests() {
     return editionsStated >= 6
       && scope.includes("boundary link when its components bound pairwise-disjoint Seifert surfaces (the term is Smythe's, 1966)")
       && noBareChapterCite;
+  });
+
+  t("DOM KaTeX: .tt-katex degrades to a plain .tt (no upgrade, no new DOM) when KaTeX is unavailable", () => {
+    // The honesty guarantee is structural, not a separate fallback code path: without
+    // .katex-on, none of the .tt-katex CSS rules apply and the element renders exactly
+    // like a plain .tt off its untouched data-tip, via content: attr() as always.
+    const saved = window.katex;
+    const probe = $el("span");
+    probe.className = "tt tt-katex";
+    probe.setAttribute("data-tip", "plain fallback text");
+    probe.setAttribute("data-latex-html", "plain fallback text <span class='katex-frag' data-latex='x'>x</span>");
+    probe.style.cssText = "position:absolute;left:-9999px;";
+    try {
+      window.katex = undefined;
+      document.body.appendChild(probe);
+      ttKatexUpgrade();
+      return !probe.classList.contains("katex-on") && probe.children.length === 0;
+    } finally {
+      probe.remove();
+      window.katex = saved;
+    }
+  });
+
+  t("DOM KaTeX: pilot tooltips (Fox's formula, Iwasawa polynomial) render real typeset math when KaTeX loads", () => {
+    if (typeof katex === "undefined") return true; // network-dependent; only assert what actually loaded
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 2
+      && pilots.every(el => el.classList.contains("katex-on"))
+      && pilots.every(el => el.querySelector(".tt-bubble .katex"));
+  });
+
+  t("DOM KaTeX: pilot tooltips keep their exact plain-text data-tip fallback unchanged (Fox's formula, Iwasawa polynomial)", () => {
+    const pilots = [...$qa(".tt-katex")];
+    const tips = pilots.map(el => el.getAttribute("data-tip") || "");
+    return pilots.length === 2
+      && tips.some(v => v.includes("|H1(Mn)| = |Res(Delta(t), t^n - 1)|"))
+      && tips.some(v => v.includes("Λ = Z_p[[T]]"));
+  });
+
+  t("DOM KaTeX: every .tt-katex data-latex-html carries at least one well-formed katex-frag with LaTeX source", () => {
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 2 && pilots.every(el => {
+      const html = el.getAttribute("data-latex-html") || "";
+      const tmp = $el("div");
+      tmp.innerHTML = html;
+      const frags = [...tmp.querySelectorAll(".katex-frag")];
+      return frags.length >= 1 && frags.every(f => (f.getAttribute("data-latex") || "").length > 0);
+    });
   });
 
   const list = $id("testList");

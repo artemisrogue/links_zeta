@@ -71,3 +71,29 @@ document.addEventListener("keydown", e => {
   const t = e.target.closest ? e.target.closest(".tt") : null;
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
+
+// Upgrades .tt-katex tooltips to real typeset math. The caller (katex-loader.js)
+// only calls this once KaTeX has actually loaded, but the guard below is repeated
+// here too -- this function must be unconditionally safe to call, not just safe
+// when called correctly, since a .tt-katex element with no .katex-on class is
+// byte-for-byte what the CSS already renders for a plain .tt, off data-tip --
+// degrade by omission, not by a separate fallback code path that could itself
+// have a bug.
+function ttKatexUpgrade() {
+  if (typeof katex === "undefined") return;
+  $qa(".tt-katex").forEach(t => {
+    if (t.classList.contains("katex-on")) return; // idempotent
+    const html = t.getAttribute("data-latex-html");
+    if (!html) return;
+    const bubble = $el("span");
+    bubble.className = "tt-bubble";
+    bubble.setAttribute("aria-hidden", "true"); // ttAnnounce still reads plain data-tip for AT
+    bubble.innerHTML = html;
+    t.appendChild(bubble);
+    bubble.querySelectorAll(".katex-frag").forEach(frag => {
+      const src = frag.getAttribute("data-latex");
+      if (src) katex.render(src, frag, { throwOnError: false });
+    });
+    t.classList.add("katex-on");
+  });
+}

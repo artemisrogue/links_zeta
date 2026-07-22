@@ -945,6 +945,54 @@ function runSelfTests() {
       && noBareChapterCite;
   });
 
+  t("DOM KaTeX: .tt-katex degrades to a plain .tt (no upgrade, no new DOM) when KaTeX is unavailable", () => {
+    // The honesty guarantee is structural, not a separate fallback code path: without
+    // .katex-on, none of the .tt-katex CSS rules apply and the element renders exactly
+    // like a plain .tt off its untouched data-tip, via content: attr() as always.
+    const saved = window.katex;
+    const probe = $el("span");
+    probe.className = "tt tt-katex";
+    probe.setAttribute("data-tip", "plain fallback text");
+    probe.setAttribute("data-latex-html", "plain fallback text <span class='katex-frag' data-latex='x'>x</span>");
+    probe.style.cssText = "position:absolute;left:-9999px;";
+    try {
+      window.katex = undefined;
+      document.body.appendChild(probe);
+      ttKatexUpgrade();
+      return !probe.classList.contains("katex-on") && probe.children.length === 0;
+    } finally {
+      probe.remove();
+      window.katex = saved;
+    }
+  });
+
+  t("DOM KaTeX: pilot tooltips (Fox's formula, Iwasawa polynomial) render real typeset math when KaTeX loads", () => {
+    if (typeof katex === "undefined") return true; // network-dependent; only assert what actually loaded
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 2
+      && pilots.every(el => el.classList.contains("katex-on"))
+      && pilots.every(el => el.querySelector(".tt-bubble .katex"));
+  });
+
+  t("DOM KaTeX: pilot tooltips keep their exact plain-text data-tip fallback unchanged (Fox's formula, Iwasawa polynomial)", () => {
+    const pilots = [...$qa(".tt-katex")];
+    const tips = pilots.map(el => el.getAttribute("data-tip") || "");
+    return pilots.length === 2
+      && tips.some(v => v.includes("|H1(Mn)| = |Res(Delta(t), t^n - 1)|"))
+      && tips.some(v => v.includes("Λ = Z_p[[T]]"));
+  });
+
+  t("DOM KaTeX: every .tt-katex data-latex-html carries at least one well-formed katex-frag with LaTeX source", () => {
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 2 && pilots.every(el => {
+      const html = el.getAttribute("data-latex-html") || "";
+      const tmp = $el("div");
+      tmp.innerHTML = html;
+      const frags = [...tmp.querySelectorAll(".katex-frag")];
+      return frags.length >= 1 && frags.every(f => (f.getAttribute("data-latex") || "").length > 0);
+    });
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {

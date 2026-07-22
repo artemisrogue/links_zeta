@@ -241,7 +241,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers; χ(Frob_p) plays the role of an eigenvalue.">characters</span> of the Galois group</td></tr>
     </table>
 
-    <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. The taming does not propagate up the tower — the why-box below spells out the S ∪ {∞} convention. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so at <i>this</i> level well-definedness is automatic on the arithmetic side. The asymmetry does not survive the climb: one rung up, the Rédei symbol buys its well-definedness with a normalization condition on the certificate, and at the quadruple level with a positivity condition — the two rejection taxonomies the Triples and Quadruples tabs put on screen.</div>
+    <div class="small-note">The congruence p ≡ 1 (mod 4) tames ramification at 2 and ∞ in the quadratic resolvents — it plays the role of orientability. The taming does not propagate up the tower — the why-box below spells out the S ∪ {∞} convention. One asymmetry worth noting: a knot bounds many Seifert surfaces and every construction must be checked independent of the choice; the quadratic resolvent is unique, so at <i>this</i> level well-definedness is automatic on the arithmetic side. The asymmetry does not survive the climb: one rung up, the Rédei symbol buys its well-definedness with a normalization condition on the certificate, and at the quadruple level with a positivity condition — the rejection taxonomy the Triples cockpit puts on screen, and the positivity check step 3 of Quadruples runs live.</div>
     <button class="why-toggle" data-why="whyFS">Why is the arithmetic deck group finite? (the f<sub>S</sub> asymmetry)</button>
     <div class="why-box" id="whyFS">Over Q there is no rank-r tower mirroring the knot side's Z<sup>r</sup>-cover. For ℓ ∉ S, the Galois group of the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} is ∏ᵢ Z/ℓ<sup>eᵢ</sup> with eᵢ = v_ℓ(pᵢ − 1) — <b>finite</b>; for S = {13, 61}, ℓ = 2 it is Z/4 × Z/4. The ∪ {∞} is a convention that must be said, and it bites exactly at ℓ = 2: complex conjugation lands on the order-2 element (2,2), so the totally real (∞-unramified) tower is the strictly smaller Z/4 × Z/2 — p ≡ 1 (mod 4) tames ∞ for the resolvent Q(√p) only, not higher (the quartic subfield of Q(ζ₁₃) is already imaginary). So f<sub>S</sub> lives over the finite deck group's ring — Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed — while Iwasawa's own Λ = Z_ℓ[[T]] series runs over the cyclotomic tower, whose deck group really is Z_ℓ, but which is ramified at ℓ (Morishita, Knots and Primes, ch. 9–12).</div>
 
@@ -282,6 +282,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <button class="ctrl primary" id="computeLegendre">Compute</button>
         </div>
         <div class="warn" id="pairsWarn" role="status">&nbsp;</div>
+        <div class="small-note" id="pairsStale" aria-live="polite" style="color:var(--bad);min-height:1em;"></div>
         <table class="symbolic" id="legendreTable" aria-label="Legendre symbol (p/q) evaluated by Euler's criterion, with the intermediate power residue."></table>
         <div class="banner" id="pairsBanner" aria-live="polite"></div>
         <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
@@ -467,7 +468,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 
     <div class="caption-strip" style="margin-top:10px;">each pair unlinked; the triple inseparable; μ̄(123) = ±1.</div>
     <button class="why-toggle" data-why="whyMu">How is μ̄(123) defined? (intersect first, then count)</button>
-    <div class="why-box" id="whyMu">Because every pairwise lk = 0, each Seifert surface Σᵢ can be pushed off the other two <i>components</i> — the punctures come in cancelling pairs, so they tube away. Note what this does and does not give: Σᵢ misses the other <i>curves</i>, not the other <i>surfaces</i>. Making Σ₁ and Σ₂ themselves disjoint would make the link a <span class="tt" data-tip="A link is a boundary link when its components bound pairwise-disjoint Seifert surfaces. Strictly stronger than all pairwise lk = 0: the Borromean rings have every lk = 0 and are not a boundary link. Boundary links have all Milnor invariants zero (Milnor 1957), so the Borromean rings' μ̄(123) = ±1 certifies the failure.">boundary link</span>, which the Borromean rings are not — and that failure is the whole content of this rung. Then Σ₁ ∩ Σ₂ has no boundary at all — it survives as a <b>closed curve</b> — and its intersection with Σ₃, rather than its boundary, becomes the well-defined count: μ̄(123) = Σ sign(p) over p ∈ (Σ₁∩Σ₂) ∩ Σ₃, independent of all choices — Cochran 1990; Mellor–Melvin 2003; mod 2, Morishita ch. 4. (Milnor 1957 defines μ̄ instead as a Magnus coefficient of the longitude; that these two readings agree is exactly what those papers prove — and this app computes both.) The independence holds because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.</div>
+    <div class="why-box" id="whyMu">Because every pairwise lk = 0, each Seifert surface Σᵢ can be pushed off the other two <i>components</i> — the punctures come in cancelling pairs, so they tube away. Note what this does and does not give: Σᵢ misses the other <i>curves</i>, not the other <i>surfaces</i>. Making Σ₁ and Σ₂ disjoint <i>as well</i> — while both still miss K₃ — would force μ̄(123) = 0, and the Borromean rings have μ̄(123) = ±1. That failure is the whole content of this rung. (Pairwise-disjoint surfaces for <i>all</i> components would make it a <span class="tt" data-tip="A link is a boundary link when its components bound pairwise-disjoint Seifert surfaces. Strictly stronger than all pairwise lk = 0: the Borromean rings have every lk = 0 and are not a boundary link. Boundary links have all Milnor invariants zero (Milnor 1957), so the Borromean rings' μ̄(123) = ±1 certifies the failure.">boundary link</span>, and those have every Milnor invariant zero — but that is a condition on all three at once, not on one pair.) Then Σ₁ ∩ Σ₂ has no boundary at all — it survives as a <b>closed curve</b> — and its intersection with Σ₃, rather than its boundary, becomes the well-defined count: μ̄(123) = Σ sign(p) over p ∈ (Σ₁∩Σ₂) ∩ Σ₃, independent of all choices — Cochran 1990; Mellor–Melvin 2003; mod 2, Morishita ch. 4. (Milnor 1957 defines μ̄ instead as a Magnus coefficient of the longitude; that these two readings agree is exactly what those papers prove — and this app computes both.) The independence holds because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.</div>
 
     <div class="section-head">Bring your own triple — the certificate cockpit</div>
     <p style="max-width:920px;font-size:.92rem;">Honesty first: the pair (13, 61) above is pinned because the app ships Rédei's normalized certificate (23, 6, 1) as data — <b>it verifies certificates, it does not search for them</b>. This cockpit takes yours: primes p₁, p₂, q and a certificate (x, y, z) with x² − p₁y² − p₂z² = 0. The engine enforces every definedness and normalization check and says exactly which one fails — the rejection taxonomy is the teaching point. Seeded with a fresh triple: (5, 29, 109), certificate (7, 2, 1).</p>
@@ -862,7 +863,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="poly-demo" id="presMatTopo"></div>
       </div>
       <div class="col arith">
-        <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the annihilator of the Iwasawa module — the arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial.">characteristic ideal</span> of the cyclotomic Iwasawa module — the knot-side Λ = Z<sub>ℓ</sub>[[T]] story, see the f<sub>S</sub> why-box under the Dictionary table — is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — the analytic side of the Main Conjecture, which equates it (up to units) with the algebraically built Iwasawa polynomial: characteristic ideal = (L_p). Proof idea, a sketch: Ribet's method industrialized — congruences between Eisenstein series and cusp forms manufacture enough unramified extensions to make the class-group side at least as large as the L-function predicts, and the analytic class number formula caps the total, forcing equality. Proven over Q by Mazur–Wiles (Invent. Math. 76, 1984) for odd ℓ; the case ℓ = 2 — the one prime every computation in this app instantiates — is Greither (1992).">p-adic L-function</span>, f<sub>Λ</sub> ≐ L<sub>p</sub> (Mazur–Wiles; ℓ = 2 by Greither; the subscript Λ keeps this characteristic power series apart from the residue degree f in the local-factor tables above) — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
+        <div class="poly-demo"><b>Iwasawa Main Conjecture:</b> the <span class="tt" data-tip="The smallest principal ideal containing the 0-th Fitting (determinant) ideal of the Iwasawa module — equivalently the product of its elementary divisors, with multiplicity, from the pseudo-isomorphism M ~ ⊕ Λ/(f_i). The arithmetic 'order ideal', whose generator is the Iwasawa polynomial, defined up to a unit exactly like the Alexander polynomial. Not the annihilator: for M = Λ/(T) ⊕ Λ/(T) the annihilator is (T) while the characteristic ideal is (T²) — they part company as soon as an elementary divisor repeats.">characteristic ideal</span> of the cyclotomic Iwasawa module — the knot-side Λ = Z<sub>ℓ</sub>[[T]] story, see the f<sub>S</sub> why-box under the Dictionary table — is generated by a <span class="tt" data-tip="A p-adic analytic function interpolating special values of Dirichlet L-functions — the analytic side of the Main Conjecture, which equates it (up to units) with the algebraically built Iwasawa polynomial: characteristic ideal = (L_p). Proof idea, a sketch: Ribet's method industrialized — congruences between Eisenstein series and cusp forms manufacture enough unramified extensions to make the class-group side at least as large as the L-function predicts, and the analytic class number formula caps the total, forcing equality. Proven over Q by Mazur–Wiles (Invent. Math. 76, 1984) for odd ℓ; the case ℓ = 2 — the one prime every computation in this app instantiates — is Greither (1992).">p-adic L-function</span>, f<sub>Λ</sub> ≐ L<sub>p</sub> (Mazur–Wiles; ℓ = 2 by Greither; the subscript Λ keeps this characteristic power series apart from the residue degree f in the local-factor tables above) — the arithmetic Alexander polynomial is, up to units, a zeta function.</div>
         <div class="poly-demo" id="presMatArith"></div>
       </div>
     </div>
@@ -933,7 +934,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </details>
       <details class="zx qa-item">
         <summary><h2><span style="color:var(--muted);font-weight:400;">2.</span> What plays the role of the ambient S³, and how good is the fit?</h2></summary>
-        <div class="zx-body"><div style="margin-top:8px;">Spec Z compactified by the archimedean place — Spec Z ∪ {∞}. The fit rests on two theorems: Artin–Verdier duality in top degree 3 as the Poincaré duality (Artin–Verdier 1964), and π₁<sup>ét</sup>(Spec Z) = 1 — Q admits no unramified extension (Minkowski 1891) — which is what selects <i>S³</i> rather than an arbitrary closed 3-manifold. Mind the gap in that step: π₁<sup>ét</sup> is the <span class="tt" data-tip="The étale fundamental group is the profinite completion of the topological one, so it only sees finite covers. π₁ = 1 gives π̂₁ = 1, but not conversely in general — an infinite group with no finite-index subgroups has trivial profinite completion. For closed 3-manifolds the converse does hold, by residual finiteness of 3-manifold groups (Hempel 1987, building on geometrization). So this rung of the dictionary leans on two manifold theorems, not one.">profinite completion</span>, so π₁<sup>ét</sup> = 1 says only that there are no finite covers. Upgrading that to genuine simple connectivity needs residual finiteness of 3-manifold groups (Hempel 1987) — a second borrowed theorem, on top of Perelman — simple connectivity selecting S³ among closed 3-manifolds by Perelman's proof of the Poincaré conjecture (2003), the one theorem this dictionary borrows from the manifold side of the mirror. The seams show at ∞: it is a place, not a point, and its handling is bookkeeping — the p ≡ 1 (mod 4) "orientability" convention, which you can watch trivialize the v = 2 and v = ∞ rows of the Hilbert-symbol table on the <button type='button' class='jump' onclick='gotoTab("pairs")'>Pairs tab</button>, computed live. And nothing arithmetic plays metric, triangulation or geometrization: the fit is cohomological, not geometric — see the breakage list that closes this tab.</div></div>
+        <div class="zx-body"><div style="margin-top:8px;">Spec Z compactified by the archimedean place — Spec Z ∪ {∞}. The fit rests on two theorems: Artin–Verdier duality in top degree 3 as the Poincaré duality (Artin–Verdier 1964), and π₁<sup>ét</sup>(Spec Z) = 1 — Q admits no unramified extension (Minkowski 1891) — which is what selects <i>S³</i> rather than an arbitrary closed 3-manifold. Mind the gap in that step: π₁<sup>ét</sup> is the <span class="tt" data-tip="The étale fundamental group is the profinite completion of the topological one, so it only sees finite covers. π₁ = 1 gives π̂₁ = 1, but not conversely in general — an infinite group with no finite-index subgroups has trivial profinite completion. For closed 3-manifolds the converse does hold, by residual finiteness of 3-manifold groups (Hempel 1987, building on geometrization). So this rung of the dictionary leans on two manifold theorems, not one.">profinite completion</span>, so π₁<sup>ét</sup> = 1 says only that there are no finite covers. Upgrading that to genuine simple connectivity needs residual finiteness of 3-manifold groups (Hempel 1987) — a second borrowed theorem, on top of Perelman's proof of the Poincaré conjecture (2003), which is what makes simple connectivity select S³ among closed 3-manifolds. Those two are what this dictionary borrows from the manifold side of the mirror. The seams show at ∞: it is a place, not a point, and its handling is bookkeeping — the p ≡ 1 (mod 4) "orientability" convention, which you can watch trivialize the v = 2 and v = ∞ rows of the Hilbert-symbol table on the <button type='button' class='jump' onclick='gotoTab("pairs")'>Pairs tab</button>, computed live. And nothing arithmetic plays metric, triangulation or geometrization: the fit is cohomological, not geometric — see the breakage list that closes this tab.</div></div>
       </details>
       <details class="zx qa-item">
         <summary><h2><span style="color:var(--muted);font-weight:400;">3.</span> What replaces π₁ and covering spaces — and is the Galois correspondence on the arithmetic side literally a theorem?</h2></summary>
@@ -965,7 +966,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </details>
       <details class="zx qa-item">
         <summary><h2><span style="color:var(--muted);font-weight:400;">10.</span> What exactly is computed live in this app, and what am I being asked to take on faith?</h2></summary>
-        <div class="zx-body"><div style="margin-top:8px;">The house discipline: every displayed number is computed at runtime, and every structural identification is cited by name and year at its point of use — nothing is silently both. Computed: all Legendre symbols (Euler's criterion), Tonelli–Shanks square roots, Rédei symbols with Rédei's normalization enforced, Magnus coefficients, matrix orders by literal powering, every zeta-coefficient identity checked face against face, Bernoulli numbers mod p. Cited: fiberedness (Stallings 1978), μ̄(123) = lk(γ, K₃) (Cochran 1990; Mellor–Melvin 2003), the model longitudes (Milnor 1957), Rédei's ramification statement (Rédei 1939), Amano's independence theorem (Amano, Tohoku Math. J. 66, 2014), Milnor–Turaev, Mazur–Wiles and Greither. One gap recurs, and is flagged everywhere it applies: the Milnor invariants are computed for Milnor's <i>model words</i> rather than from the drawn diagrams, because no Wirtinger presentation is implemented. That is μ̄(123) at <button type='button' class='jump' onclick='gotoTab("triples")'>Triples</button> step 2, μ̄(1234) at <button type='button' class='jump' onclick='gotoTab("quads")'>Quadruples</button>, and μ̄(12345) in the five-component Zeta card — each with its own honesty note beside the picture. The self-test suite in the footer pins both kinds, recomputing the numbers and asserting the prose against the rendered page — press <i>Run self-tests</i> and read the list.</div></div>
+        <div class="zx-body"><div style="margin-top:8px;">The house discipline: every displayed number is computed at runtime, and every structural identification is cited by name and year at its point of use — nothing is silently both. Computed: all Legendre symbols (Euler's criterion), Tonelli–Shanks square roots, Rédei symbols with Rédei's normalization enforced, Magnus coefficients, matrix orders by literal powering, every zeta-coefficient identity checked face against face, Bernoulli numbers mod p. Cited: fiberedness (Stallings 1978), μ̄(123) = lk(γ, K₃) (Cochran 1990; Mellor–Melvin 2003), the model longitudes (Milnor 1957), Rédei's ramification statement (Rédei 1939), Amano's independence theorem (Amano, Tohoku Math. J. 66, 2014), Milnor–Turaev, Mazur–Wiles and Greither. One gap recurs, and is flagged everywhere it applies: the Milnor invariants are computed for Milnor's <i>model words</i> rather than from the drawn diagrams, because no Wirtinger presentation is implemented. That is μ̄(123) at <button type='button' class='jump' onclick='gotoTab("triples")'>Triples</button> step 2, μ̄(1234) at <button type='button' class='jump' onclick='gotoTab("quads")'>Quadruples</button>, and μ̄(12345) in the five-component Zeta card — each flagged where it appears — the first two beside their pictures, the third in the equation line of a card that has no figure to sit beside. The self-test suite in the footer pins both kinds, recomputing the numbers and asserting the prose against the rendered page — press <i>Run self-tests</i> and read the list.</div></div>
       </details>
       <details class="zx qa-item">
         <summary><h2><span style="color:var(--muted);font-weight:400;">11.</span> What is the Iwasawa polynomial really, and what licenses calling an irregular prime "knotted"?</h2></summary>
@@ -1533,6 +1534,35 @@ $qa(".twocol").forEach(tc => {
   tc.insertBefore(n, tc.firstChild);
 });
 
+// Enter was dead in every numeric box: a presenter could type a prime, press Enter,
+// and leave the new value sitting above the previous pair's verdict. Bind each box to
+// its own Compute, and mark the panel stale as soon as box and screen diverge.
+[["pInput", "computeLegendre"], ["qInput", "computeLegendre"], ["frobInput", "frobCompute"],
+ ["ccP1", "ccRun"], ["ccP2", "ccRun"], ["ccQ", "ccRun"], ["ccX", "ccRun"], ["ccY", "ccRun"], ["ccZ", "ccRun"]]
+  .forEach(([input, button]) => {
+    const el = $id(input), btn = $id(button);
+    if (!el || !btn) return;
+    el.addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      btn.click();
+    });
+  });
+(function markPairsStale() {
+  const note = $id("pairsStale");
+  if (!note) return;
+  const sync = () => {
+    const p = parseIntegerInput($id("pInput").value), q = parseIntegerInput($id("qInput").value);
+    const stale = pairsComputed.p !== null &&
+      (p === null || q === null || p !== pairsComputed.p || q !== pairsComputed.q);
+    note.textContent = stale
+      ? `Showing (${pairsComputed.p}, ${pairsComputed.q}) — press Compute (or Enter) to use the pair now in the boxes.`
+      : "";
+  };
+  ["pInput", "qInput"].forEach(id => $id(id).addEventListener("input", sync));
+  $id("computeLegendre").addEventListener("click", () => setTimeout(sync, 0));
+})();
+
 $qa(".why-toggle").forEach(btn => {
   // expose disclosure state and target (the pattern #fsTooltip already uses)
   btn.setAttribute("aria-controls", btn.dataset.why);
@@ -1671,7 +1701,9 @@ function renderPairsThread(p, q, sym) {
   ttFocusable(box);
 }
 
+let pairsComputed = { p: null, q: null };
 function renderLegendreTable(p, q) {
+  pairsComputed = { p, q }; // what is on screen, as distinct from what is in the boxes
   const warn = $id("pairsWarn");
   const table = $id("legendreTable");
   const banner = $id("pairsBanner");
@@ -1846,7 +1878,7 @@ const ARC_TEXT = {
   unlinked: {
     label: "Two spanning disks pulled apart, so Σ1∩Σ2 = ∅; caption and note beside.",
     caption: `Unlinked, with the same 3-D staging: Σ₁ horizontal, Σ₂ vertical — but now the disks can be pulled apart, so Σ₁ ∩ Σ₂ = ∅. Nothing to count at either end: 0 = 0, the trivial case of the same principle.`,
-    note: `Here, for the split unlink, the two disks pull apart outright: Σ₁ ∩ Σ₂ = ∅ and both counts vanish, so symmetry holds for free. Be careful with the general statement — lk = 0 does <i>not</i> by itself let you choose Σ₁ and Σ₂ disjoint (that is a <b>boundary link</b>, strictly stronger). The Borromean rings have all three lk = 0 and no such choice exists, which is exactly why a curve γ survives at rung 2 of the ladder. Toggle to the Hopf link above to watch the segment appear.`
+    note: `Here, for the split unlink, the two disks pull apart outright: Σ₁ ∩ Σ₂ = ∅ and both counts vanish, so symmetry holds for free. Be careful with the general statement — lk = 0 does <i>not</i> by itself let you choose Σ₁ and Σ₂ disjoint (that is a <b>boundary link</b>, strictly stronger). The Borromean rings have all three lk = 0 and are not a boundary link: no choice makes all three surfaces pairwise disjoint, and none makes Σ₁ and Σ₂ disjoint while both still miss K₃ — which is exactly why a curve γ survives at rung 2 of the ladder. (Taken two at a time they <i>are</i> an unlink, so Σ₁ and Σ₂ alone can be pulled apart; the surfaces then have to cross K₃.) Toggle to the Hopf link above to watch the segment appear.`
   }
 };
 
@@ -3048,7 +3080,7 @@ function renderLefschetz() {
        <span style="color:var(--muted);font-size:.8rem;"> — iterates ↔ eigenvalues: the two faces of ζ_h (the coefficients are F₂, F₄, F₆, …)</span><br>
       ${rows2[0][0]} = ${fmt(fixFace)}<br>${rows2[1][0]} = ${fmt(orbFace)}
        &nbsp;<span class="${eq2 ? "ok" : "fail"}">${eq2 ? "✓ equal" : "✗"}</span>
-       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta (this product runs over periods d, with o_d the table's primitive-orbit count; grouping the orbit-indexed face-3 product ∏_γ by period |γ| = d — the letter γ indexing orbits here, not the Triples curve — gives exactly one factor (1 − t^d)^{−o_d} per period)</span><br>
+       <span style="color:var(--muted);font-size:.8rem;"> — iterate counts ↔ periodic orbits: the two faces of the Artin–Mazur zeta (this product runs over periods d, with o_d the table's primitive-orbit count; grouping the orbit-indexed face-3 product ∏<sub>γ</sub> by period |γ| = d — the letter γ indexing orbits here, not the Triples curve — gives exactly one factor (1 − t<sup>d</sup>)<sup>−o<sub>d</sub></sup> per period)</span><br>
       (1−t)²·(H₁ face) = ${fmt(cross)}
        &nbsp;<span class="${eq3 ? "ok" : "fail"}">${eq3 ? "✓ equals the orbit face" : "✗"}</span>
        <span style="color:var(--muted);font-size:.8rem;"> — the two zetas differ by exactly the H₀ and H₂ terms of the closed torus</span></div>`;
@@ -3926,11 +3958,16 @@ function runSelfTests() {
     // #pairsWarn carries two different kinds of message; colour alone must not be
     // the only thing telling them apart. A refusal is role=alert and is prefixed
     // "Cannot compute —"; a remark about an admissible pair is role=status.
-    const before = [$id("pInput").value, $id("qInput").value];
+    // Restore what was on SCREEN, not what was in the boxes: if the presenter has
+    // typed a prime and not pressed Compute, restoring from the boxes would commit it
+    // and silently change the mathematics on display mid-demo.
+    const shown = { ...pairsComputed };
+    const boxes = [$id("pInput").value, $id("qInput").value];
     const state = () => [ga("pairsWarn", "role"), $id("pairsWarn").textContent.startsWith("Cannot compute —")];
     const run = (a, b) => { $id("pInput").value = a; $id("qInput").value = b; $id("computeLegendre").click(); return state(); };
     const refusal = run("9", "29"), remark = run("3", "7");
-    const [pa, qa2] = before; run(pa, qa2); // restore the user's pair
+    if (shown.p !== null) renderLegendreTable(shown.p, shown.q); // repaint the displayed pair
+    $id("pInput").value = boxes[0]; $id("qInput").value = boxes[1]; // and hand the boxes back untouched
     return live && refusal[0] === "alert" && refusal[1] === true
       && remark[0] === "status" && remark[1] === false;
   });

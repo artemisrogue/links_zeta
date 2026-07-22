@@ -23,9 +23,10 @@ main{padding:22px 28px 60px;max-width:1180px;margin:0 auto;}
 to{opacity:1}
 }
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;}
+.twocol>*{min-width:0;}
 @media (max-width:820px){.twocol{grid-template-columns:1fr;}
 }
-.col{border:1px solid var(--line);border-radius:6px;padding:16px 18px 20px;background:#fff;}
+.col{border:1px solid var(--line);border-radius:6px;padding:16px 18px 20px;background:#fff;min-width:0;overflow-wrap:break-word;}
 .col.topo{border-left:6px solid var(--topo);}
 .col.arith{border-left:6px solid var(--arith);}
 .col h2{margin:0 0 4px;font-size:1.05rem;letter-spacing:.3px;text-transform:uppercase;}
@@ -37,7 +38,10 @@ to{opacity:1}
 #presenterHelp{margin-top:14px;font-size:13px;color:var(--muted);}
 #presenterHelp summary{cursor:pointer;padding:2px 0;}
 #presenterHelp kbd{font-family:Consolas,"Courier New",monospace;font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:#fff;}
-#presenterHelp code{font-family:Consolas,"Courier New",monospace;font-size:12px;word-break:break-all;}
+#presenterHelp code{font-family:Consolas,"Courier New",monospace;font-size:12px;}
+#presenterHelp code.frag{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:bottom;white-space:nowrap;}
+.tscroll{overflow-x:auto;max-width:100%;}
+.tscroll>table{min-width:460px;}
 canvas{display:block;margin:0 auto;background:#fdfdfb;border:1px solid var(--line);border-radius:4px;max-width:100%;}
 .controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;justify-content:center;align-items:center;}
 button.ctrl,select.ctrl{font-family:inherit;font-size:.85rem;padding:7px 13px;border-radius:5px;border:1px solid var(--line);background:#fff;cursor:pointer;}
@@ -254,7 +258,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <label>q = <input type="number" id="qInput" value="29"></label>
           <button class="ctrl primary" id="computeLegendre">Compute</button>
         </div>
-        <div class="warn" id="pairsWarn" role="status" aria-live="polite">&nbsp;</div>
+        <div class="warn" id="pairsWarn" role="status">&nbsp;</div>
         <table class="symbolic" id="legendreTable" aria-label="Legendre symbol (p/q) evaluated by Euler's criterion, with the intermediate power residue."></table>
         <div class="banner" id="pairsBanner" aria-live="polite"></div>
         <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
@@ -363,7 +367,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <option value="3">fade K3</option>
           </select>
         </label>
-        <button class="ctrl" id="borro3dToggle">Toggle 3D view (ellipses)</button>
+        <button class="ctrl" id="borro3dToggle" aria-controls="borro3dWrap" aria-expanded="false">Toggle 3D view (ellipses)</button>
       </div>
       <div id="borro3dWrap" style="display:none;">
         <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
@@ -851,13 +855,13 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="order">order 2</div>
         <table class="mat" id="matN2" aria-label="The 2x2 unipotent matrix N2(F2): the linking-number level, whose one free entry is the quadratic character chi."></table>
       </div>
-      <button class="arrow-btn" data-arrow="0">➜</button>
+      <button class="arrow-btn" data-arrow="0" aria-label="Show which entry of N₃ the triple level defines">➜</button>
       <div class="matrix-card">
         <h3><span style="color:var(--topo);">N₃(F₂)</span> ≅ D₄</h3>
         <div class="order">order 8</div>
         <table class="mat" id="matN3" aria-label="The 3x3 unipotent matrix N3(F2): the triple level, whose corner entry r is the Redei symbol."></table>
       </div>
-      <button class="arrow-btn" data-arrow="1">➜</button>
+      <button class="arrow-btn" data-arrow="1" aria-label="Show which entries of N₄ the quadruple level defines">➜</button>
       <div class="matrix-card">
         <h3>N₄(F₂)</h3>
         <div class="order">order 64</div>
@@ -877,7 +881,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <button class="ctrl" id="frobPreset17">q = 17</button>
         <button class="ctrl" id="frobPreset7">q = 7</button>
         <label>q = <input type="number" id="frobInput" value="107"></label>
-        <button class="ctrl primary" id="frobCompute">Compute ρ(Frob_q)</button>
+        <button class="ctrl primary" id="frobCompute">Compute ρ(Frob<sub>q</sub>)</button>
       </div>
       <div class="warn" id="frobWarn" role="alert">&nbsp;</div>
       <div style="display:flex;justify-content:center;gap:24px;align-items:center;flex-wrap:wrap;">
@@ -965,7 +969,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 <footer>
   <button class="ctrl primary" id="runTestsBtn">Run self-tests</button>
   <div id="testsPanel">
-    <div class="small-note" id="testsLimits" style="text-align:left;margin:0 0 8px;"><b>What a green suite does and does not mean.</b> The <i>computational</i> checks recompute every displayed number from scratch and would fail if the arithmetic broke. The <i>rendered-text pins</i> assert that the prose on the page still matches what the code produces — they catch drift between the two, and nothing else: if code and prose are wrong <i>together</i>, or a theorem is misattributed, or a citation carries the wrong year, this suite stays green. It tests consistency, not truth.</div>
+    <div class="small-note" id="testsLimits" style="text-align:left;margin:0 0 8px;"><b>What a green suite does and does not mean.</b> The <i>computational</i> checks recompute the load-bearing numbers from scratch — symbols, roots, Magnus coefficients, matrix orders, residue degrees, Bernoulli residues — and would fail if that arithmetic broke. They do not cover <i>every</i> digit on screen: a few displayed quantities (individual digits of the ζ truncations, some term counts) are asserted only to a tolerance, or not at all. The <i>rendered-text pins</i> assert that the prose on the page still matches what the code produces — they catch drift between the two, and nothing else: if code and prose are wrong <i>together</i>, or a theorem is misattributed, or a citation carries the wrong year, this suite stays green. It tests consistency, not truth.</div>
     <ul id="testList"></ul>
   </div>
   <details id="presenterHelp">
@@ -973,7 +977,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="small-note" style="text-align:left;max-width:820px;margin:8px auto 0;">
       <b>Keyboard.</b> <kbd>t</kbd> anywhere outside a text field runs the self-tests and scrolls them into view — the closing beat, one keystroke. The tab bar is a single tab stop: <kbd>Tab</kbd> to it, then <kbd>←</kbd>/<kbd>→</kbd> to move between tabs. Every tooltip is reachable by <kbd>Tab</kbd> and opens with <kbd>Enter</kbd>.
       <div style="margin-top:6px;"><b>Deep links.</b> The URL fragment restores a whole beat, so a talk can be driven from bookmarks rather than clicks:
-      <code>#tab=zeta&amp;open=zxK1361,zxHopf&amp;goto=zetaK1361</code> — <code>tab</code> selects a tab, <code>open</code> is a comma-separated list of card ids to expand, <code>goto</code> is an element to scroll to. Ids are the ones in the page source; unknown ids are ignored rather than failing.</div>
+      <code class="frag">#tab=zeta&amp;open=zxK1361,zxHopf&amp;goto=zetaK1361</code> — <code>tab</code> selects a tab, <code>open</code> is a comma-separated list of card ids to expand, <code>goto</code> is an element to scroll to. Ids are the ones in the page source; unknown ids are ignored rather than failing.</div>
       <div style="margin-top:6px;"><b>Offline.</b> The file is self-contained and works with no network. The only external fetch is the optional 3D view of the Borromean rings, which falls back to a built-in canvas renderer when the CDN is unreachable.</div>
     </div>
   </details>
@@ -1404,7 +1408,14 @@ function ttFocusable(root) {
 
 window.gotoTab = function (name) {
   const btn = $q(`.tab-btn[data-tab="${name}"]`);
-  if (btn) { btn.click(); window.scrollTo(0, 0); }
+  if (!btn) return;
+  btn.click();
+  window.scrollTo(0, 0);
+  // A jump that only repaints leaves keyboard focus on a button that is now on a
+  // hidden panel, so the next Tab restarts from the top of the document. Move
+  // focus to the panel the reader was sent to.
+  const panel = $id("tab-" + name);
+  if (panel) { panel.tabIndex = -1; panel.focus({ preventScroll: true }); }
 };
 
 let ttDescribed = null;
@@ -1498,9 +1509,14 @@ function pairsCircles(offsetB) {
 // Canvas labels sit on top of the strokes they annotate. A halo in the canvas
 // background colour keeps them legible without moving them off what they point at.
 const CANVAS_BG = "#fdfdfb";
-function haloText(ctx, text, x, y) {
+// The two Seifert disks are drawn with these translucent tints over CANVAS_BG;
+// labels sitting on them halo in the blend, not in the bare canvas colour.
+const ARC_TINT = { S1: "#d9e6ee", S2: "#dcebe1" }; // 0.16 alpha of the stroke colour over CANVAS_BG
+function haloText(ctx, text, x, y, bg) {
+  // bg lets a caller name the colour the label actually sits on -- a label lying on
+  // a tinted Seifert surface haloed in the canvas colour prints a pale smear.
   const lw = ctx.lineWidth, sj = ctx.lineJoin, ss = ctx.strokeStyle;
-  ctx.lineWidth = 4; ctx.lineJoin = "round"; ctx.strokeStyle = CANVAS_BG;
+  ctx.lineWidth = 4; ctx.lineJoin = "round"; ctx.strokeStyle = bg || CANVAS_BG;
   ctx.strokeText(text, x, y);
   ctx.lineWidth = lw; ctx.lineJoin = sj; ctx.strokeStyle = ss;
   ctx.fillText(text, x, y);
@@ -1716,6 +1732,7 @@ $id("computeLegendre").addEventListener("click", () => {
     banner.textContent = ""; banner.className = "banner";
     renderHilbertTable(null, null, null, null);
     renderPairsThread(null, null, null);
+    $id("pairsSyncNote").textContent = "";
     return;
   }
   renderLegendreTable(p, q);
@@ -1866,11 +1883,11 @@ function renderArcFigure() {
   haloText(actx, "Σ1 ∩ Σ2", (P1.X + P2.X) / 2, P2.Y - 12);
   actx.font = "11px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#2e8b57";
-  haloText(actx, "K2 pierces Σ1 here", P2.X - 28, P2.Y + 24);
-  haloText(actx, "→ lk(K1,K2)", P2.X - 28, P2.Y + 38);
+  haloText(actx, "K2 pierces Σ1 here", P2.X - 28, P2.Y + 24, ARC_TINT.S1);
+  haloText(actx, "→ lk(K1,K2)", P2.X - 28, P2.Y + 38, ARC_TINT.S1);
   actx.fillStyle = "#1b6ca8";
-  haloText(actx, "K1 pierces Σ2 here", P1.X + 44, P1.Y + 24);
-  haloText(actx, "→ lk(K2,K1)", P1.X + 44, P1.Y + 38);
+  haloText(actx, "K1 pierces Σ2 here", P1.X + 44, P1.Y + 24, ARC_TINT.S2);
+  haloText(actx, "→ lk(K2,K1)", P1.X + 44, P1.Y + 38, ARC_TINT.S2);
   actx.textAlign = "start";
 }
 
@@ -2128,6 +2145,7 @@ let borro3dState = null;
 $id("borro3dToggle").addEventListener("click", () => {
   const wrap = $id("borro3dWrap");
   const showing = wrap.style.display !== "none";
+  $id("borro3dToggle").setAttribute("aria-expanded", String(!showing));
   if (showing) { wrap.style.display = "none"; return; }
   wrap.style.display = "block";
   if (threeLoaded) {
@@ -2603,8 +2621,10 @@ function renderB4() {
   const disjoint = [];
   if (!b4wDeleted || !"GR".includes(b4wDeleted)) disjoint.push("K1∩K3");
   if (!b4wDeleted || !"GB".includes(b4wDeleted)) disjoint.push("K1∩K4");
+  const disjointClause = disjoint.length
+    ? `; ${disjoint.join(" = ")} = ∅` : "";
   $id("b4LkNote").innerHTML =
-    `computed from the diagram's signed crossings: ${parts.join(", ")}; ${disjoint.join(" = ")} = ∅ — every pair unlinked.`;
+    `computed from the diagram's signed crossings: ${parts.join(", ")}${disjointClause} — every pair unlinked.`;
   canvas.setAttribute("aria-label", `Four-component Brunnian link${b4wDeleted ? ", with " + B4W_LABEL[b4wDeleted] + " deleted (faded)" : ""}; linking data in the note below.`);
 }
 
@@ -3148,7 +3168,7 @@ function renderK1361Worked() {
   const { prod, count } = k1361PartialEuler(2, 200);
   $id("k1361Worked").innerHTML =
     `<div class="sub">The local rule at every unramified p — that is every p except 13 and 61, <b>2 and ∞ included</b> (k₁₃,₆₁/Q is unramified outside {13, 61} by Rédei's normalization — cited: Rédei 1939; Morishita chs. 4/8): e = 1, so f·g = 8 reads as <b>the 8 embeddings falling into g = 8/f Frobenius orbits of size f = ord ρ(Frob<sub>p</sub>)</b>, local factor (1 − p<sup>−fs</sup>)<sup>−8/f</sup>. Each row below powers the Ladder tab's matrix, live.</div>`
-    + `<table class="symbolic" id="k1361Table" aria-label="Splitting data for the degree-8 Redei field k(13,61): each prime's pairwise symbols, corner Redei symbol, residue degree and orbit count."><tr><th scope="col">p</th><th scope="col">pairwise level, computed</th><th scope="col">corner r</th><th scope="col">f = ord ρ(Frob<sub>p</sub>)</th><th scope="col">orbit picture</th><th scope="col">local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table>`
+    + `<div class="tscroll"><table class="symbolic" id="k1361Table" aria-label="Splitting data for the degree-8 Redei field k(13,61): each prime's pairwise symbols, corner Redei symbol, residue degree and orbit count."><tr><th scope="col">p</th><th scope="col">pairwise level, computed</th><th scope="col">corner r</th><th scope="col">f = ord ρ(Frob<sub>p</sub>)</th><th scope="col">orbit picture</th><th scope="col">local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table></div>`
     + `<div class="mln">∗ = superdiagonal nonzero: the corner is basis-dependent there (Ladder tab), but the order is not — powered both ways, it agrees. † p ≡ 3 (mod 4): the corner is a <b>splitting datum</b> in the field k₁₃,₆₁ itself (fixed once and for all) — defined for any odd unramified q — not a symmetric Rédei symbol value, which asks for q ≡ 1 (mod 4) (the Ladder's domain note).</div>`
     + `<div class="step"><b>Multiplied out, live — the partial Euler product at s = 2:</b> <span class="eq">∏<sub>p ≤ 200 unramified</sub> (1 − p<sup>−2f(p)</sup>)<sup>−8/f(p)</sup> = <b>${prod.toFixed(6)}</b></span> (${count} primes, six decimals). Honesty: the two ramified factors — p = 13 and p = 61 — are omitted; their Euler-factor form is not asserted here. The 937 row is the Triples tab's ${localFactor(937, 2, 8)}: one triple symbol, felt by the whole product.</div>`
     + (() => { // Klein F1: the ideal-sum face — same unramified data, summed instead of multiplied
@@ -3324,7 +3344,14 @@ function initLadder() {
   };
   $id("matN4").replaceWith(withId(buildMat(4, n4cells), "matN4"));
 }
-function withId(el, id) { el.id = id; return el; }
+function withId(el, id) {
+  // The node being replaced carries accessibility attributes declared in markup;
+  // a freshly built table would otherwise drop them on the floor at boot.
+  const old = $id(id);
+  el.id = id;
+  if (old) for (const a of ["aria-label", "role"]) if (old.hasAttribute(a)) el.setAttribute(a, old.getAttribute(a));
+  return el;
+}
 
 $qa(".arrow-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -4315,7 +4342,7 @@ runSelfTests();
 $id("testsPanel").classList.remove("open");
 
 /* Klein B5: deep links — #tab=zeta&open=zxK1361,zxHopf&goto=zetaK1361 (presenter choreography, one click per beat). */
-(function deepLink() {
+function routeFromHash() {
   const h = location.hash.replace(/^#/, "");
   if (!h) return;
   const dec = s => { try { return decodeURIComponent(s); } catch (e) { return s; } }; // malformed %-escapes must not abort the boot tail
@@ -4324,7 +4351,12 @@ $id("testsPanel").classList.remove("open");
   if (params.open) params.open.split(",").forEach(id => { const d = $id(id); if (d && d.tagName === "DETAILS") d.open = true; });
   const target = params.goto || (params.open || "").split(",")[0];
   if (target && $id(target)) setTimeout(() => $id(target).scrollIntoView({ block: "start" }), 60);
-})();
+}
+routeFromHash();
+// Back/Forward and in-session fragment edits must move the page too, or the URL
+// and what is on screen disagree -- which for a presenter driving from bookmarks
+// is the whole point of the feature.
+window.addEventListener("hashchange", routeFromHash);
 
 /* Klein B6: 't' runs the suite and shows it — the closing beat, one keystroke. */
 document.addEventListener("keydown", e => {

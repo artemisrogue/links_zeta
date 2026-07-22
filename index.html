@@ -8,11 +8,11 @@
 :root{--topo:#1b6ca8;--topo-bg:#eaf3fa;--arith:#c0392b;--arith-bg:#fbecea;--ink:#1c1c1c;--muted:#666;--paper:#fbfaf7;--line:#d9d4c8;--good:#1e7e34;--bad:#c0392b;}
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
-body{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:var(--paper);color:var(--ink);line-height:1.45;}
+body{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Cambria,Georgia,serif;background:var(--paper);color:var(--ink);line-height:1.45;}
 header{padding:22px 28px 10px;border-bottom:2px solid var(--ink);}
 header h1{margin:0 0 4px;font-size:1.55rem;font-weight:600;letter-spacing:.2px;}
 header p{margin:0;color:var(--muted);font-size:.95rem;font-style:italic;}
-nav.tabs{display:flex;gap:2px;padding:0 24px;background:#efece3;border-bottom:2px solid var(--ink);flex-wrap:wrap;}
+nav.tabs{display:flex;gap:2px;padding:0 24px;position:sticky;top:0;z-index:40;background:#efece3;border-bottom:2px solid var(--ink);flex-wrap:wrap;}
 nav.tabs button{font-family:inherit;font-size:1rem;padding:11px 18px;border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);}
 nav.tabs button:hover{color:var(--ink);}
 nav.tabs button.active{color:var(--ink);border-bottom:3px solid var(--ink);font-weight:600;background:var(--paper);}
@@ -36,7 +36,7 @@ to{opacity:1}
 .section-head{margin:26px 0 12px;font-size:1.05rem;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;}
 canvas{display:block;margin:0 auto;background:#fdfdfb;border:1px solid var(--line);border-radius:4px;max-width:100%;}
 .controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;justify-content:center;align-items:center;}
-button.ctrl{font-family:inherit;font-size:.85rem;padding:7px 13px;border-radius:5px;border:1px solid var(--line);background:#fff;cursor:pointer;}
+button.ctrl,select.ctrl{font-family:inherit;font-size:.85rem;padding:7px 13px;border-radius:5px;border:1px solid var(--line);background:#fff;cursor:pointer;}
 button.ctrl:hover{background:#f2f0e8;}
 button.ctrl.primary{background:var(--ink);border-color:var(--ink);color:#fff;}
 .col.topo button.ctrl.primary{background:var(--topo);border-color:var(--topo);}
@@ -204,7 +204,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <tr><td class="t">symmetry of lk</td><td class="a"><span class="tt" data-tip="Gauss's theorem: for odd primes p, q ≡ 1 (mod 4), (p/q) = (q/p). In this story it is the statement that the two ends of one global object must agree.">quadratic reciprocity</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="When lk(K₁,K₂) = 0 the two Seifert surfaces, in general position, meet in a closed curve γ = Σ₁ ∩ Σ₂ — the object the vanishing leaves behind; μ̄(123) reads how K₃ threads it. The Triples tab's surface ladder climbs exactly this.">surface intersection</span> γ = Σ₁ ∩ Σ₂, closed since lk = 0</td><td class="a"><span class="tt" data-tip="α = x + y√p₁ from a Rédei-normalized solution of x² − p₁y² − p₂z² = 0 — solvable exactly because (p₁/p₂) = +1. Adjoining √α builds the Rédei field: the cover where γ unwinds (γ ↔ √α; Morishita ch. 8).">Rédei element</span> α, exists since (p₁/p₂) = +1</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
-      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> ∆<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series: f_S generates the Alexander (Fitting) ideal over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12). For ℓ ∉ S the deck group — the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} — is finite; at ℓ = 2 the totally real tower is the strictly smaller Z/4 × Z/2. Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] runs over the cyclotomic tower instead, whose deck group really is Z_ℓ but which ramifies at ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The order of the first homology of the infinite abelian cover of the link exterior, as a module over Laurent polynomials in the deck transformations — the knot theorist's characteristic polynomial, defined up to a unit.">Alexander polynomial</span> Δ<sub>L</sub></td><td class="a"><span class="tt" data-tip="Morishita's arithmetic Alexander series: f_S generates the Alexander (Fitting) ideal over Z_ℓ[[u₁,…,u_r]] with (1+uᵢ)^(ℓ^eᵢ) = 1 imposed by the finite deck group, up to a unit (Morishita, Knots and Primes, ch. 9–12). For ℓ ∉ S the deck group — the maximal abelian ℓ-extension of Q unramified outside S ∪ {∞} — is finite; at ℓ = 2 the totally real tower is the strictly smaller Z/4 × Z/2. Iwasawa's own characteristic series over Λ = Z_ℓ[[T]] runs over the cyclotomic tower instead, whose deck group really is Z_ℓ but which ramifies at ℓ. The full argument, in visible text: the why-box below the table.">Iwasawa polynomial</span> f<sub>S</sub></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="An alternating product of determinants built from the chain complex of the infinite cover — a combinatorial zeta of the space: a sum over cells, reorganized multiplicatively. Milnor–Turaev: for a link exterior this Reidemeister torsion equals the Alexander polynomial up to units (for a knot, up to a t − 1 factor). Proof idea, a sketch: compute the torsion from the CW structure of a Wirtinger presentation — the twisted boundary map is literally the Alexander matrix, so the defining determinant is the polynomial; Turaev pinned down the sign and unit ambiguities. Cited: Milnor, Ann. of Math. 76 (1962); Turaev, Russian Math. Surveys 41 (1986).">Milnor–Reidemeister torsion</span> τ<sub>L</sub></td><td class="a"><span class="tt" data-tip="The sum of N(a)^(−s) over all ideals a of the ring of integers; its p-adic sibling interpolates its special values and, by the Main Conjecture, generates the Iwasawa characteristic ideal.">Dedekind zeta / p-adic L-function</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Closed orbits of the flow transverse to the fiber surface; their lengths feed the dynamical zeta function's Euler product.">periodic orbits</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Primes index the Euler factors of ζ_K exactly as closed orbits index the factors of a dynamical zeta — that much is literal. The identification of Spec F_p with a circle behind it is Mazur's analogy (the why-box below).">prime ideals</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="The eigenvalues of the map the monodromy induces on the homology of the fiber; they diagonalize the dynamics.">eigenvalues</span> of the monodromy</td><td class="a"><span class="tt" data-tip="Homomorphisms from the Galois group to the nonzero complex numbers; χ(Frob_p) plays the role of an eigenvalue.">characters</span> of the Galois group</td></tr>
@@ -216,7 +216,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 
     <div class="coda">
       <div class="lede">One thread, told twice.</div>
-      An intersection count (linking number / Legendre symbol), symmetric because its two values are the two ends of a single global object (an arc / an adèlic product). When the count vanishes everywhere, the intersection object closes up (a closed curve / the Rédei extension) and its interaction with the third participant becomes the triple invariant (μ̄(123) / [p₁,p₂,p₃]) — well defined exactly because the lower level vanished. And a polynomial (∆<sub>L</sub> / f<sub>S</sub>) records the hierarchy as its surviving low-order coefficients, while being — by Milnor–Turaev and the Main Conjecture respectively — the zeta function of the relevant cover: a sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters — the pairs the ζ ↔ Δ boxes track, tab by tab, to the Zeta tab.
+      An intersection count (linking number / Legendre symbol), symmetric because its two values are the two ends of a single global object (an arc / an adèlic product). When the count vanishes everywhere, the intersection object closes up (a closed curve / the Rédei extension) and its interaction with the third participant becomes the triple invariant (μ̄(123) / [p₁,p₂,p₃]) — well defined exactly because the lower level vanished. And a polynomial (Δ<sub>L</sub> / f<sub>S</sub>) records the hierarchy as its surviving low-order coefficients, while being — by Milnor–Turaev and the Main Conjecture respectively — the zeta function of the relevant cover: a sum over iterates or ideals, resummed as a product over orbits or primes, eigenvalues or characters — the pairs the ζ ↔ Δ boxes track, tab by tab, to the Zeta tab.
     </div>
     <div class="caption-strip">Walk the tabs left to right: each level's invariant is defined because the previous level vanished.</div>
   </section>
@@ -289,10 +289,10 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="section-head">What the polynomials say at this stage</div>
     <div class="twocol">
       <div class="col topo">
-        <div class="poly-demo">Every link L carries a computable polynomial invariant, the <span class="tt" data-tip="Black-box version, all this strip needs: one Laurent polynomial per link, one variable tᵢ per component, defined up to a unit. The rigorous definition — the order of the first homology of the infinite abelian cover of the link exterior, as a module over the deck transformations — is in the Dictionary's ∆_L row.">Alexander polynomial</span> ∆<sub>L</sub>(t₁,…,t<sub>r</sub>): one variable per component, defined up to a unit. Here <span class="eq"><span class="tt tt-left" data-tip="Cited, not computed: the Hopf link's Alexander polynomial is a standard Fox-calculus result (tables in Kawauchi). Cross-checked live where it is consumed: the Torres sanity line (t−1)·1 = t−1 on the Zeta tab's link-zeta and Hopf cards, degree 1 = b₁ of the annulus fiber.">∆<sub>Hopf</sub>(t₁,t₂)</span> ≐ 1</span> — a <span class="tt" data-tip="An invertible element ±t₁^a·t₂^b. Alexander polynomials are only defined up to units, so '≐ 1' means: carries no information at all.">unit</span>, as trivial as a polynomial can be. For the <span class="tt" data-tip="Two circles in disjoint balls — separable by a sphere. Splitness is stronger than being unlinked crossing-by-crossing.">split unlink</span>, ∆ ≐ 0: the classical splitness test. Once lk is known, there is nothing further of low order to report.</div>
+        <div class="poly-demo">Every link L carries a computable polynomial invariant, the <span class="tt" data-tip="Black-box version, all this strip needs: one Laurent polynomial per link, one variable tᵢ per component, defined up to a unit. The rigorous definition — the order of the first homology of the infinite abelian cover of the link exterior, as a module over the deck transformations — is in the Dictionary's Δ_L row.">Alexander polynomial</span> Δ<sub>L</sub>(t₁,…,t<sub>r</sub>): one variable per component, defined up to a unit. Here <span class="eq"><span class="tt tt-left" data-tip="Cited, not computed: the Hopf link's Alexander polynomial is a standard Fox-calculus result (tables in Kawauchi). Cross-checked live where it is consumed: the Torres sanity line (t−1)·1 = t−1 on the Zeta tab's link-zeta and Hopf cards, degree 1 = b₁ of the annulus fiber.">Δ<sub>Hopf</sub>(t₁,t₂)</span> ≐ 1</span> — a <span class="tt" data-tip="An invertible element ±t₁^a·t₂^b. Alexander polynomials are only defined up to units, so '≐ 1' means: carries no information at all.">unit</span>, as trivial as a polynomial can be. For the <span class="tt" data-tip="Two circles in disjoint balls — separable by a sphere. Splitness is stronger than being unlinked crossing-by-crossing.">split unlink</span>, Δ ≐ 0: the classical splitness test. Once lk is known, there is nothing further of low order to report.</div>
       </div>
       <div class="col arith">
-        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the pro-ℓ cover, viewed as a module over the complete group ring of the deck group — the arithmetic H₁ of the cover. On the arithmetic side that deck group is finite, not Z_ℓ^r: see the f_S why-box under the Dictionary table.">Iwasawa module</span> — the arithmetic side's H₁-of-the-cover, whose order polynomial f<sub>S</sub> plays the role ∆<sub>L</sub> just played — carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
+        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the pro-ℓ cover, viewed as a module over the complete group ring of the deck group — the arithmetic H₁ of the cover. On the arithmetic side that deck group is finite, not Z_ℓ^r: see the f_S why-box under the Dictionary table.">Iwasawa module</span> — the arithmetic side's H₁-of-the-cover, whose order polynomial f<sub>S</sub> plays the role Δ<sub>L</sub> just played — carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
       </div>
     </div>
 
@@ -349,7 +349,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="small-note" style="margin:0 0 10px;text-align:left;">On this tab: <button type="button" class="jump" onclick="$id('surfaceLadder').scrollIntoView()">the surface ladder</button> · <button type="button" class="jump" onclick="$id('tripleCoverHasse').scrollIntoView({block:'center'})">the tower of covers ↔ field tower</button> — every number computed live.</div>
 
     <div style="max-width:460px;margin:0 auto 6px;">
-      <canvas id="borroCanvas" width="420" height="340"></canvas>
+      <canvas id="borroCanvas" width="420" height="372"></canvas>
       <div class="controls">
         <label style="font-size:.85rem;color:var(--muted);">Isolate:
           <select id="isolateSelect" class="ctrl">
@@ -493,14 +493,14 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
               <line x1="452" y1="14" x2="452" y2="178" stroke="#ddd8ca" stroke-width="1.5"/>
               <!-- Step 1: the two surfaces, apart -->
               <ellipse cx="78" cy="122" rx="60" ry="20" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
-              <text x="70" y="127" font-size="12" fill="#1b6ca8">Σ₁</text>
-              <text x="96" y="156" font-size="11" fill="#1b6ca8">K₁ = ∂Σ₁</text>
+              <text x="70" y="127" font-size="19.2" fill="#1b6ca8">Σ₁</text>
+              <text x="96" y="156" font-size="17.6" fill="#1b6ca8">K₁ = ∂Σ₁</text>
               <path d="M 137 62 C 138 92, 148 114, 168 121 C 188 114, 198 92, 199 62 A 31 8 0 0 1 137 62 Z" fill="#2e8b57" fill-opacity="0.13"/>
               <path d="M 137 62 C 138 92, 148 114, 168 121 C 188 114, 198 92, 199 62" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
               <ellipse cx="168" cy="62" rx="31" ry="8" fill="none" stroke="#2e8b57" stroke-width="3"/>
-              <text x="204" y="58" font-size="11" fill="#1e6b41">K₂ = ∂Σ₂</text>
-              <text x="188" y="106" font-size="12" fill="#1e6b41">Σ₂</text>
-              <text x="114" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">1 — the two spanning surfaces</text>
+              <text x="204" y="58" font-size="17.6" fill="#1e6b41">K₂ = ∂Σ₂</text>
+              <text x="188" y="106" font-size="19.2" fill="#1e6b41">Σ₂</text>
+              <text x="114" y="196" font-size="17.6" fill="#444" text-anchor="middle" font-weight="bold">1 — the two spanning surfaces</text>
               <!-- Step 2: pushed together -->
               <path d="M 302 50 C 302 84, 310 108, 320 124 C 328 138, 333 147, 340 152 C 347 147, 352 138, 360 124 C 370 108, 378 84, 378 50 A 38 9.5 0 0 1 302 50 Z" fill="#2e8b57" fill-opacity="0.12"/>
               <ellipse cx="340" cy="124" rx="94" ry="25" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
@@ -511,16 +511,16 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
               <path d="M 320 124 A 20 5.5 0 0 1 360 124" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="5 4" opacity="0.7"/>
               <path d="M 320 124 A 20 5.5 0 0 0 360 124" fill="none" stroke="#7d3c98" stroke-width="4"/>
               <line x1="395" y1="98" x2="362" y2="121" stroke="#7d3c98" stroke-width="1.2"/>
-              <text x="398" y="94" font-size="12.5" font-weight="bold" fill="#7d3c98">the crossing</text>
-              <text x="262" y="60" font-size="11" fill="#1e6b41">K₂</text>
-              <text x="420" y="152" font-size="11" fill="#1b6ca8">K₁</text>
-              <text x="340" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">2 — pushed together: one circle</text>
+              <text x="398" y="94" font-size="20" font-weight="bold" fill="#7d3c98">the crossing</text>
+              <text x="262" y="60" font-size="17.6" fill="#1e6b41">K₂</text>
+              <text x="420" y="152" font-size="17.6" fill="#1b6ca8">K₁</text>
+              <text x="340" y="196" font-size="17.6" fill="#444" text-anchor="middle" font-weight="bold">2 — pushed together: one circle</text>
               <!-- Step 3: gamma alone -->
               <ellipse cx="566" cy="102" rx="52" ry="17" fill="none" stroke="#7d3c98" stroke-width="4"/>
-              <text x="566" y="66" font-size="13" font-weight="bold" fill="#7d3c98" text-anchor="middle">γ = Σ₁ ∩ Σ₂</text>
-              <text x="566" y="142" font-size="10.5" fill="#666" text-anchor="middle">closed — rung 1's ± punctures cancelled;</text>
-              <text x="566" y="155" font-size="10.5" fill="#666" text-anchor="middle">not a component of the link</text>
-              <text x="566" y="196" font-size="11" fill="#444" text-anchor="middle" font-weight="bold">3 — γ, extracted</text>
+              <text x="566" y="66" font-size="20.8" font-weight="bold" fill="#7d3c98" text-anchor="middle">γ = Σ₁ ∩ Σ₂</text>
+              <text x="566" y="142" font-size="16.8" fill="#666" text-anchor="middle">closed — rung 1's ± punctures cancelled;</text>
+              <text x="566" y="155" font-size="16.8" fill="#666" text-anchor="middle">not a component of the link</text>
+              <text x="566" y="196" font-size="17.6" fill="#444" text-anchor="middle" font-weight="bold">3 — γ, extracted</text>
             </svg>
             <div class="figcap">schematic, in three steps — the two spanning surfaces apart; pushed together (the crossing is one closed circle, bold; dashed = hidden below the disk); and γ pulled out on its own</div>
             <div id="gammaComputed"></div>
@@ -564,7 +564,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="twocol">
       <div class="col topo">
         <div class="poly-demo">
-          <div class="eq"><span class="tt tt-left" data-tip="The multivariable Alexander polynomial of the Borromean rings — cited, not computed: a standard Fox-calculus result (Borromean case Milnor 1954; tables in Kawauchi). The app has no Fox calculus; what IS computed live: the expansion below (its top coefficient against the independently Magnus-computed μ̄), the Torres collapse to (t−1)⁴ against the fiber's b₁ = 4 — two independent cross-checks — plus a consistency restatement through the Zeta cards' stand-in monodromy, which shares this fixture's characteristic polynomial and so cannot vote against it.">∆<sub>Bor</sub>(t₁,t₂,t₃)</span> = (t₁−1)(t₂−1)(t₃−1)</div>
+          <div class="eq"><span class="tt tt-left" data-tip="The multivariable Alexander polynomial of the Borromean rings — cited, not computed: a standard Fox-calculus result (Borromean case Milnor 1954; tables in Kawauchi). The app has no Fox calculus; what IS computed live: the expansion below (its top coefficient against the independently Magnus-computed μ̄), the Torres collapse to (t−1)⁴ against the fiber's b₁ = 4 — two independent cross-checks — plus a consistency restatement through the Zeta cards' stand-in monodromy, which shares this fixture's characteristic polynomial and so cannot vote against it.">Δ<sub>Bor</sub>(t₁,t₂,t₃)</span> = (t₁−1)(t₂−1)(t₃−1)</div>
           <div style="margin-top:6px;">Substituting t<sub>i</sub> = 1 + x<sub>i</sub> and expanding live:</div>
           <div class="coef-grid" id="deltaBorGrid"></div>
           <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point. This polynomial is the link's own zeta — see <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxBorro');if(d){d.open=true;d.scrollIntoView();}">The zeta of a link</button>, Zeta tab.</div>
@@ -655,7 +655,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="banner" id="quadBanner"></div>
         <div class="thread" id="quadThread"></div>
         <svg id="quadTower" width="100%" height="340" viewBox="0 0 420 335"></svg>
-        <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played one tab back); θ lives in their <span class="tt" data-tip="The compositum of two fields: the smallest field containing both — the field-side join, mirroring the join of the two Heisenberg covers in the tower opposite.">compositum</span>, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield — so 8·8/2 = 32.</div>
+        <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played on the <button type="button" class="jump" onclick="gotoTab('triples')">Triples tab</button>); θ lives in their <span class="tt" data-tip="The compositum of two fields: the smallest field containing both — the field-side join, mirroring the join of the two Heisenberg covers in the tower opposite.">compositum</span>, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield — so 8·8/2 = 32.</div>
       </div>
     </div>
     <div class="caption-strip">When the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</div>
@@ -669,10 +669,10 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <div class="col topo">
         <h2>Lefschetz zeta of a <span class="tt tt-left" data-tip="For a fibered link the complement fibers over the circle: F is the fiber surface, and h is the twist you accumulate going once around the link — the monodromy.">monodromy</span> h : F → F</h2>
         <div class="zeta-face"><div class="fname">Sum over iterates</div><div class="feq">ζ<sub>h</sub>(t) = exp( Σ<sub>n≥1</sub> <span class="tt" data-tip="Convention, stated exactly: L(hⁿ) here denotes tr(hⁿ∗ on H₁) alone. The full Lefschetz number Σᵢ(−1)ⁱ tr(hⁿ∗ on Hᵢ) equals 1 − tr(hⁿ∗ on H₁) for the fiber surface — the H₀-term MINUS ours: a sign as well as a constant. So this ζ_h is not the alternating-product Lefschetz zeta; that zeta equals det(I − t·h∗)/(1 − t), i.e. our ζ_h reciprocated, divided by (1 − t). The H₁-only convention is the fibered-knot literature's choice because H₁ is the factor carrying the eigenvalues; the exact bridge is stated here so no sign is hidden.">L(hⁿ)</span>·tⁿ/n ), &nbsp;<span style="font-size:.8rem;color:var(--muted);">where L(hⁿ) := tr(hⁿ∗ on H₁) — the tr(Aⁿ) of the figure-eight card below; sign convention in the tooltip</span></div></div>
-        <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on <span class="tt" data-tip="H₁ of a space, black-box (the ∆_L standard of the Pairs tab): closed loops up to deformation and merging form an abelian group. For a torus — punctured or not — it is Z², generated by the two core loops; any continuous self-map merges loops linearly, inducing a 2×2 integer matrix h∗. That matrix is all this column uses.">H₁(F;Q)</span></div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
+        <div class="zeta-face"><div class="fname">Product over eigenvalues of h∗ on <span class="tt" data-tip="H₁ of a space, black-box (the Δ_L standard of the Pairs tab): closed loops up to deformation and merging form an abelian group. For a torus — punctured or not — it is Z², generated by the two core loops; any continuous self-map merges loops linearly, inducing a 2×2 integer matrix h∗. That matrix is all this column uses.">H₁(F;Q)</span></div><div class="feq">ζ<sub>h</sub>(t) = ∏<sub>j</sub> (1 − λ<sub>j</sub>t)⁻¹ = det(I − t·h∗)⁻¹</div></div>
         <div class="small-note">The resummation engine, shown once: −log(1 − x) = Σ<sub>n≥1</sub> xⁿ/n, so for one eigenvalue exp( Σ<sub>n</sub> λⁿtⁿ/n ) = (1 − λt)⁻¹; summing the exponents over eigenvalues is allowed because tr(hⁿ∗) = Σ<sub>j</sub> λ<sub>j</sub>ⁿ. Every sum-into-product identity on this page, in both columns, is this one line — run per eigenvalue, per orbit, or per prime (log of an Euler factor: Σ<sub>n</sub> Np⁻ⁿˢ/n).</div>
         <div class="zeta-face"><div class="fname">Product over periodic orbits (h <span class="tt" data-tip="The generic, chaotic mapping class (Thurston) is pseudo-Anosov: it stretches along one foliation, contracts along another, and its periodic points are isolated — which is what makes an orbit product converge factor by factor. But pseudo-Anosov alone does NOT suffice for the equality printed here — hence the hypothesis this face states, under which every fixed point of every iterate has index −1 — the bookkeeping of the figure-eight card in the contrast row below. Drop positivity and it fails: −A is Anosov, but on odd iterates every index is +1, so Fix(n) = 5, 5, 20, 45, … while tr − 2 = −5, 5, −20, 45, … — the two sides already differ at t¹. And on the once-punctured fiber F itself H₂(F) = 0, so even the (1−t)² would be wrong — hence the closed-torus scoping, the same one the honesty note below makes for the demo.">Anosov on the closed torus, both eigenvalues positive</span> — the demo's bookkeeping)</div><div class="feq"><span class="tt" data-tip="The orbit product counts every fixed point, so it computes the Artin–Mazur zeta exp(Σ Fix(hⁿ)tⁿ/n) — a different function from the H₁-zeta of the two faces above. With the closed-torus bookkeeping of the demo below, the alternating Lefschetz number is Σ(−1)ⁱtr = 1 − tr(Aⁿ) + 1, and every fixed point of the positive-eigenvalue Anosov Aⁿ has index −1, so the honest count is #Fix(hⁿ) = −(2 − tr(Aⁿ)) = tr(Aⁿ) − 2: the two constants are the H₀ and H₂ traces, the overall sign is the fixed-point index, and their joint contribution is exactly the factor (1−t)² written here, reinstated so that this line is a true equality.">(1−t)²</span>·ζ<sub>h</sub>(t) = ∏<sub>γ</sub> (1 − t<sup>|γ|</sup>)⁻¹ &nbsp;<span style="font-size:.8rem;color:var(--muted);">(why (1−t)²? the H₀/H₂ bookkeeping — checked coefficient by coefficient in the figure-eight card of the contrast row below; and γ here indexes periodic orbits, not the Triples curve γ = Σ₁ ∩ Σ₂)</span></div></div>
-        <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, <span class="tt" data-tip="Milnor (1968): for a fibered link, the infinite cyclic cover of the complement is F × ℝ — unroll the surface bundle over S¹ — so H₁ of the cover is H₁(F) with the deck generator acting as the monodromy h₁∗. Hence Δ(t) ≐ det(tI − h₁∗), and the alternating-product Lefschetz zeta is Δ(t)/(1 − t) up to units, the 1 − t being the fiber's H₀. Proof idea: the homeomorphism of the cover with F × ℝ is the whole proof — after it, everything is linear algebra on H₁(F), which this page runs live. Cited: Milnor, Infinite cyclic coverings (1968).">Milnor's theorem</span> reads ζ<sub>Lef</sub>(t) ≐ ∆<sub>K</sub>(t)/(1 − t) — Alexander polynomial in the <i>numerator</i> — with ∆<sub>K</sub>(t) = det(tI − h∗). In the H₁-convention above that is ζ<sub>h</sub> ≐ ∆<sub>K</sub>⁻¹; the convention bridge and the orbit-face bookkeeping live in the tooltips beside each face.</div>
+        <div class="small-note">For a <span class="tt" data-tip="A knot whose complement fibers over the circle — the complement is a surface bundle, swept out by one surface spinning around the knot.">fibered knot</span>, <span class="tt" data-tip="Milnor (1968): for a fibered link, the infinite cyclic cover of the complement is F × ℝ — unroll the surface bundle over S¹ — so H₁ of the cover is H₁(F) with the deck generator acting as the monodromy h₁∗. Hence Δ(t) ≐ det(tI − h₁∗), and the alternating-product Lefschetz zeta is Δ(t)/(1 − t) up to units, the 1 − t being the fiber's H₀. Proof idea: the homeomorphism of the cover with F × ℝ is the whole proof — after it, everything is linear algebra on H₁(F), which this page runs live. Cited: Milnor, Infinite cyclic coverings (1968).">Milnor's theorem</span> reads ζ<sub>Lef</sub>(t) ≐ Δ<sub>K</sub>(t)/(1 − t) — Alexander polynomial in the <i>numerator</i> — with Δ<sub>K</sub>(t) = det(tI − h∗). In the H₁-convention above that is ζ<sub>h</sub> ≐ Δ<sub>K</sub>⁻¹; the convention bridge and the orbit-face bookkeeping live in the tooltips beside each face.</div>
       </div>
       <div class="col arith">
         <h2>Dedekind zeta of a number field K</h2>
@@ -684,7 +684,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     </div>
 
     <div class="section-head">The gallery: the zeta worked at every level of linking</div>
-    <div class="small-note" style="text-align:left;margin:0 0 6px;">Five rows, one per level of the story — the fifth deliberately half-built. The first four pair a link with its mirror field; each card starts closed — open it for the live computation — and leads with its lesson, stated across the links ↔ primes analogy.</div>
+    <div class="small-note" style="text-align:left;margin:0 0 6px;">Four rows, one per level of the story — the fourth deliberately half-built — and a fifth that closes with the knotting contrast. The first three pair a link with its mirror field; each card starts closed — open it for the live computation — and leads with its lesson, stated across the links ↔ primes analogy.</div>
 
     <div class="zx-row-head">Two components <span class="rh-sub">the pairwise dial: lk mod 2 ↔ the Legendre symbol</span></div>
     <div class="twocol">
@@ -797,7 +797,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
             <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the regular-vs-irregular card opposite.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent Borromean cards in the three-component row above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
             <table class="symbolic" id="lefschetzTable"></table>
             <div class="step" id="lefschetzFaces"></div>
-            <div class="small-note"><span class="tt" data-tip="Milnor (1968): for a fibered link the infinite cyclic cover is F × ℝ, so Δ(t) ≐ det(tI − h₁∗) — the Alexander polynomial is the characteristic polynomial of the monodromy. The determinant on this line is that theorem, instantiated and computed.">Milnor's theorem</span>, live: det(tI − A) = t² − 3t + 1 = ∆<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
+            <div class="small-note"><span class="tt" data-tip="Milnor (1968): for a fibered link the infinite cyclic cover is F × ℝ, so Δ(t) ≐ det(tI − h₁∗) — the Alexander polynomial is the characteristic polynomial of the monodromy. The determinant on this line is that theorem, instantiated and computed.">Milnor's theorem</span>, live: det(tI − A) = t² − 3t + 1 = Δ<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
             <div class="thread" id="fig8Dichotomy"></div>
           </div>
         </details>
@@ -817,7 +817,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="section-head">The polynomials close both loops</div>
     <div class="twocol">
       <div class="col topo">
-        <div class="poly-demo"><b>Milnor–Turaev:</b> the <span class="tt tt-left" data-tip="An alternating product of determinants from the chain complex of the infinite cover — a 'sum over the cover' reorganized multiplicatively, which is exactly what a zeta function is. Proof idea for τ ≐ Δ, a sketch: compute the torsion from the CW structure of a Wirtinger presentation — the twisted boundary map is literally the Alexander matrix, so the defining determinant is the polynomial; Turaev pinned down the sign and unit ambiguities. Cited: Milnor, Ann. of Math. 76 (1962); Turaev, Russian Math. Surveys 41 (1986).">Milnor–Reidemeister torsion</span> of the Z<sup>r</sup>-cover satisfies τ<sub>L</sub> ≐ ∆<sub>L</sub> — the Alexander polynomial <i>is</i> the zeta function of the link exterior. Concretely <span class="tt tt-left" data-tip="Both values cited, not computed — standard Fox-calculus results (Hopf and Borromean cases: Milnor 1954; tables in Kawauchi). Cross-checked live where they are consumed: the Torres collapse and the fibered determinant identities on the Zeta cards, and the Hopf sanity line (t−1)·1 = t−1.">τ<sub>Hopf</sub> ≐ 1 and τ<sub>Bor</sub> ≐ (t₁−1)(t₂−1)(t₃−1)</span>, with μ̄(123) its leading Taylor coefficient at (1,1,1).</div>
+        <div class="poly-demo"><b>Milnor–Turaev:</b> the <span class="tt tt-left" data-tip="An alternating product of determinants from the chain complex of the infinite cover — a 'sum over the cover' reorganized multiplicatively, which is exactly what a zeta function is. Proof idea for τ ≐ Δ, a sketch: compute the torsion from the CW structure of a Wirtinger presentation — the twisted boundary map is literally the Alexander matrix, so the defining determinant is the polynomial; Turaev pinned down the sign and unit ambiguities. Cited: Milnor, Ann. of Math. 76 (1962); Turaev, Russian Math. Surveys 41 (1986).">Milnor–Reidemeister torsion</span> of the Z<sup>r</sup>-cover satisfies τ<sub>L</sub> ≐ Δ<sub>L</sub> — the Alexander polynomial <i>is</i> the zeta function of the link exterior. Concretely <span class="tt tt-left" data-tip="Both values cited, not computed — standard Fox-calculus results (Hopf and Borromean cases: Milnor 1954; tables in Kawauchi). Cross-checked live where they are consumed: the Torres collapse and the fibered determinant identities on the Zeta cards, and the Hopf sanity line (t−1)·1 = t−1.">τ<sub>Hopf</sub> ≐ 1 and τ<sub>Bor</sub> ≐ (t₁−1)(t₂−1)(t₃−1)</span>, with μ̄(123) its leading Taylor coefficient at (1,1,1).</div>
         <div class="poly-demo" id="presMatTopo"></div>
       </div>
       <div class="col arith">
@@ -825,6 +825,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
         <div class="poly-demo" id="presMatArith"></div>
       </div>
     </div>
+      <div class="caption-strip">One sum, resummed as a product, twice — and the polynomial each side calls its own is that product read back. Everything earlier in this app was a coefficient of one of these.</div>
   </section>
 
     <section id="tab-ladder" class="tab-panel">
@@ -1226,9 +1227,19 @@ function gammaComputedData() {
 }
 function renderGammaComputed() {
   const { a, b, y0, y1, punctures } = gammaComputedData();
-  // Oblique projection: y horizontal, z vertical, x receding.
-  const cx = 170, cy = 96, s = 62;
-  const P = (x, y, z) => [cx + s * (y + 0.38 * x), cy - s * (z - 0.30 * x)];
+  // View direction chosen so the two perpendicular ellipses actually INTERLEAVE on screen.
+  // The old oblique projection put K1 entirely inside K2 (0 apparent crossings), which read
+  // as two concentric coplanar loops. Rotating x by 15 deg and y by 60 deg gives 4 apparent
+  // crossings with the two curves at comparable size - verified by counting segment
+  // intersections of the projected polylines over a 400-point sampling.
+  const cx = 168, cy = 100, s = 38;
+  const RX = 15 * Math.PI / 180, RY = 60 * Math.PI / 180;
+  const P = (x, y, z) => {
+    const y1r = y * Math.cos(RX) - z * Math.sin(RX);
+    const z1r = y * Math.sin(RX) + z * Math.cos(RX);
+    const x2r = x * Math.cos(RY) + z1r * Math.sin(RY);
+    return [cx + s * x2r, cy + s * y1r];
+  };
   const path = pts => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " Z";
   const E1 = [], E2 = [];
   for (let i = 0; i < 72; i++) {
@@ -1239,7 +1250,7 @@ function renderGammaComputed() {
   const s0 = P(0, y0, 0), s1 = P(0, y1, 0);
   const pd = punctures.map(p => ({ xy: P(0, p.y, 0), sign: p.sign }));
   $id("gammaComputed").innerHTML =
-    `<svg viewBox="0 0 340 190" role="img" aria-label="Computed figure: the two standard ellipses with flat spanning disks; the numerically computed intersection segment of the disks runs between the two computed puncture points of K1 through Sigma2, whose signs are plus and minus — the raw general-position picture whose tubing produces the closed curve gamma.">
+    `<svg viewBox="0 0 340 205" role="img" aria-label="Computed figure: the two standard ellipses with flat spanning disks; the numerically computed intersection segment of the disks runs between the two computed puncture points of K1 through Sigma2, whose signs are plus and minus — the raw general-position picture whose tubing produces the closed curve gamma.">
       <path d="${path(E1)}" fill="#1b6ca8" fill-opacity="0.10" stroke="#1b6ca8" stroke-width="2.5"/>
       <path d="${path(E2)}" fill="#2e8b57" fill-opacity="0.10" stroke="#2e8b57" stroke-width="2.5"/>
       <line x1="${s0[0]}" y1="${s0[1]}" x2="${s1[0]}" y2="${s1[1]}" stroke="#7d3c98" stroke-width="4"/>
@@ -1286,7 +1297,7 @@ function renderPresMat() { // Klein A1: one presentation matrix per side
   $id("presMatTopo").innerHTML =
     `<b>The module itself, presented.</b> For a fibered knot the Alexander module — H₁ of the infinite cyclic cover as a Z[t, t⁻¹]-module — is <i>presented by the matrix tI − h₁∗</i> (Milnor 1968: the cover is F × ℝ). For 4₁, with h₁∗ = A = [[2,1],[1,1]]:
      <div class="eq" style="margin:6px 0;">H₁(<span class="acc">X̃</span>∞) ≅ Z[t,t⁻¹]² ⁄ (tI − A),&nbsp;&nbsp; tI − A = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>t−2</td><td>−1</td></tr><tr><td>−1</td><td>t−1</td></tr></table></div>
-     det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= ∆₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
+     det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= Δ₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
   // Arithmetic: the Λ-side at the level the literature pins — size and determinant ideal.
   $id("presMatArith").innerHTML =
     `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the classical gallery's first knotted prime (the knotted-prime card above) — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
@@ -1456,7 +1467,7 @@ function renderPairs() {
   drawCircleWithGaps(pctx, B, underB, { color: "#2e8b57" });
 
   pctx.fillStyle = "#1b6ca8";
-  pctx.font = "13px Georgia";
+  pctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
   pctx.fillText("K1", A.cx - 6, A.cy - A.r - 8);
   pctx.fillStyle = "#2e8b57";
   pctx.fillText("K2", B.cx - 6, B.cy - B.r - 8);
@@ -1773,7 +1784,7 @@ function renderArcFigure() {
     actx.fill();
   }
 
-  actx.font = "12px Georgia";
+  actx.font = "12px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#1b6ca8";
   actx.fillText("K1 bounds Σ1 — horizontal plane", 12, 112);
   actx.fillStyle = "#2e8b57";
@@ -1781,7 +1792,7 @@ function renderArcFigure() {
   actx.fillStyle = "#333";
   actx.textAlign = "center";
   actx.fillText("Σ1 ∩ Σ2", (P1.X + P2.X) / 2, P2.Y - 12);
-  actx.font = "11px Georgia";
+  actx.font = "11px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#2e8b57";
   actx.fillText("K2 pierces Σ1 here", P2.X - 28, P2.Y + 24);
   actx.fillText("→ lk(K1,K2)", P2.X - 28, P2.Y + 38);
@@ -1818,13 +1829,13 @@ function renderArcFigureUnlinked() {
   actx.ellipse(K2.cx, K2.cy, K2.rx, K2.ry, 0, 0, 2 * Math.PI);
   actx.stroke();
 
-  actx.font = "12px Georgia";
+  actx.font = "12px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#1b6ca8";
   actx.fillText("K1 bounds Σ1 — horizontal plane", 20, 112);
   actx.fillStyle = "#2e8b57";
   actx.fillText("K2 bounds Σ2 — vertical plane", 240, 30);
   actx.fillStyle = "#333";
-  actx.font = "15px Georgia";
+  actx.font = "15px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.textAlign = "center";
   actx.fillText("Σ1 ∩ Σ2 = ∅", 214, 140);
   actx.fillText("0 = 0", 214, 165);
@@ -1844,7 +1855,7 @@ const bctx = borroCanvas.getContext("2d");
 let isolateMode = "none";
 
 function borroCircles() {
-  const cx = 210, cy = 175, r = 100, R = 62;
+  const cx = 210, cy = 190, r = 100, R = 62; // cy raised from 175: K1's label baseline was at y=5 and clipped
   return {
     1: { cx: cx, cy: cy - R, r, color: "#1b6ca8", label: "K1" },
     2: { cx: cx - R * 0.87, cy: cy + R * 0.5, r, color: "#2e8b57", label: "K2" },
@@ -1881,15 +1892,21 @@ function renderBorro() {
   for (const id of visible) {
     drawCircleWithGaps(bctx, circles[id], underAngles[id], { color: circles[id].color });
     bctx.fillStyle = circles[id].color;
-    bctx.font = "13px Georgia";
+    bctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
     const labelY = id === "1" ? circles[id].cy - circles[id].r - 8 : circles[id].cy + circles[id].r + 16;
     bctx.fillText(circles[id].label, circles[id].cx - 8, labelY);
     circleArrow(bctx, circles[id], arrowAngle[id], circles[id].color);
   }
   if (isolateMode !== "none") {
     bctx.fillStyle = "#666";
-    bctx.font = "italic 12px Georgia";
-    bctx.fillText(`K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 20);
+    bctx.font = "italic 12px 'Palatino Linotype', Palatino, Georgia, serif";
+    bctx.fillText(`K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 364);
+  }
+  { // state-synced accessible name (the label was frozen at "no two linked" while a ring is faded)
+    const c = $id("borroCanvas");
+    c.setAttribute("aria-label", isolateMode === "none"
+      ? "The Borromean rings: three circles K1 blue, K2 green, K3 orange, drawn with over and under crossings. No two are linked, yet the three cannot be pulled apart."
+      : `The Borromean rings with K${isolateMode} faded out: the remaining two circles are visibly unlinked, one lying entirely on top of the other.`);
   }
 }
 
@@ -2486,7 +2503,7 @@ function renderB4() {
     b4wDrawPoly(ctx, curves[name], B4W_COLORS[name], b4wDeleted === name ? [] : gaps[name],
       b4wDeleted === name ? 0.12 : 1);
   }
-  ctx.font = "13px Georgia";
+  ctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
   const lbl = (name, x, y) => {
     ctx.fillStyle = b4wDeleted === name ? "#666" : B4W_COLORS[name];
     ctx.fillText(B4W_LABEL[name] + " (" + { G: "green", Y: "yellow", R: "red", B: "blue" }[name] + ")", x, y);
@@ -3102,7 +3119,7 @@ function renderBorroWorked() {
 function renderHopfWorked() {
   const c13 = Number(legendre(5n, 13n)), c29 = Number(legendre(5n, 29n));
   $id("hopfWorked").innerHTML =
-    `<div class="step"><div class="head">Face 1 — the monodromy zeta: trivial, and honestly so.</div><div class="eq">The Hopf link is <span class="tt" data-tip="The complement fibers over the circle with fiber the obvious annulus between the two rings (the Hopf band). Fiberedness is a cited classical fact (Stallings 1978 covers it as the smallest homogeneous braid closure, (σ₁)²).">fibered</span>; the fiber is an annulus, H₁ = Z, and the monodromy acts on it by the identity — so det(tI − h₁∗) = t − 1. Torres agrees, computed: (t − 1) · ∆<sub>Hopf</sub>(t, t) = (t − 1) · 1 = t − 1, degree 1 = b₁(annulus). The smallest fibered link has a zeta with no room for anything but linking.</div></div>`
+    `<div class="step"><div class="head">Face 1 — the monodromy zeta: trivial, and honestly so.</div><div class="eq">The Hopf link is <span class="tt" data-tip="The complement fibers over the circle with fiber the obvious annulus between the two rings (the Hopf band). Fiberedness is a cited classical fact (Stallings 1978 covers it as the smallest homogeneous braid closure, (σ₁)²).">fibered</span>; the fiber is an annulus, H₁ = Z, and the monodromy acts on it by the identity — so det(tI − h₁∗) = t − 1. Torres agrees, computed: (t − 1) · Δ<sub>Hopf</sub>(t, t) = (t − 1) · 1 = t − 1, degree 1 = b₁(annulus). The smallest fibered link has a zeta with no room for anything but linking.</div></div>`
     + `<div class="step"><div class="head">Face 2 — the cover-orbit factor: the dial, both positions.</div><div class="eq">lk(K₁, K₂) = 1 is odd, so in the double cover of S³ ∖ K₁ the loop K₂ lifts to <b>1 loop winding twice</b> — local factor <b>(1 − t²)⁻¹</b> ↔ (5/13) = ${c13 > 0 ? "+1" : "−1"} (computed live): 13 inert in Q(√5), Euler factor (1 − 13⁻²ˢ)⁻¹. Unlink instead — lk even — and K₂ lifts to <b>2 loops</b>: (1 − t)⁻² ↔ (5/29) = ${c29 > 0 ? "+1" : "−1"} (live): 29 split, (1 − 29⁻ˢ)⁻². <button type="button" class="jump" onclick="gotoTab('pairs');var d=$id('pairsCoverMini');if(d)d.scrollIntoView({block:'center'});">the lift picture, Pairs tab</button></div></div>`
     + `<div class="mln">Everything the higher rows do is already here at n = 2: a cover, a loop upstairs, |deck| = (loop count) × (winding) — and the mirror field reading the same dial as e·f·g. The three-, four- and five-component rows below just climb to deeper covers.</div>`;
 }
@@ -3531,7 +3548,7 @@ function runSelfTests() {
   });
   t("DOM Klein A1/A2: presentation matrices rendered (det = t² − 3t + 1 ✓ live; Λ-side 1×1 at cited level); computed-γ figure present with honesty caption", () => {
     const pt = $id("presMatTopo").textContent, pa = $id("presMatArith").textContent, g = $id("gammaComputed").textContent;
-    return pt.includes("tI − A") && pt.includes("t² − 3t + 1") && pt.includes("∆₄₁ ✓")
+    return pt.includes("tI − A") && pt.includes("t² − 3t + 1") && pt.includes("Δ₄₁ ✓")
       && pa.includes("λ = 1") && pa.includes("deg f₃₇ = λ = 1") && pa.includes("class-group tower data this app does not carry")
       && g.includes("computed, not schematic") && g.includes("the ± punctures");
   });

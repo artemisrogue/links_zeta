@@ -1476,6 +1476,16 @@ function pairsCircles(offsetB) {
   };
 }
 
+// Canvas labels sit on top of the strokes they annotate. A halo in the canvas
+// background colour keeps them legible without moving them off what they point at.
+const CANVAS_BG = "#fdfdfb";
+function haloText(ctx, text, x, y) {
+  const lw = ctx.lineWidth, sj = ctx.lineJoin, ss = ctx.strokeStyle;
+  ctx.lineWidth = 4; ctx.lineJoin = "round"; ctx.strokeStyle = CANVAS_BG;
+  ctx.strokeText(text, x, y);
+  ctx.lineWidth = lw; ctx.lineJoin = sj; ctx.strokeStyle = ss;
+  ctx.fillText(text, x, y);
+}
 function renderPairs() {
   const off = pairsState.liftOffset || 0;
   const { A, B } = pairsCircles(off);
@@ -1498,9 +1508,9 @@ function renderPairs() {
 
   pctx.fillStyle = "#1b6ca8";
   pctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
-  pctx.fillText("K1", A.cx - 6, A.cy - A.r - 8);
+  haloText(pctx, "K1", A.cx - 6, A.cy - A.r - 8);
   pctx.fillStyle = "#2e8b57";
-  pctx.fillText("K2", B.cx - 6, B.cy - B.r - 8);
+  haloText(pctx, "K2", B.cx - 6, B.cy - B.r - 8);
   circleArrow(pctx, A, Math.PI, "#1b6ca8");
   circleArrow(pctx, B, 0, "#2e8b57");
   pairsCanvas.setAttribute("aria-label", `Two circles K1 (blue) and K2 (green), ${pairsState.linked ? "linked as the Hopf link" : "unlinked"}; lk in the label below.`);
@@ -1817,19 +1827,19 @@ function renderArcFigure() {
 
   actx.font = "12px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#1b6ca8";
-  actx.fillText("K1 bounds Σ1 — horizontal plane", 12, 112);
+  haloText(actx, "K1 bounds Σ1 — horizontal plane", 12, 112);
   actx.fillStyle = "#2e8b57";
-  actx.fillText("K2 bounds Σ2 — vertical plane", 248, 44);
+  haloText(actx, "K2 bounds Σ2 — vertical plane", 248, 44);
   actx.fillStyle = "#333";
   actx.textAlign = "center";
-  actx.fillText("Σ1 ∩ Σ2", (P1.X + P2.X) / 2, P2.Y - 12);
+  haloText(actx, "Σ1 ∩ Σ2", (P1.X + P2.X) / 2, P2.Y - 12);
   actx.font = "11px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#2e8b57";
-  actx.fillText("K2 pierces Σ1 here", P2.X - 28, P2.Y + 24);
-  actx.fillText("→ lk(K1,K2)", P2.X - 28, P2.Y + 38);
+  haloText(actx, "K2 pierces Σ1 here", P2.X - 28, P2.Y + 24);
+  haloText(actx, "→ lk(K1,K2)", P2.X - 28, P2.Y + 38);
   actx.fillStyle = "#1b6ca8";
-  actx.fillText("K1 pierces Σ2 here", P1.X + 44, P1.Y + 24);
-  actx.fillText("→ lk(K2,K1)", P1.X + 44, P1.Y + 38);
+  haloText(actx, "K1 pierces Σ2 here", P1.X + 44, P1.Y + 24);
+  haloText(actx, "→ lk(K2,K1)", P1.X + 44, P1.Y + 38);
   actx.textAlign = "start";
 }
 
@@ -1862,14 +1872,14 @@ function renderArcFigureUnlinked() {
 
   actx.font = "12px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.fillStyle = "#1b6ca8";
-  actx.fillText("K1 bounds Σ1 — horizontal plane", 20, 112);
+  haloText(actx, "K1 bounds Σ1 — horizontal plane", 20, 112);
   actx.fillStyle = "#2e8b57";
-  actx.fillText("K2 bounds Σ2 — vertical plane", 240, 30);
+  haloText(actx, "K2 bounds Σ2 — vertical plane", 240, 30);
   actx.fillStyle = "#333";
   actx.font = "15px 'Palatino Linotype', Palatino, Georgia, serif";
   actx.textAlign = "center";
-  actx.fillText("Σ1 ∩ Σ2 = ∅", 214, 140);
-  actx.fillText("0 = 0", 214, 165);
+  haloText(actx, "Σ1 ∩ Σ2 = ∅", 214, 140);
+  haloText(actx, "0 = 0", 214, 165);
   actx.textAlign = "start";
 }
 
@@ -1925,13 +1935,13 @@ function renderBorro() {
     bctx.fillStyle = circles[id].color;
     bctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
     const labelY = id === "1" ? circles[id].cy - circles[id].r - 8 : circles[id].cy + circles[id].r + 16;
-    bctx.fillText(circles[id].label, circles[id].cx - 8, labelY);
+    haloText(bctx, circles[id].label, circles[id].cx - 8, labelY);
     circleArrow(bctx, circles[id], arrowAngle[id], circles[id].color);
   }
   if (isolateMode !== "none") {
     bctx.fillStyle = "#666";
     bctx.font = "italic 12px 'Palatino Linotype', Palatino, Georgia, serif";
-    bctx.fillText(`K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 364);
+    haloText(bctx, `K${isolateMode} faded — the remaining pair is visibly unlinked (one ring entirely on top).`, 10, 364);
   }
   { // state-synced accessible name (the label was frozen at "no two linked" while a ring is faded)
     const c = $id("borroCanvas");
@@ -2064,7 +2074,7 @@ function initBorro3DFallback() {
       ctx.strokeStyle = colors[i]; ctx.lineWidth = 3; ctx.stroke();
     });
     ctx.fillStyle = "#767676"; ctx.font = "11px serif";
-    ctx.fillText("offline fallback — no depth sorting; drag or arrow keys to rotate", 60, 330);
+    haloText(ctx, "offline fallback — no depth sorting; drag or arrow keys to rotate", 60, 330);
   }
   draw();
   let dragging = false, px = 0, py = 0;
@@ -2537,7 +2547,7 @@ function renderB4() {
   ctx.font = "13px 'Palatino Linotype', Palatino, Georgia, serif";
   const lbl = (name, x, y) => {
     ctx.fillStyle = b4wDeleted === name ? "#666" : B4W_COLORS[name];
-    ctx.fillText(B4W_LABEL[name] + " (" + { G: "green", Y: "yellow", R: "red", B: "blue" }[name] + ")", x, y);
+    haloText(ctx, B4W_LABEL[name] + " (" + { G: "green", Y: "yellow", R: "red", B: "blue" }[name] + ")", x, y);
   };
   lbl("Y", 160, 14);
   lbl("R", 4, 150);

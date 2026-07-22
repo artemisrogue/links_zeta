@@ -403,9 +403,10 @@ function k1361FrobData(p) { // Frobenius data at any unramified prime, p = 2 inc
   if (p === 2n) {
     // 2 is unramified in k13,61 (Rédei's normalization; cited on the card). Its Frobenius
     // restricted to Q(√d), d ≡ 1 (mod 4): split iff d ≡ 1 (mod 8) — computed from 13, 61 mod 8.
-    const chi1 = 13n % 8n === 1n ? 0 : 1, chi2 = 61n % 8n === 1n ? 0 : 1;
-    const oA = n3Order(chi1, chi2, 0), oB = n3Order(chi1, chi2, 1);
-    return oA === oB ? { q: 2n, chi1, chi2, r: null, ord: oA } : { err: "corner-dependent order at 2?" };
+    // frobeniusAt2_1361 (shared/utils.js) is the one place this is computed; Ladder's
+    // frobeniusMatrix1361 error message for q=2 reads the same shared function.
+    const f2 = frobeniusAt2_1361();
+    return f2.err ? f2 : { q: 2n, chi1: f2.chi1, chi2: f2.chi2, r: null, ord: f2.ord };
   }
   return frobOrderTriple(p);
 }

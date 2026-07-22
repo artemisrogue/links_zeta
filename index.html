@@ -250,7 +250,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <label>q = <input type="number" id="qInput" value="29"></label>
           <button class="ctrl primary" id="computeLegendre">Compute</button>
         </div>
-        <div class="warn" id="pairsWarn" role="alert">&nbsp;</div>
+        <div class="warn" id="pairsWarn" role="status" aria-live="polite">&nbsp;</div>
         <table class="symbolic" id="legendreTable"></table>
         <div class="banner" id="pairsBanner" aria-live="polite"></div>
         <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
@@ -1394,9 +1394,15 @@ window.gotoTab = function (name) {
   if (btn) { btn.click(); window.scrollTo(0, 0); }
 };
 
+let ttDescribed = null;
 function ttAnnounce(t) {
+  // One shared live region serves every tooltip, so it must be wired to exactly
+  // one element at a time; otherwise each previously-touched .tt keeps pointing
+  // at a node now holding some other tooltip's text.
+  if (ttDescribed && ttDescribed !== t) ttDescribed.removeAttribute("aria-describedby");
   $id("ttReadout").textContent = t.getAttribute("data-tip") || "";
   t.setAttribute("aria-describedby", "ttReadout");
+  ttDescribed = t;
 }
 function ttSet(t, open) {
   t.classList.toggle("tt-open", open);
@@ -1584,21 +1590,25 @@ function renderLegendreTable(p, q) {
   banner.className = "banner";
   if (!isPrimeSmall(p) || !isPrimeSmall(q) || p === q || p === 2n || q === 2n) {
     warn.style.color = "var(--bad)";
-    warn.textContent = p === q ? "p and q must be distinct primes."
+    warn.setAttribute("role", "alert"); // a refusal, not a remark
+    warn.textContent = "Cannot compute — " + (p === q ? "p and q must be distinct primes."
       : (p === 2n || q === 2n) ? "p and q must be odd — the prime 2 needs its own local analysis (it is the ramification the mod-4 convention tames)."
-      : "Enter two distinct odd primes — Euler's criterion presumes an odd prime modulus.";
+      : "Enter two distinct odd primes — Euler's criterion presumes an odd prime modulus.");
     // Hypotheses failed: nothing below may be computed or typeset.
     renderHilbertTable(p, q, null, null);
     renderPairsThread(p, q, null);
     return;
   } else if (isOneMod4(p) && isOneMod4(q)) {
     warn.style.color = "var(--muted)";
+    warn.setAttribute("role", "status"); // a remark about the pair, not a refusal
     warn.textContent = "Both ≡ 1 (mod 4): the papers' orientability convention — the 2-adic factor is +1 and (p/q) = (q/p) on the nose.";
   } else if (isOneMod4(p) || isOneMod4(q)) {
     warn.style.color = "var(--muted)";
+    warn.setAttribute("role", "status"); // a remark about the pair, not a refusal
     warn.textContent = "One of the pair is ≡ 3 (mod 4) — outside the papers' convention, but since the other is ≡ 1 (mod 4) the 2-adic Hilbert factor is still +1, so reciprocity still reads (p/q) = (q/p). One caveat: Q(√p) for p ≡ 3 (mod 4) has discriminant 4p — ramified at 2 as well as p — so the 'surface touching only its own knot' reading belongs to the ≡ 1 slot; splitting and symmetry are what survive here.";
   } else {
     warn.style.color = "var(--muted)";
+    warn.setAttribute("role", "status"); // a remark about the pair, not a refusal
     warn.textContent = "Both ≡ 3 (mod 4): reciprocity flips sign, (p/q) = −(q/p) — the −1 is exactly the 2-adic factor in the product formula below, which is the point: the ≡ 1 (mod 4) convention does not make that factor go away, it chooses the case where it equals +1. Here it is visible as a term rather than hidden as an exception. Caveat that applies to both fields now: for p ≡ 3 (mod 4), Q(√p) has discriminant 4p — ramified at 2 as well as p — so the 'surface touching only its own knot' reading belongs to the ≡ 1 slot; splitting and antisymmetry are what survive.";
   }
   let pq, qp, err = null;
@@ -1684,7 +1694,15 @@ $id("computeLegendre").addEventListener("click", () => {
   if (p === null || q === null) {
     const warn = $id("pairsWarn");
     warn.style.color = "var(--bad)";
-    warn.textContent = "Enter plain decimal integers (no exponents or fractions), at most 9 digits.";
+    warn.setAttribute("role", "alert");
+    warn.textContent = "Cannot compute — enter plain decimal integers (no exponents or fractions), at most 9 digits.";
+    // Clear everything downstream: leaving the previous pair's results up makes
+    // the panel describe primes that are no longer in the boxes.
+    $id("legendreTable").innerHTML = "";
+    const banner = $id("pairsBanner");
+    banner.textContent = ""; banner.className = "banner";
+    renderHilbertTable(null, null, null, null);
+    renderPairsThread(null, null, null);
     return;
   }
   renderLegendreTable(p, q);
@@ -3799,10 +3817,19 @@ function runSelfTests() {
       && ga("arcCanvas", "aria-label").includes(pairsState.linked ? "meeting in the segment" : "pulled apart")
       && ga("b4Canvas", "aria-label").includes(b4wDeleted ? "deleted" : "Brunnian");
   });
-  t("DOM R3-A4: aria-live=polite on result surfaces; role=alert on both warn fields", () => {
-    return ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
-      && $q(".euler-vals").getAttribute("aria-live") === "polite"
-      && ga("pairsWarn", "role") === "alert" && ga("frobWarn", "role") === "alert";
+  t("DOM R3-A4: aria-live on result surfaces; #pairsWarn switches role refusal/remark", () => {
+    const live = ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
+      && $q(".euler-vals").getAttribute("aria-live") === "polite" && ga("frobWarn", "role") === "alert";
+    // #pairsWarn carries two different kinds of message; colour alone must not be
+    // the only thing telling them apart. A refusal is role=alert and is prefixed
+    // "Cannot compute —"; a remark about an admissible pair is role=status.
+    const before = [$id("pInput").value, $id("qInput").value];
+    const state = () => [ga("pairsWarn", "role"), $id("pairsWarn").textContent.startsWith("Cannot compute —")];
+    const run = (a, b) => { $id("pInput").value = a; $id("qInput").value = b; $id("computeLegendre").click(); return state(); };
+    const refusal = run("9", "29"), remark = run("3", "7");
+    const [pa, qa2] = before; run(pa, qa2); // restore the user's pair
+    return live && refusal[0] === "alert" && refusal[1] === true
+      && remark[0] === "status" && remark[1] === false;
   });
   t("DOM R3-A5: jumps + ellipse toggle real buttons; select/slider named; 3D arrow keys", () => {
     const jumps = [...$qa(".jump")];

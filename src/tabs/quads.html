@@ -1,0 +1,90 @@
+    <section id="tab-quads" class="tab-panel">
+    <p style="font-size:.9rem;color:var(--muted);max-width:840px;">Rédei's classical construction stops at triples; Amano (2014) and the unipotent ladder of the previous tab run one more level — the same argument, one matrix size up.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">The standard four-component <span class="tt tt-left" data-tip="A link that is genuinely inseparable, yet becomes completely trivial the moment ANY single component is deleted. The Borromean rings are the 3-component case. The 'rubber-band' Brunnian links work by looping each component around the next as the commutator aba⁻¹b⁻¹ — visible here in how the yellow loop clasps the green one.">Brunnian</span> link (Wikipedia's Brunnian-4loops figure, by AnonMoos, public domain), redrawn from its exact path data — crossing gaps at computed intersections, over/under from the original's layers.</div>
+        <canvas id="b4Canvas" width="420" height="430"></canvas>
+        <div class="small-note" id="b4LkNote"></div>
+        <div class="controls">
+          <select id="deleteSelect" class="ctrl" aria-label="component to delete">
+            <option value="1">delete K1</option>
+            <option value="2">delete K2</option>
+            <option value="3">delete K3</option>
+            <option value="4">delete K4</option>
+          </select>
+          <button class="ctrl primary" id="deleteBtn">Delete ring</button>
+          <button class="ctrl" id="restoreBtn">Restore all</button>
+        </div>
+        <div class="small-note" id="b4WordNote" style="min-height:2.6em;" aria-live="polite">Delete K₁, K₂, or K₃ — algebraically, set its meridian xᵢ = 1 — and the word below, ℓ₄ = [[x₁,x₂],x₃] (K₄'s longitude in Milnor's model B₄, written in the meridians x₁, x₂, x₃ of the other three), collapses to 1: the algebraic shadow of the deletion — it says the Milnor data vanish, while the sublinks' actual triviality (every 3-sublink, every pair) is the model's construction, as the honesty note below says of the drawing. Deleting K₄ is different: ℓ₄ is K₄'s own longitude, so there is no x₄ to set — the word leaves with its component. Yet the four together are inseparable.</div>
+        <div class="magnus-box" id="magnusBox">computing Magnus expansion…</div>
+        <div class="honest">Pairwise linking numbers are computed live from this diagram's signed crossings. The Brunnian claim itself — "cutting any loop releases the other three" — is the figure's documented property. The algebraic certificate below, μ̄(1234) = 1, is computed for Milnor's model B₄ (the commutator archetype of the same family); computing μ̄ for the pictured diagram itself would require its Wirtinger presentation, which we do not do here.</div>
+        
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">Amano's quadruple (5, 8081, 101, 449), computed live.</div>
+        <div id="quadSteps"></div>
+        <div class="banner" id="quadBanner"></div>
+        <div class="thread" id="quadThread"></div>
+        
+      </div>
+    </div>
+
+    <div class="small-note" style="margin-top:14px;">The tower of covers, one level up, drawn against the tower of fields — box for box, the same subgroup lattice read through the Galois correspondence. Both figures start at the same height so the rows can be compared directly.</div>
+    <div class="twocol">
+      <div class="col topo">
+        <svg id="quadCoverTower" width="100%" height="355" viewBox="0 0 420 350" role="img" aria-label="Tower of covers of the complement of K1 union K2 union K3: X at the bottom; three meridian double covers; two 4-fold covers through the shared component K2; two 8-sheet mod-2 Heisenberg covers H12 and H23 with deck group D4; their 32-sheet join; on top the 64-sheet cover with deck group N4 over F2 — a purely topological tower at the Milnor-model level, drawn box for box opposite the field tower at right, which it mirrors.">
+<g font-size="10.5" text-anchor="middle">
+<rect class="hasse-box cover" x="85" y="4" width="250" height="26"/>
+<text class="hasse-label acc" x="210" y="21">Ỹ — 64-sheet cover, deck N₄(F₂)</text>
+<line x1="210" y1="30" x2="210" y2="59" stroke="#333"/>
+<text x="218" y="49" font-size="9" fill="#666" text-anchor="start">2 sheets — the quadruple level</text>
+<rect class="hasse-box cover" x="100" y="59" width="220" height="26"/>
+<text class="hasse-label" x="210" y="76">H₁₂ · H₂₃ — the join, 32 sheets</text>
+<line x1="210" y1="85" x2="125" y2="117" stroke="#333"/>
+<line x1="210" y1="85" x2="295" y2="117" stroke="#333"/>
+<rect class="hasse-box cover" x="47" y="117" width="156" height="26"/>
+<text class="hasse-label" x="125" y="134">H₁₂ — Heisenberg, 8 sheets</text>
+<rect class="hasse-box cover" x="217" y="117" width="156" height="26"/>
+<text class="hasse-label" x="295" y="134">H₂₃ — Heisenberg, 8 sheets</text>
+<line x1="125" y1="143" x2="125" y2="173" stroke="#333"/>
+<text x="131" y="162" font-size="9" fill="#666" text-anchor="start">2 sheets (γ₁₂ unwinds)</text>
+<line x1="295" y1="143" x2="295" y2="173" stroke="#333"/>
+<rect class="hasse-box cover" x="55" y="173" width="140" height="34"/>
+<text class="hasse-label" x="125" y="187">X₁₂ — 4 sheets</text>
+<text x="125" y="200" font-size="8.5" font-style="italic" fill="#666">through the shared K₂</text>
+<rect class="hasse-box cover" x="225" y="173" width="140" height="34"/>
+<text class="hasse-label" x="295" y="187">X₂₃ — 4 sheets</text>
+<text x="295" y="200" font-size="8.5" font-style="italic" fill="#666">through the shared K₂</text>
+<line x1="125" y1="207" x2="80" y2="237" stroke="#333"/>
+<line x1="125" y1="207" x2="210" y2="237" stroke="#333"/>
+<line x1="295" y1="207" x2="210" y2="237" stroke="#333"/>
+<line x1="295" y1="207" x2="340" y2="237" stroke="#333"/>
+<rect class="hasse-box cover" x="38" y="237" width="84" height="26"/>
+<text class="hasse-label" x="80" y="254">X₁ — at K₁</text>
+<rect class="hasse-box cover" x="160" y="237" width="100" height="26"/>
+<text class="hasse-label" x="210" y="254">X₂ — at K₂</text>
+<rect class="hasse-box cover" x="298" y="237" width="84" height="26"/>
+<text class="hasse-label" x="340" y="254">X₃ — at K₃</text>
+<text x="384" y="254" font-size="8.5" fill="#666" text-anchor="start">2 sheets</text>
+<line x1="210" y1="296" x2="80" y2="263" stroke="#333"/>
+<line x1="210" y1="296" x2="210" y2="263" stroke="#333"/>
+<line x1="210" y1="296" x2="340" y2="263" stroke="#333"/>
+<rect class="hasse-box cover" x="130" y="296" width="160" height="26"/>
+<text class="hasse-label" x="210" y="313">X = S³ ∖ (K₁ ∪ K₂ ∪ K₃)</text>
+<text x="8" y="332" font-style="italic" fill="#666" font-size="9.5" text-anchor="start">deck = N₄(F₂), 64 sheets — at the Milnor-model level</text>
+<text x="8" y="344" font-style="italic" fill="#666" font-size="9.5" text-anchor="start">(ρ from B₄'s μ̄ data; Milnor 1957, Morishita ch. 8, Amano 2014)</text>
+</g>
+</svg>
+        <div class="cover-cap" id="quadCoverCap"></div>
+        <div class="small-note" id="quadCoverCorr">The lattice of intermediate covers mirrors the subgroup lattice of the deck group — <span class="tt" data-tip="Covering-space theory, standard (cited, not computed): covers of X are governed by π₁ exactly as extensions are governed by Gal — subgroups ↔ intermediate covers, index ↔ sheet count, normal subgroups ↔ Galois covers with quotient deck group (e.g. Hatcher §1.3; Morishita chs. 2–4 runs this dictionary for knots and primes).">the Galois correspondence, both sides</span> — the same lattice as the fields opposite: only the invariant-carrying covers are drawn, exactly matching the fields kept at right.</div>
+      </div>
+      <div class="col arith">
+        <svg id="quadTower" width="100%" height="340" viewBox="0 0 420 335"></svg>
+        <div class="small-note">Only invariant-carrying fields are drawn — degree 64 has far more subfields than fit on a page. The two <span class="tt" data-tip="D₄ = the dihedral group of order 8, the symmetries of a square — the Galois group of every Rédei field.">D₄</span> Rédei fields are the triple-level objects (each plays the role k₁₃,₆₁ played on the <button type="button" class="jump" onclick="gotoTab('triples')">Triples tab</button>); θ lives in their <span class="tt" data-tip="The compositum of two fields: the smallest field containing both — the field-side join, mirroring the join of the two Heisenberg covers in the tower opposite.">compositum</span>, and adjoining √θ is the quadruple level, exactly as adjoining √α was the triple level. <span class="tt" data-tip="Upper triangular 4×4 matrices over the field with two elements, with 1s on the diagonal: 2⁶ = 64 elements. The Galois group of K/Q realizes this group exactly — see the Ladder tab.">Gal(K/Q) ≅ N₄(F₂)</span>. Why deg 32, not 8·8 = 64? The octics intersect exactly in Q(√8081) — their other quadratic subfields differ, and a D₄ octic has no cyclic quartic subfield — so 8·8/2 = 32.</div>
+      </div>
+    </div>
+
+    <div class="caption-strip">When the triple level vanishes too, the closed object bounds — and the next count down is the quadruple invariant.</div>
+  </section>

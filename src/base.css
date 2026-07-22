@@ -1,0 +1,191 @@
+:root{--topo:#1b6ca8;--topo-bg:#eaf3fa;--arith:#c0392b;--arith-bg:#fbecea;--ink:#1c1c1c;--muted:#666;--paper:#fbfaf7;--line:#d9d4c8;--good:#1e7e34;--bad:#c0392b;}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Cambria,Georgia,serif;background:var(--paper);color:var(--ink);line-height:1.45;}
+header{padding:22px 28px 10px;border-bottom:2px solid var(--ink);}
+header h1{margin:0 0 4px;font-size:1.55rem;font-weight:600;letter-spacing:.2px;}
+header p{margin:0;color:var(--muted);font-size:.95rem;font-style:italic;}
+nav.tabs{display:flex;gap:2px;padding:0 24px;position:sticky;top:0;z-index:40;background:#efece3;border-bottom:2px solid var(--ink);flex-wrap:wrap;}
+/* The nav is sticky and opaque, so anything scrolled to with block:"start" lands
+   underneath it. --navh is measured at runtime because the nav wraps to two rows
+   when narrow or zoomed. */
+:root{--navh:57px;}
+[id]{scroll-margin-top:var(--navh);}
+nav.tabs button{font-family:inherit;font-size:1rem;padding:11px 18px;border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;color:var(--muted);}
+nav.tabs button:hover{color:var(--ink);}
+nav.tabs button.active{color:var(--ink);border-bottom:3px solid var(--ink);font-weight:600;background:var(--paper);}
+main{padding:22px 28px 60px;max-width:1180px;margin:0 auto;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fade .25s ease;}
+@keyframes fade{from{opacity:0}
+to{opacity:1}
+}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch;}
+.twocol>*{min-width:0;}
+/* Below the stacking breakpoint the mirror columns become rows, and the page's
+   35 "at right" / "at left" / "opposite" cross-references stop being literally
+   true. Rather than strip the spatial language that makes the mirror readable
+   on a projector, the stacked layout says once what the directions now mean. */
+/* gotoTab focuses the destination panel so keyboard users land where they were
+   sent; the panel is a programmatic target (tabindex -1), not a control, so the
+   ring around the whole tab is noise. Real controls keep their outlines. */
+.tab-panel:focus{outline:none;}
+.stacknote{display:none;}
+@media (max-width:820px){
+  .twocol>.stacknote{display:block;grid-column:1/-1;font-size:.8rem;color:var(--muted);
+    border:1px dashed var(--line);border-radius:5px;padding:6px 10px;margin-bottom:2px;text-align:left;}
+}
+@media (max-width:820px){.twocol{grid-template-columns:1fr;}
+}
+.col{border:1px solid var(--line);border-radius:6px;padding:16px 18px 20px;background:#fff;min-width:0;overflow-wrap:break-word;}
+.col.topo{border-left:6px solid var(--topo);}
+.col.arith{border-left:6px solid var(--arith);}
+.col h2{margin:0 0 4px;font-size:1.05rem;letter-spacing:.3px;text-transform:uppercase;}
+.col.topo h2{color:var(--topo);}
+.col.arith h2{color:var(--arith);}
+.col .sub{color:var(--muted);font-size:.85rem;margin-bottom:12px;}
+.caption-strip{margin-top:18px;padding:12px 18px;background:#efece3;border-radius:6px;font-style:italic;text-align:center;border:1px dashed var(--line);}
+.section-head{margin:26px 0 12px;font-size:1.05rem;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;}
+#presenterHelp{margin-top:14px;font-size:13px;color:var(--muted);}
+#presenterHelp summary{cursor:pointer;padding:2px 0;}
+#presenterHelp kbd{font-family:Consolas,"Courier New",monospace;font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:#fff;}
+#presenterHelp code{font-family:Consolas,"Courier New",monospace;font-size:12px;}
+#presenterHelp code.frag{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:bottom;white-space:nowrap;}
+.tscroll{overflow-x:auto;max-width:100%;}
+.tscroll>table{min-width:460px;}
+canvas{display:block;margin:0 auto;background:#fdfdfb;border:1px solid var(--line);border-radius:4px;max-width:100%;}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;justify-content:center;align-items:center;}
+button.ctrl,select.ctrl{font-family:inherit;font-size:.85rem;padding:7px 13px;border-radius:5px;border:1px solid var(--line);background:#fff;cursor:pointer;}
+button.ctrl:hover{background:#f2f0e8;}
+button.ctrl.primary{background:var(--ink);border-color:var(--ink);color:#fff;}
+.col.topo button.ctrl.primary{background:var(--topo);border-color:var(--topo);}
+.col.arith button.ctrl.primary{background:var(--arith);border-color:var(--arith);}
+.state-label{text-align:center;font-size:1rem;font-weight:600;margin:6px 0;min-height:1.3em;}
+.state-label.topo{color:var(--topo);}
+.calc-row{display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;}
+.calc-row label{font-size:.85rem;color:var(--muted);}
+.calc-row input{width:80px;font-family:inherit;font-size:.95rem;padding:5px 7px;border:1px solid var(--line);border-radius:4px;}
+.warn{color:var(--bad);font-size:.8rem;text-align:center;min-height:1.2em;}
+table.symbolic{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92rem;}
+table.symbolic td,table.symbolic th{padding:4px 8px;border-bottom:1px solid #eee;text-align:left;}
+table.symbolic td.k{color:var(--muted);width:45%;}
+table.symbolic td.v{font-weight:600;font-family:"Cambria Math",Cambria,serif;}
+.step{margin:10px 0 14px;padding:10px 12px;background:#fafaf6;border:1px solid var(--line);border-radius:5px;font-size:.92rem;}
+.step .head{font-weight:600;margin-bottom:4px;}
+.step .eq{font-family:"Cambria Math",Cambria,serif;}
+.ok{color:var(--good);font-weight:700;}
+.fail{color:var(--bad);font-weight:700;}
+.banner{margin-top:14px;padding:12px 16px;border-radius:6px;background:var(--arith-bg);border:1px solid var(--arith);text-align:center;font-size:1.05rem;}
+.banner b{color:var(--arith);}
+.banner.topo{background:var(--topo-bg);border-color:var(--topo);}
+.banner.topo b{color:var(--topo);}
+svg text{font-family:inherit;}
+.hasse-box{fill:#fff;stroke:var(--ink);stroke-width:1.2;}
+.hasse-label{font-size:12px;}
+.magnus-box{font-family:"Cambria Math",Cambria,serif;font-size:1.05rem;text-align:center;padding:14px;background:#fafaf6;border:1px solid var(--line);border-radius:6px;margin:12px 0;}
+.magnus-box .hi{color:var(--topo);font-weight:700;background:var(--topo-bg);padding:1px 5px;border-radius:3px;}
+.honest{font-size:.95rem;color:var(--ink);margin-top:12px;text-align:left;background:#fbf6ec;border-left:4px solid #b8860b;padding:10px 14px;border-radius:0 5px 5px 0;}
+/* Dictionary table */ table.dict{width:100%;border-collapse:collapse;margin:16px 0;}
+table.dict th{padding:10px 14px;font-size:1rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--ink);text-align:left;}
+table.dict th.t{color:var(--topo);}
+table.dict th.a{color:var(--arith);}
+table.dict td{padding:9px 14px;border-bottom:1px solid var(--line);font-size:.95rem;font-family:"Cambria Math",Cambria,serif;transition:background .2s;}
+table.dict tr:hover td{background:#f6f3ea;}
+table.dict td.t{color:var(--topo);}
+table.dict td.a{color:var(--arith);}
+.coda{margin-top:22px;padding:16px 22px;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:.98rem;}
+.coda .lede{font-weight:600;font-style:italic;}
+/* R4 thread device */ .tln{color:var(--topo);font-size:.8rem;margin-top:6px;}
+.mln{color:var(--muted);font-size:.8rem;margin-top:4px;}
+.thread{margin:14px 0;padding:10px 14px;background:#fff;border:1px solid var(--line);border-left:4px solid #2b2b25;border-radius:5px;font-size:.9rem;}
+.thread-badge{display:inline-block;font-size:.72rem;letter-spacing:.6px;border:1px solid #2b2b25;border-radius:3px;padding:0 6px;margin-right:8px;background:#efece3;color:#2b2b25;white-space:nowrap;}
+.thread>div{margin-top:6px;}
+/* Ladder matrices */ .matrices{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:20px 0;}
+.matrix-card{text-align:center;}
+.matrix-card h3{margin:0 0 6px;font-size:.9rem;color:var(--ink);}
+.matrix-card .order{font-size:.75rem;color:var(--muted);margin-bottom:6px;}
+table.mat{border-collapse:collapse;margin:0 auto;}
+table.mat td{width:38px;height:38px;text-align:center;vertical-align:middle;border:1px solid var(--ink);font-size:.85rem;font-family:"Cambria Math",Cambria,serif;transition:background .4s;}
+table.mat td.diag1{color:var(--topo);font-weight:700;}
+table.mat td.diag2{color:var(--arith);font-weight:700;}
+table.mat td.corner{font-weight:700;}
+table.mat td.lit{background:#fff6cc;}
+.arrow-btn{font-size:1.6rem;cursor:pointer;user-select:none;color:var(--muted);border:none;background:none;}
+.arrow-btn:hover{color:var(--ink);}
+.ladder-note{text-align:center;min-height:2.4em;color:var(--muted);font-size:.9rem;margin-top:6px;}
+/* Zeta tab */ .zeta-face{padding:12px 14px;margin:8px 0;background:#fafaf6;border:1px solid var(--line);border-radius:5px;}
+.zeta-face .fname{font-weight:600;font-size:.85rem;letter-spacing:.3px;color:var(--muted);}
+.zeta-face .feq{font-family:"Cambria Math",Cambria,serif;font-size:1rem;margin-top:3px;}
+.euler-vals{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-family:"Cambria Math",Cambria,serif;margin-top:8px;}
+.euler-vals div{text-align:center;}
+.euler-vals .lbl{font-size:.75rem;color:var(--muted);font-family:inherit;}
+.euler-vals .num{font-size:1.1rem;font-weight:600;}
+input[type=range]{width:220px;}
+.poly-demo{margin-top:10px;padding:12px;background:#fafaf6;border:1px solid var(--line);border-radius:5px;font-size:.92rem;}
+.poly-demo .eq{font-family:"Cambria Math",Cambria,serif;}
+.coef-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;}
+.coef-cell{text-align:center;padding:6px 4px;border:1px solid var(--line);border-radius:4px;background:#fff;font-family:"Cambria Math",Cambria,serif;font-size:.85rem;}
+.coef-cell.zero{color:#767676;}
+.coef-cell.top{background:var(--topo-bg);border-color:var(--topo);color:var(--topo);font-weight:700;}
+footer{border-top:2px solid var(--ink);padding:16px 28px 30px;}
+#testsPanel{max-width:1180px;margin:10px auto 0;display:none;}
+#testsPanel.open{display:block;}
+#testList{list-style:none;padding:0;margin:8px 0 0;font-family:Menlo,Consolas,monospace;font-size:.82rem;}
+#testList li{padding:3px 0;border-bottom:1px solid #eee;}
+#testList li.pass{color:var(--good);}
+#testList li.fail{color:var(--bad);font-weight:700;}
+.tip{cursor:help;border-bottom:1px dotted var(--muted);}
+.small-note{font-size:.8rem;color:var(--muted);text-align:center;margin-top:4px;}
+.jump{color:var(--topo);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.jump:hover{color:var(--arith);}
+button.jump,button.tip{background:none;border:0;padding:0;font:inherit;}
+button.tip{color:inherit;}
+/* Accented capitals: Palatino Linotype mis-positions combining marks over capitals
+   (Z-hat, X-tilde, Sigma-tilde all render displaced); Cambria composes them correctly.
+   Applied only to those glyphs so the page keeps its serif elsewhere. */
+.acc{font-family:Cambria,"Times New Roman",serif;}
+svg text.acc{font-family:Cambria,"Times New Roman",serif;}
+.tt{border-bottom:1px dotted #767676;cursor:help;position:relative;}
+.tt:hover::after,.tt:focus::after,.tt.tt-open::after{content:attr(data-tip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 7px);width:250px;background:#2b2b25;color:#f5f2e8;font-size:.78rem;font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;padding:8px 11px;border-radius:5px;z-index:50;line-height:1.4;text-align:left;white-space:normal;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.tt:hover::before,.tt:focus::before,.tt.tt-open::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 1px);border:6px solid transparent;border-top-color:#2b2b25;z-index:50;}
+.tt.tt-left:hover::after,.tt.tt-left:focus::after,.tt.tt-left.tt-open::after{left:0;transform:none;}
+.tt.tt-right:hover::after,.tt.tt-right:focus::after,.tt.tt-right.tt-open::after{left:auto;right:0;transform:none;}
+.tt.tt-open::after{pointer-events:auto;overflow-y:auto;max-height:55vh;}
+.tt.tt-below:hover::after,.tt.tt-below:focus::after,.tt.tt-below.tt-open::after{bottom:auto;top:calc(100% + 7px);}
+.tt.tt-below:hover::before,.tt.tt-below:focus::before,.tt.tt-below.tt-open::before{bottom:auto;top:calc(100% + 1px);border-top-color:transparent;border-bottom-color:#2b2b25;}
+.why-box{margin-top:10px;font-size:.88rem;padding:10px 14px;border-left:3px solid var(--line);background:#fafaf6;display:none;}
+.why-box.open{display:block;}
+.why-toggle{font-size:.8rem;color:var(--muted);cursor:pointer;text-decoration:underline dotted;background:none;border:none;font-family:inherit;}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+/* R6 surface ladder (two rails, three rungs) + cover-lattice twins */
+.sladder{max-width:1020px;margin:12px auto;border-left:6px solid var(--topo);border-right:6px solid var(--arith);padding:2px 16px 8px;}
+.sladder-rails{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-top:6px;}
+.rung{background:#fff;border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:0 0 6px 6px;margin:16px 0;}
+.rung-title{font-weight:600;padding:10px 14px 0;}
+.rung-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 14px;}
+.rung-grid>*{min-width:0;}
+/* Rung 2's figure is a three-panel storyboard; in a half-width cell its labels
+   render around 9px. Given the whole row it reaches a legible size. */
+.rung-t.wide{grid-column:1/-1;}
+.rung-t.wide>svg{max-width:940px;display:block;margin:0 auto;}
+@media (max-width:820px){.rung-grid{grid-template-columns:1fr;}
+}
+.rung-t{border-left:4px solid var(--topo);padding-left:12px;font-size:.92rem;}
+.rung-a{border-left:4px solid var(--arith);padding-left:12px;font-size:.92rem;display:flex;flex-direction:column;justify-content:center;}
+.rung-grid svg{display:block;margin:0 auto 4px;max-width:100%;background:#fdfdfb;border:1px solid var(--line);border-radius:4px;}
+.figcap{font-size:.8rem;color:#666;font-style:italic;text-align:center;margin:2px 0 8px;}
+.rung-count{margin:0 14px 12px;padding:8px 12px;background:#efece3;border:1px dashed var(--line);border-radius:5px;font-size:.9rem;}
+.hasse-box.cover{stroke:var(--topo);fill:#f4f9fd;}
+.cover-cap{font-size:.88rem;margin-top:8px;}
+/* R6 G2: the Zeta gallery — native <details> cards, closed at load, keyboard-native */
+details.zx{border:1px solid var(--line);border-radius:6px;background:#fff;margin:12px 0;}
+details.zx>summary{cursor:pointer;padding:10px 14px;}
+details.zx>summary::marker{color:#767676;}
+details.zx>summary:hover{background:#f6f3ea;}
+details.zx>summary h2{display:inline;margin:0;font-size:1rem;text-transform:none;letter-spacing:0;}
+details.zx[open]>summary{border-bottom:1px dashed var(--line);}
+.zx-hook{text-transform:none;color:var(--muted);font-size:.82rem;font-weight:400;letter-spacing:0;font-style:italic;}
+.zx-row-head{margin:22px 0 8px;padding:6px 12px;background:#efece3;border-left:4px solid var(--ink);font-weight:600;font-size:.98rem;}
+.zx-row-head .rh-sub{color:var(--muted);font-weight:400;font-style:italic;font-size:.85rem;margin-left:8px;}
+.zx-body{padding:6px 14px 14px;}
+.zx-lesson{margin:10px 0 6px;padding:8px 12px;background:#efece3;border-left:3px solid #2b2b25;border-radius:4px;font-size:.88rem;}

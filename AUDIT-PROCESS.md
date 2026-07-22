@@ -58,6 +58,17 @@ ones). When you add one:
 
 ## Traps specific to this codebase — found the hard way, don't rediscover them
 
+- **Some code named after one tab physically belongs to another.** `renderSurfaceLadder`,
+  `sladderBox`, `rung1/2/3*`, and `gammaComputed`/`renderGammaComputed` all sound Ladder-tab
+  content but write DOM ids that live inside `<section id="tab-triples">` — they're the
+  "surface ladder" pedagogical subsection of Triples, not the Ladder tab. The same pattern
+  recurs with `renderQuad449Worked`, `n4Matrix`/`n4RulePredict`/`n4RuleCheck`/`n4ChiCases`,
+  and `renderB4Worked` — all "quad/n4"-flavored names whose cards physically live inside
+  `<section id="tab-zeta">` as worked-example summaries, not inside Quadruples. **Never assign
+  code to a file/section by what its identifier sounds like — grep the actual `$id(...)`/
+  `#id` targets in its body and confirm which `<section>` those ids live in.** Found while
+  splitting `index.html` into per-tab source files (src/tabs/*.js); a name-matching split
+  would have silently misfiled both clusters.
 - **`data-tip` is CSS `content: attr(...)`, i.e. plain text.** Any HTML tag inside a `data-tip`
   attribute value — `<i>`, `<sub>`, anything — renders literally on screen as visible angle
   brackets. Never put markup in a `data-tip`. (Five tooltips shipped this way in one session

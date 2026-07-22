@@ -34,6 +34,10 @@ to{opacity:1}
 .col .sub{color:var(--muted);font-size:.85rem;margin-bottom:12px;}
 .caption-strip{margin-top:18px;padding:12px 18px;background:#efece3;border-radius:6px;font-style:italic;text-align:center;border:1px dashed var(--line);}
 .section-head{margin:26px 0 12px;font-size:1.05rem;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:4px;}
+#presenterHelp{margin-top:14px;font-size:13px;color:var(--muted);}
+#presenterHelp summary{cursor:pointer;padding:2px 0;}
+#presenterHelp kbd{font-family:Consolas,"Courier New",monospace;font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:#fff;}
+#presenterHelp code{font-family:Consolas,"Courier New",monospace;font-size:12px;word-break:break-all;}
 canvas{display:block;margin:0 auto;background:#fdfdfb;border:1px solid var(--line);border-radius:4px;max-width:100%;}
 .controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;justify-content:center;align-items:center;}
 button.ctrl,select.ctrl{font-family:inherit;font-size:.85rem;padding:7px 13px;border-radius:5px;border:1px solid var(--line);background:#fff;cursor:pointer;}
@@ -195,8 +199,8 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 
     <div class="thread" id="threadDict"><span class="thread-badge">ζ ↔ Δ</span><b>Where this is going.</b> Two zetas — the zeta function ζ<sub>K</sub> of a number field ↔ the Lefschetz zeta of a monodromy — and two polynomials — the Alexander polynomial Δ<sub>L</sub> ↔ the Iwasawa polynomial f<sub>S</sub> (both defined in the table below) — each polynomial the zeta of its own cover up to units (Milnor 1962 / Turaev 1986; the Iwasawa Main Conjecture — Mazur–Wiles 1984, and Greither 1992 for ℓ = 2, the case every <i>linking</i> computation here instantiates — the knotted-prime and mirror-module cards run the Iwasawa story at other ℓ, e.g. ℓ = 37). Each tab computes one more piece; the Zeta tab cashes everything out. Boxes wearing this badge carry the thread. Two dials feed these zetas: linking — Taylor coefficients at t = 1, this app's main story — and knotting — eigenvalues pushed off 1; the contrast boxes on the Zeta tab keep them apart.</div>
 
-    <table class="dict">
-      <tr><th class="t">Topology</th><th class="a">Arithmetic</th></tr>
+    <table class="dict" aria-label="The knots-primes dictionary: each row pairs a topological object with its arithmetic counterpart.">
+      <tr><th scope="col" class="t">Topology</th><th scope="col" class="a">Arithmetic</th></tr>
       <tr><td class="t">link L = K₁ ∪ ⋯ ∪ K<sub>r</sub> ⊂ <span class="tt" data-tip="The 3-sphere: ordinary 3-space plus one point at infinity — the standard closed home for knots and links.">S³</span></td><td class="a">set of primes S = {p₁, …, p<sub>r</sub>} ⊂ <span class="tt" data-tip="The 'space of all primes': in Grothendieck's geometry Z becomes a space whose points are the primes — a 3-dimensional one whose every point is a circle in disguise, so its points are knots (Mazur's observation; the why-box above spells it out).">Spec Z</span>, each ≡ 1 (mod 4)</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it. Every knot bounds one (Seifert's algorithm), but never uniquely.">Seifert surface</span> Σᵢ, ∂Σᵢ = Kᵢ</td><td class="a"><span class="tt" data-tip="Q(√p): the smallest field 'spanning' the prime p. Because p ≡ 1 (mod 4) its discriminant is exactly p, so it is ramified (branched) at p and nowhere else — touching only its own prime, as a Seifert surface touches only its own knot.">quadratic resolvent</span> kᵢ = Q(√pᵢ), ramified only at pᵢ</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="A point where the curve K₂ passes through the spanning surface Σ₁, counted with a sign given by orientation.">puncture point</span>, K₂ ∩ Σ₁</td><td class="a">non-split prime, <span class="tt" data-tip="The Frobenius element: the canonical symmetry of a field attached to each unramified prime — the arithmetic analogue of the monodromy loop a meridian traces around a knot. Trivial Frobenius = split = no puncture.">Frob<sub>p₂</sub></span> in Gal(k₁/Q)</td></tr>
@@ -251,7 +255,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <button class="ctrl primary" id="computeLegendre">Compute</button>
         </div>
         <div class="warn" id="pairsWarn" role="status" aria-live="polite">&nbsp;</div>
-        <table class="symbolic" id="legendreTable"></table>
+        <table class="symbolic" id="legendreTable" aria-label="Legendre symbol (p/q) evaluated by Euler's criterion, with the intermediate power residue."></table>
         <div class="banner" id="pairsBanner" aria-live="polite"></div>
         <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
         <div class="why-box" id="whyMod2">lk ∈ Z but (p₁/p₂) ∈ {±1}: a curve can wind any number of times around a surface, while a degree-2 extension admits only one nontrivial Frobenius. The Legendre symbol is a mod-2 linking number.</div>
@@ -270,14 +274,14 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <div class="col arith">
         <h2>The product formula</h2>
         <div class="sub">The <span class="tt" data-tip="(a,b)_v = +1 exactly when z² = ax² + by² has a nonzero solution over Q_v — a purely local solvability test at the place v.">Hilbert symbol</span> (a,b)<sub>v</sub> ∈ {±1} at each <span class="tt" data-tip="A completion of Q: one for each prime p (the p-adic numbers Q_p) and one for ∞ (the reals). 'Local' means: seen through one completion at a time.">place</span> v of Q satisfies ∏<sub>v</sub> (a,b)<sub>v</sub> = 1 — the arithmetic "no boundary to escape to."</div>
-        <table class="symbolic" id="hilbertTable"></table>
+        <table class="symbolic" id="hilbertTable" aria-label="Hilbert symbol local factors for the chosen pair, place by place, with their product."></table>
         <div class="small-note" id="hilbertNote" aria-live="polite"></div>
       </div>
     </div>
 
     <p style="font-size:.95rem; max-width:840px; margin:22px auto 6px; text-align:center;"><b>The two proofs are the same proof — entry by entry:</b></p>
-    <table class="dict" style="max-width:900px; margin:0 auto 8px;">
-      <tr><th class="t">the arc (topology)</th><th class="a">the product formula (arithmetic)</th></tr>
+    <table class="dict" aria-label="Two readings of the same pairwise invariant: the arc-and-surface picture against the Hilbert product formula." style="max-width:900px; margin:0 auto 8px;">
+      <tr><th scope="col" class="t">the arc (topology)</th><th scope="col" class="a">the product formula (arithmetic)</th></tr>
       <tr><td class="t">the global object: the compact 1-manifold Σ₁ ∩ Σ₂</td><td class="a">the global object: the family of local symbols (p,q)<sub>v</sub> over all places v</td></tr>
       <tr><td class="t">interior points of the segment — contribute nothing</td><td class="a">places v ∉ {p, q} — each factor is +1 (including v = 2 and v = ∞, trivial because p ≡ q ≡ 1 mod 4 and both are positive: the orientability normalizations)</td></tr>
       <tr><td class="t">the end on K₁, where K₁ pierces Σ₂ — counted by lk(K₂,K₁)</td><td class="a">the surviving factor at v = p: <span class="tt" data-tip="Why the local symbol IS the Legendre symbol: reduce a primitive solution of z² = px² + qy² mod p — the px² term dies, leaving z² ≡ qy² with y a unit, so q must be a square mod p; conversely Hensel's lemma (a solution mod p refines to Q_p — Newton's method, converging p-adically) lifts a square root of q mod p back to Q_p. Same argument at v = q.">(p,q)<sub>p</sub> = (q/p)</span></td></tr>
@@ -713,7 +717,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> a Dedekind zeta is the Pairs tab multiplied out — every unramified Euler factor is read off a Legendre symbol, a mod-2 linking number; the monodromy zeta opposite runs the same sum-into-product with eigenvalues in place of characters.</div>
             <div class="sub">Why this belongs here: Q(√5) is the quadratic resolvent that opened the Pairs tab, and <b>every unramified Euler factor of its zeta is dictated by a Legendre symbol from that tab</b> — the pairwise linking data assembled into one function. Split (χ = +1): (1−p⁻ˢ)⁻²; inert (χ = −1): (1−p⁻²ˢ)⁻¹; ramified: (1−5⁻ˢ)⁻¹.</div>
-            <table class="symbolic" id="dedekindFactors"></table>
+            <table class="symbolic" id="dedekindFactors" aria-label="Euler factors of the Dedekind zeta of Q(root 5) at the first few primes, keyed by the quadratic character."></table>
             <div class="controls">
               <input type="range" id="dedekindN" min="200" max="6000" value="2000" step="100" aria-label="summation limit X">
               <span id="dedekindNLabel" style="font-size:.85rem;color:var(--muted);">X = 2000</span>
@@ -805,7 +809,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> knotting moves the spectrum — dilatation φ², entropy log φ² &gt; 0 — and its arithmetic mirror is the irregular prime in the card opposite, whose Iwasawa polynomial gains genuine degree. Linking touches neither spectrum.</div>
             <div class="sub">4₁ is also a <span class="tt tt-left" data-tip="Its complement fibers over the circle with fiber a once-punctured torus. The monodromy acts on H₁(fiber) ≅ Z² by A — the h : F → F of the left column, for a real knot.">fibered knot</span> — but <b>knotted</b>: its monodromy acts on H₁ by the Anosov matrix A = [[2,1],[1,1]] with <span class="tt" data-tip="The pseudo-Anosov stretch factor: λ = (3+√5)/2 = φ² ≈ 2.618, the square of the golden ratio — remember it at the regular-vs-irregular card opposite.">dilatation λ = (3+√5)/2</span> — eigenvalues pushed off 1, unlike the unipotent Borromean cards in the three-component row above. Both H₁-faces of ζ_h and the orbit face (Artin–Mazur, = (1−t)²·ζ_h) are verified below, coefficient by coefficient.</div>
-            <table class="symbolic" id="lefschetzTable"></table>
+            <table class="symbolic" id="lefschetzTable" aria-label="Lefschetz fixed-point count for the trefoil monodromy: trace, fixed points, and primitive orbits by iterate."></table>
             <div class="step" id="lefschetzFaces"></div>
             <div class="small-note"><span class="tt" data-tip="Milnor (1968): for a fibered link the infinite cyclic cover is F × ℝ, so Δ(t) ≐ det(tI − h₁∗) — the Alexander polynomial is the characteristic polynomial of the monodromy. The determinant on this line is that theorem, instantiated and computed.">Milnor's theorem</span>, live: det(tI − A) = t² − 3t + 1 = Δ<sub>4₁</sub>(t) — the knot's zeta <i>is</i> its Alexander polynomial. Honesty note: the fiber is a once-punctured torus; the fixed-point counts above are taken for the same matrix on the closed torus (Fix = |det(Aⁿ − I)| = tr(Aⁿ) − 2), where the orbit bookkeeping is cleanest — the H₁-action, all the faces use, is identical. The orbit-face check verifies the exponential–product identity <i>plus</i> integrality of the Möbius counts — whole-number orbit counts are the statement that iterates organize into closed orbits — the same orbit bookkeeping as the Pairs box.</div>
             <div class="thread" id="fig8Dichotomy"></div>
@@ -845,19 +849,19 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <div class="matrix-card">
         <h3><span style="color:var(--topo);">N₂(F₂)</span> ≅ Z/2</h3>
         <div class="order">order 2</div>
-        <table class="mat" id="matN2"></table>
+        <table class="mat" id="matN2" aria-label="The 2x2 unipotent matrix N2(F2): the linking-number level, whose one free entry is the quadratic character chi."></table>
       </div>
       <button class="arrow-btn" data-arrow="0">➜</button>
       <div class="matrix-card">
         <h3><span style="color:var(--topo);">N₃(F₂)</span> ≅ D₄</h3>
         <div class="order">order 8</div>
-        <table class="mat" id="matN3"></table>
+        <table class="mat" id="matN3" aria-label="The 3x3 unipotent matrix N3(F2): the triple level, whose corner entry r is the Redei symbol."></table>
       </div>
       <button class="arrow-btn" data-arrow="1">➜</button>
       <div class="matrix-card">
         <h3>N₄(F₂)</h3>
         <div class="order">order 64</div>
-        <table class="mat" id="matN4"></table>
+        <table class="mat" id="matN4" aria-label="The 4x4 unipotent matrix N4(F2): the quadruple level, whose corner entry is the Milnor invariant mu-bar(1234)."></table>
       </div>
     </div>
     <div class="ladder-note" id="ladderNote" aria-live="polite">Click an arrow to see what the previous level's vanishing makes available.</div>
@@ -877,7 +881,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       </div>
       <div class="warn" id="frobWarn" role="alert">&nbsp;</div>
       <div style="display:flex;justify-content:center;gap:24px;align-items:center;flex-wrap:wrap;">
-        <table class="mat" id="frobMatrix"></table>
+        <table class="mat" id="frobMatrix" aria-label="The image of Frobenius at the chosen prime under rho, as a unipotent matrix."></table>
         <div id="frobExplain" style="max-width:420px;font-size:.88rem;" aria-live="polite"></div>
       </div>
     </div>
@@ -964,6 +968,15 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
     <div class="small-note" id="testsLimits" style="text-align:left;margin:0 0 8px;"><b>What a green suite does and does not mean.</b> The <i>computational</i> checks recompute every displayed number from scratch and would fail if the arithmetic broke. The <i>rendered-text pins</i> assert that the prose on the page still matches what the code produces — they catch drift between the two, and nothing else: if code and prose are wrong <i>together</i>, or a theorem is misattributed, or a citation carries the wrong year, this suite stays green. It tests consistency, not truth.</div>
     <ul id="testList"></ul>
   </div>
+  <details id="presenterHelp">
+    <summary>Presenting this app</summary>
+    <div class="small-note" style="text-align:left;max-width:820px;margin:8px auto 0;">
+      <b>Keyboard.</b> <kbd>t</kbd> anywhere outside a text field runs the self-tests and scrolls them into view — the closing beat, one keystroke. The tab bar is a single tab stop: <kbd>Tab</kbd> to it, then <kbd>←</kbd>/<kbd>→</kbd> to move between tabs. Every tooltip is reachable by <kbd>Tab</kbd> and opens with <kbd>Enter</kbd>.
+      <div style="margin-top:6px;"><b>Deep links.</b> The URL fragment restores a whole beat, so a talk can be driven from bookmarks rather than clicks:
+      <code>#tab=zeta&amp;open=zxK1361,zxHopf&amp;goto=zetaK1361</code> — <code>tab</code> selects a tab, <code>open</code> is a comma-separated list of card ids to expand, <code>goto</code> is an element to scroll to. Ids are the ones in the page source; unknown ids are ignored rather than failing.</div>
+      <div style="margin-top:6px;"><b>Offline.</b> The file is self-contained and works with no network. The only external fetch is the optional 3D view of the Borromean rings, which falls back to a built-in canvas renderer when the CDN is unreachable.</div>
+    </div>
+  </details>
 </footer>
 
 <script>
@@ -1309,7 +1322,7 @@ function renderChebTally() {
     ["χ = (1,0)", "10", "1/4", 0.25], ["χ = (0,1)", "01", "1/4", 0.25], ["χ = (1,1) — order 4", "11", "1/4", 0.25],
   ];
   $id("chebOut").innerHTML =
-    `<table class="symbolic"><tr><th>class</th><th>count</th><th>observed</th><th>Chebotarev</th></tr>`
+    `<table class="symbolic"><tr><th scope="col">class</th><th scope="col">count</th><th scope="col">observed</th><th scope="col">Chebotarev</th></tr>`
     + rows.map(([label, k, pred, pv]) => `<tr><td class="k">${label}</td><td class="v">${counts[k]}</td><td class="v">${(counts[k] / total).toFixed(3)}</td><td class="v">${pred} = ${pv.toFixed(3)}</td></tr>`).join("")
     + `</table><div class="small-note" style="text-align:left;">${total} unramified odd primes &lt; 3000, tallied in ${ms} ms — every row is the Ladder machinery run per prime (Tonelli–Shanks included for the χ = 0 cases). Observed hugs predicted at a finite cutoff; the equidistribution itself is Chebotarev's theorem, cited not proved — the app is the demonstration bench.</div>`;
 }
@@ -2928,7 +2941,7 @@ function fig8Data() {
 function renderLefschetz() {
   const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
   const table = $id("lefschetzTable");
-  table.innerHTML = `<tr><th><span class="tt tt-left" data-tip="Continues: tr(Aⁿ) = L₂ₙ, the even-indexed Lucas numbers 3, 7, 18, 47, 123, … (φ² growth); the checks below still run to degree 8.">n (1–3 of ∞)</span></th><th>tr(Aⁿ)</th><th>Fix(hⁿ) = tr − 2</th><th>primitive orbits of period n</th></tr>`
+  table.innerHTML = `<tr><th scope="col"><span class="tt tt-left" data-tip="Continues: tr(Aⁿ) = L₂ₙ, the even-indexed Lucas numbers 3, 7, 18, 47, 123, … (φ² growth); the checks below still run to degree 8.">n (1–3 of ∞)</span></th><th scope="col">tr(Aⁿ)</th><th scope="col">Fix(hⁿ) = tr − 2</th><th scope="col">primitive orbits of period n</th></tr>`
     + [0, 1, 2].map(i =>
       `<tr><td class="k">${i + 1}</td><td class="v">${tr[i]}</td><td class="v">${fix[i]}</td><td class="v">${orb[i]}</td></tr>`).join("");
   const rows = [
@@ -3011,7 +3024,7 @@ function renderDedekind() {
     [29n, null, null],
   ];
   const table = $id("dedekindFactors");
-  table.innerHTML = "<tr><th>p</th><th>χ(p) = (5/p), live</th><th>Euler factor of ζ_K at p</th></tr>" + rows.map(([p, note, factor]) => {
+  table.innerHTML = `<tr><th scope="col">p</th><th scope="col">χ(p) = (5/p), live</th><th scope="col">Euler factor of ζ_K at p</th></tr>` + rows.map(([p, note, factor]) => {
     if (note !== null) return `<tr><td class="k">${p}</td><td class="v">0</td><td class="v">${factor} <span style="color:var(--muted);font-size:.8rem;">${note}</span></td></tr>`;
     const c = legendre(5n, p);
     const f = c === 1 ? `(1 − ${p}⁻ˢ)⁻² <span style="color:var(--muted);font-size:.8rem;">split: two primes above ${p} — unlinked</span>`
@@ -3068,7 +3081,7 @@ function renderKnottedPrime() {
   $id("knottedPrime").innerHTML =
     `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12): a knot's Alexander polynomial ↔ a prime's <span class="tt" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1956): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, Abh. Hamburg 20 (1956); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
     + `<div>The cast, judged at load (${ms} ms):</div>`
-    + `<table class="symbolic" id="knottedTable">${cast.map(row).join("")}</table>`
+    + `<table class="symbolic" id="knottedTable" aria-label="Orders of the first homology of the branched cyclic covers, comparing the unknotted and knotted arithmetic columns.">${cast.map(row).join("")}</table>`
     + `<div><b>The jewel:</b> 101 — one of Amano's four quadruple primes — is <b>knotted</b>: the app contained a knotted prime all along, and the linking story never noticed. Independent dials: the ℓ = 2 linking tower of {5, 8081, 101, 449} and the p = 101 cyclotomic tower are different covers of different things.</div>`
     + `<div class="mln">The classical gallery, computed: ${gal.map(([p, idx]) => `${p} (${idx.map(k => `B<sub>${k}</sub>`).join(", ")})`).join(", ")}.</div>`
     + `<div class="controls"><button class="ctrl" id="check8081">check 8081</button><span class="small-note" id="verdict8081" aria-live="polite"></span></div>`;
@@ -3135,7 +3148,7 @@ function renderK1361Worked() {
   const { prod, count } = k1361PartialEuler(2, 200);
   $id("k1361Worked").innerHTML =
     `<div class="sub">The local rule at every unramified p — that is every p except 13 and 61, <b>2 and ∞ included</b> (k₁₃,₆₁/Q is unramified outside {13, 61} by Rédei's normalization — cited: Rédei 1939; Morishita chs. 4/8): e = 1, so f·g = 8 reads as <b>the 8 embeddings falling into g = 8/f Frobenius orbits of size f = ord ρ(Frob<sub>p</sub>)</b>, local factor (1 − p<sup>−fs</sup>)<sup>−8/f</sup>. Each row below powers the Ladder tab's matrix, live.</div>`
-    + `<table class="symbolic" id="k1361Table"><tr><th>p</th><th>pairwise level, computed</th><th>corner r</th><th>f = ord ρ(Frob<sub>p</sub>)</th><th>orbit picture</th><th>local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table>`
+    + `<table class="symbolic" id="k1361Table" aria-label="Splitting data for the degree-8 Redei field k(13,61): each prime's pairwise symbols, corner Redei symbol, residue degree and orbit count."><tr><th scope="col">p</th><th scope="col">pairwise level, computed</th><th scope="col">corner r</th><th scope="col">f = ord ρ(Frob<sub>p</sub>)</th><th scope="col">orbit picture</th><th scope="col">local factor of ζ<sub>k₁₃,₆₁</sub></th></tr>${rows}</table>`
     + `<div class="mln">∗ = superdiagonal nonzero: the corner is basis-dependent there (Ladder tab), but the order is not — powered both ways, it agrees. † p ≡ 3 (mod 4): the corner is a <b>splitting datum</b> in the field k₁₃,₆₁ itself (fixed once and for all) — defined for any odd unramified q — not a symmetric Rédei symbol value, which asks for q ≡ 1 (mod 4) (the Ladder's domain note).</div>`
     + `<div class="step"><b>Multiplied out, live — the partial Euler product at s = 2:</b> <span class="eq">∏<sub>p ≤ 200 unramified</sub> (1 − p<sup>−2f(p)</sup>)<sup>−8/f(p)</sup> = <b>${prod.toFixed(6)}</b></span> (${count} primes, six decimals). Honesty: the two ramified factors — p = 13 and p = 61 — are omitted; their Euler-factor form is not asserted here. The 937 row is the Triples tab's ${localFactor(937, 2, 8)}: one triple symbol, felt by the whole product.</div>`
     + (() => { // Klein F1: the ideal-sum face — same unramified data, summed instead of multiplied
@@ -3248,7 +3261,7 @@ function renderQuad449Worked() {
   $id("quad449Worked").innerHTML =
     `<div class="step"><div class="head">The order rule of N₄(F₂) — stated, then brute-forced.</div><div class="eq">Write M = I + N — this N is the strictly-upper part of the single matrix M, not the group N₄(F₂) — with N carrying χ₁, χ₂, χ₃ (superdiagonal), r₁₂₃, r₂₃₄ (second diagonal), q (corner; the matrix slot, not a prime). In characteristic 2, (I + N)² = I + N² and N⁴ = 0, and N² has exactly three entries that can survive: (1,3) = χ₁χ₂, &nbsp; (2,4) = χ₂χ₃, &nbsp; (1,4) = χ₁r₂₃₄ ⊕ r₁₂₃χ₃. <b>Order: 4 iff N² ≠ 0; else 2 iff N ≠ 0; else 1.</b> &nbsp; <span class="${checked === 64 ? "ok" : "fail"}">${checked === 64 ? "rule checked over all 64 elements: OK ✓" : `rule FAILED brute force: ${checked}/64`}</span> <span style="color:var(--muted);font-size:.8rem;">(every element literally powered, live)</span></div></div>`
     + `<div class="sub">f by χ-cases — the honest table: each row's verdict is the computed set of orders over the eight (r₁₂₃, r₂₃₄, q) fillings. Where f is not determined, the row says exactly which deeper entry it needs — definedness tracked, the Ladder's discipline.</div>`
-    + `<table class="symbolic" id="n4CasesTable"><tr><th>(χ₁, χ₂, χ₃)</th><th>f = ord ρ(Frob<sub>p</sub>), by the rule</th></tr>${caseRows}</table>`
+    + `<table class="symbolic" id="n4CasesTable" aria-label="Residue degree f as a function of the character triple, brute-forced over all 64 elements of N4(F2)."><tr><th scope="col">(χ₁, χ₂, χ₃)</th><th scope="col">f = ord ρ(Frob<sub>p</sub>), by the rule</th></tr>${caseRows}</table>`
     + `<div class="step"><div class="head">The worked prime: 449.</div><div class="eq">${worked}</div></div>`
     + `<div class="mln">Why no full Euler product on this card: for a general prime p the r-entries — its splitting data in the two Rédei octics — are not computable from this app's data; only the structure (the rule, the eight χ-cases) and the worked prime are shown. Unramified local rule, for the record: (1 − p<sup>−fs</sup>)<sup>−64/f</sup> with f = ord ρ(Frob<sub>p</sub>) in N₄(F₂).</div>`;
 }

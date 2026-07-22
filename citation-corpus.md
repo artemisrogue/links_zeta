@@ -89,40 +89,50 @@ citation that isn't there.
 
 ---
 
-## Open items — found this session, NOT yet fixed (need a decision or a skeptic pass first)
+## Resolved this session, second source checked before touching anything
 
-These surfaced during corpus-building, from a single research pass with no adversarial
-skeptic check. Per this project's own discipline, they should not be silently edited in —
-flagging for the next audit round or the project owner's call.
+Both items below were flagged after the first research pass as needing a second look before
+acting. Both got one. One held up; one didn't — worth reading the second case as a demonstration
+of why the "verify before acting" rule in `AUDIT-PROCESS.md` exists.
 
-### ⚠️ Morishita chapter numbers match the 1st edition, not necessarily the 2nd
-The app cites "Morishita ch. 8" (Milnor invariants), "chs. 9–12" / "ch. 12" (Alexander/Iwasawa
-modules through the Main Conjecture), and "chs. 2–4" / "ch. 3" (the basic dictionary). Two
-independently confirmed tables of contents:
+### ✅ Morishita chapter numbers — confirmed against a complete table of contents, annotated
+Fetched a complete, quotable 15-chapter table of contents (Stanford SearchWorks catalog record
+for the 2024 2nd edition) rather than trusting the first pass's summary. It confirmed the
+original finding exactly: **1st edition** (Universitext, Springer, 2011/2012) ch. 8 = Milnor
+Invariants; chs. 9–12 = Alexander/Iwasawa Modules through the Main Conjecture — **the app's
+numbers matched this edition exactly.** **2nd edition** (Springer, 2024) inserts one new
+chapter 7 ("Idelic Class Field Theory for 3-Manifolds and Number Rings"), shifting everything
+after it by exactly one: Milnor Invariants → ch. 9, the Main Conjecture chapter → ch. 13.
+Chapters 1–6 (including the "chs. 2–4" / "ch. 3" dictionary citations) are unaffected in both
+editions and needed no change.
 
-- **1st edition** (Universitext, Springer, 2011/2012): ch. 8 = Milnor Invariants and Multiple
-  Residue Symbols; chs. 9–12 = Alexander/Iwasawa Modules through Torsions and the Main
-  Conjecture. **The app's numbers match this edition exactly.**
-- **2nd edition** (Springer, 2024): a new chapter 7 is inserted, shifting everything after it
-  by one — Milnor invariants becomes ch. 9, the Main Conjecture chapter becomes ch. 13.
-  Chapters 2–4 are unaffected in both editions.
+**Fixed:** every chapter-number citation that shifts between editions now says "1st ed." — 14
+sites across the Dictionary, Triples, Zeta, and Q&A tabs (three of them were missed on the
+first implementation pass and only caught by the regression test built alongside the fix,
+which checks for any bare, edition-less chapter citation). Locked in by a self-test,
+mutation-checked against two independent reverted copies.
 
-**The app never states which edition it means.** If the 1st edition is intended, every citation
-is already correct and only an explicit "(1st ed.)" needs adding for clarity. If the 2nd
-edition is intended, every "ch. 8" / "chs. 9–12" / "ch. 12" needs a +1 shift. This is a real,
-well-evidenced drift, not a guess — but which edition the app *should* target is a judgment
-call, not a correctness fix, so it's being surfaced rather than auto-resolved.
+### ✅ "Boundary links ⇒ μ̄ vanishes" — Smythe hypothesis checked directly, didn't hold up as stated
+The first pass suggested this vanishing theorem might be credited to N. Smythe rather than
+Milnor 1957, citing "the survey's Theorem 3.9." Fetched the actual survey (Meilhan, *Linking
+number and Milnor invariants*, arXiv:1812.03319) and read it directly rather than trusting the
+summary. **Theorem 3.9 in that paper is about concordance invariance, credited to Stallings and
+Casson — a different theorem entirely.** The boundary-link vanishing claim is the very next,
+UNCITED sentence: "Let us also mention here that Milnor invariants are all zero for a boundary
+link... " — no citation attached at all in this source. The first pass had matched the wrong
+theorem number to the claim.
 
-### ⚠️ "Boundary links ⇒ every Milnor invariant vanishes" may be Smythe 1966, not Milnor 1957
-The app's whyMu tooltip and the Rédei-symbol boundary-link tooltip both attribute this specific
-vanishing theorem to Milnor 1957. Milnor 1957 is genuinely the right citation for *defining* μ̄
-via the Magnus expansion — but per a survey (Meilhan, "Linking number and Milnor invariants,"
-§3, reference [31] vs. the boundary-link theorem 3.9), the vanishing-on-boundary-links result
-itself is standardly credited to **N. Smythe, *Boundary links*, in Topology Seminar Wisconsin
-1965 (R.H. Bing, ed.), Ann. of Math. Studies 60, Princeton Univ. Press, 1966, pp. 69–72.**
-Medium confidence — worth checking a second source before changing anything, since Milnor's
-paper may also state a version of this and the "who proved it first" question can be genuinely
-contested in the literature.
+**What did hold up, independently confirmed from two sources:** the *term* "boundary link"
+itself is Smythe's — N. Smythe, *Boundary links*, in Topology Seminar Wisconsin 1965 (R.H.
+Bing, ed.), Ann. of Math. Studies 60, Princeton Univ. Press, 1966, pp. 69–72.
+
+**Fixed, precisely rather than by swapping one citation for another:** the boundary-link
+tooltip now credits Smythe 1966 for the *term/definition* (well-evidenced), and states the
+vanishing property as a consequence of Milnor's 1957 construction rather than a separately
+cited theorem (since no source substantiates crediting it elsewhere, and it genuinely is an
+immediate corollary — the defining disjointness lets every preferred longitude be pushed
+entirely off the other components' surfaces, directly triggering vanishing in Milnor's own
+Magnus-coefficient construction).
 
 ---
 

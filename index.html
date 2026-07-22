@@ -3957,6 +3957,28 @@ function runSelfTests() {
       && ga("arcCanvas", "aria-label").includes(pairsState.linked ? "meeting in the segment" : "pulled apart")
       && ga("b4Canvas", "aria-label").includes(b4wDeleted ? "deleted" : "Brunnian");
   });
+  t("STATE: the Pairs panels agree with the pair on screen — at load, and now", () => {
+    // The sync note asserts the drawing is deliberately NOT synced to the pair. That
+    // is licensed for exactly one reason: both primes usable and both ≡ 3 (mod 4).
+    // Any other time it is on screen, it has outlived the pair it describes.
+    const noteLicensed = (p, q) => {
+      if (p === null || q === null) return false;
+      const usable = isPrimeSmall(p) && isPrimeSmall(q) && p !== q && p !== 2n && q !== 2n;
+      return usable && p % 4n === 3n && q % 4n === 3n;
+    };
+    // At load the app seeds (5, 29) — both ≡ 1 (mod 4) — so neither note is licensed.
+    if (noteLicensed(5n, 29n)) return false;           // guards the premise itself
+    if (PAIRS_AT_LOAD.sync !== "") return false;
+    if (PAIRS_AT_LOAD.stale !== "") return false;
+    if (!PAIRS_AT_LOAD.banner.includes("unlinked")) return false;
+    // And right now, whatever has been clicked since.
+    if (pairsComputed.p === null) return true;
+    const noteShown = $id("pairsSyncNote").textContent.trim() !== "";
+    if (noteShown !== noteLicensed(pairsComputed.p, pairsComputed.q)) return false;
+    const boxesMatch = parseIntegerInput($id("pInput").value) === pairsComputed.p
+      && parseIntegerInput($id("qInput").value) === pairsComputed.q;
+    return ($id("pairsStale").textContent.trim() !== "") === !boxesMatch;
+  });
   t("DOM R3-A4: aria-live on result surfaces; #pairsWarn switches role refusal/remark", () => {
     const live = ["pairsBanner", "hilbertNote", "pairsLiftNote", "b4WordNote", "ladderNote", "frobExplain"].every(id => ga(id, "aria-live") === "polite")
       && $q(".euler-vals").getAttribute("aria-live") === "polite" && ga("frobWarn", "role") === "alert";
@@ -4446,6 +4468,16 @@ $id("qaCollapse").addEventListener("click", () => $qa("#qaList details").forEach
 const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
 const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once
 const CCOUT_AT_LOAD = $id("ccOut").textContent; // cockpit's seeded verdict, captured once (state-robust pin)
+// Pairs panel at rest, captured before the suite touches it. Twice now a fix has
+// leaked probe state into the boot view — once leaving a caption reading "Both
+// primes are ≡ 3 (mod 4)" under a figure showing 5 and 29 — and both times a green
+// suite shipped it, because nothing asserted that the page's panels agree with each
+// other when nobody has done anything.
+const PAIRS_AT_LOAD = {
+  sync: $id("pairsSyncNote").textContent.trim(),
+  stale: $id("pairsStale").textContent.trim(),
+  banner: $id("pairsBanner").textContent.trim(),
+};
 runSelfTests();
 $id("testsPanel").classList.remove("open");
 

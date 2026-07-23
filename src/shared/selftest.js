@@ -966,25 +966,28 @@ function runSelfTests() {
     }
   });
 
-  t("DOM KaTeX: pilot tooltips (Fox's formula, Iwasawa polynomial) render real typeset math when KaTeX loads", () => {
+  t("DOM KaTeX: all converted tooltips render real typeset math when KaTeX loads (Fox's formula, Iwasawa polynomial, both Euler's-criterion sites, unipotent order, cyclotomic tower)", () => {
     if (typeof katex === "undefined") return true; // network-dependent; only assert what actually loaded
     const pilots = [...$qa(".tt-katex")];
-    return pilots.length === 2
+    return pilots.length === 6
       && pilots.every(el => el.classList.contains("katex-on"))
       && pilots.every(el => el.querySelector(".tt-bubble .katex"));
   });
 
-  t("DOM KaTeX: pilot tooltips keep their exact plain-text data-tip fallback unchanged (Fox's formula, Iwasawa polynomial)", () => {
+  t("DOM KaTeX: converted tooltips keep their exact plain-text data-tip fallback unchanged", () => {
     const pilots = [...$qa(".tt-katex")];
     const tips = pilots.map(el => el.getAttribute("data-tip") || "");
-    return pilots.length === 2
+    return pilots.length === 6
       && tips.some(v => v.includes("|H1(Mn)| = |Res(Delta(t), t^n - 1)|"))
-      && tips.some(v => v.includes("Λ = Z_p[[T]]"));
+      && tips.some(v => v.includes("Λ = Z_p[[T]]"))
+      && tips.filter(v => v.includes("a^((p−1)/2) mod p") || v.includes("p₁^((p₂−1)/2) mod p₂")).length === 2
+      && tips.some(v => v.includes("2^(n(n−1)/2)"))
+      && tips.some(v => v.includes("Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³})"));
   });
 
   t("DOM KaTeX: every .tt-katex data-latex-html carries at least one well-formed katex-frag with LaTeX source", () => {
     const pilots = [...$qa(".tt-katex")];
-    return pilots.length === 2 && pilots.every(el => {
+    return pilots.length === 6 && pilots.every(el => {
       const html = el.getAttribute("data-latex-html") || "";
       const tmp = $el("div");
       tmp.innerHTML = html;

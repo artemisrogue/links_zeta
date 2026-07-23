@@ -180,7 +180,7 @@ function renderLegendreTable(p, q) {
   }
   const bothThree = !isOneMod4(p) && !isOneMod4(q);
   const rows = [
-    [`(p / q) via <span class="tt tt-left" data-tip="a^((p−1)/2) mod p is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function.">Euler's criterion</span>`, `(${p} / ${q}) = ${pq > 0 ? "+1" : pq < 0 ? "−1" : "0"}`],
+    [`(p / q) via <span class="tt tt-left tt-katex" data-tip="a^((p−1)/2) mod p is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function." data-latex-html="<span class='katex-frag' data-latex='a^{(p-1)/2} \\bmod p'>a^((p−1)/2) mod p</span> is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function.">Euler's criterion</span>`, `(${p} / ${q}) = ${pq > 0 ? "+1" : pq < 0 ? "−1" : "0"}`],
     ["(q / p)", `(${q} / ${p}) = ${qp > 0 ? "+1" : qp < 0 ? "−1" : "0"}`],
     ["reciprocity", bothThree
       ? (pq === -qp ? '<span class="ok">(p/q) = −(q/p) ✓ (both ≡ 3 mod 4: the sign is the 2-adic factor)</span>' : '<span class="fail">(p/q) ≠ −(q/p) ?!</span>')

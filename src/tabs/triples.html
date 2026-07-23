@@ -1,0 +1,235 @@
+    <section id="tab-triples" class="tab-panel">
+    <p style="max-width:920px;">No two of the Borromean rings are linked — and the three together are inseparable. This tab computes the first invariant that survives that pairwise vanishing, in both languages at once: μ̄(123) through surfaces on the left, the Rédei symbol [13, 61, 937] through Frobenius on the right.</p>
+    <div class="small-note" style="margin:0 0 10px;text-align:left;">On this tab: <button type="button" class="jump" onclick="$id('surfaceLadder').scrollIntoView()">the surface ladder</button> · <button type="button" class="jump" onclick="$id('tripleCoverHasse').scrollIntoView({block:'center'})">the tower of covers ↔ field tower</button> — every number computed live.</div>
+
+    <div style="max-width:460px;margin:0 auto 6px;">
+      <canvas id="borroCanvas" width="420" height="372"></canvas>
+      <div class="controls">
+        <label style="font-size:.85rem;color:var(--muted);">Isolate:
+          <select id="isolateSelect" class="ctrl">
+            <option value="none">all three</option>
+            <option value="1">fade K1</option>
+            <option value="2">fade K2</option>
+            <option value="3">fade K3</option>
+          </select>
+        </label>
+        <button class="ctrl" id="borro3dToggle" aria-controls="borro3dWrap" aria-expanded="false">Toggle 3D view (ellipses)</button>
+      </div>
+      <div id="borro3dWrap" style="display:none;">
+        <div id="borro3dContainer" style="width:420px;height:340px;margin:0 auto;border:1px solid var(--line);border-radius:4px;"></div>
+        <div class="small-note">Drag or arrow keys to rotate. <button type="button" class="tip" id="fsTooltip" aria-expanded="false" aria-controls="fsExplain">Why ellipses, not circles?</button></div>
+        <div class="small-note" id="fsExplain" style="display:none;">By a theorem of <span class="tt" data-tip="Freedman–Skora (1987). Sketch: a round circle in S³ = ∂B⁴ spans a totally geodesic flat disk in the 4-ball, and two round circles are linked exactly when their disks meet; pairwise unlinked round rings would therefore bound three disjoint disks in B⁴ — which forces every Milnor invariant to vanish, while the Borromean rings have μ̄(123) = ±1, the number this tab computes. Cited: Freedman–Skora, J. Differential Geom. 25 (1987).">Freedman–Skora</span>, the Borromean rings cannot be realized by three round circles in space — these are genuine ellipses (semi-axes a=2, b=1.1), one in each coordinate plane.</div>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">The <span class="tt tt-left" data-tip="Three rings, no two of which are linked, that nonetheless cannot be pulled apart. Named for the Borromeo family crest; the standard first example of higher-order linking.">Borromean rings</span> above: at both crossings between any pair, the same circle is consistently on top — but the "on top" relations chain cyclically (K1 &gt; K2 &gt; K3 &gt; K1), with no consistent global resolution.</div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">The Rédei symbol of (13, 61, 937), computed live. The value rule: [p₁, p₂, q] = <b>+1 if q splits completely in the Rédei field k<sub>p₁,p₂</sub>, −1 if not</b> (steps 3–4 decide which). The <span class="tt" data-tip="The field Q(√p₁, √p₂, √α), where α = x + y√p₁ comes from a solution of x² − p₁y² − p₂z² = 0 (solvable exactly because (p₁/p₂) = +1), the solution normalized à la Rédei: gcd(x,y,z) = 1, y ≡ 0 (mod 2), x − y ≡ 1 (mod 4). Rédei's theorem (1939): it is then a degree-8 dihedral extension ramified only at p₁, p₂, independent of the normalized solution chosen. Sketch: α·ᾱ = p₂z², so √ᾱ = z√p₂/√α already lies in the field — the extension is Galois — and the same relation picks D₄ over the quaternion group; the congruences are what kill ramification at 2. (Not at ∞: normalization does not force α totally positive — for (13, 17) every normalized certificate gives α totally negative — so k₁₃,₆₁ is unramified at ∞ because its own α = 23 + 6√13 is totally positive, which the app checks, not because Rédei's congruences say so.) The normalization is load-bearing: scaling the certificate by k twists the symbol by (k/q); redeiSymbol() rejects unnormalized ones. Cited: Rédei, J. reine angew. Math. 180 (1939).">Rédei field</span> k<sub>p₁,p₂</sub> is the arithmetic avatar of the closed curve Σ₁ ∩ Σ₂: it exists precisely because the pairwise obstruction vanished.</div>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <div id="topoTripleSteps"></div>
+      </div>
+      <div class="col arith">
+        <div id="tripleSteps"></div>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <div class="banner topo" id="topoTripleBanner"></div>
+      </div>
+      <div class="col arith">
+        <div class="banner" id="tripleBanner"></div>
+      </div>
+    </div>
+
+    <div class="twocol">
+      <div class="col topo">
+        <div class="small-note" style="margin-top:10px;">The tower of covers this computation climbs — the mirror of the field tower at right, box for box:</div>
+        <svg id="tripleCoverHasse" width="100%" height="220" viewBox="0 0 420 216" role="img" aria-label="Tower of covers of the complement of K1 union K2: X at the bottom; two double covers X1 and X2, the covers the linking numbers probe; their join X12; on top the 8-sheet mod-2 Heisenberg cover, deck group N3 over F2, isomorphic to D4 — a purely topological tower, drawn box for box opposite the field tower at right, which it mirrors.">
+<g font-size="12" text-anchor="middle">
+<rect class="hasse-box cover" x="106" y="8" width="208" height="26"/>
+<text class="hasse-label acc" x="210" y="25">X̃ — mod-2 Heisenberg cover</text>
+<text x="318" y="16" font-style="italic" fill="#666" font-size="10" text-anchor="start">deck = D₄, 8 sheets</text>
+<text x="318" y="28" font-style="italic" fill="#666" font-size="10" text-anchor="start">mirrors k₁₃,₆₁</text>
+<line x1="210" y1="34" x2="210" y2="62" stroke="#333"/>
+<text x="216" y="46" font-size="9.5" fill="#666" text-anchor="start">2 sheets: γ unwinds here</text>
+<text x="216" y="57" font-size="9.5" fill="#666" text-anchor="start">— exists because lk = 0</text>
+<rect class="hasse-box cover" x="128" y="62" width="164" height="26"/>
+<text class="hasse-label" x="210" y="79">X₁₂ — the (Z/2)² cover</text>
+<line x1="210" y1="88" x2="115" y2="110" stroke="#333"/>
+<line x1="210" y1="88" x2="305" y2="110" stroke="#333"/>
+<rect class="hasse-box cover" x="45" y="110" width="140" height="26"/>
+<text class="hasse-label" x="115" y="127">X₁ — double cover at K₁</text>
+<rect class="hasse-box cover" x="235" y="110" width="140" height="26"/>
+<text class="hasse-label" x="305" y="127">X₂ — double cover at K₂</text>
+<text x="210" y="152" font-style="italic" fill="#666" font-size="9.5">the covers the linking</text>
+<text x="210" y="163" font-style="italic" fill="#666" font-size="9.5">numbers probe</text>
+<line x1="210" y1="185" x2="115" y2="136" stroke="#333"/>
+<line x1="210" y1="185" x2="305" y2="136" stroke="#333"/>
+<rect class="hasse-box cover" x="138" y="185" width="144" height="26"/>
+<text class="hasse-label" x="210" y="202">X = S³ ∖ (K₁ ∪ K₂)</text>
+</g>
+</svg>
+        <div class="cover-cap" id="tripleCoverCap"></div>
+        <div class="small-note" id="tripleCoverCorr">The lattice of intermediate covers mirrors the subgroup lattice of the deck group — <span class="tt" data-tip="Covering-space theory, standard (cited, not computed): covers of X are governed by π₁ exactly as extensions are governed by Gal — subgroups ↔ intermediate covers, index ↔ sheet count, normal subgroups ↔ Galois covers with quotient deck group (e.g. Hatcher §1.3; Morishita chs. 2–4 runs this dictionary for knots and primes).">the Galois correspondence, both sides</span> — the same lattice as the fields opposite: bigger cover over bigger field, covering maps running downward like field inclusions.</div>
+      </div>
+      <div class="col arith">
+        <div class="small-note" style="margin-top:10px;">The field tower this computation climbs — the mirror of the cover tower at left, box for box:</div>
+        <svg id="tripleHasse" width="100%" height="190" viewBox="0 0 420 190"></svg>
+      </div>
+    </div>
+
+    <div class="caption-strip" style="margin-top:10px;">each pair unlinked; the triple inseparable; μ̄(123) = ±1.</div>
+    <button class="why-toggle" data-why="whyMu">How is μ̄(123) defined? (intersect first, then count)</button>
+    <div class="why-box" id="whyMu">Because every pairwise lk = 0, each Seifert surface Σᵢ can be pushed off the other two <i>components</i> — the punctures come in cancelling pairs, so they tube away. Note what this does and does not give: Σᵢ misses the other <i>curves</i>, not the other <i>surfaces</i>. Making Σ₁ and Σ₂ disjoint <i>as well</i> — while both still miss K₃ — would force μ̄(123) = 0, and the Borromean rings have μ̄(123) = ±1. That failure is the whole content of this rung. (Pairwise-disjoint surfaces for <i>all</i> components would make it a <span class="tt" data-tip="A link is a boundary link when its components bound pairwise-disjoint Seifert surfaces (the term is Smythe's, 1966). Strictly stronger than all pairwise lk = 0: the Borromean rings have every lk = 0 and are not a boundary link. Boundary links have all Milnor invariants zero — an immediate consequence of Milnor's 1957 construction, since the defining disjointness lets every preferred longitude be pushed entirely off the other components' surfaces — so the Borromean rings' μ̄(123) = ±1 certifies the failure.">boundary link</span>, and those have every Milnor invariant zero — but that is a condition on all three at once, not on one pair.) Then Σ₁ ∩ Σ₂ has no boundary at all — it survives as a <b>closed curve</b> — and its intersection with Σ₃, rather than its boundary, becomes the well-defined count: μ̄(123) = Σ sign(p) over p ∈ (Σ₁∩Σ₂) ∩ Σ₃, independent of all choices — Cochran 1990; Mellor–Melvin 2003; mod 2, Morishita chs. 4/8, 1st ed. (Milnor 1957 defines μ̄ instead as a Magnus coefficient of the longitude; that these two readings agree is exactly what those papers prove — and this app computes both.) The independence holds because the pairwise linking vanished first. For the Borromean rings the three surfaces meet in a single triple point.</div>
+
+    <div class="section-head">Bring your own triple — the certificate cockpit</div>
+    <p style="max-width:920px;font-size:.92rem;">Honesty first: the pair (13, 61) above is pinned because the app ships Rédei's normalized certificate (23, 6, 1) as data — <b>it verifies certificates, it does not search for them</b>. This cockpit takes yours: primes p₁, p₂, q and a certificate (x, y, z) with x² − p₁y² − p₂z² = 0. The engine enforces every definedness and normalization check and says exactly which one fails — the rejection taxonomy is the teaching point. Seeded with a fresh triple: (5, 29, 109), certificate (7, 2, 1).</p>
+    <div class="calc-row" style="flex-wrap:wrap;">
+      <label>p₁ = <input type="number" id="ccP1" value="5" style="width:70px;"></label>
+      <label>p₂ = <input type="number" id="ccP2" value="29" style="width:70px;"></label>
+      <label>q = <input type="number" id="ccQ" value="109" style="width:80px;"></label>
+      <label>x = <input type="number" id="ccX" value="7" style="width:70px;"></label>
+      <label>y = <input type="number" id="ccY" value="2" style="width:70px;"></label>
+      <label>z = <input type="number" id="ccZ" value="1" style="width:70px;"></label>
+      <button class="ctrl primary" id="ccRun">Run [p₁, p₂, q]</button>
+    </div>
+    <div class="small-note" id="ccOut" aria-live="polite" style="text-align:left;min-height:2.2em;"></div>
+
+    <div class="section-head" id="surfaceLadder">Climbing the ladder with surfaces — what the zeta counts</div>
+    <p style="max-width:920px;font-size:.92rem;color:var(--muted);">The columns above say <i>what</i> the invariants are; this ladder says <i>what they count</i>. Left rail: the surfaces of the Borromean rings, rung by rung. Right rail: the same climb for (13, 61, 937). Each rung closes with the count its zeta function records — sheets of a cover and loops upstairs on the left, primes above and residue degrees on the right. The figures are <b>schematic</b> — honest cartoons of the general-position picture, not computed embeddings — while every number on the ladder is computed live.</p>
+    <div class="sladder" id="sladderBox">
+      <div class="sladder-rails"><span style="color:var(--topo);">topology rail</span><span style="color:var(--arith);">arithmetic rail</span></div>
+
+      <div class="rung" id="rung1">
+        <div class="rung-title">Rung 1 — the pairwise count: K₂ through Σ₁ ↔ (13/61)</div>
+        <div class="rung-grid">
+          <div class="rung-t">
+            <svg id="rung1Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: a shaded horizontal disk, the Seifert surface Sigma 1, with boundary circle K1; a green loop K2 pierces the disk at two points, marked plus and minus — opposite signs, net count zero.">
+              <ellipse cx="170" cy="112" rx="122" ry="42" fill="#d9e9f6" stroke="#1b6ca8" stroke-width="3"/>
+              <path d="M 126 112 A 44 66 0 0 0 214 112" fill="none" stroke="#2e8b57" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.6"/>
+              <path d="M 126 112 A 44 66 0 0 1 214 112" fill="none" stroke="#2e8b57" stroke-width="3.5"/>
+              <polygon points="176,40 176,52 164,46" fill="#2e8b57"/>
+              <polygon points="121,94 131,94 126,104" fill="#2e8b57"/>
+              <polygon points="209,130 219,130 214,120" fill="#2e8b57"/>
+              <circle cx="126" cy="112" r="4.5" fill="#2e8b57"/>
+              <circle cx="214" cy="112" r="4.5" fill="#2e8b57"/>
+              <text x="105" y="104" font-size="16" font-weight="bold" fill="#333">+</text>
+              <text x="224" y="104" font-size="16" font-weight="bold" fill="#333">−</text>
+              <text x="62" y="104" font-size="12" fill="#1b6ca8">Σ₁</text>
+              <text x="248" y="166" font-size="12" fill="#1b6ca8">K₁ = ∂Σ₁</text>
+              <text x="222" y="58" font-size="12" fill="#1e6b41">K₂</text>
+              <text x="170" y="192" font-size="11" fill="#666" text-anchor="middle">two punctures, opposite signs — net 0</text>
+            </svg>
+            <div class="figcap">schematic — Σ₁ spans K₁; K₂ punctures it twice, once each way (dashed = below the surface)</div>
+            <div>A <span class="tt" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it; the Pairs tab's opening object. The signed puncture count through it is lk, independent of the surface chosen.">Seifert surface</span> Σ₁ spans K₁, and K₂ crosses it twice — but with opposite signs. Computed from the Borromean diagram at the top of this tab (its signed crossings), not from this schematic: lk(K₁,K₂) = <span id="rung1Lk">·</span>. The surface <i>is</i> crossed; the <b>net</b> count is zero — the Pairs tab's invariant, vanishing.</div>
+          </div>
+          <div class="rung-a" id="rung1Arith"></div>
+        </div>
+        <div class="rung-count" id="rung1Count"></div>
+      </div>
+
+      <div class="rung" id="rung2">
+        <div class="rung-title">Rung 2 — the curve the vanishing leaves: γ = Σ₁ ∩ Σ₂ ↔ α = 23 + 6√13</div>
+        <div class="rung-grid">
+          <div class="rung-t wide">
+            <svg id="rung2Fig" viewBox="0 0 780 250" role="img" aria-label="Schematic in three numbered steps. Step 1: the two spanning surfaces separately — a flat disk whose boundary is K1, and a bowl whose rim is K2. Step 2: the bowl is pushed down through the disk; where the bowl's sides pass through the disk they cross it in exactly one closed circle, drawn bold in purple. Step 3: that circle is extracted and shown alone — it is gamma, the intersection of Sigma 1 and Sigma 2, closed because rung 1's punctures cancelled, and not a component of the link.">
+              <line x1="260" y1="14" x2="260" y2="202" stroke="#ddd8ca" stroke-width="1.5"/>
+              <line x1="520" y1="14" x2="520" y2="202" stroke="#ddd8ca" stroke-width="1.5"/>
+              <!-- Step 1: the two surfaces, apart -->
+              <ellipse cx="90" cy="140" rx="56" ry="19" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
+              <text x="90" y="147" font-size="17" fill="#1b6ca8" text-anchor="middle">Σ₁</text>
+              <text x="90" y="180" font-size="15" fill="#1b6ca8" text-anchor="middle">K₁ = ∂Σ₁</text>
+              <path d="M 152 72 C 153 100, 163 122, 182 130 C 201 122, 211 100, 212 72 A 30 8 0 0 1 152 72 Z" fill="#2e8b57" fill-opacity="0.13"/>
+              <path d="M 152 72 C 153 100, 163 122, 182 130 C 201 122, 211 100, 212 72" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <ellipse cx="182" cy="72" rx="30" ry="8" fill="none" stroke="#2e8b57" stroke-width="3"/>
+              <text x="182" y="52" font-size="15" fill="#1e6b41" text-anchor="middle">K₂ = ∂Σ₂</text>
+              <text x="182" y="112" font-size="17" fill="#1e6b41" text-anchor="middle">Σ₂</text>
+              <text x="130" y="228" font-size="15" fill="#444" text-anchor="middle" font-weight="bold">1 — the two surfaces, apart</text>
+              <!-- Step 2: pushed together, meeting in one circle -->
+              <path d="M 354 48 C 354 82, 362 104, 372 126 C 378 140, 384 148, 390 152 C 396 148, 402 140, 408 126 C 418 104, 426 82, 426 48 A 36 9 0 0 1 354 48 Z" fill="#2e8b57" fill-opacity="0.12"/>
+              <ellipse cx="390" cy="126" rx="88" ry="24" fill="#1b6ca8" fill-opacity="0.15" stroke="#1b6ca8" stroke-width="2.5"/>
+              <path d="M 354 48 C 354 82, 362 104, 372 126" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 426 48 C 426 82, 418 104, 408 126" fill="none" stroke="#2e8b57" stroke-width="2.5"/>
+              <path d="M 372 126 C 378 140, 384 148, 390 152 C 396 148, 402 140, 408 126" fill="none" stroke="#2e8b57" stroke-width="2.5" stroke-dasharray="5 4" opacity="0.75"/>
+              <ellipse cx="390" cy="48" rx="36" ry="9" fill="none" stroke="#2e8b57" stroke-width="3"/>
+              <path d="M 372 126 A 18 5 0 0 1 408 126" fill="none" stroke="#7d3c98" stroke-width="3" stroke-dasharray="5 4" opacity="0.7"/>
+              <path d="M 372 126 A 18 5 0 0 0 408 126" fill="none" stroke="#7d3c98" stroke-width="4"/>
+              <line x1="390" y1="168" x2="390" y2="133" stroke="#7d3c98" stroke-width="1.2"/>
+              <text x="390" y="182" font-size="15" font-weight="bold" fill="#7d3c98" text-anchor="middle">the crossing</text>
+              <text x="434" y="44" font-size="15" fill="#1e6b41">K₂</text>
+              <text x="492" y="150" font-size="15" fill="#1b6ca8" text-anchor="end">K₁</text>
+              <text x="390" y="228" font-size="15" fill="#444" text-anchor="middle" font-weight="bold">2 — pushed together</text>
+              <!-- Step 3: gamma alone -->
+              <ellipse cx="650" cy="110" rx="52" ry="17" fill="none" stroke="#7d3c98" stroke-width="4"/>
+              <text x="650" y="70" font-size="18" font-weight="bold" fill="#7d3c98" text-anchor="middle">γ = Σ₁ ∩ Σ₂</text>
+              <text x="650" y="150" font-size="13" fill="#666" text-anchor="middle">closed — rung 1's ± punctures cancel</text>
+              <text x="650" y="170" font-size="13" fill="#666" text-anchor="middle">not a component of the link</text>
+              <text x="650" y="228" font-size="15" fill="#444" text-anchor="middle" font-weight="bold">3 — γ, extracted</text>
+            </svg>
+            <div class="figcap">schematic, in three steps — the two spanning surfaces apart; pushed together (the crossing is one closed circle, bold; dashed = hidden below the disk); and γ pulled out on its own</div>
+            <div id="gammaComputed"></div>
+            <div>Because every pairwise lk = 0 (rung 1), the surfaces can be pushed off the other components and — in <span class="tt" data-tip="Two surfaces in a 3-manifold can be perturbed to meet transversally; the intersection is then a 1-manifold, and once the boundary punctures cancel (lk = 0) it is a union of closed curves. Standard transversality — cited, not computed; the whyMu box above does the tubing.">general position</span> — Σ₁ and Σ₂ meet in a <b>closed curve</b> γ: the Pairs tab's arc with both boundary ends cancelled, closing into a circle. γ is new — not a component of the link, but the object the vanishing left behind.</div>
+          </div>
+          <div class="rung-a" id="rung2Arith"></div>
+        </div>
+        <div class="rung-count" id="rung2Count"></div>
+      </div>
+
+      <div class="rung" id="rung3">
+        <div class="rung-title">Rung 3 — the triple count: K₃ through γ ↔ [13, 61, 937]</div>
+        <div class="rung-grid">
+          <div class="rung-t">
+            <svg id="rung3Fig" viewBox="0 0 340 200" role="img" aria-label="Schematic: the closed purple curve gamma from rung 2 bounds a lightly shaded surface, drawn flat. The orange ring K3 links gamma once, like a Hopf pair: it passes through the shaded surface at exactly one marked point. That single pass is lk of gamma and K3, which equals the Milnor invariant mu-bar 123.">
+              <ellipse cx="140" cy="112" rx="78" ry="26" fill="#7d3c98" fill-opacity="0.10"/>
+              <path d="M 62 112 A 78 26 0 0 1 152 86.4" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 176 89.5 A 78 26 0 0 1 218 112" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 62 112 A 78 26 0 0 0 218 112" fill="none" stroke="#7d3c98" stroke-width="3.5"/>
+              <path d="M 163.2 128.6 A 34 64 0 0 1 213 56.6 A 34 64 0 0 1 204.8 173.8 A 34 64 0 0 1 166.6 144" fill="none" stroke="#e67e22" stroke-width="3.5"/>
+              <circle cx="162" cy="112" r="5.5" fill="#f5a623" stroke="#333" stroke-width="1.5"/>
+              <line x1="120" y1="60" x2="158" y2="107" stroke="#767676" stroke-width="1"/>
+              <text x="30" y="52" font-size="11" fill="#333">the one pass through the surface:</text>
+              <text x="30" y="66" font-size="11" fill="#333">lk(γ, K₃) = 1</text>
+              <text x="240" y="52" font-size="12" fill="#b35a00">K₃</text>
+              <text x="46" y="146" font-size="12.5" font-weight="bold" fill="#7d3c98">γ</text>
+              <text x="68" y="124" font-size="10" fill="#7d3c98" opacity="0.85">surface spanning γ</text>
+              <text x="68" y="136" font-size="10" fill="#7d3c98" opacity="0.85">(drawn flat)</text>
+              <text x="170" y="194" font-size="11" fill="#666" text-anchor="middle">K₃ and γ link like a Hopf pair: lk(γ, K₃) = μ̄(123)</text>
+            </svg>
+            <div class="figcap">schematic — the shaded region stands in for a surface spanning γ; K₃ passes through it once (equivalently: the one triple point where γ crosses Σ₃ — Σ₃ not drawn)</div>
+            <div>K₃ passes through the circle γ exactly once — one <span class="tt" data-tip="A point where Σ₁, Σ₂ and Σ₃ all meet at once. With every pairwise lk = 0 the signed count of triple points is well defined and equals lk(γ, K₃) = μ̄(123). Sketch, pure intersection theory: triple points are exactly where the closed curve γ = Σ₁ ∩ Σ₂ crosses Σ₃, so their signed count is γ · Σ₃ = lk(γ, K₃); trading any surface for another changes the count by an intersection with a closed surface, which vanishes because the pairwise linking already did. The identification is cited — Cochran, Mem. AMS 84 (1990); Mellor–Melvin, Alg. Geom. Topol. 3 (2003); mod 2, Morishita chs. 4/8, 1st ed. — the number is computed live via Magnus.">triple point</span> of Σ₁, Σ₂, Σ₃. That reading, μ̄(123) = lk(γ, K₃) = signed count of triple points, is cited (Cochran 1990; Mellor–Melvin 2003; mod 2, Morishita chs. 4/8, 1st ed.); the number itself is computed live in steps 3–4 above: μ̄(123) = <span id="rung3Mu">·</span>.</div>
+          </div>
+          <div class="rung-a" id="rung3Arith"></div>
+        </div>
+        <div class="rung-count" id="rung3Count"></div>
+      </div>
+    </div>
+
+    <div class="section-head">What the polynomials say now</div>
+    <div class="twocol">
+      <div class="col topo">
+        <div class="poly-demo">
+          <div class="eq"><span class="tt tt-left" data-tip="The multivariable Alexander polynomial of the Borromean rings — cited, not computed: a standard Fox-calculus result (tables in Kawauchi, A Survey of Knot Theory). The app has no Fox calculus; what IS computed live: the expansion below (its top coefficient against the independently Magnus-computed μ̄), the Torres collapse to (t−1)⁴ against the fiber's b₁ = 4 — two independent cross-checks — plus a consistency restatement through the Zeta cards' stand-in monodromy, which shares this fixture's characteristic polynomial and so cannot vote against it.">Δ<sub>Bor</sub>(t₁,t₂,t₃)</span> = (t₁−1)(t₂−1)(t₃−1)</div>
+          <div style="margin-top:6px;">Substituting t<sub>i</sub> = 1 + x<sub>i</sub> and expanding live:</div>
+          <div class="coef-grid" id="deltaBorGrid"></div>
+          <div class="small-note" style="margin-top:8px;">Every coefficient below top degree vanishes — mirroring the vanished pairwise linking — and the single surviving coefficient is μ̄(123) = 1, matching the single triple point. This polynomial is the link's own zeta — see <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxBorro');if(d){d.open=true;d.scrollIntoView();}">The zeta of a link</button>, Zeta tab.</div>
+        </div>
+      </div>
+      <div class="col arith">
+        <div class="poly-demo">The Rédei symbol is the triple <span class="tt" data-tip="A higher-order product in cohomology, defined only when the ordinary products vanish — and then only up to the ambiguity those vanishings leave. Its topological ancestor detects exactly the Borromean phenomenon.">Massey product</span> ⟨χ₁, χ₂, χ₃⟩ in Galois cohomology, defined precisely because the pairwise <span class="tt" data-tip="The basic multiplication in cohomology. For the Galois characters attached to p and q, the cup product χ_p ∪ χ_q vanishes exactly when (p/q) = +1 — vanishing cup products are the arithmetic 'pairwise unlinked'.">cup products</span> (Legendre symbols) vanish first — and, by Morishita's theorem (Compositio Math. 140, 2004), it equals the arithmetic triple Milnor invariant μ̄₂(123), read from the pro-2 Magnus expansion of Frobenius exactly as μ̄(123) is read from the longitude. The topological side's coefficient statement is computed live at left. The matching statement for f<sub>S</sub> — that it reports the Rédei symbol once every lower-order term vanishes — is offered as analogy, not theorem: over Q the deck group is finite (see the f<sub>S</sub> why-box under the Dictionary table). The two sides say the same sentence, one as computation, one as analogy: <i>when the cheap invariants vanish, the polynomial's leading surviving coefficient is the triple invariant.</i></div>
+      </div>
+    </div>
+
+    <div class="thread" id="triplesThread"></div>
+
+    <div class="caption-strip">Vanishing is not emptiness — it is what makes the next invariant well defined.</div>
+  </section>

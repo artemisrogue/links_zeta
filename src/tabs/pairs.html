@@ -1,0 +1,123 @@
+    <section id="tab-pairs" class="tab-panel">
+    <p style="max-width:920px;">One intersection count, computed in both languages: lk by counting punctures through a spanning surface, (p/q) by Euler's criterion — and one symmetry with the same proof twice. At the bottom of this tab, the count becomes a picture: <button type="button" class="jump" onclick="$id('pairsCoverMini').scrollIntoView({block:'center'})">the double cover drawn as a lift diagram</button>.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>Topology</h2>
+        <div class="sub">lk(K₁,K₂) = signed count of punctures of K₂ through a <span class="tt tt-left" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it. The count does not depend on which surface you pick: two choices glue into a closed surface, which K₂ meets 0 times algebraically.">Seifert surface</span> Σ₁ spanning K₁. Arrowheads mark the orientations — the same parametrization every signed count in this app uses. Design rule, stated once: crossing signs are read in the screen's y-down (left-handed) frame, and the app only ever displays diagram counts that survive that choice — parities and zero totals, never a bare handed sign.</div>
+        <canvas id="pairsCanvas" width="420" height="300"></canvas>
+        <div class="small-note" id="pairsSyncNote" aria-live="polite" style="text-align:left;"></div>
+        <div class="state-label topo" id="pairsStateLabel">lk = 0</div>
+        <div class="controls">
+          <button class="ctrl primary" id="pairsToggleBtn">Toggle: Unlinked ⇄ Hopf link</button>
+          <button class="ctrl" id="pairsLiftBtn">Lift apart</button>
+        </div>
+        <div class="small-note" id="pairsLiftNote" aria-live="polite">&nbsp;</div>
+        <button class="why-toggle" data-why="whySeifert">Why is lk independent of the choice of surface?</button>
+        <div class="why-box" id="whySeifert">Take two Seifert surfaces Σ, Σ′ for K₁. Reverse the orientation of the second and glue: Σ ∪ (−Σ′) has no boundary — the two copies of K₁ cancel — so it is a <b>closed</b> surface in S³. K₂ is <i>not</i> disjoint from that closed surface — it punctures both halves, which is the whole point of the count. What is true is homological: every closed surface in S³ is null-homologous ([Σ ∪ (−Σ′)] = 0 in H₂(S³) = 0), and the algebraic intersection number of a closed curve with a null-homologous closed surface is 0. So K₂ meets Σ ∪ (−Σ′) zero times algebraically. That difference of the two puncture counts is therefore zero: both surfaces give the same lk. The orientation reversal is the whole argument — glue them the same way round and the boundaries add instead of cancelling, and nothing closes up.</div>
+      </div>
+      <div class="col arith">
+        <h2>Arithmetic</h2>
+        <div class="sub">(p₁/p₂) asks an elementary question: is p₁ a nonzero square mod p₂? +1 if yes, −1 if not — computable by hand via Euler's criterion, p₁^((p₂−1)/2) mod p₂, which is exactly what the table below computes. The puncture question is its Galois restatement: "does p₂ puncture k₁ = Q(√p₁)?" becomes "what does <span class="tt" data-tip="The canonical symmetry of k₁ attached to the unramified prime p₂ — the arithmetic analogue of the loop a meridian traces around a knot. Frob(√p₁) = +√p₁ means p₂ splits (no puncture); −√p₁ means inert (one puncture).">Frobenius</span> do?" — (p₁/p₂) = Frob<sub>p₂</sub>(√p₁)/√p₁.</div>
+        <div class="calc-row">
+          <button class="ctrl" id="preset529">(5, 29)</button>
+          <button class="ctrl" id="preset513">(5, 13)</button>
+        </div>
+        <div class="calc-row">
+          <label>p = <input type="number" id="pInput" value="5"></label>
+          <label>q = <input type="number" id="qInput" value="29"></label>
+          <button class="ctrl primary" id="computeLegendre">Compute</button>
+        </div>
+        <div class="warn" id="pairsWarn" role="status">&nbsp;</div>
+        <div class="small-note" id="pairsStale" aria-live="polite" style="color:var(--bad);min-height:1em;"></div>
+        <table class="symbolic" id="legendreTable" aria-label="Legendre symbol (p/q) evaluated by Euler's criterion, with the intermediate power residue."></table>
+        <div class="banner" id="pairsBanner" aria-live="polite"></div>
+        <button class="why-toggle" data-why="whyMod2">Why is the value group only {±1}?</button>
+        <div class="why-box" id="whyMod2">lk ∈ Z but (p₁/p₂) ∈ {±1}: a curve can wind any number of times around a surface, while a degree-2 extension admits only one nontrivial Frobenius. The Legendre symbol is a mod-2 linking number.</div>
+      </div>
+    </div>
+
+    <div class="section-head">Symmetry: one proposition, two proofs, one mechanism</div>
+    <p style="font-size:.92rem; color:var(--muted); max-width:840px;">lk(K₁,K₂) = lk(K₂,K₁), and (p₁/p₂) = (p₂/p₁). Both proofs are instances of a single principle: <i>a global object's local contributions must cancel.</i> The two quantities being compared appear as the two ends of one connected global object — an arc, or an <span class="tt" data-tip="The product of Hilbert symbols taken over every completion of Q at once — all the primes together with ∞. The product formula says this global product is always 1: no local contribution can escape.">adèlic product</span> — and the global object's closedness forces the ends to agree.</p>
+    <div class="twocol">
+      <div class="col topo">
+        <h2>The arc</h2>
+        <div class="sub" id="arcCaption"></div>
+        <canvas id="arcCanvas" width="420" height="260"></canvas>
+        <div class="small-note" id="arcNote"></div>
+      </div>
+      <div class="col arith">
+        <h2>The product formula</h2>
+        <div class="sub">The <span class="tt" data-tip="(a,b)_v = +1 exactly when z² = ax² + by² has a nonzero solution over Q_v — a purely local solvability test at the place v.">Hilbert symbol</span> (a,b)<sub>v</sub> ∈ {±1} at each <span class="tt" data-tip="A completion of Q: one for each prime p (the p-adic numbers Q_p) and one for ∞ (the reals). 'Local' means: seen through one completion at a time.">place</span> v of Q satisfies ∏<sub>v</sub> (a,b)<sub>v</sub> = 1 — the arithmetic "no boundary to escape to."</div>
+        <table class="symbolic" id="hilbertTable" aria-label="Hilbert symbol local factors for the chosen pair, place by place, with their product."></table>
+        <div class="small-note" id="hilbertNote" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <p style="font-size:.95rem; max-width:840px; margin:22px auto 6px; text-align:center;"><b>The two proofs are the same proof — entry by entry:</b></p>
+    <table class="dict" aria-label="Two readings of the same pairwise invariant: the arc-and-surface picture against the Hilbert product formula." style="max-width:900px; margin:0 auto 8px;">
+      <tr><th scope="col" class="t">the arc (topology)</th><th scope="col" class="a">the product formula (arithmetic)</th></tr>
+      <tr><td class="t">the global object: the compact 1-manifold Σ₁ ∩ Σ₂</td><td class="a">the global object: the family of local symbols (p,q)<sub>v</sub> over all places v</td></tr>
+      <tr><td class="t">interior points of the segment — contribute nothing</td><td class="a">places v ∉ {p, q} — each factor is +1 (including v = 2 and v = ∞, trivial because p ≡ q ≡ 1 mod 4 and both are positive: the orientability normalizations)</td></tr>
+      <tr><td class="t">the end on K₁, where K₁ pierces Σ₂ — counted by lk(K₂,K₁)</td><td class="a">the surviving factor at v = p: <span class="tt" data-tip="Why the local symbol IS the Legendre symbol: reduce a primitive solution of z² = px² + qy² mod p — the px² term dies, leaving z² ≡ qy² with y a unit, so q must be a square mod p; conversely Hensel's lemma (a solution mod p refines to Q_p — Newton's method, converging p-adically) lifts a square root of q mod p back to Q_p. Same argument at v = q.">(p,q)<sub>p</sub> = (q/p)</span></td></tr>
+      <tr><td class="t">the end on K₂, where K₂ pierces Σ₁ — counted by lk(K₁,K₂)</td><td class="a">the surviving factor at v = q: (p,q)<sub>q</sub> = (p/q)</td></tr>
+      <tr><td class="t">closedness: the signed boundary of a compact oriented 1-manifold is 0</td><td class="a">closedness: ∏<sub>v</sub> (p,q)<sub>v</sub> = 1</td></tr>
+      <tr><td class="t">⇒ the two ends agree: lk(K₁,K₂) = lk(K₂,K₁)</td><td class="a">⇒ the two factors cancel: (p/q) = (q/p)</td></tr>
+    </table>
+
+    <div class="section-head">What the polynomials say at this stage</div>
+    <div class="twocol">
+      <div class="col topo">
+        <div class="poly-demo">Every link L carries a computable polynomial invariant, the <span class="tt" data-tip="Black-box version, all this strip needs: one Laurent polynomial per link, one variable tᵢ per component, defined up to a unit. The rigorous definition — the order of the first homology of the infinite abelian cover of the link exterior, as a module over the deck transformations — is in the Dictionary's Δ_L row.">Alexander polynomial</span> Δ<sub>L</sub>(t₁,…,t<sub>r</sub>): one variable per component, defined up to a unit. Here <span class="eq"><span class="tt tt-left" data-tip="Cited, not computed: the Hopf link's Alexander polynomial is a standard Fox-calculus result (tables in Kawauchi). Cross-checked live where it is consumed: the Torres sanity line (t−1)·1 = t−1 on the Zeta tab's link-zeta and Hopf cards, degree 1 = b₁ of the annulus fiber.">Δ<sub>Hopf</sub>(t₁,t₂)</span> ≐ 1</span> — a <span class="tt" data-tip="An invertible element ±t₁^a·t₂^b. Alexander polynomials are only defined up to units, so '≐ 1' means: carries no information at all.">unit</span>, as trivial as a polynomial can be. For the <span class="tt" data-tip="Two circles in disjoint balls — separable by a sphere. Splitness is stronger than being unlinked crossing-by-crossing.">split unlink</span>, Δ ≐ 0: the classical splitness test. Once lk is known, there is nothing further of low order to report.</div>
+      </div>
+      <div class="col arith">
+        <div class="poly-demo">With only Gal(k₁/Q) ≅ Z/2 in play, the <span class="tt" data-tip="The Galois group of the maximal unramified abelian tower over the pro-ℓ cover, viewed as a module over the complete group ring of the deck group — the arithmetic H₁ of the cover. On the arithmetic side that deck group is finite, not Z_ℓ^r: see the f_S why-box under the Dictionary table.">Iwasawa module</span> — the arithmetic side's H₁-of-the-cover, whose order polynomial f<sub>S</sub> plays the role Δ<sub>L</sub> just played — carries nothing beyond the Legendre symbol itself. This changes completely when the pairwise invariants vanish — lk = 0 across the board, all symbols +1.</div>
+      </div>
+    </div>
+
+    <div class="thread" id="pairsThread" style="display:none;"></div>
+
+    <div style="max-width:560px;margin:14px auto 0;">
+      <svg id="pairsCoverMini" width="100%" height="150" viewBox="0 0 420 150" role="img" aria-label="Center: a two-box tower — X, the complement of K1, at the bottom, its double cover on top — mirroring the quadratic field over Q. Left panel, the unlinked case: the two sheets of the cover are drawn as two parallel lines, and K2 lifts to two separate loops, one lying on each sheet, projecting two-to-one down to the single loop K2 in the base. Right panel, the Hopf case: one single loop travels along the top sheet, passes down to the bottom sheet, and closes up — one loop winding twice over K2 downstairs.">
+<g font-size="12" text-anchor="middle">
+<rect class="hasse-box cover" x="110" y="10" width="200" height="30"/>
+<text class="hasse-label acc" x="210" y="24">X̃ — the double cover</text>
+<text x="210" y="36" font-size="8.5" font-style="italic" fill="#666">(unwinds K₁'s meridian mod 2)</text>
+<line x1="210" y1="40" x2="210" y2="100" stroke="#333"/>
+<text x="218" y="92" font-size="9.5" fill="#666" text-anchor="start">2 sheets ↔ deg 2: Q(√p)/Q</text>
+<rect class="hasse-box cover" x="140" y="100" width="140" height="26"/>
+<text class="hasse-label" x="210" y="117">X = S³ ∖ K₁</text>
+<!-- left panel: lk even — two lifts, one per sheet -->
+<text x="55" y="13" font-size="8" fill="#767676" class="acc">the two sheets of X̃</text>
+<line x1="14" y1="22" x2="96" y2="22" stroke="#b5b0a4" stroke-width="1.5"/>
+<line x1="14" y1="42" x2="96" y2="42" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="55" cy="22" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<ellipse cx="55" cy="42" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<line x1="55" y1="52" x2="55" y2="66" stroke="#333" stroke-width="1.2"/>
+<polygon points="51,64 59,64 55,71" fill="#333"/>
+<text x="62" y="62" font-size="8.5" fill="#666" text-anchor="start">2 : 1</text>
+<line x1="14" y1="80" x2="96" y2="80" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="55" cy="80" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<text x="80" y="94" font-size="9" fill="#1e6b41">K₂</text>
+<text x="55" y="110" font-size="9.5" fill="#666">lk even (split):</text>
+<text x="55" y="121" font-size="9.5" fill="#666">K₂ lifts to 2 loops</text>
+<!-- right panel: lk odd — one loop through both sheets -->
+<text x="365" y="13" font-size="8" fill="#767676" class="acc">the two sheets of X̃</text>
+<line x1="324" y1="22" x2="406" y2="22" stroke="#b5b0a4" stroke-width="1.5"/>
+<line x1="324" y1="42" x2="406" y2="42" stroke="#b5b0a4" stroke-width="1.5"/>
+<path d="M 342 22 A 23 5.5 0 0 1 388 22 C 392 26, 392 38, 388 42 A 23 5.5 0 0 1 342 42 C 338 38, 338 26, 342 22 Z" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<line x1="365" y1="52" x2="365" y2="66" stroke="#333" stroke-width="1.2"/>
+<polygon points="361,64 369,64 365,71" fill="#333"/>
+<text x="372" y="62" font-size="8.5" fill="#666" text-anchor="start">2 : 1</text>
+<line x1="324" y1="80" x2="406" y2="80" stroke="#b5b0a4" stroke-width="1.5"/>
+<ellipse cx="365" cy="80" rx="16" ry="5.5" fill="none" stroke="#2e8b57" stroke-width="2.2"/>
+<text x="390" y="94" font-size="9" fill="#1e6b41">K₂</text>
+<text x="365" y="110" font-size="9.5" fill="#666">lk odd (inert / Hopf):</text>
+<text x="365" y="121" font-size="9.5" fill="#666">1 loop, winds twice</text>
+</g>
+</svg>
+      <div class="cover-cap" id="pairsCoverCap"></div>
+      <div class="small-note" id="pairsCoverCorr">The lattice of intermediate covers mirrors the subgroup lattice of the deck group — <span class="tt" data-tip="Covering-space theory, standard (cited, not computed): covers of X are governed by π₁ exactly as extensions are governed by Gal — subgroups ↔ intermediate covers, index ↔ sheet count, normal subgroups ↔ Galois covers with quotient deck group (e.g. Hatcher §1.3; Morishita chs. 2–4 runs this dictionary for knots and primes). Here the lattice is just Z/2's: two boxes.">the Galois correspondence, both sides</span> — here at its smallest: one Z/2 on each side. The Triples and Quadruples tabs grow this tower to 8 and 64 sheets.</div>
+    </div>
+
+    <div class="caption-strip">An intersection count: how many times does one object puncture the other's spanning surface / field.</div>
+  </section>

@@ -160,6 +160,21 @@ svg text.acc{font-family:Cambria,"Times New Roman",serif;}
 .tt.tt-open::after{pointer-events:auto;overflow-y:auto;max-height:55vh;}
 .tt.tt-below:hover::after,.tt.tt-below:focus::after,.tt.tt-below.tt-open::after{bottom:auto;top:calc(100% + 7px);}
 .tt.tt-below:hover::before,.tt.tt-below:focus::before,.tt.tt-below.tt-open::before{bottom:auto;top:calc(100% + 1px);border-top-color:transparent;border-bottom-color:#2b2b25;}
+/* .tt-katex: an opt-in tooltip variant that can host real typeset math (KaTeX), not just
+   plain text -- a ::after pseudo-element can only ever hold a text string via content:attr(),
+   so this needs a real child node. Only takes effect once .katex-on is added by JS, which only
+   happens after KaTeX has actually loaded (see shared/tooltips.js ttKatexUpgrade); until then
+   a .tt-katex element is pixel-identical to a plain .tt, using the rules above unchanged. */
+.tt.tt-katex.katex-on::after,.tt.tt-katex.katex-on::before{content:none;}
+.tt-katex .tt-bubble{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 7px);width:250px;background:#2b2b25;color:#f5f2e8;font-size:.78rem;font-style:normal;font-weight:normal;text-transform:none;letter-spacing:0;padding:8px 11px;border-radius:5px;z-index:50;line-height:1.4;text-align:left;white-space:normal;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.tt-katex .tt-bubble::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-6px;border:6px solid transparent;border-top-color:#2b2b25;}
+.tt.tt-katex.katex-on:hover>.tt-bubble,.tt.tt-katex.katex-on:focus>.tt-bubble,.tt.tt-katex.katex-on.tt-open>.tt-bubble{display:block;}
+.tt.tt-katex.katex-on.tt-open>.tt-bubble{pointer-events:auto;overflow-y:auto;max-height:55vh;}
+.tt.tt-katex.tt-left .tt-bubble{left:0;transform:none;}
+.tt.tt-katex.tt-right .tt-bubble{left:auto;right:0;transform:none;}
+.tt.tt-katex.tt-below .tt-bubble{bottom:auto;top:calc(100% + 7px);}
+.tt.tt-katex.tt-below .tt-bubble::before{bottom:auto;top:-6px;border-top-color:transparent;border-bottom-color:#2b2b25;}
+.tt-bubble .katex{font-size:1.05em;}
 .why-box{margin-top:10px;font-size:.88rem;padding:10px 14px;border-left:3px solid var(--line);background:#fafaf6;display:none;}
 .why-box.open{display:block;}
 .why-toggle{font-size:.8rem;color:var(--muted);cursor:pointer;text-decoration:underline dotted;background:none;border:none;font-family:inherit;}
@@ -231,7 +246,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
       <tr><td class="t">link L = K₁ ∪ ⋯ ∪ K<sub>r</sub> ⊂ <span class="tt" data-tip="The 3-sphere: ordinary 3-space plus one point at infinity — the standard closed home for knots and links.">S³</span></td><td class="a">set of primes S = {p₁, …, p<sub>r</sub>} ⊂ <span class="tt" data-tip="The 'space of all primes': in Grothendieck's geometry Z becomes a space whose points are the primes — a 3-dimensional one whose every point is a circle in disguise, so its points are knots (Mazur's observation; the why-box above spells it out).">Spec Z</span>, each ≡ 1 (mod 4)</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="A compact oriented surface whose boundary is the knot — a soap film spanning it. Every knot bounds one (Seifert's algorithm), but never uniquely.">Seifert surface</span> Σᵢ, ∂Σᵢ = Kᵢ</td><td class="a"><span class="tt" data-tip="Q(√p): the smallest field 'spanning' the prime p. Because p ≡ 1 (mod 4) its discriminant is exactly p, so it is ramified (branched) at p and nowhere else — touching only its own prime, as a Seifert surface touches only its own knot.">quadratic resolvent</span> kᵢ = Q(√pᵢ), ramified only at pᵢ</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="A point where the curve K₂ passes through the spanning surface Σ₁, counted with a sign given by orientation.">puncture point</span>, K₂ ∩ Σ₁</td><td class="a">non-split prime, <span class="tt" data-tip="The Frobenius element: the canonical symmetry of a field attached to each unramified prime — the arithmetic analogue of the monodromy loop a meridian traces around a knot. Trivial Frobenius = split = no puncture.">Frob<sub>p₂</sub></span> in Gal(k₁/Q)</td></tr>
-      <tr><td class="t"><span class="tt tt-left" data-tip="The signed number of times K₂ punctures a surface spanning K₁. Independent of the chosen surface, and symmetric in the two knots.">linking number</span> lk(K₁, K₂) ∈ Z</td><td class="a"><span class="tt" data-tip="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: p₁^((p₂−1)/2) mod p₂. It is a mod-2 linking number.">Legendre symbol</span> (p₁/p₂) ∈ {±1} <span class="tt" data-tip="This is where the mismatch first bites: lk is an integer, the symbol is a sign. It repeats one rung up — μ̄(123) is an integer, [p₁,p₂,p₃] is a sign — and Q&amp;A #6 collects both under one head. The correspondence is lk mod 2 ↔ the symbol — everything about the magnitude and sign of lk is lost, and the app's whole story is what survives that reduction. The reason is structural, not a defect of the analogy: Gal(Q(√p)/Q) has order 2, so there is nowhere for an integer to live. The Pairs tab's 'why is the value group only {±1}?' box argues it; the Q&A tab's mod-2 answer says what would be needed at ℓ &gt; 2.">— mod 2 only</span></td></tr>
+      <tr><td class="t"><span class="tt tt-left" data-tip="The signed number of times K₂ punctures a surface spanning K₁. Independent of the chosen surface, and symmetric in the two knots.">linking number</span> lk(K₁, K₂) ∈ Z</td><td class="a"><span class="tt tt-katex" data-tip="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: p₁^((p₂−1)/2) mod p₂. It is a mod-2 linking number." data-latex-html="(p₁/p₂) = +1 if p₁ is a nonzero square mod p₂, −1 if not. Computed here live by Euler's criterion: <span class='katex-frag' data-latex='p_1^{(p_2-1)/2} \bmod p_2'>p₁^((p₂−1)/2) mod p₂</span>. It is a mod-2 linking number.">Legendre symbol</span> (p₁/p₂) ∈ {±1} <span class="tt" data-tip="This is where the mismatch first bites: lk is an integer, the symbol is a sign. It repeats one rung up — μ̄(123) is an integer, [p₁,p₂,p₃] is a sign — and Q&amp;A #6 collects both under one head. The correspondence is lk mod 2 ↔ the symbol — everything about the magnitude and sign of lk is lost, and the app's whole story is what survives that reduction. The reason is structural, not a defect of the analogy: Gal(Q(√p)/Q) has order 2, so there is nowhere for an integer to live. The Pairs tab's 'why is the value group only {±1}?' box argues it; the Q&A tab's mod-2 answer says what would be needed at ℓ &gt; 2.">— mod 2 only</span></td></tr>
       <tr><td class="t">symmetry of lk</td><td class="a"><span class="tt" data-tip="Gauss's theorem: for odd primes p, q ≡ 1 (mod 4), (p/q) = (q/p). In this story it is the statement that the two ends of one global object must agree.">quadratic reciprocity</span></td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="When lk(K₁,K₂) = 0 each Seifert surface can be pushed off the other curves — the punctures cancel in pairs and tube away — after which, in general position, the two meet in a closed curve γ = Σ₁ ∩ Σ₂ — the object the vanishing leaves behind; μ̄(123) reads how K₃ threads it. The Triples tab's surface ladder climbs exactly this.">surface intersection</span> γ = Σ₁ ∩ Σ₂, closed once the surfaces are pushed off the other curves (lk = 0 lets them)</td><td class="a"><span class="tt" data-tip="α = x + y√p₁ from a Rédei-normalized solution of x² − p₁y² − p₂z² = 0 — solvable exactly because (p₁/p₂) = +1. Adjoining √α builds the Rédei field: the cover where γ unwinds (γ ↔ √α; Morishita ch. 8, 1st ed.).">Rédei element</span> α, exists since (p₁/p₂) = +1</td></tr>
       <tr><td class="t"><span class="tt tt-left" data-tip="Milnor's invariant: when all pairwise linking vanishes, the three spanning surfaces can be arranged to meet in isolated triple points; μ̄(123) is their signed count. For the Borromean rings it is ±1.">triple linking number</span> μ̄(123)</td><td class="a"><span class="tt" data-tip="[p₁,p₂,p₃] = ±1 according to whether p₃ splits completely in the degree-8 Rédei field. Defined only when all pairwise Legendre symbols are +1 — exactly like μ̄.">Rédei symbol</span> [p₁, p₂, p₃]</td></tr>
@@ -875,7 +890,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
           <summary><h2>The topological class number — branched cyclic covers of the trefoil <span class="zx-hook">— and one of them is the Poincaré sphere</span></h2></summary>
           <div class="zx-body">
             <div class="zx-lesson"><b>Lesson (links ↔ primes):</b> |H₁| of a cover is the topological class number, and here it is computed from the same determinant the card opposite the figure-eight reads as a fixed-point count — one quantity, two readings.</div>
-            <div class="sub">Let M<sub>n</sub> be the n-fold cyclic cover of S³ <b>branched</b> over the trefoil. <span class="tt tt-left" data-tip="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): |H1(Mn)| = |Res(Delta(t), t^n - 1)| = the product of Delta over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed.">Fox's formula</span> gives |H₁(M<sub>n</sub>)| as the resultant of Δ with t<sup>n</sup> − 1. The trefoil is fibered with monodromy A = [[1, −1], [1, 0]], so the resultant collapses to |det(A<sup>n</sup> − I)| = |2 − tr(A<sup>n</sup>)|, and tr(A<sup>n</sup>) obeys s<sub>n</sub> = s<sub>n−1</sub> − s<sub>n−2</sub> read straight off Δ<sub>3₁</sub> = t² − t + 1. Integer arithmetic throughout — no floating point.</div>
+            <div class="sub">Let M<sub>n</sub> be the n-fold cyclic cover of S³ <b>branched</b> over the trefoil. <span class="tt tt-left tt-katex" data-tip="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): |H1(Mn)| = |Res(Delta(t), t^n - 1)| = the product of Delta over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed." data-latex-html="Fox's formula (Fox, Ann. of Math. 64 (1956); the proof usually cited alongside it is C. Weber, Enseign. Math. 25 (1979), which is why the result is known as the Fox-Weber formula): <span class='katex-frag' data-latex='\bigl|H_1(M_n)\bigr| \;=\; \bigl|\operatorname{Res}\bigl(\Delta(t),\, t^n-1\bigr)\bigr|'>|H1(Mn)| = |Res(Delta(t), t^n - 1)|</span> = the product of &Delta; over the n-th roots of unity, and the cover is a rational homology sphere exactly when that product is nonzero. Cited theorem; the numbers beside it are computed.">Fox's formula</span> gives |H₁(M<sub>n</sub>)| as the resultant of Δ with t<sup>n</sup> − 1. The trefoil is fibered with monodromy A = [[1, −1], [1, 0]], so the resultant collapses to |det(A<sup>n</sup> − I)| = |2 − tr(A<sup>n</sup>)|, and tr(A<sup>n</sup>) obeys s<sub>n</sub> = s<sub>n−1</sub> − s<sub>n−2</sub> read straight off Δ<sub>3₁</sub> = t² − t + 1. Integer arithmetic throughout — no floating point.</div>
             <table class="symbolic" id="coversTable" aria-label="Orders of the first homology of the n-fold cyclic covers of the 3-sphere branched over the trefoil, with the Brieskorn manifold Sigma(2,3,n) each one is — a homology sphere exactly when gcd(n,6) = 1."></table>
             <div class="step" id="coversNote"></div>
             <div class="small-note">These are the <span class="tt" data-tip="Sigma(2,3,n), the link of the singularity x^2 + y^3 + z^n = 0. The n-fold cyclic cover of S^3 branched over the trefoil is exactly this Brieskorn manifold. It is a homology SPHERE only when gcd(n,6) = 1, i.e. when 2, 3 and n are pairwise coprime — which is the law computed above. Cited, not computed.">Brieskorn manifolds</span> Σ(2, 3, n) — homology spheres exactly at the gcd(n, 6) = 1 rows, which here are n = 5 and n = 7. Of those, Σ(2, 3, 5) is the <span class="tt" data-tip="The Poincare homology sphere: the unique homology 3-sphere with finite non-trivial fundamental group, of order 120. A class-number-one manifold in this dictionary. Cited, not computed.">Poincaré homology sphere</span>.</div>
@@ -901,7 +916,7 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 
     <section id="tab-ladder" class="tab-panel">
     <h2 style="text-align:center;">The unipotent ladder</h2>
-    <p style="max-width:840px;margin:0 auto 10px;font-size:.92rem;color:var(--muted);text-align:center;">Each level of linking lives in a <span class="tt" data-tip="Upper triangular with 1s on the diagonal. Over F₂ (the field with two elements) the n×n unipotent group has order 2^(n(n−1)/2): 2, 8, 64 for n = 2, 3, 4.">unipotent</span> matrix group over F₂. The <span style="color:var(--topo);font-weight:600;">superdiagonal</span> carries the characters (pairwise level); each deeper diagonal is defined only when everything above it vanishes.</p>
+    <p style="max-width:840px;margin:0 auto 10px;font-size:.92rem;color:var(--muted);text-align:center;">Each level of linking lives in a <span class="tt tt-katex" data-tip="Upper triangular with 1s on the diagonal. Over F₂ (the field with two elements) the n×n unipotent group has order 2^(n(n−1)/2): 2, 8, 64 for n = 2, 3, 4." data-latex-html="Upper triangular with 1s on the diagonal. Over F₂ (the field with two elements) the n×n unipotent group has order <span class='katex-frag' data-latex='2^{n(n-1)/2}'>2^(n(n−1)/2)</span>: 2, 8, 64 for n = 2, 3, 4.">unipotent</span> matrix group over F₂. The <span style="color:var(--topo);font-weight:600;">superdiagonal</span> carries the characters (pairwise level); each deeper diagonal is defined only when everything above it vanishes.</p>
     <div class="matrices">
       <div class="matrix-card">
         <h3><span style="color:var(--topo);">N₂(F₂)</span> ≅ Z/2</h3>
@@ -1039,11 +1054,8 @@ details.zx[open]>summary{border-bottom:1px dashed var(--line);}
 <script>
 "use strict";
 
-function $id(id) { return document.getElementById(id); }
-function $q(s) { return document.querySelector(s); }
-function $qa(s) { return document.querySelectorAll(s); }
-function $el(t) { return document.createElement(t); }
 const TB = '<span class="thread-badge">ζ ↔ Δ</span>';
+
 
 function powmod(a, e, m) {
   a = ((a % m) + m) % m;
@@ -1056,6 +1068,7 @@ function powmod(a, e, m) {
   return result;
 }
 
+
 function legendre(a, p) {
   a = ((a % p) + p) % p;
   if (a === 0n) return 0;
@@ -1064,6 +1077,7 @@ function legendre(a, p) {
   if (r === p - 1n) return -1;
   throw new Error(`legendre(${a},${p}): p not an odd prime`);
 }
+
 
 function tonelliShanks(n, p) {
   n = ((n % p) + p) % p;
@@ -1094,16 +1108,19 @@ function tonelliShanks(n, p) {
     r = (r * b) % p;
   }
 }
+
 function sortRoots(r, p) {
   const other = ((p - r) % p + p) % p;
   return [r, other].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 }
+
 
 function bigGcd(a, b) {
   a = a < 0n ? -a : a; b = b < 0n ? -b : b;
   while (b) { const t = a % b; a = b; b = t; }
   return a;
 }
+
 
 // [p1,p2,q]; certificate must be Redei-NORMALIZED: scaling by k multiplies the value by (k/q).
 // legendre() assumes an odd PRIME modulus (Euler's criterion passes Euler pseudoprimes,
@@ -1138,6 +1155,7 @@ function redeiSymbol(p1, p2, q, x, y, z) {
   return { roots, vals, value: legs[0], identity };
 }
 
+
 // (p,q)_2 for odd p, q by genuine 2-adic solvability: a primitive zero of z² = px² + qy²
 // mod 8 (odd squares lift 8-adically — Hensel). Independent of reciprocity, unlike the
 // closed form (−1)^{ε(p)ε(q)}, which the UI shows only as a cross-check.
@@ -1150,6 +1168,7 @@ function hilbert2adic(p, q) {
   return -1;
 }
 
+
 function isPrimeSmall(n) { // trial division
   if (n < 2n) return false;
   if (n % 2n === 0n) return n === 2n;
@@ -1157,11 +1176,13 @@ function isPrimeSmall(n) { // trial division
   return true;
 }
 
+
 function parseIntegerInput(raw) {
   raw = String(raw).trim();
   if (!/^[0-9]{1,9}$/.test(raw)) return null;
   return BigInt(raw);
 }
+
 
 function circleIntersections(c1, c2) {
   const dx = c2.cx - c1.cx, dy = c2.cy - c1.cy;
@@ -1176,10 +1197,12 @@ function circleIntersections(c1, c2) {
   return [{ x: xm + rx, y: ym + ry }, { x: xm - rx, y: ym - ry }];
 }
 
+
 function angDist(a, b) {
   let d = Math.abs(a - b) % (2 * Math.PI);
   return Math.min(d, 2 * Math.PI - d);
 }
+
 
 function drawCircleWithGaps(ctx, circle, underAngles, opts) {
   opts = opts || {};
@@ -1211,9 +1234,11 @@ function drawCircleWithGaps(ctx, circle, underAngles, opts) {
   ctx.restore();
 }
 
+
 function angleOnCircle(circle, pt) {
   return Math.atan2((pt.y - circle.cy) / (circle.sy || 1), (pt.x - circle.cx) / (circle.sx || 1));
 }
+
 
 // arrowhead at p along dir — the SAME dir every signed count uses.
 function drawOrientationArrow(ctx, p, dir, color) {
@@ -1231,18 +1256,22 @@ function drawOrientationArrow(ctx, p, dir, color) {
   ctx.restore();
 }
 
+
 function circleArrow(ctx, circle, theta, color) {
   const p = { x: circle.cx + circle.r * Math.cos(theta), y: circle.cy + circle.r * Math.sin(theta) };
   drawOrientationArrow(ctx, p, { x: -Math.sin(theta), y: Math.cos(theta) }, color);
 }
 
+
 const MAGNUS_MAXDEG = 5;
+
 function mgAdd(series, word, coeff) {
   if (word.length > MAGNUS_MAXDEG) return;
   const k = word.join(",");
   series[k] = (series[k] || 0) + coeff;
   if (Math.abs(series[k]) < 1e-9) delete series[k];
 }
+
 function mgMul(A, B) {
   const R = {};
   for (const ka in A) {
@@ -1256,8 +1285,11 @@ function mgMul(A, B) {
   }
   return R;
 }
+
 function mgOne() { return { "": 1 }; }
+
 function mgGen(i) { const s = {}; s[String(i)] = 1; return s; }
+
 function mgInvOnePlusU(u) {
   let result = mgOne();
   let term = mgOne();
@@ -1269,7 +1301,9 @@ function mgInvOnePlusU(u) {
   }
   return result;
 }
+
 function mgCommutator(A, Ainv, B, Binv) { return mgMul(mgMul(A, B), mgMul(Ainv, Binv)); }
+
 
 function magnusTripleWithKilled(killed) {
   // Set the deleted component's meridian to 1 (its Magnus image becomes the constant series)
@@ -1281,12 +1315,14 @@ function magnusTripleWithKilled(killed) {
   const u12 = { ...C12 }; delete u12[""];
   return mgCommutator(C12, mgInvOnePlusU(u12), M(3), Minv(3));
 }
+
 function magnusCollapseReport(killed) {
   const s4 = magnusTripleWithKilled(killed);
   const terms = Object.keys(s4).filter(k => k !== "");
   const full = computeMagnusTripleCommutator();
   return { trivial: terms.length === 0, terms, before: full["1,2,3"] || 0 };
 }
+
 function computeMagnusTripleCommutator() {
   const X1 = mgGen(1), X2 = mgGen(2), X3 = mgGen(3);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 }, M3 = { "": 1, ...X3 };
@@ -1296,172 +1332,97 @@ function computeMagnusTripleCommutator() {
   const C12inv = mgInvOnePlusU(u12);
   return mgCommutator(C12, C12inv, M3, M3inv);
 }
-function computeMagnusL5() { // Klein F2: one commutator deeper — [[[x1,x2],x3],x4], within the existing degree-5 truncation
-  const C123 = computeMagnusTripleCommutator();
-  const u = { ...C123 }; delete u[""];
-  const X4 = mgGen(4);
-  return mgCommutator(C123, mgInvOnePlusU(u), { "": 1, ...X4 }, mgInvOnePlusU(X4));
-}
-/* Klein A2: one COMPUTED surface picture. Standard ellipse position (the 3D view's own
-   coordinates: semi-axes 2 and 1.1, one ellipse per coordinate plane), flat spanning
-   disks. Everything below is numerically computed at load: the intersection segment of
-   the two disks, its endpoints, and the signed punctures of K1 through Sigma2. */
-function gammaComputedData() {
-  const a = 2, b = 1.1, S = 200;
-  // K1 in z = 0: (a cos t, b sin t, 0); Sigma1 = flat disk. K2 in x = 0: (0, a cos t, b sin t); Sigma2 = flat disk.
-  // Disk1 ∩ Disk2 lies on the line x = z = 0; sample it and keep points inside BOTH disks.
-  const inside1 = (x, y) => (x * x) / (a * a) + (y * y) / (b * b) <= 1 + 1e-12;
-  const inside2 = (y, z) => (y * y) / (a * a) + (z * z) / (b * b) <= 1 + 1e-12;
-  const seg = [];
-  for (let i = 0; i <= S; i++) {
-    const y = -2.2 + 4.4 * i / S;
-    if (inside1(0, y) && inside2(y, 0)) seg.push(y);
-  }
-  const y0 = seg[0], y1 = seg[seg.length - 1];
-  // Punctures of K1 through Sigma2: K1 hits x = 0 at t = π/2, 3π/2; sign = sign of dx/dt = −a sin t.
-  const punctures = [Math.PI / 2, 3 * Math.PI / 2].map(t => ({
-    y: b * Math.sin(t), sign: -a * Math.sin(t) > 0 ? +1 : -1,
-    inSigma2: inside2(b * Math.sin(t), 0),
-  }));
-  return { a, b, y0, y1, punctures, len: y1 - y0 };
-}
-function renderGammaComputed() {
-  const { a, b, y0, y1, punctures } = gammaComputedData();
-  // View direction chosen so the two perpendicular ellipses actually INTERLEAVE on screen.
-  // The old oblique projection put K1 entirely inside K2 (0 apparent crossings), which read
-  // as two concentric coplanar loops. Rotating x by 15 deg and y by 60 deg gives 4 apparent
-  // crossings with the two curves at comparable size - verified by counting segment
-  // intersections of the projected polylines over a 400-point sampling.
-  const cx = 168, cy = 100, s = 38;
-  const RX = 15 * Math.PI / 180, RY = 60 * Math.PI / 180;
-  const P = (x, y, z) => {
-    const y1r = y * Math.cos(RX) - z * Math.sin(RX);
-    const z1r = y * Math.sin(RX) + z * Math.cos(RX);
-    const x2r = x * Math.cos(RY) + z1r * Math.sin(RY);
-    return [cx + s * x2r, cy + s * y1r];
-  };
-  const path = pts => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " Z";
-  const E1 = [], E2 = [];
-  for (let i = 0; i < 72; i++) {
-    const t = 2 * Math.PI * i / 72;
-    E1.push(P(a * Math.cos(t), b * Math.sin(t), 0));
-    E2.push(P(0, a * Math.cos(t), b * Math.sin(t)));
-  }
-  const s0 = P(0, y0, 0), s1 = P(0, y1, 0);
-  const pd = punctures.map(p => ({ xy: P(0, p.y, 0), sign: p.sign }));
-  $id("gammaComputed").innerHTML =
-    `<svg viewBox="0 0 340 205" role="img" aria-label="Computed figure: the two standard ellipses with flat spanning disks; the numerically computed intersection segment of the disks runs between the two computed puncture points of K1 through Sigma2, whose signs are plus and minus — the raw general-position picture whose tubing produces the closed curve gamma.">
-      <path d="${path(E1)}" fill="#1b6ca8" fill-opacity="0.10" stroke="#1b6ca8" stroke-width="2.5"/>
-      <path d="${path(E2)}" fill="#2e8b57" fill-opacity="0.10" stroke="#2e8b57" stroke-width="2.5"/>
-      <line x1="${s0[0]}" y1="${s0[1]}" x2="${s1[0]}" y2="${s1[1]}" stroke="#7d3c98" stroke-width="4"/>
-      ${pd.map(p => `<circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="4.5" fill="#f5a623" stroke="#333" stroke-width="1.2"/><text x="${p.xy[0] + 7}" y="${p.xy[1] - 6}" font-size="12" font-weight="bold" fill="#333">${p.sign > 0 ? "+" : "−"}</text>`).join("")}
-      <text x="30" y="26" font-size="12" fill="#1b6ca8">K₁, Σ₁ (z = 0)</text>
-      <text x="236" y="26" font-size="12" fill="#1e6b41">K₂, Σ₂ (x = 0)</text>
-      <text x="170" y="182" font-size="10" fill="#666" text-anchor="middle">computed: Σ₁ ∩ Σ₂ = y ∈ [${y0.toFixed(2).replace("-", "−")}, ${y1.toFixed(2)}] — ends = the ± punctures</text>
-    </svg>
-    <div class="figcap"><b>computed, not schematic</b> — the standard ellipse position (the 3D view's own coordinates) with flat spanning disks: the intersection segment is sampled numerically and its endpoints land exactly on K₁'s two cancelling punctures through Σ₂ (signs from dx/dt, computed). The why-box's tubing trades the punctured ends for a closed curve — this figure computes the <i>before</i>, the cartoon above draws the <i>after</i>.</div>`;
-}
-function chebotarevTally(X) { // Klein A4: class-by-class Frobenius counts to cutoff X
-  const counts = { id: 0, corner: 0, "10": 0, "01": 0, "11": 0 }; let total = 0;
-  for (let q = 3; q < X; q += 2) {
-    const bq = BigInt(q);
-    if (!isPrimeSmall(bq) || q === 13 || q === 61) continue;
-    const f = frobeniusMatrix1361(bq);
-    if (f.err) continue;
-    const key = (f.chi1 || f.chi2) ? `${f.chi1}${f.chi2}` : (f.r === 0 ? "id" : "corner");
-    counts[key]++; total++;
-  }
-  return { counts, total };
-}
-function renderChebTally() {
-  const t0 = performance.now();
-  const { counts, total } = chebotarevTally(3000);
-  const ms = (performance.now() - t0).toFixed(0);
-  const rows = [
-    ["identity (splits completely — like 107)", "id", "1/8", 0.125],
-    ["corner r = 1 (the triple level — like 937)", "corner", "1/8", 0.125],
-    ["χ = (1,0)", "10", "1/4", 0.25], ["χ = (0,1)", "01", "1/4", 0.25], ["χ = (1,1) — order 4", "11", "1/4", 0.25],
-  ];
-  $id("chebOut").innerHTML =
-    `<table class="symbolic"><tr><th scope="col">class</th><th scope="col">count</th><th scope="col">observed</th><th scope="col">Chebotarev</th></tr>`
-    + rows.map(([label, k, pred, pv]) => `<tr><td class="k">${label}</td><td class="v">${counts[k]}</td><td class="v">${(counts[k] / total).toFixed(3)}</td><td class="v">${pred} = ${pv.toFixed(3)}</td></tr>`).join("")
-    + `</table><div class="small-note" style="text-align:left;">${total} unramified odd primes &lt; 3000, tallied in ${ms} ms — every row is the Ladder machinery run per prime (Tonelli–Shanks included for the χ = 0 cases). Observed hugs predicted at a finite cutoff; the equidistribution itself is Chebotarev's theorem, cited not proved — the app is the demonstration bench.</div>`;
-}
-function renderPresMat() { // Klein A1: one presentation matrix per side
-  // Topology: fibered case — the Alexander module IS presented by tI − h₁∗ (Milnor 1968).
-  // det computed by literal polynomial arithmetic: (t−2)(t−1) − (−1)(−1).
-  const mul = (a, b) => { const r = new Array(a.length + b.length - 1).fill(0); a.forEach((x, i) => b.forEach((y, j) => r[i + j] += x * y)); return r; };
-  const sub = (a, b) => { const r = a.slice(); b.forEach((x, i) => r[i] = (r[i] || 0) - x); return r; };
-  const det = sub(mul([-2, 1], [-1, 1]), [1]); // coefficients of det(tI − A), constant first
-  const ok = det.length === 3 && det[0] === 1 && det[1] === -3 && det[2] === 1;
-  $id("presMatTopo").innerHTML =
-    `<b>The module itself, presented.</b> For a fibered knot the Alexander module — H₁ of the infinite cyclic cover as a Z[t, t⁻¹]-module — is <i>presented by the matrix tI − h₁∗</i> (Milnor 1968: the cover is F × ℝ). For 4₁, with h₁∗ = A = [[2,1],[1,1]]:
-     <div class="eq" style="margin:6px 0;">H₁(<span class="acc">X̃</span>∞) ≅ Z[t,t⁻¹]² ⁄ (tI − A),&nbsp;&nbsp; tI − A = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>t−2</td><td>−1</td></tr><tr><td>−1</td><td>t−1</td></tr></table></div>
-     det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= Δ₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
-  // Arithmetic: the Λ-side at the level the literature pins — size and determinant ideal.
-  $id("presMatArith").innerHTML =
-    `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the classical gallery's first knotted prime (the knotted-prime card above) — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
-     <div class="eq" style="margin:6px 0;">X<sub>∞</sub><sup>(ω-eigenspace)</sup> ∼ Λ ⁄ ( f₃₇(T) ),&nbsp;&nbsp; ⟨ f₃₇(T) ⟩ = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>f₃₇(T)</td></tr></table>,&nbsp; deg f₃₇ = λ = 1</div>
-     Honesty: the matrix's <i>size and determinant ideal</i> are what the cited results pin (char ideal = (L<sub>p</sub>), the Main Conjecture above); its entries need class-group tower data this app does not carry — displayed schematically, said so. The 2×2 twin at left is fully computed.`;
-}
-function runCertCockpit() { // Klein F4: the (p1,p2,q,x,y,z) door to redeiSymbol's rejection taxonomy
-  const out = $id("ccOut");
-  const primes = ["ccP1", "ccP2", "ccQ"].map(id => parseIntegerInput($id(id).value));
-  // Certificate coordinates may be negative (some pairs have no normalized certificate with x > 0);
-  // the engine accepts any sign — only the primes must be positive.
-  const coords = ["ccX", "ccY", "ccZ"].map(id => {
-    const raw = String($id(id).value).trim();
-    return /^-?\d{1,9}$/.test(raw) ? BigInt(raw) : null;
-  });
-  if (primes.some(v => v === null) || coords.some(v => v === null)) { out.innerHTML = `<span style="color:var(--bad);">Primes: plain positive integers; certificate x, y, z: integers, sign allowed (at most 9 digits).</span>`; return; }
-  const [p1, p2, q] = primes, [x, y, z] = coords;
-  try {
-    const r = redeiSymbol(p1, p2, q, x, y, z);
-    out.innerHTML = `<b>[${p1}, ${p2}, ${q}] = ${r.value > 0 ? "+1" : "−1"}</b> — q ${r.value > 0 ? "splits completely" : "does not split completely"} in k<sub>${p1},${p2}</sub> (conjugates ${r.vals.join(", ")} mod ${q}, both Legendre ${r.value > 0 ? "+1" : "−1"}). Every check passed: identity, primitivity, Rédei normalization, definedness, primality.`;
-  } catch (e) {
-    // A domain failure cannot be fixed by editing the certificate; only a
-    // certificate-shape failure can. Saying otherwise sends the reader hunting
-    // for a triple that does not exist.
-    const domainFail = /no certificate exists|must be distinct|not prime|≡ 1 \(mod 4\)|pairwise Legendre/.test(e.message);
-    out.innerHTML = `<span style="color:var(--bad);">Rejected — ${e.message}.</span> <span style="color:var(--muted);">`
-      + (domainFail
-        ? `This is the <b>symbol's domain</b> talking, not your arithmetic: for these primes the symbol is undefined, so no certificate can rescue it. Change the primes.`
-        : `This refusal is the engine enforcing well-definedness, not a bug: the primes are in the domain, so a valid certificate does exist — fix the certificate and the door opens.`)
-      + `</span>`;
-  }
-}
-function renderFiveWorked() {
-  const s5 = computeMagnusL5();
-  const c = s5["1,2,3,4"] || 0;
-  const low12 = s5["1,2"] || 0, low123 = s5["1,2,3"] || 0;
-  const M5 = [...Array(5)].map((_, i) => [...Array(5)].map((_, j) => i === j ? 1 : (i === 0 && j === 4 ? (((c % 2) + 2) % 2) : 0)));
-  const o = matOrderF2(M5);
-  $id("fiveWorked").innerHTML =
-    `<div class="step"><div class="head">The invariant, live.</div><div class="eq">ℓ₅ = [[[x₁,x₂],x₃],x₄] — Milnor's model, one commutator deeper than B₄ — expanded through the same Magnus machinery (truncation degree 5, already in this page): coefficient of X₁X₂X₃X₄ = <b>${c}</b>, lower coefficients ${low12}, ${low123} — so μ̄(12345) = ${c} at the model level, the app's B₄ honesty standard one rung up.</div></div>`
-    + `<div class="step"><div class="head">The counting space, live.</div><div class="eq">ρ(K₅) sits at the corner of N₅(F₂) — order of the group: 2¹⁰ = ${2 ** 10}; powering the 5×5 matrix literally gives order <b>${o}</b>. In the ${2 ** 10}-sheet cover, K₅'s preimage is <b>${2 ** 10 / o} loops of ${o === 2 ? "double length" : "length ×" + o}</b> — K₅-orbit factor <b>${tFactor(o, 2 ** 10)}</b>: the twin the arithmetic column cannot yet produce.</div></div>`;
+
+
+// Canvas labels sit on top of the strokes they annotate. A halo in the canvas
+// background colour keeps them legible without moving them off what they point at.
+const CANVAS_BG = "#fdfdfb";
+
+function haloText(ctx, text, x, y, bg) {
+  // bg lets a caller name the colour the label actually sits on -- a label lying on
+  // a tinted Seifert surface haloed in the canvas colour prints a pale smear.
+  const lw = ctx.lineWidth, sj = ctx.lineJoin, ss = ctx.strokeStyle;
+  ctx.lineWidth = 4; ctx.lineJoin = "round"; ctx.strokeStyle = bg || CANVAS_BG;
+  ctx.strokeText(text, x, y);
+  ctx.lineWidth = lw; ctx.lineJoin = sj; ctx.strokeStyle = ss;
+  ctx.fillText(text, x, y);
 }
 
-function polyMul(A, B) {
-  const R = {};
-  for (const ka in A) {
-    const ea = ka.split(",").map(Number);
-    for (const kb in B) {
-      const eb = kb.split(",").map(Number);
-      const e = [ea[0] + eb[0], ea[1] + eb[1], ea[2] + eb[2]];
-      const k = e.join(",");
-      R[k] = (R[k] || 0) + A[ka] * B[kb];
-      if (R[k] === 0) delete R[k];
-    }
-  }
-  return R;
+
+function supN(n) { return String(n).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join(""); }
+
+function localFactor(q, ord, deg) { return `(1 − ${q}⁻${ord === 1 ? "" : supN(ord)}ˢ)⁻${supN(deg / ord)}`; }
+
+
+/* R6 G6: cover-lattice twins — captions computed live; the towers themselves cited (covering-space theory). */
+function matOrderF2(M) { // order of a 0/1 unitriangular matrix over F2, by literal powering (reuses n3Mul)
+  const idStr = M.map((r, i) => r.map((_, j) => (i === j ? 1 : 0)).join("")).join("");
+  let P = M, o = 1;
+  while (P.map(r => r.join("")).join("") !== idStr) { P = n3Mul(P, M); o++; if (o > 64) throw new Error("order > 64?"); }
+  return o;
 }
-function expandDeltaBor() {
-  // (t1-1)(t2-1)(t3-1), ti = 1+xi
-  const f1 = { "1,0,0": 1 }; // (1+x1) - 1 = x1
-  const f2 = { "0,1,0": 1 };
-  const f3 = { "0,0,1": 1 };
-  return polyMul(polyMul(f1, f2), f3);
+
+function quad449Ord() { // 449's four conjugate symbols, recomputed from scratch; null if they disagree
+  const r5 = tonelliShanks(5n, 449n)[0], r101 = tonelliShanks(101n, 449n)[0];
+  const legs = [[1n, 1n], [1n, -1n], [-1n, 1n], [-1n, -1n]]
+    .map(([a, b]) => legendre(((25n + 2n * a * r5 + 2n * b * r101) % 449n + 449n) % 449n, 449n));
+  return legs.every(l => l === -1) ? 2 : legs.every(l => l === 1) ? 1 : null;
 }
+
+function tFactor(o, deg) { return `(1 − t${o === 1 ? "" : supN(o)})⁻${supN(deg / o)}`; }
+
+
+/* rho(Frob_q) in N3(F2) for (13,61): chi_i from (13/q), (61/q); corner via alpha = 23+6√13 mod q. */
+
+function frobeniusMatrix1361(q) {
+  if (q === 2n) return { err: `q = 2 needs the mod-8 splitting criterion, not Euler's — computed on demand here: 13 ≡ ${13n % 8n}, 61 ≡ ${61n % 8n} (mod 8), both ≢ 1, so 2 is inert in each quadratic and f(2) = ${frobeniusAt2_1361().ord}. The ζ of k₁₃,₆₁ card (Zeta tab) shows the same row.` };
+  if (q < 3n || q % 2n === 0n || !isPrimeSmall(q)) return { err: "q must be an odd prime (composite input has no single Frobenius)." };
+  if (q === 13n || q === 61n) return { err: "q must avoid the ramified primes 13 and 61 — Frobenius is not defined at a branch point (the knot cannot loop around itself)." };
+  const a = legendre(13n, q), b = legendre(61n, q);
+  const chi1 = a === 1 ? 0 : 1, chi2 = b === 1 ? 0 : 1;
+  if (chi1 || chi2) return { q, chi1, chi2, r: null };
+  const rt = tonelliShanks(13n, q)[0];
+  const v1 = ((23n + 6n * rt) % q + q) % q;
+  const v2 = ((23n + 6n * (q - rt)) % q + q) % q;
+  const l1 = legendre(v1, q), l2 = legendre(v2, q);
+  if (l1 !== l2) return { err: "conjugates disagree — impossible for prime q; is q composite?" };
+  return { q, chi1, chi2, r: l1 === 1 ? 0 : 1, rt, v1, v2 };
+}
+
+
+// N3(F2) order by literal powering ((chi1,chi2) rule is a TEST)
+function n3Mul(X, Y) { return X.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s ^ (X[i][k] & Y[k][j]), 0))); }
+
+function n3Order(a, b, c) {
+  const M = [[1, a, c], [0, 1, b], [0, 0, 1]];
+  let P = M, n = 1;
+  while (P.flat().join("") !== "100010001") { P = n3Mul(P, M); n++; if (n > 8) throw new Error("order > 8?"); }
+  return n;
+}
+
+// q = 2 needs its own rule (mod-8 splitting, not Euler's criterion, which needs an odd
+// modulus) -- shared by both frobeniusMatrix1361's error message (Ladder) and
+// k1361FrobData's q=2 branch (Zeta), so there is exactly one computation of it, not two.
+function frobeniusAt2_1361() {
+  const chi1 = 13n % 8n === 1n ? 0 : 1, chi2 = 61n % 8n === 1n ? 0 : 1;
+  const oA = n3Order(chi1, chi2, 0), oB = n3Order(chi1, chi2, 1);
+  return oA === oB ? { chi1, chi2, ord: oA } : { err: "corner-dependent order at 2?" };
+}
+
+function frobOrderTriple(q) { // reuses frobeniusMatrix1361
+  const f = frobeniusMatrix1361(q);
+  return f.err ? f : { ...f, ord: n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r) };
+}
+
+
+function $id(id) { return document.getElementById(id); }
+
+function $q(s) { return document.querySelector(s); }
+
+function $qa(s) { return document.querySelectorAll(s); }
+
+function $el(t) { return document.createElement(t); }
+
 
 function ttFocusable(root) {
   (root || document).querySelectorAll(".tt:not([tabindex])").forEach(el => {
@@ -1471,17 +1432,6 @@ function ttFocusable(root) {
   });
 }
 
-window.gotoTab = function (name) {
-  const btn = $q(`.tab-btn[data-tab="${name}"]`);
-  if (!btn) return;
-  btn.click();
-  window.scrollTo(0, 0);
-  // A jump that only repaints leaves keyboard focus on a button that is now on a
-  // hidden panel, so the next Tab restarts from the top of the document. Move
-  // focus to the panel the reader was sent to.
-  const panel = $id("tab-" + name);
-  if (panel) { panel.tabIndex = -1; panel.focus({ preventScroll: true }); }
-};
 
 let ttDescribed = null;
 function ttAnnounce(t) {
@@ -1493,6 +1443,7 @@ function ttAnnounce(t) {
   t.setAttribute("aria-describedby", "ttReadout");
   ttDescribed = t;
 }
+
 function ttWantsBelow(t) {
   // A pinned tip may be up to 55vh tall, so a fixed 340px threshold under-flips on a
   // tall screen and over-flips on a short one. Compare the real space on each side.
@@ -1500,12 +1451,14 @@ function ttWantsBelow(t) {
   const cap = Math.min(0.55 * innerHeight, 560) + 14;
   return r.top < cap && (innerHeight - r.bottom) > r.top;
 }
+
 function ttSet(t, open) {
   t.classList.toggle("tt-open", open);
   t.setAttribute("aria-expanded", String(open));
   t.classList.toggle("tt-below", open && ttWantsBelow(t));
   if (open) ttAnnounce(t);
 }
+
 // The header advertises hover as the first way in, but only the click path ever chose
 // a side, so a hovered tip near the top of the screen was clipped away. Delegated so
 // it covers tooltips rendered after load too.
@@ -1513,17 +1466,21 @@ document.addEventListener("mouseover", e => {
   const t = e.target.closest && e.target.closest(".tt");
   if (t && !t.classList.contains("tt-open")) t.classList.toggle("tt-below", ttWantsBelow(t));
 });
+
 function ttCloseAll(except) {
   $qa(".tt.tt-open").forEach(el => { if (el !== except) ttSet(el, false); });
 }
+
 document.addEventListener("click", e => {
   const t = e.target.closest(".tt");
   ttCloseAll(t);
   if (t) ttSet(t, !t.classList.contains("tt-open"));
 });
+
 document.addEventListener("focusin", e => {
   if (e.target.classList && e.target.classList.contains("tt")) ttAnnounce(e.target);
 });
+
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { ttCloseAll(null); return; }
   if (e.key !== "Enter" && e.key !== " ") return;
@@ -1531,52 +1488,63 @@ document.addEventListener("keydown", e => {
   if (t) { e.preventDefault(); ttCloseAll(t); ttSet(t, !t.classList.contains("tt-open")); }
 });
 
-// ARIA tablist wiring
-$q("nav.tabs").setAttribute("role", "tablist");
-$qa(".tab-btn").forEach(btn => {
-  const n = btn.dataset.tab;
-  btn.id = "tabbtn-" + n;
-  btn.setAttribute("role", "tab");
-  btn.setAttribute("aria-controls", "tab-" + n);
-  btn.setAttribute("aria-selected", btn.classList.contains("active") ? "true" : "false");
-  const p = $id("tab-" + n);
-  p.setAttribute("role", "tabpanel");
-  p.setAttribute("aria-labelledby", btn.id);
-  btn.addEventListener("click", () => {
-    $qa(".tab-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
-    $qa(".tab-panel").forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    btn.setAttribute("aria-selected", "true");
-    $id("tab-" + btn.dataset.tab).classList.add("active");
-  });
-});
-
-// One orientation note per mirror pair, shown only when the columns stack.
-$qa(".twocol").forEach(tc => {
-  const topo = tc.querySelector(".col.topo"), arith = tc.querySelector(".col.arith");
-  if (!topo || !arith) return; // some .twocol blocks are not mirror pairs
-  const n = document.createElement("div");
-  n.className = "stacknote";
-  n.innerHTML = "<b>Stacked view.</b> These two columns sit side by side on a wider screen, and the text refers to them that way: "
-    + "<b>“at left” / “topology”</b> means the " + (topo.compareDocumentPosition(arith) & Node.DOCUMENT_POSITION_FOLLOWING ? "first" : "second")
-    + " panel here, <b>“at right” / “arithmetic”</b> the other, and <b>“opposite”</b> means the other one of the pair.";
-  tc.insertBefore(n, tc.firstChild);
-});
-
-// Enter was dead in every numeric box: a presenter could type a prime, press Enter,
-// and leave the new value sitting above the previous pair's verdict. Bind each box to
-// its own Compute, and mark the panel stale as soon as box and screen diverge.
-[["pInput", "computeLegendre"], ["qInput", "computeLegendre"], ["frobInput", "frobCompute"],
- ["ccP1", "ccRun"], ["ccP2", "ccRun"], ["ccQ", "ccRun"], ["ccX", "ccRun"], ["ccY", "ccRun"], ["ccZ", "ccRun"]]
-  .forEach(([input, button]) => {
-    const el = $id(input), btn = $id(button);
-    if (!el || !btn) return;
-    el.addEventListener("keydown", e => {
-      if (e.key !== "Enter") return;
-      e.preventDefault();
-      btn.click();
+// Upgrades .tt-katex tooltips to real typeset math. The caller (katex-loader.js)
+// only calls this once KaTeX has actually loaded, but the guard below is repeated
+// here too -- this function must be unconditionally safe to call, not just safe
+// when called correctly, since a .tt-katex element with no .katex-on class is
+// byte-for-byte what the CSS already renders for a plain .tt, off data-tip --
+// degrade by omission, not by a separate fallback code path that could itself
+// have a bug.
+function ttKatexUpgrade() {
+  if (typeof katex === "undefined") return;
+  $qa(".tt-katex").forEach(t => {
+    if (t.classList.contains("katex-on")) return; // idempotent
+    const html = t.getAttribute("data-latex-html");
+    if (!html) return;
+    const bubble = $el("span");
+    bubble.className = "tt-bubble";
+    bubble.setAttribute("aria-hidden", "true"); // ttAnnounce still reads plain data-tip for AT
+    bubble.innerHTML = html;
+    t.appendChild(bubble);
+    bubble.querySelectorAll(".katex-frag").forEach(frag => {
+      const src = frag.getAttribute("data-latex");
+      if (src) katex.render(src, frag, { throwOnError: false });
     });
+    t.classList.add("katex-on");
   });
+}
+
+/* Loads KaTeX from the vendored copy in vendor/katex/ (v0.16.11, self-hosted so the
+   app stays fully offline-capable -- no CDN, no network dependency at all), mirroring
+   the three.js loader pattern (see tabs/triples.js loadThree) for the honesty check
+   even though the failure mode here is "file missing/corrupted" rather than "network
+   down": onload gates on the library object actually existing, not just the load
+   event; onerror just leaves the flag unset. No fallback renderer is needed here the
+   way three.js has one -- .tt-katex tooltips already degrade to a plain .tt
+   (data-tip only) by simply never calling ttKatexUpgrade(). Paths are relative to
+   index.html itself, so this works identically deployed (GitHub Pages) and opened
+   directly via file://. */
+let katexLoaded = false, katexFailed = false;
+
+(function loadKatex() {
+  const link = $el("link");
+  link.rel = "stylesheet";
+  link.href = "vendor/katex/katex.min.css";
+  document.head.appendChild(link);
+
+  const s = $el("script");
+  s.src = "vendor/katex/katex.min.js";
+  s.onload = () => {
+    katexLoaded = typeof katex !== "undefined";
+    katexFailed = !katexLoaded;
+    if (katexLoaded) ttKatexUpgrade();
+  };
+  s.onerror = () => { katexFailed = true; };
+  document.head.appendChild(s);
+})();
+
+// (no dedicated JS for this tab)
+
 // Staleness is a property of the state, not of which event happened to fire, so
 // this is called from renderLegendreTable — the one function every path that
 // changes the display goes through — as well as on typing.
@@ -1590,34 +1558,16 @@ function pairsStaleSync() {
     ? `Showing (${pairsComputed.p}, ${pairsComputed.q}) — press Compute (or Enter) to use the pair now in the boxes.`
     : "";
 }
+
 ["pInput", "qInput"].forEach(id => $id(id).addEventListener("input", pairsStaleSync));
 
-$qa(".why-toggle").forEach(btn => {
-  // expose disclosure state and target (the pattern #fsTooltip already uses)
-  btn.setAttribute("aria-controls", btn.dataset.why);
-  btn.setAttribute("aria-expanded", String($id(btn.dataset.why).classList.contains("open")));
-  btn.addEventListener("click", () => {
-    const open = $id(btn.dataset.why).classList.toggle("open");
-    btn.setAttribute("aria-expanded", String(open));
-  });
-});
-
-// Canvas text alternatives (R3-A3)
-const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)");
-for (const [id, lbl] of [
-  ["pairsCanvas", ""],
-  ["arcCanvas", ""],
-  ["borroCanvas", "Borromean rings: three circles, no two linked; linking numbers computed in step 1 below."],
-  ["b4Canvas", ""],
-]) {
-  const c = $id(id);
-  c.setAttribute("role", "img");
-  if (lbl) c.setAttribute("aria-label", lbl);
-}
 
 const pairsState = { linked: false, liftOffset: 0, liftAnim: null };
+
 const pairsCanvas = $id("pairsCanvas");
+
 const pctx = pairsCanvas.getContext("2d");
+
 
 function pairsCircles(offsetB) {
   return {
@@ -1626,21 +1576,10 @@ function pairsCircles(offsetB) {
   };
 }
 
-// Canvas labels sit on top of the strokes they annotate. A halo in the canvas
-// background colour keeps them legible without moving them off what they point at.
-const CANVAS_BG = "#fdfdfb";
 // The two Seifert disks are drawn with these translucent tints over CANVAS_BG;
 // labels sitting on them halo in the blend, not in the bare canvas colour.
 const ARC_TINT = { S1: "#d9e6ee", S2: "#dcebe1" }; // 0.16 alpha of the stroke colour over CANVAS_BG
-function haloText(ctx, text, x, y, bg) {
-  // bg lets a caller name the colour the label actually sits on -- a label lying on
-  // a tinted Seifert surface haloed in the canvas colour prints a pale smear.
-  const lw = ctx.lineWidth, sj = ctx.lineJoin, ss = ctx.strokeStyle;
-  ctx.lineWidth = 4; ctx.lineJoin = "round"; ctx.strokeStyle = bg || CANVAS_BG;
-  ctx.strokeText(text, x, y);
-  ctx.lineWidth = lw; ctx.lineJoin = sj; ctx.strokeStyle = ss;
-  ctx.fillText(text, x, y);
-}
+
 function renderPairs() {
   const off = pairsState.liftOffset || 0;
   const { A, B } = pairsCircles(off);
@@ -1671,9 +1610,11 @@ function renderPairs() {
   pairsCanvas.setAttribute("aria-label", `Two circles K1 (blue) and K2 (green), ${pairsState.linked ? "linked as the Hopf link" : "unlinked"}; lk in the label below.`);
 }
 
+
 function updatePairsLabels() {
   $id("pairsStateLabel").textContent = pairsState.linked ? "lk = ±1  (Hopf link)" : "lk = 0  (unlinked)";
 }
+
 
 $id("pairsToggleBtn").addEventListener("click", () => {
   pairsState.linked = !pairsState.linked;
@@ -1689,6 +1630,7 @@ $id("pairsToggleBtn").addEventListener("click", () => {
   $id("pInput").value = String(tp); $id("qInput").value = String(tq);
   renderLegendreTable(tp, tq);
 });
+
 
 $id("pairsLiftBtn").addEventListener("click", () => {
   if (pairsState.liftAnim) cancelAnimationFrame(pairsState.liftAnim);
@@ -1711,10 +1653,9 @@ $id("pairsLiftBtn").addEventListener("click", () => {
   pairsState.liftAnim = requestAnimationFrame(step);
 });
 
+
 function isOneMod4(n) { return n > 1n && n % 4n === 1n; }
 
-function supN(n) { return String(n).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[+d]).join(""); }
-function localFactor(q, ord, deg) { return `(1 − ${q}⁻${ord === 1 ? "" : supN(ord)}ˢ)⁻${supN(deg / ord)}`; }
 
 function renderPairsThread(p, q, sym) {
   const box = $id("pairsThread");
@@ -1736,7 +1677,9 @@ function renderPairsThread(p, q, sym) {
   ttFocusable(box);
 }
 
+
 let pairsComputed = { p: null, q: null };
+
 function renderLegendreTable(p, q) {
   pairsComputed = { p, q }; // what is on screen, as distinct from what is in the boxes
   // The sync note is a statement ABOUT the pair being drawn, so it must not survive
@@ -1784,7 +1727,7 @@ function renderLegendreTable(p, q) {
   }
   const bothThree = !isOneMod4(p) && !isOneMod4(q);
   const rows = [
-    [`(p / q) via <span class="tt tt-left" data-tip="a^((p−1)/2) mod p is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function.">Euler's criterion</span>`, `(${p} / ${q}) = ${pq > 0 ? "+1" : pq < 0 ? "−1" : "0"}`],
+    [`(p / q) via <span class="tt tt-left tt-katex" data-tip="a^((p−1)/2) mod p is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function." data-latex-html="<span class='katex-frag' data-latex='a^{(p-1)/2} \\bmod p'>a^((p−1)/2) mod p</span> is +1 exactly when a is a nonzero square mod p, and p−1 (i.e. −1) when it is not. Computed here with BigInt fast exponentiation — every symbol on this page goes through this one function.">Euler's criterion</span>`, `(${p} / ${q}) = ${pq > 0 ? "+1" : pq < 0 ? "−1" : "0"}`],
     ["(q / p)", `(${q} / ${p}) = ${qp > 0 ? "+1" : qp < 0 ? "−1" : "0"}`],
     ["reciprocity", bothThree
       ? (pq === -qp ? '<span class="ok">(p/q) = −(q/p) ✓ (both ≡ 3 mod 4: the sign is the 2-adic factor)</span>' : '<span class="fail">(p/q) ≠ −(q/p) ?!</span>')
@@ -1813,6 +1756,7 @@ function renderLegendreTable(p, q) {
   renderPairsThread(p, q, pq);
   ttFocusable();
 }
+
 
 function renderHilbertTable(p, q, pq, qp) {
   const table = $id("hilbertTable");
@@ -1850,6 +1794,7 @@ function renderHilbertTable(p, q, pq, qp) {
     + `<div class="honest" style="margin-top:10px;"><b>What the ≡ 1 (mod 4) convention actually is.</b> Every place contributes a factor and the factors multiply to 1 — that is the product formula, and it holds for <i>every</i> pair. The archimedean and the unramified places give +1 always; the two interesting places give the Legendre symbols; and the whole difference between the two cases is <b>the single factor at v = 2</b>, computed above by 2-adic solvability. Choosing p ≡ 1 (mod 4) does not remove that factor — <b>it selects the pairs where it equals +1</b>, so that (p/q) = (q/p) on the nose and the symbol can be read as a symmetric linking number. Take both primes ≡ 3 (mod 4) and the factor is −1: reciprocity flips, the symbol stops being symmetric, and this app withholds the linking gloss. So the convention is not a technicality tucked into the hypotheses — it is the decision to work where one local term is invisible, and the ≡ 3 case is the same theorem with that term switched on. <span style="color:var(--muted);">Try (3, 7) above to see it.</span></div>`;
 }
 
+
 $id("computeLegendre").addEventListener("click", () => {
   const p = parseIntegerInput($id("pInput").value);
   const q = parseIntegerInput($id("qInput").value);
@@ -1884,6 +1829,7 @@ $id("computeLegendre").addEventListener("click", () => {
     $id("pairsSyncNote").textContent = "";
   }
 });
+
 function setPairsTopology(linked) {
   { const n = $id("pairsSyncNote"); if (n) n.textContent = ""; } // any deliberate change of the drawing retires the not-syncing note
   pairsState.linked = linked;
@@ -1893,21 +1839,28 @@ function setPairsTopology(linked) {
   renderPairs();
   renderArcFigure();
 }
+
 $id("preset529").addEventListener("click", () => {
   $id("pInput").value = 5; $id("qInput").value = 29;
   renderLegendreTable(5n, 29n);
   setPairsTopology(false); // +1: the unlinked pair — sync the topology panel
 });
+
 $id("preset513").addEventListener("click", () => {
   $id("pInput").value = 5; $id("qInput").value = 13;
   renderLegendreTable(5n, 13n);
   setPairsTopology(true); // −1: the Hopf pair
 });
 
+
 const arcCanvas = $id("arcCanvas");
+
 const actx = arcCanvas.getContext("2d");
+
 let arcPulseT = 0;
+
 let lastArcMode = null;
+
 
 const ARC_TEXT = {
   linked: {
@@ -1922,10 +1875,12 @@ const ARC_TEXT = {
   }
 };
 
+
 // disks meet in (x,0,0), 0<=x<=1
 function arcProj(x, y, z) {
   return { X: 130 + 110 * x + 30 * y, Y: 150 - 95 * z + 26 * y };
 }
+
 
 function arcPathFromParam(fn, s0, s1, steps) {
   actx.beginPath();
@@ -1935,6 +1890,7 @@ function arcPathFromParam(fn, s0, s1, steps) {
     if (i === 0) actx.moveTo(p.X, p.Y); else actx.lineTo(p.X, p.Y);
   }
 }
+
 
 function renderArcFigure() {
   const mode = pairsState.linked ? "linked" : "unlinked";
@@ -2024,6 +1980,7 @@ function renderArcFigure() {
   actx.textAlign = "start";
 }
 
+
 function renderArcFigureUnlinked() {
   actx.clearRect(0, 0, arcCanvas.width, arcCanvas.height);
   const K1 = { cx: 105, cy: 160, rx: 88, ry: 30 };
@@ -2064,6 +2021,7 @@ function renderArcFigureUnlinked() {
   actx.textAlign = "start";
 }
 
+
 function arcAnimLoop() {
   arcPulseT += 0.03;
   if (!REDUCED_MOTION.matches && $id("tab-pairs").classList.contains("active")) {
@@ -2072,9 +2030,125 @@ function arcAnimLoop() {
   requestAnimationFrame(arcAnimLoop);
 }
 
+/* Klein A2: one COMPUTED surface picture. Standard ellipse position (the 3D view's own
+   coordinates: semi-axes 2 and 1.1, one ellipse per coordinate plane), flat spanning
+   disks. Everything below is numerically computed at load: the intersection segment of
+   the two disks, its endpoints, and the signed punctures of K1 through Sigma2. */
+function gammaComputedData() {
+  const a = 2, b = 1.1, S = 200;
+  // K1 in z = 0: (a cos t, b sin t, 0); Sigma1 = flat disk. K2 in x = 0: (0, a cos t, b sin t); Sigma2 = flat disk.
+  // Disk1 ∩ Disk2 lies on the line x = z = 0; sample it and keep points inside BOTH disks.
+  const inside1 = (x, y) => (x * x) / (a * a) + (y * y) / (b * b) <= 1 + 1e-12;
+  const inside2 = (y, z) => (y * y) / (a * a) + (z * z) / (b * b) <= 1 + 1e-12;
+  const seg = [];
+  for (let i = 0; i <= S; i++) {
+    const y = -2.2 + 4.4 * i / S;
+    if (inside1(0, y) && inside2(y, 0)) seg.push(y);
+  }
+  const y0 = seg[0], y1 = seg[seg.length - 1];
+  // Punctures of K1 through Sigma2: K1 hits x = 0 at t = π/2, 3π/2; sign = sign of dx/dt = −a sin t.
+  const punctures = [Math.PI / 2, 3 * Math.PI / 2].map(t => ({
+    y: b * Math.sin(t), sign: -a * Math.sin(t) > 0 ? +1 : -1,
+    inSigma2: inside2(b * Math.sin(t), 0),
+  }));
+  return { a, b, y0, y1, punctures, len: y1 - y0 };
+}
+
+function renderGammaComputed() {
+  const { a, b, y0, y1, punctures } = gammaComputedData();
+  // View direction chosen so the two perpendicular ellipses actually INTERLEAVE on screen.
+  // The old oblique projection put K1 entirely inside K2 (0 apparent crossings), which read
+  // as two concentric coplanar loops. Rotating x by 15 deg and y by 60 deg gives 4 apparent
+  // crossings with the two curves at comparable size - verified by counting segment
+  // intersections of the projected polylines over a 400-point sampling.
+  const cx = 168, cy = 100, s = 38;
+  const RX = 15 * Math.PI / 180, RY = 60 * Math.PI / 180;
+  const P = (x, y, z) => {
+    const y1r = y * Math.cos(RX) - z * Math.sin(RX);
+    const z1r = y * Math.sin(RX) + z * Math.cos(RX);
+    const x2r = x * Math.cos(RY) + z1r * Math.sin(RY);
+    return [cx + s * x2r, cy + s * y1r];
+  };
+  const path = pts => pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " Z";
+  const E1 = [], E2 = [];
+  for (let i = 0; i < 72; i++) {
+    const t = 2 * Math.PI * i / 72;
+    E1.push(P(a * Math.cos(t), b * Math.sin(t), 0));
+    E2.push(P(0, a * Math.cos(t), b * Math.sin(t)));
+  }
+  const s0 = P(0, y0, 0), s1 = P(0, y1, 0);
+  const pd = punctures.map(p => ({ xy: P(0, p.y, 0), sign: p.sign }));
+  $id("gammaComputed").innerHTML =
+    `<svg viewBox="0 0 340 205" role="img" aria-label="Computed figure: the two standard ellipses with flat spanning disks; the numerically computed intersection segment of the disks runs between the two computed puncture points of K1 through Sigma2, whose signs are plus and minus — the raw general-position picture whose tubing produces the closed curve gamma.">
+      <path d="${path(E1)}" fill="#1b6ca8" fill-opacity="0.10" stroke="#1b6ca8" stroke-width="2.5"/>
+      <path d="${path(E2)}" fill="#2e8b57" fill-opacity="0.10" stroke="#2e8b57" stroke-width="2.5"/>
+      <line x1="${s0[0]}" y1="${s0[1]}" x2="${s1[0]}" y2="${s1[1]}" stroke="#7d3c98" stroke-width="4"/>
+      ${pd.map(p => `<circle cx="${p.xy[0]}" cy="${p.xy[1]}" r="4.5" fill="#f5a623" stroke="#333" stroke-width="1.2"/><text x="${p.xy[0] + 7}" y="${p.xy[1] - 6}" font-size="12" font-weight="bold" fill="#333">${p.sign > 0 ? "+" : "−"}</text>`).join("")}
+      <text x="30" y="26" font-size="12" fill="#1b6ca8">K₁, Σ₁ (z = 0)</text>
+      <text x="236" y="26" font-size="12" fill="#1e6b41">K₂, Σ₂ (x = 0)</text>
+      <text x="170" y="182" font-size="10" fill="#666" text-anchor="middle">computed: Σ₁ ∩ Σ₂ = y ∈ [${y0.toFixed(2).replace("-", "−")}, ${y1.toFixed(2)}] — ends = the ± punctures</text>
+    </svg>
+    <div class="figcap"><b>computed, not schematic</b> — the standard ellipse position (the 3D view's own coordinates) with flat spanning disks: the intersection segment is sampled numerically and its endpoints land exactly on K₁'s two cancelling punctures through Σ₂ (signs from dx/dt, computed). The why-box's tubing trades the punctured ends for a closed curve — this figure computes the <i>before</i>, the cartoon above draws the <i>after</i>.</div>`;
+}
+
+function runCertCockpit() { // Klein F4: the (p1,p2,q,x,y,z) door to redeiSymbol's rejection taxonomy
+  const out = $id("ccOut");
+  const primes = ["ccP1", "ccP2", "ccQ"].map(id => parseIntegerInput($id(id).value));
+  // Certificate coordinates may be negative (some pairs have no normalized certificate with x > 0);
+  // the engine accepts any sign — only the primes must be positive.
+  const coords = ["ccX", "ccY", "ccZ"].map(id => {
+    const raw = String($id(id).value).trim();
+    return /^-?\d{1,9}$/.test(raw) ? BigInt(raw) : null;
+  });
+  if (primes.some(v => v === null) || coords.some(v => v === null)) { out.innerHTML = `<span style="color:var(--bad);">Primes: plain positive integers; certificate x, y, z: integers, sign allowed (at most 9 digits).</span>`; return; }
+  const [p1, p2, q] = primes, [x, y, z] = coords;
+  try {
+    const r = redeiSymbol(p1, p2, q, x, y, z);
+    out.innerHTML = `<b>[${p1}, ${p2}, ${q}] = ${r.value > 0 ? "+1" : "−1"}</b> — q ${r.value > 0 ? "splits completely" : "does not split completely"} in k<sub>${p1},${p2}</sub> (conjugates ${r.vals.join(", ")} mod ${q}, both Legendre ${r.value > 0 ? "+1" : "−1"}). Every check passed: identity, primitivity, Rédei normalization, definedness, primality.`;
+  } catch (e) {
+    // A domain failure cannot be fixed by editing the certificate; only a
+    // certificate-shape failure can. Saying otherwise sends the reader hunting
+    // for a triple that does not exist.
+    const domainFail = /no certificate exists|must be distinct|not prime|≡ 1 \(mod 4\)|pairwise Legendre/.test(e.message);
+    out.innerHTML = `<span style="color:var(--bad);">Rejected — ${e.message}.</span> <span style="color:var(--muted);">`
+      + (domainFail
+        ? `This is the <b>symbol's domain</b> talking, not your arithmetic: for these primes the symbol is undefined, so no certificate can rescue it. Change the primes.`
+        : `This refusal is the engine enforcing well-definedness, not a bug: the primes are in the domain, so a valid certificate does exist — fix the certificate and the door opens.`)
+      + `</span>`;
+  }
+}
+
+
+function polyMul(A, B) {
+  const R = {};
+  for (const ka in A) {
+    const ea = ka.split(",").map(Number);
+    for (const kb in B) {
+      const eb = kb.split(",").map(Number);
+      const e = [ea[0] + eb[0], ea[1] + eb[1], ea[2] + eb[2]];
+      const k = e.join(",");
+      R[k] = (R[k] || 0) + A[ka] * B[kb];
+      if (R[k] === 0) delete R[k];
+    }
+  }
+  return R;
+}
+
+function expandDeltaBor() {
+  // (t1-1)(t2-1)(t3-1), ti = 1+xi
+  const f1 = { "1,0,0": 1 }; // (1+x1) - 1 = x1
+  const f2 = { "0,1,0": 1 };
+  const f3 = { "0,0,1": 1 };
+  return polyMul(polyMul(f1, f2), f3);
+}
+
+
 const borroCanvas = $id("borroCanvas");
+
 const bctx = borroCanvas.getContext("2d");
+
 let isolateMode = "none";
+
 
 function borroCircles() {
   const cx = 210, cy = 190, r = 100, R = 62; // cy raised from 175: K1's label baseline was at y=5 and clipped
@@ -2085,10 +2159,12 @@ function borroCircles() {
   };
 }
 
+
 function dominates(i, j) {
   const cyc = { "1,2": true, "2,1": false, "2,3": true, "3,2": false, "3,1": true, "1,3": false };
   return cyc[`${i},${j}`];
 }
+
 
 function renderBorro() {
   const circles = borroCircles();
@@ -2132,10 +2208,12 @@ function renderBorro() {
   }
 }
 
+
 $id("isolateSelect").addEventListener("change", (e) => {
   isolateMode = e.target.value;
   renderBorro();
 });
+
 
 // lk = (sum of signs)/2; y-down coords harmless — only zero totals asserted.
 function borroComputeLk() {
@@ -2158,12 +2236,14 @@ function borroComputeLk() {
   return out; // {"12":0,"13":0,"23":0} expected
 }
 
+
 // Magnus expansion of [x1,x2]
 function computeMagnusLongitude12() {
   const X1 = mgGen(1), X2 = mgGen(2);
   const M1 = { "": 1, ...X1 }, M2 = { "": 1, ...X2 };
   return mgCommutator(M1, mgInvOnePlusU(X1), M2, mgInvOnePlusU(X2));
 }
+
 
 function renderTopoTripleSteps() {
   const container = $id("topoTripleSteps");
@@ -2209,7 +2289,9 @@ function renderTopoTripleSteps() {
   ttFocusable();
 }
 
+
 let threeLoaded = false, threeFailed = false;
+
 (function loadThree() {
   const s = $el("script");
   s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
@@ -2220,9 +2302,11 @@ let threeLoaded = false, threeFailed = false;
   document.head.appendChild(s);
 })();
 
+
 /* Klein F5: self-contained canvas fallback — three rotating ellipses, no library.
    Same standard position as the real view (semi-axes 2 and 1.1, one per coordinate plane). */
 let fallback3d = null;
+
 function initBorro3DFallback() {
   const box = $id("borro3dContainer");
   box.innerHTML = "";
@@ -2276,7 +2360,9 @@ function initBorro3DFallback() {
   return true;
 }
 
+
 let borro3dState = null;
+
 $id("borro3dToggle").addEventListener("click", () => {
   const wrap = $id("borro3dWrap");
   const showing = wrap.style.display !== "none";
@@ -2289,12 +2375,14 @@ $id("borro3dToggle").addEventListener("click", () => {
   }
   else if (!fallback3d) { fallback3d = initBorro3DFallback(); } // offline or still loading: honest, self-contained
 });
+
 $id("fsTooltip").addEventListener("click", e => {
   const el = $id("fsExplain");
   const show = el.style.display === "none";
   el.style.display = show ? "block" : "none";
   e.currentTarget.setAttribute("aria-expanded", String(show));
 });
+
 
 function initBorro3D() {
   const container = $id("borro3dContainer");
@@ -2362,6 +2450,7 @@ function initBorro3D() {
   borro3dState = { scene, camera, renderer, group };
 }
 
+
 function renderTripleSteps() {
   const p1 = 13n, p2 = 61n, q = 937n;
   const container = $id("tripleSteps");
@@ -2419,6 +2508,7 @@ function renderTripleSteps() {
   ttFocusable();
 }
 
+
 function renderTripleHasse() {
   const svg = $id("tripleHasse");
   svg.innerHTML = `
@@ -2444,42 +2534,6 @@ function renderTripleHasse() {
 </g>`;
 }
 
-/* R6 G6: cover-lattice twins — captions computed live; the towers themselves cited (covering-space theory). */
-function matOrderF2(M) { // order of a 0/1 unitriangular matrix over F2, by literal powering (reuses n3Mul)
-  const idStr = M.map((r, i) => r.map((_, j) => (i === j ? 1 : 0)).join("")).join("");
-  let P = M, o = 1;
-  while (P.map(r => r.join("")).join("") !== idStr) { P = n3Mul(P, M); o++; if (o > 64) throw new Error("order > 64?"); }
-  return o;
-}
-function quad449Ord() { // 449's four conjugate symbols, recomputed from scratch; null if they disagree
-  const r5 = tonelliShanks(5n, 449n)[0], r101 = tonelliShanks(101n, 449n)[0];
-  const legs = [[1n, 1n], [1n, -1n], [-1n, 1n], [-1n, -1n]]
-    .map(([a, b]) => legendre(((25n + 2n * a * r5 + 2n * b * r101) % 449n + 449n) % 449n, 449n));
-  return legs.every(l => l === -1) ? 2 : legs.every(l => l === 1) ? 1 : null;
-}
-function tFactor(o, deg) { return `(1 − t${o === 1 ? "" : supN(o)})⁻${supN(deg / o)}`; }
-function renderCoverTwins() {
-  // (a) Triples: rho(K3) = corner of N3(F2) with mu-bar mod 2; orbit count = |deck|/order
-  const mu2 = (((computeMagnusLongitude12()["1,2"] || 0) % 2) + 2) % 2;
-  const o3 = n3Order(0, 0, mu2);
-  const f9 = frobOrderTriple(937n);
-  $id("tripleCoverCap").innerHTML =
-    `The top cover <span class="acc">X̃</span> is the <span class="tt" data-tip="A purely topological construction: π₁ of the link complement maps onto N₃(F₂), the group of upper-unitriangular 3×3 matrices over F₂ (≅ D₄), meridians to the generator matrices; the 8-sheet cover it classifies is the mod-2 Heisenberg cover. Why it exists exactly when lk(K₁,K₂) is even, a sketch: N₃(F₂) is the central extension of F₂² by F₂ classified by the cup product x₁ ∪ x₂, and that class evaluates to lk mod 2 — the meridian map lifts iff the pairwise level vanishes: the lower vanishing IS the lifting obstruction vanishing. Morishita (chs. 4/8, 1st ed.) builds it as the topological mirror of Rédei's field k₁₃,₆₁ — the analogy is his; the cover itself owes nothing to number theory.">mod-2 Heisenberg cover</span> — named for its deck group, not for Rédei; the field k₁₃,₆₁ opposite is its arithmetic <i>mirror</i>, not its definition. In <span class="acc">X̃</span>: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)} — worked through on <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">the ζ of k₁₃,₆₁ card</button> of the Zeta tab.`;
-  // (b) Quads: rho(K4) = corner of N4(F2) with mu-bar(1234) mod 2 (Milnor-model level)
-  const q2 = (((computeMagnusTripleCommutator()["1,2,3"] || 0) % 2) + 2) % 2;
-  const o4 = matOrderF2([[1, 0, 0, q2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);
-  const w449 = quad449Ord();
-  const arith449 = w449 === null
-    ? `449's factor: nothing asserted — the conjugate check failed, which a prime modulus forbids (the four values are Frobenius-stable, so agreement is forced; this branch is an internal guard, not a mathematical contingency — the banner at right rules)`
-    : `<b>449's ${64 / w449} orbits of size ${w449}</b> (conjugate symbols recomputed live): factor twins <b>${tFactor(o4, 64)}</b> / <b>${localFactor(449, w449, 64)}</b>`;
-  $id("quadCoverCap").innerHTML =
-    `In the top cover: K₄'s preimage is <b>${64 / o4} loops of ${o4 === 2 ? "double length" : "length ×" + o4}</b> — ρ(K₄) sits at the corner of N₄(F₂), entries 0 except μ̄(1234) mod 2 = ${q2} (computed at left; Milnor-model honesty, as the note above), order ${o4} by powering — ↔ ${arith449}. The two Heisenberg covers share the component K₂ the way the two Rédei fields opposite share the prime 8081 — the shared object is what lets the join reach 32 sheets, not 64.`;
-  // (c) Pairs: both cases, static by design (state-independent)
-  $id("pairsCoverCap").innerHTML =
-    `K₂'s preimage upstairs: <b>2 loops</b> when lk(K₁,K₂) is even — split, two primes above — versus <b>1 loop winding twice</b> when lk is odd — inert: the Hopf case, one prime of residue degree 2. Either way loops × winding = 2 = |deck| — and the ζ ↔ Δ box above turns whichever case you compute into its Euler factor, live.`;
-  ttFocusable($id("tripleCoverCap"));
-  ttFocusable($id("quadCoverCap"));
-}
 
 /* R6 G1: the surface ladder — every displayed number computed at runtime. */
 function renderSurfaceLadder() {
@@ -2515,6 +2569,7 @@ function renderSurfaceLadder() {
   ttFocusable($id("sladderBox"));
 }
 
+
 function renderDeltaBorGrid() {
   const grid = $id("deltaBorGrid");
   const poly = expandDeltaBor();
@@ -2535,17 +2590,25 @@ function renderDeltaBorGrid() {
   }
 }
 
+
 /* Brunnian-4loops.svg (AnonMoos, public domain); over/under via b4wOverOf. */
 
 const B4W_SCALE = 420 / 588;
+
 function b4wT(x, y) {
   return { x: (-123 + 0.139 * x) * B4W_SCALE, y: (850.44 - 0.139 * y) * B4W_SCALE };
 }
+
 const B4W_COLORS = { G: "#009900", Y: "#c9a500", R: "#cc2020", B: "#2020cc" };
+
 const B4W_LABEL = { G: "K1", Y: "K2", R: "K3", B: "K4" };
+
 const B4W_SELMAP = { 1: "G", 2: "Y", 3: "R", 4: "B" };
+
 let b4wDeleted = null;
+
 let b4wCache = null;
+
 
 function b4wSampleCubic(p0, c1, c2, p1, n, out) {
   for (let i = 1; i <= n; i++) {
@@ -2556,12 +2619,14 @@ function b4wSampleCubic(p0, c1, c2, p1, n, out) {
     });
   }
 }
+
 function b4wSampleLine(p0, p1, n, out) {
   for (let i = 1; i <= n; i++) {
     const t = i / n;
     out.push({ x: p0.x + t * (p1.x - p0.x), y: p0.y + t * (p1.y - p0.y) });
   }
 }
+
 
 // segs -> closed polyline, projected
 function b4wPathToPoly(segs) {
@@ -2574,6 +2639,7 @@ function b4wPathToPoly(segs) {
   pts.pop(); // drop duplicated start
   return pts.map(p => b4wT(p.x, p.y));
 }
+
 
 function b4wCurves() {
   const G = [];
@@ -2624,6 +2690,7 @@ function b4wCurves() {
   return { G, Y, R, B };
 }
 
+
 function b4wSegIntersect(a1, a2, b1, b2) {
   const d1 = { x: a2.x - a1.x, y: a2.y - a1.y };
   const d2 = { x: b2.x - b1.x, y: b2.y - b1.y };
@@ -2635,7 +2702,9 @@ function b4wSegIntersect(a1, a2, b1, b2) {
   return { pt: { x: a1.x + s * d1.x, y: a1.y + s * d1.y }, ta: d1, tb: d2 };
 }
 
+
 const B4W_GY_SPLIT = (850.44 - 0.139 * 3960) * B4W_SCALE; // canvas y of green's center line
+
 function b4wOverOf(pair, pt) {
   if (pair === "GY") return pt.y > B4W_GY_SPLIT ? "G" : "Y"; // green over on its lower half
   if (pair === "BY") return "B";
@@ -2643,6 +2712,7 @@ function b4wOverOf(pair, pt) {
   if (pair === "RB") return "R";
   return null;
 }
+
 
 function b4wCrossings() {
   if (b4wCache) return b4wCache;
@@ -2674,6 +2744,7 @@ function b4wCrossings() {
   return b4wCache;
 }
 
+
 function b4wComputeLk() {
   const { crossings, counts } = b4wCrossings();
   const sums = { GY: 0, RY: 0, BY: 0, RB: 0 };
@@ -2689,6 +2760,7 @@ function b4wComputeLk() {
     counts
   };
 }
+
 
 function b4wDrawPoly(ctx, pts, color, gaps, alpha) {
   const GAP = 6;
@@ -2711,6 +2783,7 @@ function b4wDrawPoly(ctx, pts, color, gaps, alpha) {
   ctx.stroke();
   ctx.restore();
 }
+
 
 function renderB4() {
   const canvas = $id("b4Canvas");
@@ -2763,6 +2836,7 @@ function renderB4() {
   canvas.setAttribute("aria-label", `Four-component Brunnian link${b4wDeleted ? ", with " + B4W_LABEL[b4wDeleted] + " deleted (faded)" : ""}; linking data in the note below.`);
 }
 
+
 const B4W_DELETE_TEXT = {
   G: "Cut K1 (green): the clasp yellow closed around it now holds nothing — yellow slides free, and the rest follows.",
   Y: "Cut K2 (yellow): green, met only by yellow, floats off at once; red and blue part as well.",
@@ -2770,7 +2844,9 @@ const B4W_DELETE_TEXT = {
   B: "Cut K4 (blue): the red–blue frame is broken and the remaining three separate.",
 };
 
+
 const B4W_HOME_TEXT = $id("b4WordNote").textContent; // pins the static note
+
 $id("deleteBtn").addEventListener("click", () => {
   b4wDeleted = B4W_SELMAP[$id("deleteSelect").value];
   const idx = { G: 1, Y: 2, R: 3 }[b4wDeleted]; // B = K4 is the component the word belongs to, not a letter in it
@@ -2785,11 +2861,13 @@ $id("deleteBtn").addEventListener("click", () => {
     B4W_DELETE_TEXT[b4wDeleted] + " The figure's documented property: “cutting any loop releases the other three.”" + collapse;
   renderB4();
 });
+
 $id("restoreBtn").addEventListener("click", () => {
   b4wDeleted = null;
   $id("b4WordNote").textContent = B4W_HOME_TEXT;
   renderB4();
 });
+
 
 function renderMagnus() {
   const series = computeMagnusTripleCommutator();
@@ -2802,7 +2880,9 @@ function renderMagnus() {
     `<span class="tt" data-tip="The Magnus expansion embeds the free group on x₁,…,x_n into power series in noncommuting variables via xᵢ ↦ 1 + Xᵢ, xᵢ⁻¹ ↦ 1 − Xᵢ + Xᵢ² − ⋯. This word is ℓ₄, K₄'s longitude in the model B₄, and μ̄(1234) is its X₁X₂X₃-coefficient — exactly as ℓ₃ = [x₁,x₂] and the X₁X₂-coefficient were Triples steps 2 and 4, one level up.">[[x₁,x₂],x₃]</span> ↦ 1 + <span class="hi">X₁X₂X₃</span> ${fmtCoef(c213)}X₂X₁X₃ ${fmtCoef(c312)}X₃X₁X₂ ${fmtCoef(c321)}X₃X₂X₁ + (deg ≥ 4)`
     + `<div style="font-size:.85rem;color:var(--muted);margin-top:8px;">computed via <span class="tt" data-tip="Words in X₁,X₂,X₃ as arrays, coefficients keyed by the word, degree > 5 discarded; (1+u)⁻¹ = 1 − u + u² − ⋯. About forty lines of code, running live.">truncated noncommutative series</span> &nbsp;·&nbsp; coefficient of X₁X₂X₃ : <b class="hi" style="background:none;">μ̄(1234) = ${c123}</b></div>`;
 }
+
 function fmtCoef(c) { return c < 0 ? `− ` : `+ `; }
+
 
 // θ = (a+b√5) + (c+d√5)√101. X² − 101Z² = α does NOT determine θ.
 function quadThetaEmbeddings(a, b, c, d) {
@@ -2811,10 +2891,13 @@ function quadThetaEmbeddings(a, b, c, d) {
     out.push((a + b * e5 * s5) + (c + d * e5 * s5) * e101 * s101);
   return out;
 }
+
 function quadThetaTotallyPositive(a, b, c, d) { return quadThetaEmbeddings(a, b, c, d).every(v => v > 0); }
+
 function quadThetaIdentity(a, b, c, d) { // residuals against α = 241 + 100√5, exact BigInt
   return [a * a + 5n * b * b - 101n * (c * c + 5n * d * d) - 241n, 2n * a * b - 202n * c * d - 100n];
 }
+
 
 function renderQuadSteps() {
   const container = $id("quadSteps");
@@ -2921,6 +3004,7 @@ function renderQuadSteps() {
   ttFocusable();
 }
 
+
 // R4-S3: assert nothing definite when the symbol is undefined.
 function quadThreadHTML(allNeg, allPos) {
   const pre = `${TB}<b>The thread, two levels up.</b> `;
@@ -2929,10 +3013,6 @@ function quadThreadHTML(allNeg, allPos) {
   return pre + `449 splits completely in the degree-32 compositum — its six pairwise and four triple symbols, computed above, are all +1 — but the quadruple ${allNeg ? "−1" : "+1"} puts Frob₄₄₉ at <b>order ${qOrd}</b> in Gal(K/Q) ≅ N₄(F₂): the 64 points of the cover fall into ${64 / qOrd} orbits of period ${qOrd}, local factor ${localFactor(449, qOrd, 64)}. The Pairs box's ${allNeg ? "inert" : "split"} bookkeeping, two levels up — and the polynomial recording it is the next Alexander-type invariant in the tower.`;
 }
 
-function renderZetaThread(qOrd) { // capstone; factors recomputed live (null: quad symbol undefined)
-  $id("zetaThread").innerHTML =
-    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Ladder's order-into-orbits reading; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"} — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum. Worked examples below, each with its lesson: the gallery cards cash this capstone out — two- through five-linked plus the contrast pair, both sides at every rung except the fifth, whose arithmetic side is honestly blank.`;
-}
 
 function renderQuadTower() {
   const svg = $id("quadTower");
@@ -2979,12 +3059,56 @@ function renderQuadTower() {
 </g>`;
 }
 
+function computeMagnusL5() { // Klein F2: one commutator deeper — [[[x1,x2],x3],x4], within the existing degree-5 truncation
+  const C123 = computeMagnusTripleCommutator();
+  const u = { ...C123 }; delete u[""];
+  const X4 = mgGen(4);
+  return mgCommutator(C123, mgInvOnePlusU(u), { "": 1, ...X4 }, mgInvOnePlusU(X4));
+}
+
+function renderPresMat() { // Klein A1: one presentation matrix per side
+  // Topology: fibered case — the Alexander module IS presented by tI − h₁∗ (Milnor 1968).
+  // det computed by literal polynomial arithmetic: (t−2)(t−1) − (−1)(−1).
+  const mul = (a, b) => { const r = new Array(a.length + b.length - 1).fill(0); a.forEach((x, i) => b.forEach((y, j) => r[i + j] += x * y)); return r; };
+  const sub = (a, b) => { const r = a.slice(); b.forEach((x, i) => r[i] = (r[i] || 0) - x); return r; };
+  const det = sub(mul([-2, 1], [-1, 1]), [1]); // coefficients of det(tI − A), constant first
+  const ok = det.length === 3 && det[0] === 1 && det[1] === -3 && det[2] === 1;
+  $id("presMatTopo").innerHTML =
+    `<b>The module itself, presented.</b> For a fibered knot the Alexander module — H₁ of the infinite cyclic cover as a Z[t, t⁻¹]-module — is <i>presented by the matrix tI − h₁∗</i> (Milnor 1968: the cover is F × ℝ). For 4₁, with h₁∗ = A = [[2,1],[1,1]]:
+     <div class="eq" style="margin:6px 0;">H₁(<span class="acc">X̃</span>∞) ≅ Z[t,t⁻¹]² ⁄ (tI − A),&nbsp;&nbsp; tI − A = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>t−2</td><td>−1</td></tr><tr><td>−1</td><td>t−1</td></tr></table></div>
+     det computed live by polynomial arithmetic: ${det[2] === 1 ? "" : det[2]}t² ${det[1] < 0 ? "−" : "+"} ${Math.abs(det[1])}t + ${det[0]} <span class="${ok ? "ok" : "fail"}">${ok ? "= Δ₄₁ ✓" : "✗"}</span> — the polynomial the Zeta tab's figure-eight card verifies as the zeta.`;
+  // Arithmetic: the Λ-side at the level the literature pins — size and determinant ideal.
+  $id("presMatArith").innerHTML =
+    `<b>The mirror module, presented at the cited level.</b> The Iwasawa module of an irregular prime is a Λ = Z<sub>p</sub>[[T]]-module; for p = 37 — the classical gallery's first knotted prime (the knotted-prime card above) — the relevant ω-eigenspace has <span class="tt" data-tip="Iwasawa invariants of p = 37: λ = 1, μ = 0 — cited: μ = 0 by Ferrero–Washington (1979); λ-values from the standard tables (Washington, Cyclotomic Fields, §13; Ernvall–Metsänkylä computations). λ = its characteristic polynomial's degree, the same λ the knotted-prime card defines.">λ = 1, μ = 0</span>, so its characteristic polynomial is linear and the smallest faithful presentation is 1×1:
+     <div class="eq" style="margin:6px 0;">X<sub>∞</sub><sup>(ω-eigenspace)</sup> ∼ Λ ⁄ ( f₃₇(T) ),&nbsp;&nbsp; ⟨ f₃₇(T) ⟩ = <table class="mat" style="display:inline-table;vertical-align:middle;"><tr><td>f₃₇(T)</td></tr></table>,&nbsp; deg f₃₇ = λ = 1</div>
+     Honesty: the matrix's <i>size and determinant ideal</i> are what the cited results pin (char ideal = (L<sub>p</sub>), the Main Conjecture above); its entries need class-group tower data this app does not carry — displayed schematically, said so. The 2×2 twin at left is fully computed.`;
+}
+
+function renderFiveWorked() {
+  const s5 = computeMagnusL5();
+  const c = s5["1,2,3,4"] || 0;
+  const low12 = s5["1,2"] || 0, low123 = s5["1,2,3"] || 0;
+  const M5 = [...Array(5)].map((_, i) => [...Array(5)].map((_, j) => i === j ? 1 : (i === 0 && j === 4 ? (((c % 2) + 2) % 2) : 0)));
+  const o = matOrderF2(M5);
+  $id("fiveWorked").innerHTML =
+    `<div class="step"><div class="head">The invariant, live.</div><div class="eq">ℓ₅ = [[[x₁,x₂],x₃],x₄] — Milnor's model, one commutator deeper than B₄ — expanded through the same Magnus machinery (truncation degree 5, already in this page): coefficient of X₁X₂X₃X₄ = <b>${c}</b>, lower coefficients ${low12}, ${low123} — so μ̄(12345) = ${c} at the model level, the app's B₄ honesty standard one rung up.</div></div>`
+    + `<div class="step"><div class="head">The counting space, live.</div><div class="eq">ρ(K₅) sits at the corner of N₅(F₂) — order of the group: 2¹⁰ = ${2 ** 10}; powering the 5×5 matrix literally gives order <b>${o}</b>. In the ${2 ** 10}-sheet cover, K₅'s preimage is <b>${2 ** 10 / o} loops of ${o === 2 ? "double length" : "length ×" + o}</b> — K₅-orbit factor <b>${tFactor(o, 2 ** 10)}</b>: the twin the arithmetic column cannot yet produce.</div></div>`;
+}
+
+
+function renderZetaThread(qOrd) { // capstone; factors recomputed live (null: quad symbol undefined)
+  $id("zetaThread").innerHTML =
+    `${TB}<b>You have been computing zeta functions all along.</b> The trail: the Pairs box's split/inert local factors; the Triples box's ${localFactor(937, frobOrderTriple(937n).ord, 8)} at 937; the Ladder's order-into-orbits reading; the Quadruples box's ${qOrd ? localFactor(449, qOrd, 64) + " at 449" : "449 factor — undefined this run, not asserted"} — the Euler factors of this dictionary's fields. The left column's Fix(hⁿ) and orbit counts below are the same bookkeeping for a monodromy. Milnor–Turaev and the Main Conjecture close the loop: Δ<sub>L</sub> and f<sub>S</sub> are, up to units, these zetas. And the two contrast boxes below keep the dials apart: linking at t = 1, knotting in the spectrum. Worked examples below, each with its lesson: the gallery cards cash this capstone out — two- through five-linked plus the contrast pair, both sides at every rung except the fifth, whose arithmetic side is honestly blank.`;
+}
+
+
 // K1: link zeta
 function polyMul1(a, b) {
   const r = new Array(a.length + b.length - 1).fill(0);
   for (let i = 0; i < a.length; i++) for (let j = 0; j < b.length; j++) r[i + j] += a[i] * b[j];
   return r;
 }
+
 // Delta_Bor(t,…,t) in u = t-1
 function borDiagCoeffs() {
   const poly = expandDeltaBor(), out = [];
@@ -2992,6 +3116,7 @@ function borDiagCoeffs() {
   for (let i = 0; i < out.length; i++) out[i] = out[i] || 0;
   return out;
 }
+
 function torresBorOneVar() { // (t-1)*Delta(t,…,t), ascending in t
   const d = borDiagCoeffs(), u = [-1, 1];
   let acc = [0], pw = [1];
@@ -3001,6 +3126,7 @@ function torresBorOneVar() { // (t-1)*Delta(t,…,t), ascending in t
   }
   return polyMul1(acc, u);
 }
+
 function borUnipotentTraces(n) { // literal powers; char poly (t-1)^4
   const U = [[1, 1, 0, 0], [0, 1, 1, 0], [0, 0, 1, 1], [0, 0, 0, 1]];
   const mul = (A, B) => A.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s + A[i][k] * B[k][j], 0)));
@@ -3008,12 +3134,15 @@ function borUnipotentTraces(n) { // literal powers; char poly (t-1)^4
   for (let k = 1; k <= n; k++) { tr.push(P[0][0] + P[1][1] + P[2][2] + P[3][3]); P = mul(P, U); }
   return tr;
 }
+
 const fmtM = n => String(n).replace("-", "−");
+
 function polyStr1(a) {
   let s = "";
   for (let k = a.length - 1; k >= 0; k--) if (a[k]) s += (a[k] < 0 ? " − " : " + ") + (Math.abs(a[k]) === 1 && k > 0 ? "" : Math.abs(a[k])) + (k > 0 ? "t" + (k > 1 ? supN(k) : "") : "");
   return s.replace(/^ \+ /, "");
 }
+
 function renderBorroZeta() {
   const chi = 3 - 6, b1 = 1 - chi;
   const dg = borDiagCoeffs(), one = torresBorOneVar(), hopf = polyMul1([-1, 1], [1]);
@@ -3027,10 +3156,13 @@ function renderBorroZeta() {
     + `<div><b>The punchline:</b> this link of unknots has a zeta with <b>no spectral content</b> — everything sits in the Taylor coefficients at t = 1: exactly the μ̄ hierarchy this app computes, Δ<sub>Bor</sub> = x₁x₂x₃ under t = 1 + x — <button type="button" class="jump" onclick="gotoTab('triples');var d=$id('deltaBorGrid');if(d)d.scrollIntoView({block:'center'});">the Triples grid</button>. <b>Scope:</b> exhibited, not a theorem — unknotted components alone do not force it: the (2,4) torus link (two unknots, lk = 2, fibered) has Δ ≐ (t−1)(t²+1) — eigenvalues ±i ≠ 1 (unit circle: entropy 0, spectral content nonetheless). 'Linking' here names the vanishing-μ̄ story, checked above for this link.</div>`;
 }
 
+
 /* fig-8 monodromy A = [[2,1],[1,1]]; all faces computed. */
 
 const FIG8_A = [[2, 1], [1, 1]];
+
 const FIG8_K = 8; // series truncation degree
+
 
 function fig8Traces(count) {
   // literal matrix powers (the recurrence is a TEST)
@@ -3043,6 +3175,7 @@ function fig8Traces(count) {
   return tr;
 }
 
+
 function expOfPowerSum(coeffs, K) {
   // exp(Σ c_n tⁿ/n) to degree K: E_m = (1/m) Σ c_j E_{m−j}
   const E = [1];
@@ -3054,12 +3187,14 @@ function expOfPowerSum(coeffs, K) {
   return E;
 }
 
+
 function fig8Mobius(n) {
   let m = 1, x = n;
   for (let p = 2; p * p <= x; p++) if (x % p === 0) { x /= p; if (x % p === 0) return 0; m = -m; }
   if (x > 1) m = -m;
   return m;
 }
+
 
 function fig8Data() {
   const tr = fig8Traces(12);
@@ -3093,10 +3228,12 @@ function fig8Data() {
   return { tr, fix, orb, sumFace, eigFace, fixFace, orbFace };
 }
 
+
 // Trefoil branched cyclic covers. Delta_3_1 = t^2 - t + 1, so the monodromy trace
 // obeys s_n = s_{n-1} - s_{n-2} with s_0 = 2, s_1 = 1, and Fox's formula collapses to
 // |H1(M_n)| = |det(A^n - I)| = |2 - s_n|. All integers; 0 means H1 is infinite.
 const COVERS_N = 9;
+
 function coversData() {
   const s = [2, 1];
   for (let n = 2; n <= COVERS_N; n++) s.push(s[n - 1] - s[n - 2]);
@@ -3107,7 +3244,9 @@ function coversData() {
   }
   return rows;
 }
+
 function gcdInt(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+
 function renderCovers() {
   const rows = coversData();
   const head = `<tr><th scope="col">n</th><th scope="col">tr(Aⁿ)</th><th scope="col">|H₁(M<sub>n</sub>)| = |2 − tr(Aⁿ)|</th><th scope="col">Σ(2, 3, n)</th><th scope="col">gcd(n, 6)</th></tr>`;
@@ -3140,6 +3279,7 @@ function renderCovers() {
     `<b>ζ ↔ Δ</b> Both sides are orders of the group the zeta function's special behaviour measures — |H₁| through Fox's resultant, h through the class number formula's leading coefficient at s = 0. `
     + `Two ingredients of that formula do <i>not</i> transport: √|d<sub>K</sub>| has no analogue at all, and the regulator's role has no established name in the literature this app cites — Turaev's refined torsion touches the same territory but is not this, and dressing the gap in a borrowed name would be exactly the mistake this app exists to avoid. Naming what fails to cross is part of reading the dictionary honestly.`;
 }
+
 
 function renderLefschetz() {
   const { tr, fix, orb, sumFace, eigFace, fixFace, orbFace } = fig8Data();
@@ -3177,15 +3317,18 @@ function renderLefschetz() {
     `${TB}<b>The dichotomy.</b> Knotting is the <b>spectral dial</b>: the pseudo-Anosov monodromy pushes eigenvalues off 1 — φ² ≈ ${lam.toFixed(3)} and φ⁻² — <span class="tt" data-tip="Entropy: log of the spectral radius of h₁∗ — the exponential growth rate of the traces and orbit counts; unit-circle spectra give 0.">entropy</span> log φ² ≈ ${Math.log(lam).toFixed(3)} > 0, Lefschetz numbers exponential: ${tr.slice(0, 4).join(", ")}, … against the Borromean box's constant ${borUnipotentTraces(3).join(", ")}, …. Linking is the <b>coefficients-at-1 dial</b>: eigenvalues all 1, everything in the Taylor coefficients at t = 1. Independent dials — the arithmetic mirror sits opposite.`;
 }
 
+
 // zeta of Q(sqrt5): a(n) recipe in the ideal-sum tooltip
 
 function chi5(n) { return n % 5 === 0 ? 0 : Number(legendre(BigInt(n), 5n)); }
+
 
 function spfSieve(N) {
   const spf = new Array(N + 1).fill(0);
   for (let i = 2; i <= N; i++) if (!spf[i]) for (let j = i; j <= N; j += i) if (!spf[j]) spf[j] = i;
   return spf;
 }
+
 
 function dedekindValues(N) {
   const spf = spfSieve(N);
@@ -3212,6 +3355,7 @@ function dedekindValues(N) {
   return { ideal, prod, zl: z * L };
 }
 
+
 function renderDedekind() {
   const N = parseInt($id("dedekindN").value, 10);
   $id("dedekindNLabel").textContent = "X = " + N;
@@ -3235,7 +3379,9 @@ function renderDedekind() {
     return `<tr><td class="k">${p}</td><td class="v">${c > 0 ? "+1" : "−1"}</td><td class="v">${f}</td></tr>`;
   }).join("");
 }
+
 $id("dedekindN").addEventListener("input", renderDedekind);
+
 
 /* K3: regular = unknotted, irregular = knotted (Mazur). Numbers safe: residues < p < 2^13. */
 function bernoulliRowModP(p, inv, B, m) { // B_m = -(1/(m+1)) Σ_{j<m} C(m+1,j) B_j mod p
@@ -3247,21 +3393,25 @@ function bernoulliRowModP(p, inv, B, m) { // B_m = -(1/(m+1)) Σ_{j<m} C(m+1,j) 
   }
   B[m] = ((p - s) % p) * inv[m + 1] % p;
 }
+
 function invTableModP(p) {
   const inv = new Array(p); inv[1] = 1;
   for (let i = 2; i < p; i++) inv[i] = (p - Math.floor(p / i)) * inv[p % i] % p;
   return inv;
 }
+
 function bIdx(B, p) { // even k ≤ p-3 with B_k ≡ 0; regular iff empty
   const idx = [];
   for (let k = 2; k <= p - 3; k += 2) if (B[k] === 0) idx.push(k);
   return idx;
 }
+
 function irregularIndices(p) {
   const inv = invTableModP(p), B = new Array(p - 2).fill(0); B[0] = 1;
   for (let m = 1; m <= p - 3; m++) bernoulliRowModP(p, inv, B, m);
   return bIdx(B, p);
 }
+
 function irregularIndicesAsync(p, onTick, onDone, schedule) { // chunked; scheduler injectable so tests can drive the chunk bookkeeping synchronously
   if (!schedule) schedule = f => setTimeout(f, 0);
   const inv = invTableModP(p), B = new Array(p - 2).fill(0); B[0] = 1;
@@ -3273,6 +3423,7 @@ function irregularIndicesAsync(p, onTick, onDone, schedule) { // chunked; schedu
     else onDone(bIdx(B, p));
   })();
 }
+
 function renderKnottedPrime() {
   const t0 = performance.now();
   const cast = [5, 13, 29, 61, 101, 449, 937].map(p => [p, irregularIndices(p)]);
@@ -3282,7 +3433,7 @@ function renderKnottedPrime() {
     ? `regular — <span style="color:var(--good);">unknotted</span>: ${p - 3 <= 2 ? "B₂" : `B₂, B₄, …, B<sub>${p - 3}</sub> all`} ≢ 0 (mod ${p}); trivial Iwasawa polynomial, λ = 0`
     : `<b>irregular — <span style="color:var(--arith);">knotted</span></b>: ${idx.map(k => `B<sub>${k}</sub> ≡ 0 (mod ${p})`).join(", ")}`}</td></tr>`;
   $id("knottedPrime").innerHTML =
-    `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12, 1st ed.): a knot's Alexander polynomial ↔ a prime's <span class="tt" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1959): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, On Γ-extensions of algebraic number fields, Bull. Amer. Math. Soc. 65 (1959), 183–226 (the 1956 Hamburg note under his name is a different, unrelated result); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
+    `${TB}<b>Knotting lives in the spectrum — arithmetically too.</b> Mazur's dictionary ("Remarks on the Alexander polynomial", unpublished, c. 1963–64; cf. Morishita ch. 12, 1st ed.): a knot's Alexander polynomial ↔ a prime's <span class="tt tt-katex" data-tip="Iwasawa's own characteristic polynomial over Λ = Z_p[[T]] — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower." data-latex-html="Iwasawa's own characteristic polynomial over <span class='katex-frag' data-latex='\\Lambda = \\mathbb{Z}_p[[T]]'>Λ = Z_p[[T]]</span> — the cyclotomic-tower variant the Dictionary's f_S entry flags (deck group genuinely Z_p, tower ramified at p itself), NOT f_S with its finite deck group: the definedness domain shifts — each prime here reads its own p-tower."><b>Iwasawa polynomial</b></span> for its own <span class="tt tt-katex" data-tip="The cyclotomic tower of p: Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯, adjoining p-power roots of unity layer by layer; its deck (Galois) group is Z_p — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer." data-latex-html="The cyclotomic tower of p: <span class='katex-frag' data-latex='\\mathbb{Q}(\\zeta_p) \\subset \\mathbb{Q}(\\zeta_{p^2}) \\subset \\mathbb{Q}(\\zeta_{p^3}) \\subset \\cdots'>Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³}) ⊂ ⋯</span>, adjoining p-power roots of unity layer by layer; its deck (Galois) group is <span class='katex-frag' data-latex='\\mathbb{Z}_p'>Z_p</span> — the arithmetic analogue of unrolling the infinite cyclic cover of a knot complement, layer by layer.">cyclotomic Z<sub>p</sub>-tower</span> — its own Alexander-type invariant, with <b>λ = its degree</b> (not the figure-eight card's dilatation λ opposite: same letter, different object). Regular prime: trivial polynomial, <b>unknotted</b> — <span class="tt" data-tip="Kummer's criterion (1850): p divides the class number of Q(ζ_p) — p is irregular — exactly when p divides the numerator of one of B₂, B₄, …, B_{p−3}. Proof idea, a sketch: the class number factors as h⁻·h⁺; the analytic class number formula writes h⁻ essentially as a product of the values −B_k/k, so p | h⁻ is a Bernoulli divisibility, and Kummer showed p cannot divide h⁺ without dividing h⁻. The criterion is cited (modern proof: Washington, Cyclotomic Fields, Thm 5.34); which B_k vanish mod p is what this table computes live.">Kummer's criterion</span> (regular ⟺ no B<sub>k</sub> ≡ 0 below) plus <span class="tt" data-tip="Iwasawa's theorem (1959): if p does not divide the class number of Q(ζ_p), then p divides the class number of no layer Q(ζ_{pⁿ}) of the cyclotomic tower — the Iwasawa module vanishes, the characteristic polynomial is a unit, λ = μ = 0: the unknotted case. Proof idea, a covering-space sketch: the tower is totally ramified at the unique prime above p, which forces the norm maps on p-parts of class groups to be surjective; Nakayama's lemma then generates every layer's p-part from the bottom one, which is zero. Cited: Iwasawa, On Γ-extensions of algebraic number fields, Bull. Amer. Math. Soc. 65 (1959), 183–226 (the 1956 Hamburg note under his name is a different, unrelated result); the regular verdicts in the table are computed.">Iwasawa's theorem</span> (p ∤ class number at every layer of the tower, so λ = 0). Irregular: <b>knotted</b>. The test is Bernoulli: the B<sub>k</sub> are the <b>rationals</b> seeded by B₀ = 1 and generated by B<sub>m</sub> = −(1/(m+1)) Σ<sub>j&lt;m</sub> C(m+1, j) B<sub>j</sub>; p is irregular iff p divides the numerator of some B<sub>k</sub>, k = 2, 4, …, p−3. Run mod p — legitimate: <span class="tt" data-tip="Von Staudt–Clausen (1840): for even k, B_k + Σ 1/q over primes q with (q−1) | k is an integer — the denominator of B_k is exactly the product of those q. Sketch, counting in (Z/q)ˣ: the power sum 1ᵏ + ⋯ + (q−1)ᵏ mod q is −1 when (q−1) | k (every term is 1) and 0 otherwise (a generator reshuffles the sum), and the Bernoulli numbers are the coefficients turning power sums into polynomials. Consequence used here: p divides the denominator only if (p−1) | k — impossible for even k ≤ p−3 — so those B_k are p-integral, the recurrence reduces mod p, and B_k ≡ 0 (mod p) ⟺ p divides the numerator.">von Staudt–Clausen</span> keeps those denominators prime to p, so B<sub>k</sub> mod p is defined and p | numerator ⟺ B<sub>k</sub> ≡ 0 (mod p). <span class="tt" data-tip="Herbrand–Ribet: for even k, the ω¹⁻ᵏ-eigenspace of Gal(Q(ζ_p)/Q) on the p-part of the class group is nontrivial iff p divides the numerator of B_k. One direction is Herbrand (1932): the Stickelberger element annihilates the class group, and its eigencomponents kill the eigenspace unless p | B_k. The converse is Ribet (1976), the modular-forms construction: a congruence between an Eisenstein series and a cusp form at p manufactures an unramified p-extension of Q(ζ_p) realizing exactly that eigenspace. Cited, not computed — only the Bernoulli divisibilities here are live. Ribet, Invent. Math. 34 (1976).">Herbrand–Ribet</span>: p | B<sub>k</sub> ⇔ a nontrivial ω<sup>1−k</sup>-eigenspace of Galois on the p-part of the <span class="tt" data-tip="The ideal class group of Q(ζ_p): fractional ideals modulo principal ones — a finite abelian group, the field's failure of unique factorization; its p-part under the Galois action (ω = the character on p-th roots of unity) is the arithmetic H₁ the tower's polynomial reads.">class group</span> of Q(ζ<sub>p</sub>) — λ (that is, the degree) as the spectral dial.`
     + `<div>The cast, judged at load (${ms} ms):</div>`
     + `<table class="symbolic" id="knottedTable" aria-label="The cast of primes used in this app, each judged regular or irregular by Kummer's criterion, with the Bernoulli index witnessing any irregularity.">${cast.map(row).join("")}</table>`
     + `<div><b>The jewel:</b> 101 — one of Amano's four quadruple primes — is <b>knotted</b>: the app contained a knotted prime all along, and the linking story never noticed. Independent dials: the ℓ = 2 linking tower of {5, 8081, 101, 449} and the p = 101 cyclotomic tower are different covers of different things.</div>`
@@ -3306,18 +3457,21 @@ function renderKnottedPrime() {
   });
 }
 
+
 /* R6 G3 (session B): worked 3-linked zetas, both sides. Every number computed at runtime;
    reference values Node-verified against the orchestrator's table before pinning. */
 function k1361FrobData(p) { // Frobenius data at any unramified prime, p = 2 included
   if (p === 2n) {
     // 2 is unramified in k13,61 (Rédei's normalization; cited on the card). Its Frobenius
     // restricted to Q(√d), d ≡ 1 (mod 4): split iff d ≡ 1 (mod 8) — computed from 13, 61 mod 8.
-    const chi1 = 13n % 8n === 1n ? 0 : 1, chi2 = 61n % 8n === 1n ? 0 : 1;
-    const oA = n3Order(chi1, chi2, 0), oB = n3Order(chi1, chi2, 1);
-    return oA === oB ? { q: 2n, chi1, chi2, r: null, ord: oA } : { err: "corner-dependent order at 2?" };
+    // frobeniusAt2_1361 (shared/utils.js) is the one place this is computed; Ladder's
+    // frobeniusMatrix1361 error message for q=2 reads the same shared function.
+    const f2 = frobeniusAt2_1361();
+    return f2.err ? f2 : { q: 2n, chi1: f2.chi1, chi2: f2.chi2, r: null, ord: f2.ord };
   }
   return frobOrderTriple(p);
 }
+
 function k1361PartialEuler(s, X) { // ∏ over unramified p ≤ X of (1 − p^{−fs})^{−8/f}
   let prod = 1, count = 0;
   for (let n = 2n; n <= BigInt(X); n++) {
@@ -3328,6 +3482,7 @@ function k1361PartialEuler(s, X) { // ∏ over unramified p ≤ X of (1 − p^{�
   }
   return { prod, count };
 }
+
 function renderK1361Worked() {
   const ps = [2n, 3n, 5n, 7n, 11n, 17n, 19n, 23n, 29n, 107n, 937n];
   const pm = v => v ? "−1" : "+1";
@@ -3361,6 +3516,7 @@ function renderK1361Worked() {
     })();
   ttFocusable($id("k1361Worked"));
 }
+
 function k1361IdealFace(P, N) { // Klein F1: Dirichlet face over P-smooth unramified norms ≤ N
   const binom = (n, k) => { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; };
   let vals = new Float64Array(N + 1); vals[1] = 1;
@@ -3383,6 +3539,7 @@ function k1361IdealFace(P, N) { // Klein F1: Dirichlet face over P-smooth unrami
   for (let n = 1; n <= N; n++) if (vals[n]) { sum += vals[n] / (n * n); terms++; }
   return { sum, terms };
 }
+
 function renderBorroWorked() {
   const K = 8;
   const tr = borUnipotentTraces(K);
@@ -3398,6 +3555,7 @@ function renderBorroWorked() {
     + `<div class="mln"><b>Keep them apart — different objects:</b> ζ<sub>h</sub> counts fixed points of the monodromy on H₁ of the fiber; the cover-orbit factor counts K₃'s loop-orbits among the 8 sheets. Both are Borromean bookkeeping, and both are worked above: <button type="button" class="jump" onclick="var d=$id('zxBorro');d.open=true;d.scrollIntoView();">the link-zeta card</button> · <button type="button" class="jump" onclick="gotoTab('triples');$id('tripleCoverHasse').scrollIntoView();">the tower of covers, Triples tab</button>.</div>`;
 }
 
+
 /* Organic pass: the two-component worked card — the Hopf link, both faces, every symbol live. */
 function renderHopfWorked() {
   const c13 = Number(legendre(5n, 13n)), c29 = Number(legendre(5n, 29n));
@@ -3407,15 +3565,18 @@ function renderHopfWorked() {
     + `<div class="mln">Everything the higher rows do is already here at n = 2: a cover, a loop upstairs, |deck| = (loop count) × (winding) — and the mirror field reading the same dial as e·f·g. The three-, four- and five-component rows below just climb to deeper covers.</div>`;
 }
 
+
 /* R6 G4 (session B): worked 4-linked zetas. Order rule Node-verified (64/64) before display. */
 function n4Matrix(c1, c2, c3, r1, r2, qq) { // entries: superdiag chi1..3, second diag r123, r234, corner q
   return [[1, c1, r1, qq], [0, 1, c2, r2], [0, 0, 1, c3], [0, 0, 0, 1]];
 }
+
 function n4RulePredict(c1, c2, c3, r1, r2, qq) {
   // M = I + N; char 2: M^2 = I + N^2, N^4 = 0. N^2 entries: (1,3) = c1c2, (2,4) = c2c3, (1,4) = c1r2 XOR r1c3.
   const nsq = (c1 & c2) | (c2 & c3) | ((c1 & r2) ^ (r1 & c3));
   return nsq ? 4 : (c1 | c2 | c3 | r1 | r2 | qq) ? 2 : 1;
 }
+
 function n4RuleCheck() { // rule vs literal powering, all 64 elements
   let ok = 0;
   for (let b = 0; b < 64; b++) {
@@ -3424,6 +3585,7 @@ function n4RuleCheck() { // rule vs literal powering, all 64 elements
   }
   return ok;
 }
+
 function n4ChiCases() { // per chi pattern: the set of orders over the 8 (r123, r234, q) fillings
   const out = [];
   for (let c = 0; c < 8; c++) {
@@ -3434,6 +3596,7 @@ function n4ChiCases() { // per chi pattern: the set of orders over the 8 (r123, 
   }
   return out;
 }
+
 function renderQuad449Worked() {
   const checked = n4RuleCheck();
   const caseRows = n4ChiCases().map(({ c1, c2, c3, orders }) => {
@@ -3468,6 +3631,7 @@ function renderQuad449Worked() {
     + `<div class="step"><div class="head">The worked prime: 449.</div><div class="eq">${worked}</div></div>`
     + `<div class="mln">Why no full Euler product on this card: for a general prime p the r-entries — its splitting data in the two Rédei octics — are not computable from this app's data; only the structure (the rule, the eight χ-cases) and the worked prime are shown. Unramified local rule, for the record: (1 − p<sup>−fs</sup>)<sup>−64/f</sup> with f = ord ρ(Frob<sub>p</sub>) in N₄(F₂).</div>`;
 }
+
 function renderB4Worked() {
   const mu = computeMagnusTripleCommutator()["1,2,3"] || 0;
   const mu2 = ((mu % 2) + 2) % 2;
@@ -3480,6 +3644,35 @@ function renderB4Worked() {
     `<div class="step"><div class="head">The invariant, then the count.</div><div class="eq">μ̄(1234) = ${mu} — the coefficient of X₁X₂X₃ in the Magnus expansion of ℓ₄ = [[x₁,x₂],x₃], computed live (the Quadruples tab's own machinery). It places ρ(K₄) at the corner of N₄(F₂): entries (χ, r) all 0, corner μ̄ mod 2 = ${mu2}. Powered live: <b>order ${ord}</b>. In the 64-sheet cover, K₄'s preimage is therefore <b>${64 / ord} loops of ${ord === 2 ? "double length" : "length ×" + ord}</b> — |G| = count × size — K₄-orbit local factor <b>${tFactor(ord, 64)}</b>: ${twin}.</div></div>`
     + `<div class="mln"><b>Honesty — worked at the Milnor-model level</b>, the app's B₄ standard: μ̄(1234) is computed for Milnor's model B₄ (cited: Milnor 1957; Morishita ch. 8, 1st ed.; Amano 2014), not read off the drawn diagram (the Quadruples tab's honesty note). The tower this counts in: <button type="button" class="jump" onclick="gotoTab('quads');$id('quadCoverTower').scrollIntoView();">the 64-sheet cover, Quadruples tab</button>.</div>`;
 }
+
+function chebotarevTally(X) { // Klein A4: class-by-class Frobenius counts to cutoff X
+  const counts = { id: 0, corner: 0, "10": 0, "01": 0, "11": 0 }; let total = 0;
+  for (let q = 3; q < X; q += 2) {
+    const bq = BigInt(q);
+    if (!isPrimeSmall(bq) || q === 13 || q === 61) continue;
+    const f = frobeniusMatrix1361(bq);
+    if (f.err) continue;
+    const key = (f.chi1 || f.chi2) ? `${f.chi1}${f.chi2}` : (f.r === 0 ? "id" : "corner");
+    counts[key]++; total++;
+  }
+  return { counts, total };
+}
+
+function renderChebTally() {
+  const t0 = performance.now();
+  const { counts, total } = chebotarevTally(3000);
+  const ms = (performance.now() - t0).toFixed(0);
+  const rows = [
+    ["identity (splits completely — like 107)", "id", "1/8", 0.125],
+    ["corner r = 1 (the triple level — like 937)", "corner", "1/8", 0.125],
+    ["χ = (1,0)", "10", "1/4", 0.25], ["χ = (0,1)", "01", "1/4", 0.25], ["χ = (1,1) — order 4", "11", "1/4", 0.25],
+  ];
+  $id("chebOut").innerHTML =
+    `<table class="symbolic"><tr><th scope="col">class</th><th scope="col">count</th><th scope="col">observed</th><th scope="col">Chebotarev</th></tr>`
+    + rows.map(([label, k, pred, pv]) => `<tr><td class="k">${label}</td><td class="v">${counts[k]}</td><td class="v">${(counts[k] / total).toFixed(3)}</td><td class="v">${pred} = ${pv.toFixed(3)}</td></tr>`).join("")
+    + `</table><div class="small-note" style="text-align:left;">${total} unramified odd primes &lt; 3000, tallied in ${ms} ms — every row is the Ladder machinery run per prime (Tonelli–Shanks included for the χ = 0 cases). Observed hugs predicted at a finite cutoff; the equidistribution itself is Chebotarev's theorem, cited not proved — the app is the demonstration bench.</div>`;
+}
+
 
 function buildMat(size, cells) {
   const table = $el("table");
@@ -3504,6 +3697,7 @@ function buildMat(size, cells) {
   return table;
 }
 
+
 function initLadder() {
   const n2 = buildMat(2, {
     "0,1": { text: "χ", cls: "diag1 lit", tip: "The character / pairwise level: linking number mod 2, Legendre symbol. Always defined." }
@@ -3527,6 +3721,7 @@ function initLadder() {
   };
   $id("matN4").replaceWith(withId(buildMat(4, n4cells), "matN4"));
 }
+
 function withId(el, id) {
   // The node being replaced carries accessibility attributes declared in markup;
   // a freshly built table would otherwise drop them on the floor at boot.
@@ -3535,6 +3730,7 @@ function withId(el, id) {
   if (old) for (const a of ["aria-label", "role"]) if (old.hasAttribute(a)) el.setAttribute(a, old.getAttribute(a));
   return el;
 }
+
 
 $qa(".arrow-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -3555,35 +3751,6 @@ $qa(".arrow-btn").forEach(btn => {
   });
 });
 
-/* rho(Frob_q) in N3(F2) for (13,61): chi_i from (13/q), (61/q); corner via alpha = 23+6√13 mod q. */
-
-function frobeniusMatrix1361(q) {
-  if (q === 2n) return { err: `q = 2 needs the mod-8 splitting criterion, not Euler's — computed on demand here: 13 ≡ ${13n % 8n}, 61 ≡ ${61n % 8n} (mod 8), both ≢ 1, so 2 is inert in each quadratic and f(2) = ${k1361FrobData(2n).ord}. The ζ of k₁₃,₆₁ card (Zeta tab) shows the same row.` };
-  if (q < 3n || q % 2n === 0n || !isPrimeSmall(q)) return { err: "q must be an odd prime (composite input has no single Frobenius)." };
-  if (q === 13n || q === 61n) return { err: "q must avoid the ramified primes 13 and 61 — Frobenius is not defined at a branch point (the knot cannot loop around itself)." };
-  const a = legendre(13n, q), b = legendre(61n, q);
-  const chi1 = a === 1 ? 0 : 1, chi2 = b === 1 ? 0 : 1;
-  if (chi1 || chi2) return { q, chi1, chi2, r: null };
-  const rt = tonelliShanks(13n, q)[0];
-  const v1 = ((23n + 6n * rt) % q + q) % q;
-  const v2 = ((23n + 6n * (q - rt)) % q + q) % q;
-  const l1 = legendre(v1, q), l2 = legendre(v2, q);
-  if (l1 !== l2) return { err: "conjugates disagree — impossible for prime q; is q composite?" };
-  return { q, chi1, chi2, r: l1 === 1 ? 0 : 1, rt, v1, v2 };
-}
-
-// N3(F2) order by literal powering ((chi1,chi2) rule is a TEST)
-function n3Mul(X, Y) { return X.map((r, i) => r.map((_, j) => r.reduce((s, _, k) => s ^ (X[i][k] & Y[k][j]), 0))); }
-function n3Order(a, b, c) {
-  const M = [[1, a, c], [0, 1, b], [0, 0, 1]];
-  let P = M, n = 1;
-  while (P.flat().join("") !== "100010001") { P = n3Mul(P, M); n++; if (n > 8) throw new Error("order > 8?"); }
-  return n;
-}
-function frobOrderTriple(q) { // reuses frobeniusMatrix1361
-  const f = frobeniusMatrix1361(q);
-  return f.err ? f : { ...f, ord: n3Order(f.chi1, f.chi2, f.r === null ? 0 : f.r) };
-}
 
 function renderFrobenius(q) {
   const warn = $id("frobWarn");
@@ -3625,6 +3792,7 @@ function renderFrobenius(q) {
   ttFocusable();
 }
 
+
 $id("frobCompute").addEventListener("click", () => {
   const q = parseIntegerInput($id("frobInput").value);
   if (q === null) {
@@ -3636,12 +3804,248 @@ $id("frobCompute").addEventListener("click", () => {
   }
   renderFrobenius(q);
 });
+
 for (const [id, val] of [["frobPreset107", 107], ["frobPreset937", 937], ["frobPreset5", 5], ["frobPreset17", 17], ["frobPreset7", 7]]) {
   $id(id).addEventListener("click", () => {
     $id("frobInput").value = val;
     renderFrobenius(BigInt(val));
   });
 }
+
+// (no dedicated JS for this tab)
+
+
+window.gotoTab = function (name) {
+  const btn = $q(`.tab-btn[data-tab="${name}"]`);
+  if (!btn) return;
+  btn.click();
+  window.scrollTo(0, 0);
+  // A jump that only repaints leaves keyboard focus on a button that is now on a
+  // hidden panel, so the next Tab restarts from the top of the document. Move
+  // focus to the panel the reader was sent to.
+  const panel = $id("tab-" + name);
+  if (panel) { panel.tabIndex = -1; panel.focus({ preventScroll: true }); }
+};
+
+
+// ARIA tablist wiring
+$q("nav.tabs").setAttribute("role", "tablist");
+
+$qa(".tab-btn").forEach(btn => {
+  const n = btn.dataset.tab;
+  btn.id = "tabbtn-" + n;
+  btn.setAttribute("role", "tab");
+  btn.setAttribute("aria-controls", "tab-" + n);
+  btn.setAttribute("aria-selected", btn.classList.contains("active") ? "true" : "false");
+  const p = $id("tab-" + n);
+  p.setAttribute("role", "tabpanel");
+  p.setAttribute("aria-labelledby", btn.id);
+  btn.addEventListener("click", () => {
+    $qa(".tab-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+    $qa(".tab-panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    btn.setAttribute("aria-selected", "true");
+    $id("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
+
+// One orientation note per mirror pair, shown only when the columns stack.
+$qa(".twocol").forEach(tc => {
+  const topo = tc.querySelector(".col.topo"), arith = tc.querySelector(".col.arith");
+  if (!topo || !arith) return; // some .twocol blocks are not mirror pairs
+  const n = document.createElement("div");
+  n.className = "stacknote";
+  n.innerHTML = "<b>Stacked view.</b> These two columns sit side by side on a wider screen, and the text refers to them that way: "
+    + "<b>“at left” / “topology”</b> means the " + (topo.compareDocumentPosition(arith) & Node.DOCUMENT_POSITION_FOLLOWING ? "first" : "second")
+    + " panel here, <b>“at right” / “arithmetic”</b> the other, and <b>“opposite”</b> means the other one of the pair.";
+  tc.insertBefore(n, tc.firstChild);
+});
+
+
+// Enter was dead in every numeric box: a presenter could type a prime, press Enter,
+// and leave the new value sitting above the previous pair's verdict. Bind each box to
+// its own Compute, and mark the panel stale as soon as box and screen diverge.
+[["pInput", "computeLegendre"], ["qInput", "computeLegendre"], ["frobInput", "frobCompute"],
+ ["ccP1", "ccRun"], ["ccP2", "ccRun"], ["ccQ", "ccRun"], ["ccX", "ccRun"], ["ccY", "ccRun"], ["ccZ", "ccRun"]]
+  .forEach(([input, button]) => {
+    const el = $id(input), btn = $id(button);
+    if (!el || !btn) return;
+    el.addEventListener("keydown", e => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      btn.click();
+    });
+  });
+
+
+$qa(".why-toggle").forEach(btn => {
+  // expose disclosure state and target (the pattern #fsTooltip already uses)
+  btn.setAttribute("aria-controls", btn.dataset.why);
+  btn.setAttribute("aria-expanded", String($id(btn.dataset.why).classList.contains("open")));
+  btn.addEventListener("click", () => {
+    const open = $id(btn.dataset.why).classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+});
+
+
+// Canvas text alternatives (R3-A3)
+const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)");
+
+for (const [id, lbl] of [
+  ["pairsCanvas", ""],
+  ["arcCanvas", ""],
+  ["borroCanvas", "Borromean rings: three circles, no two linked; linking numbers computed in step 1 below."],
+  ["b4Canvas", ""],
+]) {
+  const c = $id(id);
+  c.setAttribute("role", "img");
+  if (lbl) c.setAttribute("aria-label", lbl);
+}
+
+function renderCoverTwins() {
+  // (a) Triples: rho(K3) = corner of N3(F2) with mu-bar mod 2; orbit count = |deck|/order
+  const mu2 = (((computeMagnusLongitude12()["1,2"] || 0) % 2) + 2) % 2;
+  const o3 = n3Order(0, 0, mu2);
+  const f9 = frobOrderTriple(937n);
+  $id("tripleCoverCap").innerHTML =
+    `The top cover <span class="acc">X̃</span> is the <span class="tt" data-tip="A purely topological construction: π₁ of the link complement maps onto N₃(F₂), the group of upper-unitriangular 3×3 matrices over F₂ (≅ D₄), meridians to the generator matrices; the 8-sheet cover it classifies is the mod-2 Heisenberg cover. Why it exists exactly when lk(K₁,K₂) is even, a sketch: N₃(F₂) is the central extension of F₂² by F₂ classified by the cup product x₁ ∪ x₂, and that class evaluates to lk mod 2 — the meridian map lifts iff the pairwise level vanishes: the lower vanishing IS the lifting obstruction vanishing. Morishita (chs. 4/8, 1st ed.) builds it as the topological mirror of Rédei's field k₁₃,₆₁ — the analogy is his; the cover itself owes nothing to number theory.">mod-2 Heisenberg cover</span> — named for its deck group, not for Rédei; the field k₁₃,₆₁ opposite is its arithmetic <i>mirror</i>, not its definition. In <span class="acc">X̃</span>: K₃'s preimage is <b>${8 / o3} loops winding ${o3 === 2 ? "twice" : o3 + "×"}</b> — ρ(K₃) = (lk, lk, μ̄) mod 2 = (0, 0, ${mu2}), order ${o3} by powering, all computed — ↔ <b>937's ${8 / f9.ord} primes of residue degree ${f9.ord}</b> in k₁₃,₆₁ (Frobenius order ${f9.ord}, computed). Loops × winding = ${8 / o3} × ${o3} = ${(8 / o3) * o3} = |deck| on the left; g × f = ${8 / f9.ord} × ${f9.ord} = ${(8 / f9.ord) * f9.ord} = [k₁₃,₆₁ : Q] on the right — the same <span class="tt" data-tip="A loop with monodromy of order d in a deck group G has preimage |G|/d loops, each winding d times (standard covering-space counting, cited); a prime with Frobenius of order f in Gal has g = |Gal|/f primes above it, each of residue degree f (e = 1 here). One bookkeeping, two languages: |G| = count × size.">|G| = count × size bookkeeping</span>, and the factor twins ${tFactor(o3, 8)} / ${localFactor(937, f9.ord, 8)} — worked through on <button type="button" class="jump" onclick="gotoTab('zeta');var d=$id('zxK1361');if(d)d.open=true;var a=$id('zetaK1361');if(a)a.scrollIntoView();">the ζ of k₁₃,₆₁ card</button> of the Zeta tab.`;
+  // (b) Quads: rho(K4) = corner of N4(F2) with mu-bar(1234) mod 2 (Milnor-model level)
+  const q2 = (((computeMagnusTripleCommutator()["1,2,3"] || 0) % 2) + 2) % 2;
+  const o4 = matOrderF2([[1, 0, 0, q2], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]);
+  const w449 = quad449Ord();
+  const arith449 = w449 === null
+    ? `449's factor: nothing asserted — the conjugate check failed, which a prime modulus forbids (the four values are Frobenius-stable, so agreement is forced; this branch is an internal guard, not a mathematical contingency — the banner at right rules)`
+    : `<b>449's ${64 / w449} orbits of size ${w449}</b> (conjugate symbols recomputed live): factor twins <b>${tFactor(o4, 64)}</b> / <b>${localFactor(449, w449, 64)}</b>`;
+  $id("quadCoverCap").innerHTML =
+    `In the top cover: K₄'s preimage is <b>${64 / o4} loops of ${o4 === 2 ? "double length" : "length ×" + o4}</b> — ρ(K₄) sits at the corner of N₄(F₂), entries 0 except μ̄(1234) mod 2 = ${q2} (computed at left; Milnor-model honesty, as the note above), order ${o4} by powering — ↔ ${arith449}. The two Heisenberg covers share the component K₂ the way the two Rédei fields opposite share the prime 8081 — the shared object is what lets the join reach 32 sheets, not 64.`;
+  // (c) Pairs: both cases, static by design (state-independent)
+  $id("pairsCoverCap").innerHTML =
+    `K₂'s preimage upstairs: <b>2 loops</b> when lk(K₁,K₂) is even — split, two primes above — versus <b>1 loop winding twice</b> when lk is odd — inert: the Hopf case, one prime of residue degree 2. Either way loops × winding = 2 = |deck| — and the ζ ↔ Δ box above turns whichever case you compute into its Euler factor, live.`;
+  ttFocusable($id("tripleCoverCap"));
+  ttFocusable($id("quadCoverCap"));
+}
+
+$id("runTestsBtn").addEventListener("click", () => {
+  const panel = $id("testsPanel");
+  if (panel.classList.contains("open")) { panel.classList.remove("open"); return; }
+  runSelfTests();
+});
+
+
+updatePairsLabels();
+renderPairs();
+renderLegendreTable(5n, 29n);
+renderArcFigure();
+arcAnimLoop();
+renderBorro();
+renderTripleSteps();
+renderTopoTripleSteps();
+renderSurfaceLadder();
+renderCoverTwins();
+renderDeltaBorGrid();
+renderQuadSteps();
+renderB4();
+renderBorroZeta();
+renderCovers();
+renderLefschetz();
+renderDedekind();
+renderKnottedPrime();
+renderK1361Worked();
+renderBorroWorked();
+renderHopfWorked();
+renderFiveWorked();
+$id("ccRun").addEventListener("click", runCertCockpit);
+runCertCockpit(); // seeded (5, 29, 109; 7, 2, 1) — computed at load like everything else
+renderQuad449Worked();
+renderB4Worked();
+initLadder();
+renderFrobenius(107n);
+renderPresMat();
+renderGammaComputed();
+$id("chebRun").addEventListener("click", renderChebTally);
+ttFocusable();
+$id("qaExpand").addEventListener("click", () => $qa("#qaList details").forEach(d => d.open = true));
+$id("qaCollapse").addEventListener("click", () => $qa("#qaList details").forEach(d => d.open = false));
+
+// R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
+const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
+const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once
+const CCOUT_AT_LOAD = $id("ccOut").textContent; // cockpit's seeded verdict, captured once (state-robust pin)
+// Pairs panel at rest, captured before the suite touches it. Twice now a fix has
+// leaked probe state into the boot view — once leaving a caption reading "Both
+// primes are ≡ 3 (mod 4)" under a figure showing 5 and 29 — and both times a green
+// suite shipped it, because nothing asserted that the page's panels agree with each
+// other when nobody has done anything.
+const PAIRS_AT_LOAD = {
+  sync: $id("pairsSyncNote").textContent.trim(),
+  stale: $id("pairsStale").textContent.trim(),
+  banner: $id("pairsBanner").textContent.trim(),
+};
+runSelfTests();
+$id("testsPanel").classList.remove("open");
+
+
+/* Klein B5: deep links — #tab=zeta&open=zxK1361,zxHopf&goto=zetaK1361 (presenter choreography, one click per beat). */
+function routeFromHash() {
+  const h = location.hash.replace(/^#/, "");
+  if (!h) return;
+  const dec = s => { try { return decodeURIComponent(s); } catch (e) { return s; } }; // malformed %-escapes must not abort the boot tail
+  const params = Object.fromEntries(h.split("&").map(kv => kv.split("=").map(dec)));
+  if (params.tab) try { gotoTab(params.tab); } catch (e) { }
+  if (params.open) params.open.split(",").forEach(id => { const d = $id(id); if (d && d.tagName === "DETAILS") d.open = true; });
+  const target = params.goto || (params.open || "").split(",")[0];
+  if (target && $id(target)) setTimeout(() => $id(target).scrollIntoView({ block: "start" }), 60);
+}
+
+(function trackNavHeight() {
+  const nav = $q("nav.tabs");
+  if (!nav) return;
+  const set = () => document.documentElement.style.setProperty("--navh", (nav.offsetHeight + 8) + "px");
+  set();
+  addEventListener("resize", set);
+  if (window.ResizeObserver) new ResizeObserver(set).observe(nav);
+})();
+
+
+routeFromHash();
+// Back/Forward and in-session fragment edits must move the page too, or the URL
+// and what is on screen disagree -- which for a presenter driving from bookmarks
+// is the whole point of the feature.
+window.addEventListener("hashchange", routeFromHash);
+
+
+/* Klein B6: 't' runs the suite and shows it — the closing beat, one keystroke. */
+document.addEventListener("keydown", e => {
+  if (e.key !== "t" || e.ctrlKey || e.metaKey || e.altKey) return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return;
+  $id("runTestsBtn").click();
+  $id("runTestsBtn").scrollIntoView({ block: "start" });
+});
+
+
+/* Klein D12: roving tabindex on the tablist — one tab stop, arrows move between tabs. */
+(function rovingTabs() {
+  const tabs = [...$qa(".tab-btn")];
+  const sync = () => tabs.forEach(b => b.tabIndex = b.classList.contains("active") ? 0 : -1);
+  sync();
+  $q("nav.tabs").addEventListener("keydown", e => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    let j = null;
+    if (e.key === "ArrowRight") j = (i + 1) % tabs.length;
+    else if (e.key === "ArrowLeft") j = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = tabs.length - 1;
+    if (j === null) return;
+    e.preventDefault();
+    tabs[j].click(); tabs[j].focus(); sync();
+  });
+  tabs.forEach(b => b.addEventListener("click", () => setTimeout(sync, 0)));
+})();
+
 
 function runSelfTests() {
   const results = [];
@@ -4589,6 +4993,57 @@ function runSelfTests() {
       && noBareChapterCite;
   });
 
+  t("DOM KaTeX: .tt-katex degrades to a plain .tt (no upgrade, no new DOM) when KaTeX is unavailable", () => {
+    // The honesty guarantee is structural, not a separate fallback code path: without
+    // .katex-on, none of the .tt-katex CSS rules apply and the element renders exactly
+    // like a plain .tt off its untouched data-tip, via content: attr() as always.
+    const saved = window.katex;
+    const probe = $el("span");
+    probe.className = "tt tt-katex";
+    probe.setAttribute("data-tip", "plain fallback text");
+    probe.setAttribute("data-latex-html", "plain fallback text <span class='katex-frag' data-latex='x'>x</span>");
+    probe.style.cssText = "position:absolute;left:-9999px;";
+    try {
+      window.katex = undefined;
+      document.body.appendChild(probe);
+      ttKatexUpgrade();
+      return !probe.classList.contains("katex-on") && probe.children.length === 0;
+    } finally {
+      probe.remove();
+      window.katex = saved;
+    }
+  });
+
+  t("DOM KaTeX: all converted tooltips render real typeset math when KaTeX loads (Fox's formula, Iwasawa polynomial, both Euler's-criterion sites, unipotent order, cyclotomic tower)", () => {
+    if (typeof katex === "undefined") return true; // network-dependent; only assert what actually loaded
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 6
+      && pilots.every(el => el.classList.contains("katex-on"))
+      && pilots.every(el => el.querySelector(".tt-bubble .katex"));
+  });
+
+  t("DOM KaTeX: converted tooltips keep their exact plain-text data-tip fallback unchanged", () => {
+    const pilots = [...$qa(".tt-katex")];
+    const tips = pilots.map(el => el.getAttribute("data-tip") || "");
+    return pilots.length === 6
+      && tips.some(v => v.includes("|H1(Mn)| = |Res(Delta(t), t^n - 1)|"))
+      && tips.some(v => v.includes("Λ = Z_p[[T]]"))
+      && tips.filter(v => v.includes("a^((p−1)/2) mod p") || v.includes("p₁^((p₂−1)/2) mod p₂")).length === 2
+      && tips.some(v => v.includes("2^(n(n−1)/2)"))
+      && tips.some(v => v.includes("Q(ζ_p) ⊂ Q(ζ_{p²}) ⊂ Q(ζ_{p³})"));
+  });
+
+  t("DOM KaTeX: every .tt-katex data-latex-html carries at least one well-formed katex-frag with LaTeX source", () => {
+    const pilots = [...$qa(".tt-katex")];
+    return pilots.length === 6 && pilots.every(el => {
+      const html = el.getAttribute("data-latex-html") || "";
+      const tmp = $el("div");
+      tmp.innerHTML = html;
+      const frags = [...tmp.querySelectorAll(".katex-frag")];
+      return frags.length >= 1 && frags.every(f => (f.getAttribute("data-latex") || "").length > 0);
+    });
+  });
+
   const list = $id("testList");
   list.innerHTML = "";
   for (const r of results) {
@@ -4606,119 +5061,7 @@ function runSelfTests() {
     ? `Self-tests: ${results.length}/${results.length} passed ${split}`
     : `Self-tests: ${results.filter(r => r.ok).length}/${results.length} passed ${split} — see failures`;
 }
-$id("runTestsBtn").addEventListener("click", () => {
-  const panel = $id("testsPanel");
-  if (panel.classList.contains("open")) { panel.classList.remove("open"); return; }
-  runSelfTests();
-});
-
-updatePairsLabels();
-renderPairs();
-renderLegendreTable(5n, 29n);
-renderArcFigure();
-arcAnimLoop();
-renderBorro();
-renderTripleSteps();
-renderTopoTripleSteps();
-renderSurfaceLadder();
-renderCoverTwins();
-renderDeltaBorGrid();
-renderQuadSteps();
-renderB4();
-renderBorroZeta();
-renderCovers();
-renderLefschetz();
-renderDedekind();
-renderKnottedPrime();
-renderK1361Worked();
-renderBorroWorked();
-renderHopfWorked();
-renderFiveWorked();
-$id("ccRun").addEventListener("click", runCertCockpit);
-runCertCockpit(); // seeded (5, 29, 109; 7, 2, 1) — computed at load like everything else
-renderQuad449Worked();
-renderB4Worked();
-initLadder();
-renderFrobenius(107n);
-renderPresMat();
-renderGammaComputed();
-$id("chebRun").addEventListener("click", renderChebTally);
-ttFocusable();
-$id("qaExpand").addEventListener("click", () => $qa("#qaList details").forEach(d => d.open = true));
-$id("qaCollapse").addEventListener("click", () => $qa("#qaList details").forEach(d => d.open = false));
-
-// R6 G2: pin the gallery's load state (state-robust: captured once, before any user interaction)
-const ZX_AT_LOAD = [...$qa("#tab-zeta details.zx")].map(d => ({ id: d.id, open: d.open }));
-const QA_AT_LOAD = [...$qa("#qaList details.qa-item")].map(d => d.open); // Klein A5: Q&A load state, captured once
-const CCOUT_AT_LOAD = $id("ccOut").textContent; // cockpit's seeded verdict, captured once (state-robust pin)
-// Pairs panel at rest, captured before the suite touches it. Twice now a fix has
-// leaked probe state into the boot view — once leaving a caption reading "Both
-// primes are ≡ 3 (mod 4)" under a figure showing 5 and 29 — and both times a green
-// suite shipped it, because nothing asserted that the page's panels agree with each
-// other when nobody has done anything.
-const PAIRS_AT_LOAD = {
-  sync: $id("pairsSyncNote").textContent.trim(),
-  stale: $id("pairsStale").textContent.trim(),
-  banner: $id("pairsBanner").textContent.trim(),
-};
-runSelfTests();
-$id("testsPanel").classList.remove("open");
-
-/* Klein B5: deep links — #tab=zeta&open=zxK1361,zxHopf&goto=zetaK1361 (presenter choreography, one click per beat). */
-function routeFromHash() {
-  const h = location.hash.replace(/^#/, "");
-  if (!h) return;
-  const dec = s => { try { return decodeURIComponent(s); } catch (e) { return s; } }; // malformed %-escapes must not abort the boot tail
-  const params = Object.fromEntries(h.split("&").map(kv => kv.split("=").map(dec)));
-  if (params.tab) try { gotoTab(params.tab); } catch (e) { }
-  if (params.open) params.open.split(",").forEach(id => { const d = $id(id); if (d && d.tagName === "DETAILS") d.open = true; });
-  const target = params.goto || (params.open || "").split(",")[0];
-  if (target && $id(target)) setTimeout(() => $id(target).scrollIntoView({ block: "start" }), 60);
-}
-(function trackNavHeight() {
-  const nav = $q("nav.tabs");
-  if (!nav) return;
-  const set = () => document.documentElement.style.setProperty("--navh", (nav.offsetHeight + 8) + "px");
-  set();
-  addEventListener("resize", set);
-  if (window.ResizeObserver) new ResizeObserver(set).observe(nav);
-})();
-
-routeFromHash();
-// Back/Forward and in-session fragment edits must move the page too, or the URL
-// and what is on screen disagree -- which for a presenter driving from bookmarks
-// is the whole point of the feature.
-window.addEventListener("hashchange", routeFromHash);
-
-/* Klein B6: 't' runs the suite and shows it — the closing beat, one keystroke. */
-document.addEventListener("keydown", e => {
-  if (e.key !== "t" || e.ctrlKey || e.metaKey || e.altKey) return;
-  const tag = (e.target.tagName || "").toLowerCase();
-  if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return;
-  $id("runTestsBtn").click();
-  $id("runTestsBtn").scrollIntoView({ block: "start" });
-});
-
-/* Klein D12: roving tabindex on the tablist — one tab stop, arrows move between tabs. */
-(function rovingTabs() {
-  const tabs = [...$qa(".tab-btn")];
-  const sync = () => tabs.forEach(b => b.tabIndex = b.classList.contains("active") ? 0 : -1);
-  sync();
-  $q("nav.tabs").addEventListener("keydown", e => {
-    const i = tabs.indexOf(document.activeElement);
-    if (i < 0) return;
-    let j = null;
-    if (e.key === "ArrowRight") j = (i + 1) % tabs.length;
-    else if (e.key === "ArrowLeft") j = (i - 1 + tabs.length) % tabs.length;
-    else if (e.key === "Home") j = 0;
-    else if (e.key === "End") j = tabs.length - 1;
-    if (j === null) return;
-    e.preventDefault();
-    tabs[j].click(); tabs[j].focus(); sync();
-  });
-  tabs.forEach(b => b.addEventListener("click", () => setTimeout(sync, 0)));
-})();
-
 </script>
 </body>
 </html>
+

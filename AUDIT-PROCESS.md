@@ -58,6 +58,17 @@ ones). When you add one:
 
 ## Traps specific to this codebase — found the hard way, don't rediscover them
 
+- **Some code named after one tab physically belongs to another.** `renderSurfaceLadder`,
+  `sladderBox`, `rung1/2/3*`, and `gammaComputed`/`renderGammaComputed` all sound Ladder-tab
+  content but write DOM ids that live inside `<section id="tab-triples">` — they're the
+  "surface ladder" pedagogical subsection of Triples, not the Ladder tab. The same pattern
+  recurs with `renderQuad449Worked`, `n4Matrix`/`n4RulePredict`/`n4RuleCheck`/`n4ChiCases`,
+  and `renderB4Worked` — all "quad/n4"-flavored names whose cards physically live inside
+  `<section id="tab-zeta">` as worked-example summaries, not inside Quadruples. **Never assign
+  code to a file/section by what its identifier sounds like — grep the actual `$id(...)`/
+  `#id` targets in its body and confirm which `<section>` those ids live in.** Found while
+  splitting `index.html` into per-tab source files (src/tabs/*.js); a name-matching split
+  would have silently misfiled both clusters.
 - **`data-tip` is CSS `content: attr(...)`, i.e. plain text.** Any HTML tag inside a `data-tip`
   attribute value — `<i>`, `<sub>`, anything — renders literally on screen as visible angle
   brackets. Never put markup in a `data-tip`. (Five tooltips shipped this way in one session
@@ -92,6 +103,26 @@ ones). When you add one:
   re-read the *whole* sentence, not just the diff — and where the app draws a figure showing
   the same fact (a tower diagram, a table), cross-check the fixed sentence against the figure
   before shipping.
+- **CSS pseudo-elements (`::after`/`::before`) can't host injected child DOM.** The `.tt`
+  tooltip's box is `content: attr(data-tip)` on a `::after` — pure text, by construction. Real
+  rendered content (KaTeX output, or anything else needing actual child elements) needs a real
+  DOM node, not a pseudo-element. `.tt-katex` (added in the KaTeX pilot) works around this by
+  adding a genuine child `<span class="tt-bubble">` instead, gated behind a `.katex-on` class
+  that's only added once KaTeX has actually rendered into it — see `shared/tooltips.js`
+  `ttKatexUpgrade()`.
+- **LaTeX inside a JS template literal needs every backslash doubled.** `\bigl`, `\Delta`,
+  `\mathbb{Z}` etc. all start with `\`, and JS string/template-literal escaping treats some of
+  those as real escape sequences (`\b` is backspace) and silently drops the backslash on
+  unrecognized ones — either way the LaTeX corrupts silently, no error. Static HTML attributes
+  (`data-latex="..."` in a `.html` file) don't have this problem; only LaTeX embedded in a
+  `.js` file's template-literal string does. Verified end-to-end (not just by inspection) by an
+  independent fact-check agent tracing the actual runtime string KaTeX receives.
+- **Two tooltips can share the exact same visible label text across different tabs.** Both the
+  Dictionary tab and the Zeta tab have a `.tt` reading "Iwasawa polynomial" (different
+  `data-tip`, same label). A `querySelector`/`find` keyed on visible text alone will silently
+  grab whichever one is first in DOM order — usually the wrong one if you wanted a specific
+  tab's copy. Scope the query to the tab's `<section>` (e.g. `#tab-zeta .tt`), not the whole
+  document, whenever text content isn't provably unique.
 
 ## Verification checklist for any fix in this project
 
